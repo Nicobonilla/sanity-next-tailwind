@@ -302,3 +302,5 @@ npx vercel link
 [sanity-homepage]: https://www.sanity.io?utm_source=github.com&utm_medium=referral&utm_campaign=nextjs-v3vercelstarter
 [presentation]: https://www.sanity.io/docs/presentation
 [enable-ai-assist]: https://www.sanity.io/plugins/ai-assist#enabling-the-ai-assist-api
+#   s a n i t y - n e x t - t a i l w i n d  
+ 
