@@ -41,4 +41,12 @@ next-env.d.ts
 .env
 .env.local
 
-.gitignore
+/app/(web)/page2.tsx
+/app/(web)/layout_original.tsx
+/app/(web)/posts
+/app/(web)/actions.ts
+/components/global/Navbar/others
+/components/global/Footer
+/components/pages
+/components/PostList.tsx
+/public
