@@ -40,3 +40,16 @@ next-env.d.ts
 # Env files created by scripts for working locally
 .env
 .env.local
+
+
+/app/(web)/page2.tsx
+/app/(web)/layout_original.tsx
+/app/(web)/posts
+/app/(web)/actions.ts
+/components/global/Navbar/others
+/components/global/Footer
+/components/pages
+/components/PostList.tsx
+/public
+
+
