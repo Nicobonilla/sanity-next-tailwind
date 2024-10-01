@@ -22,5 +22,5 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [typography],
+  plugins: [],
 } satisfies Config;

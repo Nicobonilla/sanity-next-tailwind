@@ -2,6 +2,7 @@ import "../globals.css";
 import Navbar from "../../components/global/Navbar";
 
 import { Inter } from "next/font/google";
+import Footer from "@/components/global/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,9 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="flex flex-col">
-        <Navbar/>
+      <body className="">
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
