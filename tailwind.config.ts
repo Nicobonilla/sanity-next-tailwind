@@ -11,8 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        menuColor: '#1C1F2A',
-        menuColor2: '#303649',
+        menuColor: 'rgba(28,31,42,1.0)',
+        menuColor2: 'rgba(48,54,73,1.0)',
+        textBlue: 'rgba(5, 27, 129, 0.7)',
       },
       fontSize: {
         sm: '0.6rem'
@@ -22,5 +23,5 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [],
+  plugins: [typography],
 } satisfies Config;

@@ -50,3 +50,7 @@ body {
   background-color: rgba(255, 255, 255, 0.4); /* Capa 1 */
   clip-path: polygon(0% 70%, 100% 80%, 100% 100%, 0% 100%); /* Triángulo */
 }
+
+.items {
+  background-color: rgba(5, 27, 129, 0.7)
+}
