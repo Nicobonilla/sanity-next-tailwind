@@ -3,6 +3,7 @@ import Navbar from "../../components/global/Navbar";
 
 import { Inter } from "next/font/google";
 import Footer from "@/components/global/Footer";
+import { links } from "../../sanity/lib/fetchMockData";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-        <Navbar />
+        <Navbar links={links} />
         <main className="flex-grow">{children}</main>
         <Footer />
       </body>

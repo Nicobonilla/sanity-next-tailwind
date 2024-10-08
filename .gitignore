@@ -50,3 +50,6 @@ next-env.d.ts
 /components/pages/home/Logo.jsx
 /components/PostList.tsx
 /public
+/components/shared/Faq.tsx
+/components/shared/empty
+/components/Banner.tsx
