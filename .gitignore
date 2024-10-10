@@ -45,11 +45,7 @@ next-env.d.ts
 /app/(web)/posts
 /app/(web)/actions.ts
 /components/global/Navbar/others
-/components/pages/home/HeroPost
-/components/pages/home/ImageHomePageSanity.tsx
-/components/pages/home/Logo.jsx
-/components/PostList.tsx
-/public
+/public/dev
 /components/shared/Faq.tsx
 /components/shared/empty
 /components/Banner.tsx

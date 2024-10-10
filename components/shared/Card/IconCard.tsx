@@ -41,7 +41,7 @@ const IconCard: React.FC<IconCardProps> = ({ iconName, title, description, style
           }
         </div>
         
-        <Image src={'/rabbit/holes/gray.svg'}
+        <Image src={'/gray.svg'}
           className='md:w-20'
           width={sizeHole}
           height={sizeHole}

@@ -29,15 +29,15 @@ export default async function Page() {
       />
 
       <IconList services={services}/>
-
+      
       <div className="container  px-2 flex flex-wrap lg:px-0 py-5  gap-5 grid
         grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto ">
-        <ItemServicios servicio="Mediación Prejudicial" img="/layer.webp" />
-        <ItemServicios servicio="Defensa en juicios" img="/layer.webp" />
-        <ItemServicios servicio="Custodia y alimentos" img="/layer.webp" />
-        <ItemServicios servicio="Divorcio y separación" img="/layer.webp" />
-        <ItemServicios servicio="Compensación económica" img="/layer.webp" />
-        <ItemServicios servicio="Violencia intrafamiliar" img="/layer.webp" />
+        <ItemServicios servicio="Mediación Prejudicial" img="/bunnwhite.svg" />
+        <ItemServicios servicio="Defensa en juicios" img="/bunnwhite.svg" />
+        <ItemServicios servicio="Custodia y alimentos" img="/bunnwhite.svg" />
+        <ItemServicios servicio="Divorcio y separación" img="/bunnwhite.svg" />
+        <ItemServicios servicio="Compensación económica" img="/bunnwhite.svg" />
+        <ItemServicios servicio="Violencia intrafamiliar" img="/bunnwhite.svg" />
       </div>
       <Faq />
     </>
