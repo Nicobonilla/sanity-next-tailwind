@@ -4,6 +4,7 @@ import { Highlight1 } from "@/components/shared/Highlight1";
 import Faq from "@/components/shared/Faq";
 import IconList from "@/components/shared/Card/IconList";
 import { services } from "@/sanity/lib/fetchMockData";
+import Form from "@/components/shared/Form";
 
 
 async function fetchServices() {
@@ -18,6 +19,7 @@ export default async function Page() {
   return (
     <>
       <HeroImage />
+      <Form />
       <Highlight1
         title="25 Años De Experiencia Con Excelente Resultados!"
         description="En MBA Ingeniería, nuestra especialidad es proveer soluciones técnicas

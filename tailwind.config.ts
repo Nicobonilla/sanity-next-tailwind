@@ -20,9 +20,6 @@ export default {
         second: colors.red , //green-600  
         lay: 'rgba(70, 66, 85,1)'
       },
-      fontSize: {
-        sm: '0.6rem',
-      }
     },
   },
   future: {

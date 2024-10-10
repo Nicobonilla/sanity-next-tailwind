@@ -1,10 +1,8 @@
 'use client'
-
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { X as CloseIcon, Menu as MenuIcon, ChevronDown, ChevronUp, PhoneIcon, User } from 'lucide-react'
 import { NavProps } from '@/types'
-import Image from 'next/image'
 import Logo from '@/components/shared/Logo'
 
 const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
@@ -50,7 +48,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
       <div className="relative flex flex-col grid text-white cursor-pointer h-full z-50">
         <div
           onClick={toggleMenu}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center mr-4"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
         >
@@ -81,8 +79,8 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
 
-            <nav className="p-6">
-              <div className="flex h-20 grow-0 my-auto justify-center z-20 mb-10">
+            <nav className="p-6 scale-y-80">
+              <div className="flex h-24    grow-0 mx-auto justify-center z-20 mb-10">
                 <Logo />
               </div>
               <ul className="divide-y divide-dividerDrawer items-center">
@@ -123,7 +121,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                     </li>
                   ))}
               </ul>
-              <div className="flex flex-col space-y-4 pt-10 text-[14px]">
+              <div className="flex flex-col space-y-4 pt-10 text-sm">
                 <button className="text-gray-300 bg-second flex px-4 py-2 rounded justify-center">
                   <User className="size-5 mr-3" />
                   PORTAL CLIENTES

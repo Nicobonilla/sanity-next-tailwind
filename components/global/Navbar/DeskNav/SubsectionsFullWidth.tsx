@@ -19,8 +19,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
   return (
     <nav className="font-sans hidden lg:block static">
       <ul className="flex items-center justify-between h-24 
-      text-white text-base font-extralight 
-      space-x-2 xl:space-x-16 2xl:space-x-28">
+      text-white    space-x-2 xl:space-x-16 2xl:space-x-28">
         {links?.map(link => (
           <li
             key={link.section}
@@ -63,7 +62,10 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
             </Link>
 
             <Link href={{ pathname: '/agendar' }} passHref >
-              <button className="bg-second-500 text-white px-4 py-2 rounded hover:bg-second-700 mt-2">AGENDAR AHORA</button>
+              <button className="bg-second-500 text-white
+              px-4 py-2 mt-1 rounded 
+              hover:bg-second-700 
+              ">AGENDAR AHORA</button>
             </Link>
           </div>
         </li>
@@ -99,7 +101,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                     key={section}
                     href={href}
                     passHref
-                    className="font-light pr-4 text-[14px] text-black hover:bg-[#6f97d9] hover:text-white transition-all duration-300 rounded"
+                    className="font-light pr-4 text-sm text-black hover:bg-[#6f97d9] hover:text-white transition-all duration-300 rounded"
                   >
                     {section}
                   </Link>

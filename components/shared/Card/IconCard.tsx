@@ -52,7 +52,7 @@ const IconCard: React.FC<IconCardProps> = ({ iconName, title, description, style
 
       <div className='text-center md:text-start'>
         <h3 className="text-xl md:text-lg font-semibold text-white mb-3">{title}</h3>
-        <p className="text-gray-400 md:text-[14px]">{description}</p>
+        <p className="text-gray-400 md:text-sm">{description}</p>
       </div>
     </div>
   );
