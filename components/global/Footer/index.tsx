@@ -1,12 +1,12 @@
 "use client";
 import Map from "./Map";
-import Image from 'next/image'
 import {
   PhoneIcon,
   MapPinIcon,
   EnvelopeIcon,
   ClockIcon,
 } from "@heroicons/react/24/solid";
+import Logo from "@/components/shared/Logo";
 
 export default function Footer() {
   return (
@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row my-auto" >
             <div className="md:w-1/2 flex flex-col">
               <div className="flex items-center justify-center mt-10">
-                <Image src="/logo.svg" width={125} height={125} alt="logo" />
+                <Logo/>
               </div>
 
               <div className="text-center flex items-center leading-relaxed py-5 mx-5 text-white">
