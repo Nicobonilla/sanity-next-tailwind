@@ -1,5 +1,4 @@
 import { NavProps } from "@/types";
-import DropDownSlow from "./DropDownSlow";
 import DrawerNAv from './DrawerNav'
 
 const MobileNav : React.FC<NavProps> = ({ links }) => {

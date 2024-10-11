@@ -1,5 +1,4 @@
 import { NavProps } from "@/types";
-import Simple from "./Simple";
 import SubsectionsFullWidth from './SubsectionsFullWidth'
 
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Menu as Menu2, X, User } from 'lucide-react'
-import { Links, NavProps } from '@/types'
+import { NavProps } from '@/types'
 import Link from 'next/link'
 
 export default function SubsectionsFullWidth({ links }: NavProps) {
