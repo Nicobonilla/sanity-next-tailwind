@@ -1,7 +1,6 @@
 import { HeroImage } from "@/components/pages/home/HeroImage";
 import { ItemServicios } from "@/components/pages/home/ItemServicios";
 import { Highlight1 } from "@/components/shared/Highlight1";
-import Faq from "@/components/shared/Faq";
 import IconList from "@/components/shared/Card/IconList";
 import { services } from "@/sanity/lib/fetchMockData";
 import Form from "@/components/shared/Form";
@@ -39,7 +38,6 @@ export default async function Page() {
         <ItemServicios servicio="Compensación económica" img="/bunnwhite.svg" />
         <ItemServicios servicio="Violencia intrafamiliar" img="/bunnwhite.svg" />
       </div>
-      <Faq />
     </>
   );
 }

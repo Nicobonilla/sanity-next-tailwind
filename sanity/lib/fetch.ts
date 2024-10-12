@@ -1,4 +1,4 @@
-import type { ClientPerspective, QueryParams } from "next-sanity";
+import { groq, type ClientPerspective, type QueryParams } from "next-sanity";
 import { draftMode } from "next/headers";
 
 import { client } from "@/sanity/lib/client";
@@ -20,7 +20,7 @@ export async function sanityFetch<const QueryString extends string>({
    * When outside of the Sanity Studio we also support the Vercel Toolbar Visual Editing feature, which is only enabled in production when it's a Vercel Preview Deployment.
    */
   stega = perspective === "previewDrafts" ||
-    process.env.VERCEL_ENV === "preview",
+  process.env.VERCEL_ENV === "preview",
 }: {
   query: QueryString;
   params?: QueryParams;
@@ -48,4 +48,40 @@ export async function sanityFetch<const QueryString extends string>({
     // When using the `published` perspective we use time-based revalidation to match the time-to-live on Sanity's API CDN (60 seconds)
     next: { revalidate: 60 },
   });
+}
+
+export async function getServiceBySlug(slug: string) {
+  // Remove extra quotes if any
+  const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
+  
+  const query = groq`*[ _type == 'service' && slug.current == $slug][0]{
+    title,
+    content,
+    'tableOfContents': content[style in ['h2', 'h3']] {
+      'key': _key,
+      'style': style,
+      'children': children[0].text
+    }
+  }`;
+
+  const params = { slug: sanitizedSlug }; // Pass the sanitized slug
+
+  try {
+    const service = await sanityFetch({
+      query,
+      params,
+    });
+
+    // Transform table of contents
+    const tableOfContents = service.tableOfContents.map((block: any) => ({
+      id: `#heading-${block.key}`,
+      title: block.children,
+      level: block.style === 'h2' ? 1 : 2, // h2 and h3
+    }));
+
+    return { ...service, tableOfContents };
+  } catch (error) {
+    console.error("Error fetching service by slug:", error);
+    throw error; // Optionally rethrow or handle the error accordingly
+  }
 }

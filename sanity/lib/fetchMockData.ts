@@ -9,7 +9,7 @@ export const links: Links[] = [
     },
     {
       id: 2,
-      section: "PRÁCTICAS",
+      section: "SERVICIOS",
       href: { pathname: "/practica-asesoría-legal-san-felipe" },
       subsections: [
         {
