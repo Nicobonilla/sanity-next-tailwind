@@ -1,5 +1,3 @@
-"use client";
-
 interface TableOfContentsProps {
   items: {
     id: string;
@@ -9,14 +7,6 @@ interface TableOfContentsProps {
 }
 
 export const TableOfContents = ({ items }: TableOfContentsProps) => {
-  const handleClick = (e: React.MouseEvent, id: string) => {
-    e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
-
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' }); // Desplazamiento suave al elemento
-    }
-  };
 
   return (
     <nav className="scale-y-90">

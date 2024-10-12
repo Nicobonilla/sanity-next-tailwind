@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
       <div className="flex flex-col md:flex-row gap-14">
         {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
-        <div className="md:w-3/4 order-2 m  d:order-1">
+        <div className="md:w-3/4 order-2 md:order-1">
           <div className="prose prose-sm max-w-none">
             <PortableText value={service.content} components={components} />
           </div>
