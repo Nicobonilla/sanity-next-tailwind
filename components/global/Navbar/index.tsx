@@ -23,9 +23,9 @@ export default function Navbar({ links }: NavProps) {
 
   return (
     <>
-      <div className={`fixed inset-x-0 top-0 orgin-top
-      ${scrolling && 'bg-menuColor scale-y-80 -translate-y-2'}
-       transition duration-300 h-24  z-10
+      <div className={`bg-menuColor  inset-x-0 top-0 orgin-top
+      ${scrolling && ' fixed -translate-y-2'}
+       transition duration-300
       `}>
         {/* Logo */}
 

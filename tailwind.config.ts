@@ -20,6 +20,9 @@ export default {
         second: colors.red , //green-600  
         lay: 'rgba(70, 66, 85,1)'
       },
+      lineHeight: {
+        'extra-tight': '1px',
+      },
     },
   },
   future: {
