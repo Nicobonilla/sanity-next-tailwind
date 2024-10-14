@@ -1,7 +1,7 @@
 import { UrlObject } from 'url'
 
 export type Links = {
-  id: number;
+  id: string;
   section: string;
   href: { pathname: string } ;
   subsections?: Links[];

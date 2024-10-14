@@ -1,9 +1,11 @@
-import { groq, type ClientPerspective, type QueryParams } from "next-sanity";
+import { type ClientPerspective, type QueryParams } from "next-sanity";
 import { draftMode } from "next/headers";
 
 import { client } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
 
+import { getServiceDetailQuery, getServicesNavQuery } from '@/sanity/lib/queries'
+import { GetServicesNavQueryResult, type GetServiceDetailQueryResult } from '@/sanity.types'
 /**
  * Used to fetch data in Server Components, it has built in support for handling Draft Mode and perspectives.
  * When using the "published" perspective then time-based revalidation is used, set to match the time-to-live on Sanity's API CDN (60 seconds)
@@ -50,38 +52,53 @@ export async function sanityFetch<const QueryString extends string>({
   });
 }
 
-export async function getServiceBySlug(slug: string) {
+export async function getServiceBySlugFetch(slug: string): Promise<GetServiceDetailQueryResult | null> {
   // Remove extra quotes if any
   const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
-  
-  const query = groq`*[ _type == 'service' && slug.current == $slug][0]{
-    title,
-    content,
-    'tableOfContents': content[style in ['h2', 'h3']] {
-      'key': _key,
-      'style': style,
-      'children': children[0].text
-    }
-  }`;
-
+  const query = getServiceDetailQuery; // This should be a GROQ string
   const params = { slug: sanitizedSlug }; // Pass the sanitized slug
 
   try {
-    const service = await sanityFetch({
-      query,
-      params,
-    });
+    const service = await sanityFetch({ query, params }) as GetServiceDetailQueryResult | null;
 
-    // Transform table of contents
-    const tableOfContents = service.tableOfContents.map((block: any) => ({
-      id: `#heading-${block.key}`,
-      title: block.children,
-      level: block.style === 'h2' ? 1 : 2, // h2 and h3
-    }));
+    // Si service es null, retornamos null
+    if (!service) {
+      return null; // Si no hay servicio, retornamos null
+    }
 
-    return { ...service, tableOfContents };
+    // Transformar table of contents
+    const tableOfContents = service.tableOfContents?.map((block: any) => ({
+      _key: block._key, // Asegúrate de usar _key aquí
+      style: block.style, // Mantén el estilo tal como está
+      children: block.children ? [{ text: block.children[0]?.text || null }] : null, // Asegúrate de que children sea un array
+    })) || null; // Si es null, asignamos null
+
+    return {
+      title: service.title || null, // Asegúrate de que title no sea undefined
+      content: service.content || null, // Asegúrate de que content no sea undefined
+      tableOfContents,
+    };
   } catch (error) {
     console.error("Error fetching service by slug:", error);
-    throw error; // Optionally rethrow or handle the error accordingly
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
+
+export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult | null> {
+   // Remove extra quotes if any
+   const query = getServicesNavQuery; // This should be a GROQ string
+ 
+  try {
+    const services = await sanityFetch({ query }) as GetServicesNavQueryResult | null;
+    // Si service es null, retornamos null
+    if (!services) {
+      return null; // Si no hay servicio, retornamos null
+    }
+   
+    return  services
+  } catch (error) {
+    console.error("Error fetching service by slug:", error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
 }

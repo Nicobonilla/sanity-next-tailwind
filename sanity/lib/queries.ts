@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery, groq } from "next-sanity";
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`);
 
@@ -32,3 +32,22 @@ export const postQuery = defineQuery(`
     ${postFields}
   }
 `);
+
+export const getServiceDetailQuery = defineQuery(
+  groq`*[_type == 'service' && slug.current == $slug][0] {
+  title,  // Fetch the title of the service
+  content,  // Fetch the content of the service
+  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings
+    _key,  // Directly include the _key for each heading
+    style,  // Include the style of the heading (h2, h3)
+    children[] {  // Retrieve all children elements
+      text  // Fetch the text from each child element
+    }
+  }
+}`)
+
+export const getServicesNavQuery = defineQuery(
+  groq`*[_type == 'service']{
+    title,
+    "slug": slug.current
+    }`)

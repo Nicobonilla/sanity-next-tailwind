@@ -1,9 +1,10 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { PortableTextBlock } from '@portabletext/types'
-import { getServiceBySlug } from '@/sanity/lib/fetch';
+import { getServiceBySlugFetch } from '@/sanity/lib/fetch';
 import { Metadata } from 'next';
 import { TableOfContents } from '@/components/pages/services/TableOfContents';
 import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs'; // Asegúrate de que esté implementado correctamente
+import { GetServiceDetailQueryResult } from '@/sanity.types';
 import Image from 'next/image';
 
 interface TableOfContents {
@@ -19,15 +20,15 @@ interface ServiceData {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const service: ServiceData = await getServiceBySlug(params.slug);
+  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(params.slug);
   return {
-    title: service.title,
+    title: service?.title,
     openGraph: {
-      title: service.title,
+      title: service?.title  || '',
       type: 'article',
     },
     other: {
-      'table-of-contents': JSON.stringify(service.tableOfContents),
+      'table-of-contents': JSON.stringify(service?.tableOfContents),
     },
   };
 }
@@ -38,16 +39,32 @@ const components: PortableTextComponents = {
     h2: ({ value, children }) => {
       const headingId = `heading-${value._key}`; // El ID único para el enlace
       return (
-        <h2 id={headingId} className="group relative">
+        <h2 id={headingId} className="group relative dark:text-white">
           {children}
         </h2>
       );
     },
+    p:  ({ value, children }) => {
+      return (
+        <p className="dark:text-white">
+          {children}
+        </p>
+      );
+    },
+  },
+  types: {
+    image: ({value}) => <img alt=" " src={value.imageUrl} />,
+    callToAction: ({value, isInline}) =>
+      isInline ? (
+        <a href={value.url}>{value.text}</a>
+      ) : (
+        <div className="callToAction">{value.text}</div>
+      ),
   },
 };
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const service: ServiceData = await getServiceBySlug(params.slug);
+  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(params.slug);
 
   if (!service) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores
@@ -64,13 +81,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
         {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
         <div className="md:w-3/4 order-2 md:order-1">
           <div className="prose prose-sm max-w-none">
-            <PortableText value={service.content} components={components} />
+            <PortableText value={service.content || []} components={components} />
           </div>
         </div>
 
         {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
         <aside className="md:w-1/4 px-5 order-1 md:order-2">
-          <TableOfContents items={service.tableOfContents} />
+          <TableOfContents items={service.tableOfContents ? service.tableOfContents : [] } />
         </aside>
       </div>
     </article>
