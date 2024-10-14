@@ -9,4 +9,7 @@ module.exports = {
     fetches: { fullUrl: false },
   },
   productionBrowserSourceMaps: true,
+  images: {
+    domains: ['cdn.sanity.io']
+  }
 };

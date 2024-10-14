@@ -27,7 +27,11 @@ export default defineType({
         name: 'content',
         title: 'Contenido',
         type: 'array',
-        of: [{ type: 'block' }], // Para contenido enriquecido
+        of: [{ type: 'block' },
+          {
+            type: 'image',
+          },
+        ], // Para contenido enriquecido
       }),
     ],
   }

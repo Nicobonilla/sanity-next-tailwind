@@ -23,7 +23,8 @@ export const TableOfContents = ({ items }: TableOfContentsProps) => {
           >
             <a
               href={item._key} // Vincula al mismo ID
-              className="text-sm text-gray-900 hover:text-red-500"
+              className="text-sm text-gray-900 
+              dark:text-gray-400 hover:text-red-500"
               aria-hidden="true"
               tabIndex={-1}
             >

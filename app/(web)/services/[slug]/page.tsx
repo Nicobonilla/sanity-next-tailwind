@@ -6,6 +6,7 @@ import { TableOfContents } from '@/components/pages/services/TableOfContents';
 import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs'; // Asegúrate de que esté implementado correctamente
 import { GetServiceDetailQueryResult } from '@/sanity.types';
 import Image from 'next/image';
+import { urlForImage } from '@/sanity/lib/utils';
 
 interface TableOfContents {
   id: string;
@@ -36,31 +37,71 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 const components: PortableTextComponents = {
   block: {
     // Personalizar el renderizado del encabezado h2
-    h2: ({ value, children }) => {
-      const headingId = `heading-${value._key}`; // El ID único para el enlace
-      return (
-        <h2 id={headingId} className="group relative dark:text-white">
-          {children}
-        </h2>
-      );
-    },
-    p:  ({ value, children }) => {
-      return (
-        <p className="dark:text-white">
-          {children}
-        </p>
-      );
-    },
+    h2: ({ value, children }) =>
+      <h2 id={`heading-${value._key}`} className="group relative dark:text-gray-300">
+        {children}
+      </h2>,
+    h3: ({ value, children }) =>
+      <h3 id={`heading-${value._key}`} className="dark:text-gray-300">
+        {children}
+      </h3>,
+    normal: ({ children }) =>
+      <span className="dark:text-gray-400">
+        {children}
+      </span>
+    ,
+    blockquote: ({ children }) =>
+      <blockquote className="relative flex
+      pl-4 p-4 border-l-4 
+      border-gray-900 dark:border-gray-400
+      text-gray-900 dark:text-gray-300 
+      bg-gray-100 dark:bg-slate-800 
+      ">
+        <span className="text-5xl pr-3 text-red-500">“</span>
+        <div>{children}</div>
+      </blockquote>
+  },
+  marks: {
+    strong: ({ children }) => <span className='font-extrabold dark:text-gray-300'>
+      {children}
+    </span >,
+    link: ({ value, children }) => <a href={value.href} className='text-gray-900 
+    dark:text-gray-300 underline callToAction' >{children}</a>,
+
+  },
+  list: {
+    bullet: ({ children }) => <ul className="dark:text-gray-400">{children}</ul>,
   },
   types: {
-    image: ({value}) => <img alt=" " src={value.imageUrl} />,
-    callToAction: ({value, isInline}) =>
-      isInline ? (
-        <a href={value.url}>{value.text}</a>
-      ) : (
-        <div className="callToAction">{value.text}</div>
-      ),
+    image: ({ value }) => {
+      // Asegurarte de que 'value' tiene la estructura esperada
+      if (!value || !value.asset) {
+        return null; // O mostrar un componente alternativo
+      }
+
+      const imageUrl = urlForImage(value);
+      if (!imageUrl) {
+        return <p>Imagen no disponible</p>; // O una imagen predeterminada
+      }
+
+      return (
+        <div className="relative w-full 
+        min-h-[350px] max-h-[500px]
+        overflow-hidden
+        my-5
+        ">
+        <Image
+          alt={value.alt || "Descripción por defecto"}
+          src={imageUrl.url()}
+          fill
+        />
+      </div>
+      );
+    },
+
   },
+
+
 };
 
 export default async function Page({ params }: { params: { slug: string } }) {
