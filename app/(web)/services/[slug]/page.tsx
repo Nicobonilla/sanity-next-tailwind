@@ -86,7 +86,7 @@ const components: PortableTextComponents = {
 
       return (
         <div className="relative w-full 
-        min-h-[350px] max-h-[500px]
+        min-h-[250px] max-h-[600px]
         overflow-hidden
         my-5
         ">
@@ -112,7 +112,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <article className="container max-w-7xl mx-auto px-8 py-8">
+    <article className="container max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumbs */}
       {/* <Breadcrumbs /> */}
 
@@ -127,7 +127,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
-        <aside className="md:w-1/4 px-5 order-1 md:order-2">
+        <aside className="md:w-1/4 order-1 md:order-2">
           <TableOfContents items={service.tableOfContents ? service.tableOfContents : [] } />
         </aside>
       </div>
