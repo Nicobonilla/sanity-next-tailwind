@@ -45,7 +45,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
 
   return (
     <div className="grow-0 h-full right-0 lg:hidden z-50">
-      <div className="relative flex flex-col text-white cursor-pointer h-full z-50">
+      <div className="relative flex text-white cursor-pointer h-full z-50">
         <div
           onClick={toggleMenu}
           className="flex items-center justify-center mr-4"
@@ -80,7 +80,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           >
 
             <nav className="p-6 scale-y-80">
-              <div className="flex h-24    grow-0 mx-auto justify-center z-20 mb-10">
+              <div className="flex h-24 grow-0 mx-auto justify-start z-20 mb-10">
                 <Logo />
               </div>
               <ul className="divide-y divide-dividerDrawer items-center">

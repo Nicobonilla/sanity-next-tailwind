@@ -1,9 +1,9 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import type { NavProps } from "@/types";
-import MobileNav from "./MobileNav";
-import DeskNav from "./DeskNav";
-import Logo from "@/components/shared/Logo";
+'use client';
+import React, { useState, useEffect } from 'react';
+import type { NavProps } from '@/types';
+import MobileNav from './MobileNav';
+import DeskNav from './DeskNav';
+import Logo from '@/components/shared/Logo';
 
 export default function Navbar({ links }: NavProps) {
   const [scrolling, setScrolling] = useState(false);
@@ -17,28 +17,28 @@ export default function Navbar({ links }: NavProps) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <>
       <div
         className={`inset-x-0 top-0 origin-top bg-menuColor transition duration-300 ${
-          scrolling && "fixed -translate-y-2"
+          scrolling && 'fixed -translate-y-2'
         }`}
       >
         {/* Logo */}
-        <div className="container flex h-24 mx-auto">
+        <div className="mx-auto flex h-24 w-[90%]">
           <div
-            className={`flex grow-0 justify-center py-4 z-20 ${
-              scrolling && "translate-y-2"
+            className={`z-20 flex grow-0 justify-center py-4 ${
+              scrolling && 'translate-y-2'
             }`}
           >
             <Logo />
           </div>
 
-          <div className="grow z-10"></div>
+          <div className="z-10 grow"></div>
 
           {/* Drop Menu */}
           <MobileNav links={links || []} />
