@@ -25,7 +25,7 @@ const IconCard: React.FC<IconCardProps> = ({ iconName, title, description, style
 
   return (
     <div className="flex flex-col items-center justify-center md:flex-row md:items-start">
-      <div className="relative flex items-center justify-center w-full h-full z-0 mb-5 md:max-w-24">
+      <div className="relative flex items-center justify-center size-full z-0 mb-5 md:max-w-24">
         <div className="absolute bottom-0 z-20 translate-x-2 -translate-y-2">
           <Icon
             className="md:w-12"

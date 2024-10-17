@@ -23,15 +23,18 @@ export default function Navbar({ links }: NavProps) {
 
   return (
     <>
-      <div className={`bg-menuColor  inset-x-0 top-0 orgin-top
-      ${scrolling && ' fixed -translate-y-2'}
-       transition duration-300
-      `}>
+      <div
+        className={`inset-x-0 top-0 origin-top bg-menuColor transition duration-300 ${
+          scrolling && "fixed -translate-y-2"
+        }`}
+      >
         {/* Logo */}
-
-        <div className="flex container h-24 mx-auto">
-          <div className={`flex grow-0 left-0 py-4 z-20 justify-center
-          ${scrolling && 'translate-y-2'} `}>
+        <div className="container flex h-24 mx-auto">
+          <div
+            className={`flex grow-0 justify-center py-4 z-20 ${
+              scrolling && "translate-y-2"
+            }`}
+          >
             <Logo />
           </div>
 
@@ -44,5 +47,4 @@ export default function Navbar({ links }: NavProps) {
       </div>
     </>
   );
-};
-
+}

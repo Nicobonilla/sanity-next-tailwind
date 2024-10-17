@@ -89,8 +89,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                     <li key={link.section}>
                       <button
                         onClick={(e) => toggleSection(link.section, e)}  // Add event here
-                        className="flex items-center justify-between 
-                            w-full h-full py-3
+                        className="flex items-center justify-between size-full py-3
                             text-gray-300 
                             hover:text-white focus:outline-none"
                       >

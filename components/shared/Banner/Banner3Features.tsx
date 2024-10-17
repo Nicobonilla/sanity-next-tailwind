@@ -47,10 +47,10 @@ const MobileFeatures: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 mx-auto max-w-[500px] md:max-w-none">
       <h2 className="mb-6 text-center text-4xl font-extrabold md:text-5xl">Empowerment at Your Fingertips</h2>
-      <p className='w-full mb-10 text-center md:w-3/4 lg:w-2/4'>
+      <p className="w-full mb-10 text-center md:w-3/4 lg:w-2/4">
         Explore the range of industries we've served and the impactful solutions we've crafted for our clients.
       </p>
-      <div className='container grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1'>
+      <div className="container grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
         {features.map((feature, index) => (
           <FeatureSection key={index} {...feature} />
         ))}
