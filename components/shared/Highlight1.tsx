@@ -11,7 +11,7 @@ export function Highlight1({title, description} : Props) {
             <div className="text-2xl px-9 pb-9 font-extrabold">
                {title}
             </div>
-            <div className="text-lg font-thin text-slate-900">
+            <div className="text-lg font-thin">
             {description}
             </div>
         </div>

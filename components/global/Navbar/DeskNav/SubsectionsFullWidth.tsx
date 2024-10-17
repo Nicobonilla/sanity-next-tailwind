@@ -43,13 +43,13 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
           onMouseEnter={() => handleMouseEnter('contacto')}
           onMouseLeave={handleMouseLeave}
         >
-          <Link href={{ pathname: '/contacto' }} passHref>
+          <Link href={{ pathname: '/login' }} passHref>
             <span className="inline-flex items-center h-24 px-4 text-white text-base font-extralight hover:font-light justify-center">
               <User />
             </span>
           </Link>
         </li>
-
+ 
         <li
           key={'contacto'}
           className="relative group"
@@ -83,7 +83,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
             onMouseEnter={() => handleMouseEnter(link.section)}
             onMouseLeave={handleMouseLeave}
           >
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto max-w-screen-lg p-6">
               <div className="grid grid-cols-4">
                 <div className="col-span-2
                 flex items-center space-x-4 mb-4">

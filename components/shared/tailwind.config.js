@@ -6,10 +6,10 @@ module.exports = {
           css: {
             color: theme('colors.gray.800'),
             h1: {
-              color: theme('colors.gray.900'),
+              color: theme('colors.red.900'),
             },
             h2: {
-              color: theme('colors.gray.800'),
+              color: theme('colors.red.800'),
             },
             // Puedes personalizar más estilos aquí
           },

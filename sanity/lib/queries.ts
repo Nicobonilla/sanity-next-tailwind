@@ -51,3 +51,12 @@ export const getServicesNavQuery = defineQuery(
     title,
     "slug": slug.current
     }`)
+
+
+export const getBannerDataQuery = defineQuery(
+  groq`*[_type == 'banner']{
+    content,
+    image
+  }`)
+
+

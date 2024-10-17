@@ -12,7 +12,8 @@ export type NavProps = {
 };
 
 export interface ServiceItem {
-  iconName: 'shoppingCart' | 'lightbulb' | 'barChart2' | 'smartphone' | 'mail' | 'code' ;  // Definir los nombres de los íconos disponibles
+  iconName?: 'shoppingCart' | 'lightbulb' | 'barChart2' | 'smartphone' | 'mail' | 'code' ;  // Definir los nombres de los íconos disponibles
   title: string;
-  description: string;
+  img?: string;
+  description?: string;
 }

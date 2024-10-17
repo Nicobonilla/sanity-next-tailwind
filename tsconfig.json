@@ -25,6 +25,6 @@
     "**/*.ts", "**/*.tsx", 
     ".next/types/**/*.ts",
     "types.d.ts",
-    "components/global/Footer/index.tsx"],
+    "components/global/Footer/FooterWP/index.tsx"],
   "exclude": ["node_modules"]
 }

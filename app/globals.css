@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
 :root {
   --background: #ffffff;
@@ -26,7 +27,6 @@ body {
   }
 }
 
-
 .layer {
   position: absolute;
   top: 0;
@@ -50,4 +50,46 @@ body {
 
 .items {
   background-color: #1f2937
+}
+
+@layer base {
+  h1 {
+    @apply text-2xl md:text-5xl font-bold;
+  }
+}
+
+@layer base {
+  h2 {
+    @apply font-bold text-3xl md:text-5xl;
+  }
+}
+
+@layer base {
+  h3 {
+    @apply text-lg md:text-xl;
+  }
+}
+
+@layer base {
+  h1 + p {
+    @apply text-4xl ;
+  }
+}
+
+@layer base {
+  h2 + p {
+    @apply text-lg;
+  }
+}
+
+@layer base {
+  h3 + p {
+    @apply text-lg md:text-base;
+  }
+}
+
+@layer components {
+  .h2 {
+    @apply text-4xl md:text-3xl lg:text-6xl;
+  }
 }

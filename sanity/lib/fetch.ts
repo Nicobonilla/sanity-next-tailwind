@@ -4,8 +4,8 @@ import { draftMode } from "next/headers";
 import { client } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
 
-import { getServiceDetailQuery, getServicesNavQuery } from '@/sanity/lib/queries'
-import { GetServicesNavQueryResult, type GetServiceDetailQueryResult } from '@/sanity.types'
+import { getBannerDataQuery, getServiceDetailQuery, getServicesNavQuery } from '@/sanity/lib/queries'
+import { GetBannerDataQueryResult, GetServicesNavQueryResult, type GetServiceDetailQueryResult } from '@/sanity.types'
 /**
  * Used to fetch data in Server Components, it has built in support for handling Draft Mode and perspectives.
  * When using the "published" perspective then time-based revalidation is used, set to match the time-to-live on Sanity's API CDN (60 seconds)
@@ -101,4 +101,23 @@ export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult |
     console.error("Error fetching service by slug:", error);
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
+}
+
+export async function getBannerDataFetch():  Promise<GetBannerDataQueryResult| null> {
+  // Remove extra quotes if any
+  const query = getBannerDataQuery; // This should be a GROQ string
+
+ try {
+   const data = await sanityFetch({ query }) as GetBannerDataQueryResult | null;
+   // Si service es null, retornamos null
+  // Si data es null o está vacío, retornamos null
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    return null; // Si no hay datos, retornamos null
+  }
+  
+   return  data
+ } catch (error) {
+   console.error("Error fetching banner:", error);
+   throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+ }
 }

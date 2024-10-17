@@ -32,3 +32,39 @@ import type { ServiceItem } from "@/types";
     description: "We provide software development services in PHP, Drupal, Python, JavaScript/jQuery, and other modern technologies."
   }
 ];
+
+
+export const mockServices: ServiceItem[] = [
+  {
+      title: "Mediación Prejudicial",
+      img: "/bunnwhite.svg",
+      description: "Asesoría y apoyo en la mediación de conflictos."
+  },
+  {
+      title: "Defensa en juicios",
+      img: "/bunnwhite.svg",
+      description: "Representación legal en procesos judiciales."
+  },
+  {
+      title: "Custodia y alimentos",
+      img: "/bunnwhite.svg",
+      description: "Asesoramiento sobre custodia y manutención."
+  },
+  {
+      title: "Divorcio y separación",
+      img: "/bunnwhite.svg",
+      description: "Asesoría legal para procesos de divorcio."
+  },
+  {
+      title: "Compensación económica",
+      img: "/bunnwhite.svg",
+      description: "Asistencia en la reclamación de compensaciones."
+  },
+  {
+      title: "Violencia intrafamiliar",
+      img: "/bunnwhite.svg",
+      description: "Apoyo legal en casos de violencia intrafamiliar."
+  },
+];
+
+// Usa `mockServices` al renderizar `IconList`

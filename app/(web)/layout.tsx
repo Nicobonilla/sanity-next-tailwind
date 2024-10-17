@@ -2,7 +2,7 @@ import "../globals.css";
 import Navbar from "@/components/global/Navbar";
 
 import { Inter } from "next/font/google";
-import Footer from "@/components/global/Footer";
+import Footer from "@/components/global/Footer/FooterWP";
 import { getServicesNavFetch } from "@/sanity/lib/fetch";
 import type { Links, NavProps } from '@/types'
 import { formatServices } from "@/components/formatServices";
@@ -33,13 +33,12 @@ export default async function RootLayout({
       {
         id: '1',
         section: "INICIO",
-        href: { pathname: "/abogado-familiar" },
-        subsections: [{ id: '1', section: "H1", href: { pathname: "/H1" } }],
+        href: { pathname: "/" },
       },
       {
         id: '2',
         section: "SERVICIOS",
-        href: { pathname: "/servicios-legales" },
+        href: { pathname: "/desarrollo-de-aplicaciones-web" },
         subsections: formattedServices, // Aquí usamos `formattedServices` que es un array de `Links`
       },
       {
@@ -58,7 +57,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="flex flex-col min-h-screen min-w-[320px] 
-      bg-gray-50 text-gray-900 
+      bg-gray-100 text-gray-900 
       dark:bg-slate-900 dark:text-gray-400">
         <div className="h-24 z-50">
           <Navbar links={ navProps.links } />

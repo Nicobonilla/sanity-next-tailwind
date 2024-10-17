@@ -1,16 +1,19 @@
 import { User, Mail, Phone } from "lucide-react";
 
 export default function Form() {
+    function handlerClick(){
+        
+    }
     const color = "gray";
     return (
         <div className="relative flex flex-col 
-        bg-gray-100 p-8 gap-10 mx-auto 
+        bg-gray-100 p-8 gap-10 mx-auto text-slate-700 dark:text-slate-700
         md:flex-row md:justify-center items-center overflow-hidden">
 
             <div className="md:w-1/2 max-w-md relative z-10">
-                <h2 className="text-xl font-bold">Desarrollo de Software</h2>
+                <h2 className="text-xl font-bold text-red-200 dark:text-red-600">Desarrollo de Software</h2>
                 <h2 className="text-3xl font-bold mb-4">Creamos alianzas para ser tu socio tecnológico</h2>
-                <p className="text-gray-600">
+                <p >
                     Nuestro objetivo es diseñar el servicio adecuado a tus necesidades, oportunidades y posibilidades.
                     Con visión estratégica para mejorar los resultados de tu empresa
                 </p>

@@ -1,9 +1,14 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
-export default {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./sanity/**/*.{ts,tsx}"],
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}", 
+    "./components/**/*.{ts,tsx}", 
+    "./sanity/**/*.{ts,tsx}"
+  ],
+  mode: 'jit',
   theme: {
     extend: {
       fontFamily: {
@@ -17,11 +22,14 @@ export default {
         textBlue: 'rgba(5, 27, 129, 0.7)',
         drawerColor: 'rgba(0,44,84, 1.0)',
         dividerDrawer: 'rgba(49, 78, 105, 1)',
-        second: colors.red , //green-600  
-        lay: 'rgba(70, 66, 85,1)'
+        second: colors.red, //green-600  
+        lay: 'rgba(70, 66, 85, 1)',
       },
       lineHeight: {
         'extra-tight': '1px',
+      },
+      screens: {
+        xs: '320px',
       },
     },
   },
@@ -29,4 +37,6 @@ export default {
     hoverOnlyWhenSupported: true,
   },
   plugins: [typography],
-} satisfies Config;
+};
+
+export default config;

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  reactStrictMode: true,
   experimental: {
     // Used to guard against accidentally leaking SANITY_API_READ_TOKEN to the browser
     taint: true,
@@ -10,6 +11,13 @@ module.exports = {
   },
   productionBrowserSourceMaps: true,
   images: {
-    domains: ['cdn.sanity.io']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   }
 };

@@ -4,17 +4,13 @@ export function HeroImage() {
   const imageUrl = '/meeting.jpeg'
 
   return (
-    <div className="relative w-full h-[70vh]">
+    <div className="relative w-full h-[70vh] 
+    object-cover object-top">
       <Image
         src={imageUrl}
         alt={"Home page image"}
         quality={100}
         fill
-        sizes="100vw"
-        style={{
-          objectFit: "cover",
-        }}
-        objectPosition="top"
       />
       <div className="layer bg-lay/90"></div>
       <div className="layer layer1 bg-gray-100 z-10"></div>

@@ -29,9 +29,9 @@ const IconList: React.FC<ItemProps> = ({ services }) => {
           {services.map((item, index) => (
             <IconCard
               key={index}
-              iconName={item.iconName}  // Solo pasamos el nombre del ícono
+              iconName={item.iconName || ''}  // Solo pasamos el nombre del ícono
               title={item.title}
-              description={item.description}
+              description={item.description || ''}
               styleIcon={styleIcon}
             />
           ))}
