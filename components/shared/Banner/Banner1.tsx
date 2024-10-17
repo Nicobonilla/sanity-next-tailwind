@@ -8,7 +8,9 @@ import { urlForImage } from '@/sanity/lib/utils';
 const components: PortableTextComponents = {
   block: {
     h2: ({ children }) => (
-      <h2 className="group relative h2"> {/*text-4xl md:text-3xl lg:text-6xl*/}
+      <h2 className="h2 group relative">
+        {' '}
+        {/*text-4xl md:text-3xl lg:text-6xl*/}
         {children}
       </h2>
     ),
@@ -20,7 +22,9 @@ const components: PortableTextComponents = {
     ),
   },
   list: {
-    bullet: ({ children }) => <ul className="dark:text-gray-400">{children}</ul>,
+    bullet: ({ children }) => (
+      <ul className="dark:text-gray-400">{children}</ul>
+    ),
   },
 };
 
@@ -29,29 +33,29 @@ export default async function Banner1() {
 
   try {
     const fetchedData = await getBannerDataFetch();
-    if (fetchedData !== null && Array.isArray(fetchedData) && fetchedData.length > 0) {
+    if (
+      fetchedData !== null &&
+      Array.isArray(fetchedData) &&
+      fetchedData.length > 0
+    ) {
       banner = fetchedData; // Asignar el primer elemento si los datos existen
     } else {
-      console.error("Los datos obtenidos son nulos o no válidos");
+      console.error('Los datos obtenidos son nulos o no válidos');
     }
   } catch (error) {
-    console.error("Error al obtener los datos del banner:", error);
+    console.error('Error al obtener los datos del banner:', error);
   }
-  
+
   if (!banner) {
     return <div>Error al cargar el banner.</div>;
   }
-  
+
   const bannerData = banner[0];
-  
+
   return (
-    <div
-      className="relative flex flex-col items-center md:flex-row md:justify-center
-      w-full h-[1000px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]
-      px-4 bg-gray-100 text-slate-700 dark:text-slate-700 reverse"
-    >
+    <div className="reverse relative flex h-[1000px] w-full flex-col items-center bg-gray-100 px-4 text-slate-700 md:h-[400px] md:flex-row md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px] dark:text-slate-700">
       {/* Imagen */}
-      <div className="relative flex flex-row w-full h-1/2 md:w-1/3 md:h-full mb-16 md:mb-0">
+      <div className="relative mb-16 flex h-1/2 w-full flex-row md:mb-0 md:h-full md:w-1/3">
         <Image
           src={urlForImage(bannerData.image)?.url() || '/meeting.jpeg'}
           fill
@@ -59,11 +63,14 @@ export default async function Banner1() {
           className="object-contain"
         />
       </div>
-  
+
       {/* Contenido */}
-      <div className="relative flex justify-center items-start md:items-start max-w-[470px] lg:max-w-full">
+      <div className="relative flex max-w-[470px] items-start justify-center md:items-start lg:max-w-full">
         <div className="prose px-5">
-          <PortableText value={bannerData.content || []} components={components} />
+          <PortableText
+            value={bannerData.content || []}
+            components={components}
+          />
         </div>
       </div>
     </div>
