@@ -9,16 +9,16 @@ interface FeatureSectionProps {
 }
 
 const FeatureSection: React.FC<FeatureSectionProps> = ({ title, description, imageSrc, imageAlt }) => (
-  <div className='flex flex-col items-center text-center mb-10 md:mb-0 '>
+  <div className='flex flex-col items-center text-center mb-10 md:mb-0'>
     <div className="relative flex justify-center 
-    h-[200px] md:h-[160px] lg:h-[200px] lg:h-[240px] 
-    w-full max-w-[380px] md:max-w-[300px] lg:max-w-[360px] xl:max-w-[400px]">
+    w-full max-w-[380px] md:max-w-[300px] lg:max-w-[360px] xl:max-w-[400px]
+    h-[200px] md:h-[160px] lg:h-[240px]">
       {/* Efecto degradado */}
-      <div className="absolute inset-0 rounded-xl 5 bg-gradient-to-b from-gray-200 to-transparent"></div>
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-gray-200 to-transparent"></div>
       <Image src={imageSrc} alt={imageAlt} fill className="relative z-10 p-2 md:pt-5 lg:pt-10 object-contain" />
     </div>
-    <h3 className="text-xl sm:text-2xl md:text-xl md:text-xl lg:text-2xl font-semibold mt-4 md:max-w-[280px]">{title}</h3>
-    <p className="text-gray-600 mt-2 text-base sm:text-lg md:text-base lg:text-xl md:max-w-[300px]">{description}</p>
+    <h3 className="mt-4 text-xl sm:text-2xl md:text-xl lg:text-2xl font-semibold md:max-w-[280px]">{title}</h3>
+    <p className="mt-2 text-base sm:text-lg md:text-base lg:text-xl text-gray-600 md:max-w-[300px]">{description}</p>
   </div>
 )
 
@@ -45,12 +45,12 @@ const MobileFeatures: React.FC = () => {
   ]
 
   return (
-    <div className="px-4 py-8 flex flex-col items-center justify-center mx-auto max-w-[500px] md:max-w-none">
-      <h2 className="text-center text-4xl font-extrabold mb-6 md:text-5xl">Empowerment at Your Fingertips</h2>
-      <p className='text-center mb-10 w-full md:w-3/4 lg:w-2/4'>
+    <div className="flex flex-col items-center justify-center px-4 py-8 mx-auto max-w-[500px] md:max-w-none">
+      <h2 className="mb-6 text-center text-4xl font-extrabold md:text-5xl">Empowerment at Your Fingertips</h2>
+      <p className='w-full mb-10 text-center md:w-3/4 lg:w-2/4'>
         Explore the range of industries we've served and the impactful solutions we've crafted for our clients.
       </p>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-1 container'>
+      <div className='container grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1'>
         {features.map((feature, index) => (
           <FeatureSection key={index} {...feature} />
         ))}

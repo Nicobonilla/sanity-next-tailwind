@@ -37,21 +37,21 @@ export default async function Banner1() {
   } catch (error) {
     console.error("Error al obtener los datos del banner:", error);
   }
-
+  
   if (!banner) {
     return <div>Error al cargar el banner.</div>;
   }
-
+  
   const bannerData = banner[0];
-
+  
   return (
     <div
       className="relative flex flex-col items-center md:flex-row md:justify-center
-      px-4 w-full h-[1000px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]
-      bg-gray-100 text-slate-700 dark:text-slate-700 reverse"
+      w-full h-[1000px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]
+      px-4 bg-gray-100 text-slate-700 dark:text-slate-700 reverse"
     >
       {/* Imagen */}
-      <div className="relative flex flex-row h-1/2 w-full md:h-full md:w-1/3 mb-16 md:mb-0">
+      <div className="relative flex flex-row w-full h-1/2 md:w-1/3 md:h-full mb-16 md:mb-0">
         <Image
           src={urlForImage(bannerData.image)?.url() || '/meeting.jpeg'}
           fill
@@ -59,7 +59,7 @@ export default async function Banner1() {
           className="object-contain"
         />
       </div>
-
+  
       {/* Contenido */}
       <div className="relative flex justify-center items-start md:items-start max-w-[470px] lg:max-w-full">
         <div className="prose px-5">

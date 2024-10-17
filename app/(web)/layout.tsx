@@ -56,10 +56,8 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <body className="flex flex-col min-h-screen min-w-[320px] 
-      bg-gray-100 text-gray-900 
-      dark:bg-slate-900 dark:text-gray-400">
-        <div className="h-24 z-50">
+      <body className="flex flex-col min-h-screen min-w-[320px] bg-gray-100 text-gray-900 dark:bg-slate-900 dark:text-gray-400">
+        <div className="z-50 h-24">
           <Navbar links={ navProps.links } />
         </div>
         <main className="flex-grow">{children}</main>

@@ -37,40 +37,48 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 const components: PortableTextComponents = {
   block: {
     // Personalizar el renderizado del encabezado h2
-    h2: ({ value, children }) =>
-      <h2 id={`heading-${value._key}`} className="group relative dark:text-gray-300">
+    h2: ({ value, children }) => (
+      <h2 id={`heading-${value._key}`} className="relative group dark:text-gray-300">
         {children}
-      </h2>,
-    h3: ({ value, children }) =>
+      </h2>
+    ),
+    h3: ({ value, children }) => (
       <h3 id={`heading-${value._key}`} className="dark:text-gray-300">
         {children}
-      </h3>,
-    normal: ({ children }) =>
+      </h3>
+    ),
+    normal: ({ children }) => (
       <span className="dark:text-gray-400">
         {children}
       </span>
-    ,
-    blockquote: ({ children }) =>
-      <blockquote className="relative flex
-      pl-4 p-4 border-l-4 
-      border-gray-900 dark:border-gray-400
-      text-gray-900 dark:text-gray-300 
-      bg-gray-100 dark:bg-slate-800 
-      ">
-        <span className="text-5xl pr-3 text-red-500">“</span>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="relative flex p-4 pl-4 border-l-4 border-gray-900 
+      dark:border-gray-400 text-gray-900 dark:text-gray-300 bg-gray-100
+      dark:bg-slate-800">
+        <span className="pr-3 text-5xl text-red-500">“</span>
         <div>{children}</div>
       </blockquote>
+    ),
   },
   marks: {
-    strong: ({ children }) => <span className='font-extrabold dark:text-gray-300'>
-      {children}
-    </span >,
-    link: ({ value, children }) => <a href={value.href} className='text-gray-900 
-    dark:text-gray-300 underline callToAction' >{children}</a>,
-
+    strong: ({ children }) => (
+      <span className="font-extrabold dark:text-gray-300">
+        {children}
+      </span>
+    ),
+    link: ({ value, children }) => (
+      <a href={value.href} className="underline text-gray-900 dark:text-gray-300 callToAction">
+        {children}
+      </a>
+    ),
   },
   list: {
-    bullet: ({ children }) => <ul className="dark:text-gray-400">{children}</ul>,
+    bullet: ({ children }) => (
+      <ul className="dark:text-gray-400">
+        {children}
+      </ul>
+    ),
   },
   types: {
     image: ({ value }) => {
@@ -80,28 +88,9 @@ const components: PortableTextComponents = {
       }
 
       const imageUrl = urlForImage(value);
-      if (!imageUrl) {
-        return <p>Imagen no disponible</p>; // O una imagen predeterminada
-      }
-
-      return (
-        <div className="relative w-full 
-        min-h-[250px] max-h-[600px]
-        overflow-hidden
-        my-5
-        ">
-        <Image
-          alt={value.alt || "Descripción por defecto"}
-          src={imageUrl.url()}
-          fill
-        />
-      </div>
-      );
+      // Renderizar la imagen aquí
     },
-
   },
-
-
 };
 
 export default async function Page({ params }: { params: { slug: string } }) {

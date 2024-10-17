@@ -87,12 +87,12 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
               <div className="grid grid-cols-4">
                 <div className="col-span-2
                 flex items-center space-x-4 mb-4">
-                  <Menu2 className="h-6 w-6 text-gray-600" />
+                  <Menu2 className="size-6 text-gray-600" />
                   <span className="font-semibold text-gray-800">{link.section}</span>
                 </div>
                 <div className="col-span-2 
                 flex items-center space-x-4 mb-4">
-                  <User className="h-6 w-6 text-gray-600" />
+                  <User className="size-6 text-gray-600" />
                   <span className="font-semibold text-gray-800">User Section</span>
                 </div>
                 {/* Subsections */}

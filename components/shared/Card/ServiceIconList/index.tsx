@@ -16,16 +16,11 @@ const IconList: React.FC<ItemProps> = ({ services }) => {
   return (
     <div className="bg-gray-900 py-16 px-6">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-4xl font-extrabold text-white text-center 
-        mb-12 md:mb-20 ">
+        <h2 className="mb-12 text-4xl font-extrabold text-center text-white md:mb-20">
           Create a Website According to Your Business Needs!
         </h2>
-        <div className="grid gap-10 md:gap-5
-           grid-cols-1 md:grid-cols-2 
-           items-center justify-center mx-auto
-            max-w-md md:max-w-full"
-        >
-
+        <div className="grid max-w-md grid-cols-1 items-center justify-center 
+        gap-10 mx-auto md:max-w-full md:grid-cols-2 md:gap-5">
           {services.map((item, index) => (
             <IconCard
               key={index}

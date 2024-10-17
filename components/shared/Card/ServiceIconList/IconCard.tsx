@@ -24,38 +24,30 @@ const IconCard: React.FC<IconCardProps> = ({ iconName, title, description, style
   }
 
   return (
-    <div className="flex flex-col md:flex-row
-    items-center justify-center md:items-start">
-
-      <div className='flex relative
-        items-center justify-center 
-        w-full h-full z-0 mb-5 md:max-w-24'>
-        
-        <div className="absolute  
-        bottom-0 z-20 -translate-y-2 translate-x-2">
-          {
-            <Icon className="md:w-12"
+    <div className="flex flex-col items-center justify-center md:flex-row md:items-start">
+      <div className="relative flex items-center justify-center w-full h-full z-0 mb-5 md:max-w-24">
+        <div className="absolute bottom-0 z-20 translate-x-2 -translate-y-2">
+          <Icon
+            className="md:w-12"
             size={styleIcon.size}
             color={styleIcon.color}
-            strokeWidth={styleIcon.strokeWidth} />
-          }
+            strokeWidth={styleIcon.strokeWidth}
+          />
         </div>
-        
-        <Image src={'/gray.svg'}
-          className='md:w-20'
+        <Image
+          src={'/gray.svg'}
+          className="md:w-20"
           width={sizeHole}
           height={sizeHole}
           alt="follow-me"
         />
-
       </div>
-
-      <div className='text-center md:text-start'>
-        <h3 className="text-xl md:text-lg font-semibold text-white mb-3">{title}</h3>
+      <div className="text-center md:text-start">
+        <h3 className="mb-3 text-xl font-semibold text-white md:text-lg">{title}</h3>
         <p className="text-gray-400 md:text-sm">{description}</p>
       </div>
     </div>
   );
-};
+}
 
 export default IconCard;
