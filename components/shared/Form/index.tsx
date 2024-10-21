@@ -4,10 +4,9 @@ export default function Form() {
   function handlerClick() {}
   const color = 'gray';
   return (
-    <div className="relative mx-auto flex flex-col items-center h-[800px] 
-    gap-10 overflow-hidden bg-gray-100 p-8 text-slate-700 md:flex-row md:justify-center dark:text-slate-700">
+    <div className="relative mx-auto flex h-[800px] flex-col items-center gap-10 overflow-hidden bg-gray-100 p-8 text-slate-700 md:flex-row md:justify-center dark:text-slate-700">
       <div className="relative z-10 max-w-md md:w-1/2">
-        <h2 className="text-xl font-bold text-red-200 dark:text-red-600">
+        <h2 className="text-xl font-bold text-red-600 dark:text-red-600">
           Desarrollo de Software
         </h2>
         <h2 className="mb-4 text-3xl font-bold">

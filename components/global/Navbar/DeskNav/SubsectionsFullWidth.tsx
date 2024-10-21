@@ -54,7 +54,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
         >
           <div className="hidden items-center md:flex md:flex-col">
             <Link href={{ pathname: '/fono' }} passHref>
-              <span className="font-crimson text-xl font-bold text-blue-950 dark:text-white">
+              <span className="font-crimson text-xl font-bold dark:text-white">
                 +56 9 8155 9390
               </span>
             </Link>
