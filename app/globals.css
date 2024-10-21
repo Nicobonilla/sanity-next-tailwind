@@ -49,47 +49,35 @@ body {
 }
 
 .items {
-  background-color: #1f2937
+  background-color: #1f2937;
 }
 
-@layer base {
-  h1 {
-    @apply text-2xl md:text-5xl font-bold;
-  }
-}
-
-@layer base {
-  h2 {
-    @apply font-bold text-3xl md:text-5xl;
-  }
-}
-
-@layer base {
-  h3 {
-    @apply text-lg md:text-xl;
-  }
-}
-
-@layer base {
-  h1 + p {
-    @apply text-4xl ;
-  }
-}
-
-@layer base {
-  h2 + p {
-    @apply text-lg;
-  }
-}
-
-@layer base {
-  h3 + p {
-    @apply text-lg md:text-base;
+@layer components {
+  .p {
+    @apply font-mono text-lg md:text-xl lg:text-2xl dark:text-slate-100;
   }
 }
 
 @layer components {
   .h2 {
-    @apply text-4xl md:text-3xl lg:text-6xl;
+    @apply font-crimson mb-4 text-4xl font-extrabold md:text-3xl lg:text-6xl dark:text-slate-300;
+  }
+}
+
+@layer components {
+  .p2 {
+    @apply font-montserrat text-lg font-extrabold;
+  }
+}
+
+@layer components {
+  .p3 {
+    @apply font-montserrat text-sm font-bold md:text-base;
+  }
+}
+
+@layer components {
+  h2 + p {
+    @apply font-montserrat font-bold md:text-xl;
   }
 }

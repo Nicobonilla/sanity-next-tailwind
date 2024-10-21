@@ -14,7 +14,7 @@ const components: PortableTextComponents = {
         {children}
       </h2>
     ),
-    normal: ({ children }) => <span>{children}</span>,
+    normal: ({ children }) => <p className="p">{children}</p>,
   },
   marks: {
     strong: ({ children }) => (
@@ -53,9 +53,9 @@ export default async function Banner1() {
   const bannerData = banner[0];
 
   return (
-    <div className="reverse relative flex h-[1000px] w-full flex-col items-center bg-gray-100 px-4 text-slate-700 md:h-[400px] md:flex-row md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px] dark:text-slate-700">
+    <div className="relative flex h-[900px] w-full flex-col-reverse items-center px-4 text-slate-700 md:h-[400px] md:flex-row md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px] dark:text-slate-700">
       {/* Imagen */}
-      <div className="relative mb-16 flex h-1/2 w-full flex-row md:mb-0 md:h-full md:w-1/3">
+      <div className="relative flex h-full w-full flex-row md:mb-0 md:h-full md:w-1/3">
         <Image
           src={urlForImage(bannerData.image)?.url() || '/meeting.jpeg'}
           fill
@@ -65,13 +65,11 @@ export default async function Banner1() {
       </div>
 
       {/* Contenido */}
-      <div className="relative flex max-w-[470px] items-start justify-center md:items-start lg:max-w-full">
-        <div className="prose px-5">
-          <PortableText
-            value={bannerData.content || []}
-            components={components}
-          />
-        </div>
+      <div className="lg:max-w-1/3 relative flex max-w-[470px] flex-col items-start justify-center md:items-start">
+        <PortableText
+          value={bannerData.content || []}
+          components={components}
+        />
       </div>
     </div>
   );

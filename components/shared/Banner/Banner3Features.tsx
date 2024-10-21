@@ -25,10 +25,10 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({
         className="relative z-10 object-contain p-2 md:pt-5 lg:pt-10"
       />
     </div>
-    <h3 className="mt-4 text-xl font-semibold sm:text-2xl md:max-w-[280px] md:text-xl lg:text-2xl">
+    <h3 className="h3 mt-4 text-xl font-semibold sm:text-2xl md:max-w-[280px] md:text-xl lg:text-2xl">
       {title}
     </h3>
-    <p className="mt-2 text-base text-gray-600 sm:text-lg md:max-w-[300px] md:text-base lg:text-xl">
+    <p className="p3 mt-2 text-base text-gray-600 sm:text-lg md:max-w-[300px] md:text-base lg:text-xl">
       {description}
     </p>
   </div>
@@ -61,10 +61,10 @@ const MobileFeatures: React.FC = () => {
 
   return (
     <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-none">
-      <h2 className="mb-6 text-center text-4xl font-extrabold md:text-5xl">
+      <h2 className="h2 mb-6 text-center text-4xl font-extrabold uppercase md:text-5xl">
         Empowerment at Your Fingertips
       </h2>
-      <p className="mb-10 w-full text-center md:w-3/4 lg:w-2/4">
+      <p className="p mb-10 w-full text-center md:w-3/4 lg:w-2/4">
         Explore the range of industries we&apos;ve served and the impactful
         solutions we&apos;ve crafted for our clients.
       </p>

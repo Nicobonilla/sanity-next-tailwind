@@ -67,7 +67,7 @@ export default function Footer() {
         </div>
         
       </div>
-      <div className="flex items-center  bg-menuColor justify-center text-white lg:p-2">Powered</div>
+      <div className="flex items-center  bg-body-dark justify-center text-white lg:p-2">Powered</div>
     </>
   );
 };
