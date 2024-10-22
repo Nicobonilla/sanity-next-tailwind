@@ -21,10 +21,12 @@
     }
   },
   "include": [
-    "next-env.d.ts", 
-    "**/*.ts", "**/*.tsx", 
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
     ".next/types/**/*.ts",
     "types.d.ts",
-    "components/global/Footer/FooterWP/index.tsx"],
+    "components/global/Footer/index.tsx"
+  ],
   "exclude": ["node_modules"]
 }

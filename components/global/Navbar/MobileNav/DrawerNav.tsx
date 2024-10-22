@@ -25,12 +25,10 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
     setIsMenuOpen(false);
   };
 
-  const toggleSection = (section: string, e: React.MouseEvent) => {
+  const toggleSection = (title: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Detener la propagación del clic para evitar el cierre del drawer
     setExpandedSections((prev) =>
-      prev.includes(section)
-        ? prev.filter((s) => s !== section)
-        : [...prev, section]
+      prev.includes(title) ? prev.filter((s) => s !== title) : [...prev, title]
     );
   };
 
@@ -82,7 +80,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           {/* Mobile Menu Drawer */}
           <div
             id="mobile-menu"
-            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen transform overflow-y-auto bg-drawerColor shadow-lg transition-transform duration-300 ease-in-out ${
+            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen transform overflow-y-auto bg-body-dark shadow-lg transition-transform duration-300 ease-in-out dark:bg-body-dark ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
@@ -91,37 +89,52 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                 <Logo />
               </div>
               <ul className="items-center divide-y divide-dividerDrawer">
-                {links.map((link) => (
-                  <li key={link.section}>
-                    <button
-                      onClick={(e) => toggleSection(link.section, e)} // Add event here
-                      className="flex w-full items-center justify-between py-3 text-gray-300 hover:text-white focus:outline-none"
-                    >
-                      {link.section}
-                      {link.subsections &&
-                        link.subsections.length > 0 &&
-                        (expandedSections.includes(link.section) ? (
-                          <ChevronUp />
-                        ) : (
-                          <ChevronDown />
-                        ))}
-                    </button>
-                    {expandedSections.includes(link.section) && (
-                      <ul className="space-y-2 pl-4">
-                        {link.subsections &&
-                          link.subsections.map((sublink) => (
-                            <li key={sublink.section}>
-                              <Link href={sublink.href} onClick={closeMenu}>
-                                <span className="block font-thin text-gray-300 hover:font-normal hover:text-white">
-                                  {sublink.section}
-                                </span>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
+                {links.map((link) => {
+                  // Verificamos que link.title exista antes de renderizar
+                  if (link.title) {
+                    return (
+                      <li key={link.title}>
+                        <button
+                          onClick={(e) =>
+                            toggleSection(link.title ? link.title : '', e)
+                          } // Añadir evento aquí
+                          className="flex w-full items-center justify-between py-3 text-gray-300 hover:text-white focus:outline-none"
+                        >
+                          {link.title}
+                          {link.subsections &&
+                            link.subsections.length > 0 &&
+                            (expandedSections.includes(link.title) ? (
+                              <ChevronUp />
+                            ) : (
+                              <ChevronDown />
+                            ))}
+                        </button>
+                        {expandedSections.includes(link.title) && (
+                          <ul className="space-y-2 pl-4">
+                            {link.subsections &&
+                              link.subsections.map((sublink) => (
+                                <li key={sublink.title}>
+                                  <Link
+                                    href={
+                                      sublink.slug
+                                        ? { pathname: sublink.slug }
+                                        : { pathname: '' }
+                                    }
+                                    onClick={closeMenu}
+                                  >
+                                    <span className="block font-thin text-gray-300 hover:font-normal hover:text-white">
+                                      {sublink.title}
+                                    </span>
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  }
+                  return null; // Devuelve null si link.title no existe para evitar errores
+                })}
               </ul>
               <div className="flex flex-col space-y-4 pt-10 text-sm">
                 <button className="bg-second flex justify-center rounded px-4 py-2 text-gray-300">

@@ -9,7 +9,7 @@ interface ItemProps {
 const IconList: React.FC<ItemProps> = ({ services }) => {
   const styleIcon = {
     size: 80,
-    color: '#cf1788',
+    color: '#ef4444',
     strokeWidth: 1,
   };
   return (

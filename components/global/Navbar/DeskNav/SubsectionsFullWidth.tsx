@@ -1,110 +1,112 @@
 'use client';
 
 import { useState } from 'react';
-import { Menu as Menu2, X, User } from 'lucide-react';
-import { NavProps } from '@/types';
+import { Links, NavProps } from '@/types';
 import Link from 'next/link';
+import Icon from '@/components/shared/Icon';
 
 export default function SubsectionsFullWidth({ links }: NavProps) {
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  const handleMouseEnter = (section: string) => {
-    setActiveLink(section);
+  const handleMouseEnter = (title: string) => {
+    setActiveLink(title);
   };
 
   const handleMouseLeave = () => {
     setActiveLink(null);
   };
+  // Agrupar servicios por unidad de negocio
+  const groupedServices = links.reduce(
+    (acc, service) => {
+      if (service.subsections) {
+        service.subsections.forEach((subsection) => {
+          if (subsection.unitBusiness) {
+            const { title } = subsection.unitBusiness; // Asumiendo que unitBusiness tiene un título
+            if (title) {
+              if (!acc[title]) {
+                acc[title] = [];
+              }
+              acc[title].push(subsection); // Agrupamos las subsecciones bajo su unidad de negocio
+            }
+          }
+        });
+      }
+      return acc;
+    },
+    {} as Record<string, Links[]>
+  );
 
   return (
     <nav className="static hidden font-sans lg:block">
-      <ul className="dark:font-crimson flex h-24 items-center justify-between space-x-2 font-montserrat font-thin text-white xl:space-x-16 2xl:space-x-28">
+      <ul className="flex h-24 items-center justify-between space-x-2 font-montserrat font-thin text-white xl:space-x-16 2xl:space-x-28 dark:font-crimson">
         {links?.map((link) => (
           <li
-            key={link.section}
+            key={link.title}
             className="group relative"
-            onMouseEnter={() => handleMouseEnter(link.section)}
+            onMouseEnter={() => handleMouseEnter(link.title || '')}
             onMouseLeave={handleMouseLeave}
           >
-            <Link href={link.href} passHref>
+            <Link href={{ pathname: link.slug }} passHref>
               <span className="inline-flex h-24 items-center justify-center px-4 font-mono text-base text-gray-200 hover:font-bold dark:font-light dark:text-white">
-                {link.section}
+                {link.title}
               </span>
             </Link>
           </li>
         ))}
-
-        <li
-          key={'contacto'}
-          className="group relative"
-          onMouseEnter={() => handleMouseEnter('contacto')}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Link href={{ pathname: '/login' }} passHref>
-            <span className="inline-flex h-full items-center justify-center text-gray-200">
-              <User className="hover:fill-gray-200" />
-            </span>
-          </Link>
-        </li>
-
-        <li
-          key={'contacto'}
-          className="group relative"
-          onMouseEnter={() => handleMouseEnter('contacto')}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="hidden items-center md:flex md:flex-col">
-            <Link href={{ pathname: '/fono' }} passHref>
-              <span className="font-crimson text-xl font-bold dark:text-white">
-                +56 9 8155 9390
-              </span>
-            </Link>
-
-            <Link href={{ pathname: '/agendar' }} passHref>
-              <button className="mt-1 rounded bg-second-500 px-4 py-2 text-white hover:font-bold">
-                AGENDAR AHORA
-              </button>
-            </Link>
-          </div>
-        </li>
       </ul>
 
-      {/* Subsections */}
       {links?.map(
         (link) =>
           link.subsections &&
           link.subsections?.length > 0 &&
-          activeLink === link.section && (
+          activeLink === link.title && (
             <div
-              key={link.section}
-              className="absolute left-0 z-50 w-screen bg-white shadow-lg transition-opacity duration-1000 ease-in-out"
-              onMouseEnter={() => handleMouseEnter(link.section)}
+              key={link.title}
+              className="absolute left-0 z-50 h-96 w-screen bg-white shadow-lg transition-opacity duration-1000 ease-in-out"
+              onMouseEnter={() => handleMouseEnter(link.title || '')}
               onMouseLeave={handleMouseLeave}
             >
               <div className="container mx-auto max-w-screen-lg p-6">
-                <div className="grid grid-cols-4">
-                  <div className="col-span-2 mb-4 flex items-center space-x-4">
-                    <Menu2 className="size-6 text-gray-600" />
-                    <span className="font-semibold text-gray-800">
-                      {link.section}
-                    </span>
-                  </div>
-                  <div className="col-span-2 mb-4 flex items-center space-x-4">
-                    <User className="size-6 text-gray-600" />
-                    <span className="font-semibold text-gray-800">
-                      User Section
-                    </span>
-                  </div>
-                  {/* Subsections */}
-                  {link.subsections.map(({ section, href }) => (
-                    <Link
-                      key={section}
-                      href={href}
-                      passHref
-                      className="rounded pr-4 font-montserrat text-sm font-light text-black transition-all duration-300 hover:bg-[#6f97d9] hover:text-white"
-                    >
-                      {section}
-                    </Link>
-                  ))}
+                <div className={`flex flex-row gap-4`}>
+                  {/* ${groupedServices.length} */}
+                  {groupedServices &&
+                    Object.keys(groupedServices).map((businessName) => {
+                      console.log(businessName);
+                      const servicesForBusiness = groupedServices[businessName];
+                      const business = servicesForBusiness[0].unitBusiness; // Obtener información de negocio del primer servicio
+                      return (
+                        <div
+                          key={businessName}
+                          className="mb-4 flex h-20 w-full flex-col"
+                        >
+                          {business && (
+                            <div className="flex items-center space-x-4">
+                              {business.icon && (
+                                <Icon
+                                  name={business.icon}
+                                  className="h-6 w-6 text-gray-600"
+                                />
+                              )}
+                              <span className="font-semibold text-gray-800">
+                                {business.title}
+                              </span>
+                            </div>
+                          )}
+                          <ul className="mt-2 flex flex-col space-y-1">
+                            {servicesForBusiness.map(({ title, slug }) => (
+                              <li key={title}>
+                                <Link
+                                  href={{ pathname: slug }}
+                                  passHref
+                                  className="block rounded py-1 pr-10 font-montserrat text-sm font-bold text-black transition-all duration-300 hover:bg-[#6f97d9] hover:text-white"
+                                >
+                                  {title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>

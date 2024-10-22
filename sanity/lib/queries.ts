@@ -1,4 +1,4 @@
-import { defineQuery, groq } from "next-sanity";
+import { defineQuery, groq } from 'next-sanity';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`);
 
@@ -44,19 +44,24 @@ export const getServiceDetailQuery = defineQuery(
       text  // Fetch the text from each child element
     }
   }
-}`)
+}`
+);
 
 export const getServicesNavQuery = defineQuery(
   groq`*[_type == 'service']{
     title,
+    "unitBusiness": {
+      "title": unitBusiness->title,
+      "icon": unitBusiness-> icon,
+      "slug": unitBusiness->slug.current
+    },
     "slug": slug.current
-    }`)
-
+    }`
+);
 
 export const getBannerDataQuery = defineQuery(
   groq`*[_type == 'banner']{
     content,
     image
-  }`)
-
-
+  }`
+);

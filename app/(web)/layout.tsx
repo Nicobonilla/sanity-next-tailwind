@@ -3,10 +3,10 @@ import Navbar from '@/components/global/Navbar';
 
 import { Inter, Montserrat } from 'next/font/google';
 import FontHead from '@/components/global/FontHead';
-import Footer from '@/components/global/Footer/FooterWP';
+import Footer from '@/components/global/Footer';
 import { getServicesNavFetch } from '@/sanity/lib/fetch';
 import type { Links, NavProps } from '@/types';
-import { formatServices } from '@/components/formatServices';
+import { formatServices } from '@/components/pages/services/formatService';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -26,30 +26,30 @@ export default async function RootLayout({
   if (!servicesList) {
     return <div>Lista de servicios no encontrados</div>;
   }
-  const formattedServices: Links[] = formatServices(servicesList);
-
+  
+  const formattedList = formatServices(servicesList);
   const navProps: NavProps = {
     links: [
       {
         id: '1',
-        section: 'INICIO',
-        href: { pathname: '/' },
+        title: 'INICIO',
+        slug: '/',
       },
       {
         id: '2',
-        section: 'SERVICIOS',
-        href: { pathname: '/desarrollo-de-aplicaciones-web' },
-        subsections: formattedServices, // Aquí usamos `formattedServices` que es un array de `Links`
+        title: 'SERVICIOS',
+        slug: '/desarrollo-de-aplicaciones-web',
+        subsections: formattedList, // Aquí usamos `formattedServices` que es un array de `Links`
       },
       {
         id: '5',
-        section: 'RECURSOS',
-        href: { pathname: '/debes-saber-abogado-familiar' },
+        title: 'PRECIOS',
+        slug: '/debes-saber-abogado-familiar',
       },
       {
         id: '6',
-        section: 'CONTACTO',
-        href: { pathname: '/contacto-abogado-familiar-san-felipe' },
+        title: 'CONTACTO',
+        slug: '/contacto-abogado-familiar-san-felipe',
       },
     ],
   };

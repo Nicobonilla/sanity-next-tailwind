@@ -2,8 +2,8 @@ import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 
 export default defineType({
-  name: 'service',
-  title: 'Servicio',
+  name: 'unitBusiness',
+  title: 'Servicios Informáticos',
   type: 'document',
   icon: DocumentsIcon,
   fields: [
@@ -23,8 +23,20 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'content',
-      title: 'Contenido',
+      name: 'icon',
+      title: 'Icon',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'User', value: 'user' },
+          { title: 'Menu', value: 'menu' },
+          // Agrega más íconos según sea necesario
+        ],
+      },
+    }),
+    defineField({
+      name: 'description',
+      title: 'Descripción',
       type: 'array',
       of: [
         { type: 'block' },
@@ -32,13 +44,6 @@ export default defineType({
           type: 'image',
         },
       ], // Para contenido enriquecido
-    }),
-    defineField({
-      name: 'unitBusiness',
-      title: 'Unidad de Negocio - Servicios Informáticos',
-      type: 'reference',
-      to: [{ type: 'unitBusiness' }],
-      description: 'Select the unit business this service belongs to',
     }),
   ],
 });
