@@ -91,6 +91,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               <ul className="items-center divide-y divide-dividerDrawer">
                 {links.map((link) => {
                   // Verificamos que link.title exista antes de renderizar
+                  const mainSlug = link.slug || '';
                   if (link.title) {
                     return (
                       <li key={link.title}>
@@ -117,7 +118,10 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                                   <Link
                                     href={
                                       sublink.slug
-                                        ? { pathname: sublink.slug }
+                                        ? {
+                                            pathname:
+                                              mainSlug + '/' + sublink.slug,
+                                          }
                                         : { pathname: '' }
                                     }
                                     onClick={closeMenu}

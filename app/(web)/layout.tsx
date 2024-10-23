@@ -26,7 +26,7 @@ export default async function RootLayout({
   if (!servicesList) {
     return <div>Lista de servicios no encontrados</div>;
   }
-  
+
   const formattedList = formatServices(servicesList);
   const navProps: NavProps = {
     links: [
@@ -38,7 +38,7 @@ export default async function RootLayout({
       {
         id: '2',
         title: 'SERVICIOS',
-        slug: '/desarrollo-de-aplicaciones-web',
+        slug: '/services',
         subsections: formattedList, // Aquí usamos `formattedServices` que es un array de `Links`
       },
       {
@@ -56,7 +56,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <FontHead fonts={['montserrat']} />
+      <FontHead />
       <body className="flex min-h-screen min-w-[320px] flex-col bg-gray-100 text-gray-900 dark:bg-body-dark dark:text-gray-200">
         <div className="z-50 h-24">
           <Navbar links={navProps.links} />

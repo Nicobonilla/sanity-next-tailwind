@@ -15,22 +15,18 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({
   imageAlt,
 }) => (
   <div className="mb-10 flex flex-col items-center text-center md:mb-0">
-    <div className="relative flex h-[200px] w-full max-w-[380px] justify-center md:h-[160px] md:max-w-[300px] lg:h-[240px] lg:max-w-[360px] xl:max-w-[400px]">
+    <div className="relative flex h-[200px] w-full max-w-[380px] justify-center md:h-[160px] md:max-w-[300px] lg:h-[200px] lg:max-w-[300px]">
       {/* Efecto degradado */}
       <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-gray-200 to-transparent"></div>
       <Image
         src={imageSrc}
         alt={imageAlt}
         fill
-        className="relative z-10 object-contain p-2 md:pt-5 lg:pt-10"
+        className="relative z-10 object-contain p-2 md:pt-5"
       />
     </div>
-    <h3 className="h3 mt-4 text-xl font-semibold sm:text-2xl md:max-w-[280px] md:text-xl lg:text-2xl">
-      {title}
-    </h3>
-    <p className="p3 mt-2 text-base text-gray-600 sm:text-lg md:max-w-[300px] md:text-base lg:text-xl">
-      {description}
-    </p>
+    <h3 className="h3 mt-4 md:max-w-[280px]">{title}</h3>
+    <p className="p3 mt-2 md:max-w-[300px]">{description}</p>
   </div>
 );
 
@@ -60,11 +56,11 @@ const MobileFeatures: React.FC = () => {
   ];
 
   return (
-    <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-none">
-      <h2 className="h2 mb-6 text-center text-4xl font-extrabold uppercase md:text-5xl">
+    <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
+      <h2 className="h2 mb-6 text-center uppercase">
         Empowerment at Your Fingertips
       </h2>
-      <p className="p mb-10 w-full text-center md:w-3/4 lg:w-2/4">
+      <p className="p2 mb-10 w-full text-center md:w-3/4">
         Explore the range of industries we&apos;ve served and the impactful
         solutions we&apos;ve crafted for our clients.
       </p>

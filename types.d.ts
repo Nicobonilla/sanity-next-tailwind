@@ -1,15 +1,17 @@
 import { UrlObject } from 'url';
 
+export type UniteBusiness = {
+  title?: string; // Puede ser undefined o string
+  icon?: 'user' | 'menu' | null; // Puede ser undefined, 'user', 'menu', o null
+  slug?: string; // Puede ser undefined o string
+} | null;
+
 export type Links = {
   id?: string; // Puede ser undefined o string
   title?: string; // Puede ser undefined o string
   slug?: string; // Puede ser undefined o string
   subsections?: Links[]; // Puede ser undefined o un array de Links
-  unitBusiness?: {
-    title?: string; // Puede ser undefined o string
-    icon?: 'user' | 'menu' | null; // Puede ser undefined, 'user', 'menu', o null
-    slug?: string; // Puede ser undefined o string
-  } | null; // Puede ser undefined o null
+  unitBusiness?: UniteBusiness; // Puede ser undefined o null
 };
 
 export type NavProps = {

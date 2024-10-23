@@ -24,12 +24,12 @@ export default function Navbar({ links }: NavProps) {
   return (
     <>
       <div
-        className={`bg-body-dark inset-x-0 top-0 origin-top transition duration-300 ${
+        className={`inset-x-0 top-0 origin-top bg-body-dark transition duration-300 ${
           scrolling && 'fixed -translate-y-2'
         }`}
       >
         {/* Logo */}
-        <div className="mx-auto flex h-24 w-[90%]">
+        <div className="mx-auto flex h-24 w-[90%] md:w-full lg:max-w-screen-xl md:px-4">
           <div
             className={`z-20 flex grow-0 justify-center py-4 ${
               scrolling && 'translate-y-2'

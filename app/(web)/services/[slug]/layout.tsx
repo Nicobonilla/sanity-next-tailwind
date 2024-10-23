@@ -1,6 +1,6 @@
-import Form from "@/components/shared/Form";
+import Form from '@/components/shared/Form';
 
-export { metadata, viewport } from "next-sanity/studio";
+export { metadata, viewport } from 'next-sanity/studio';
 
 export default function RootLayout({
   children,
@@ -9,11 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <div className="">
         <Form />
+      <div className="container mx-auto max-w-screen-xl px-5 py-8 md:px-10">
+        {children}
       </div>
-      <div>{children}</div>
-
     </div>
   );
 }

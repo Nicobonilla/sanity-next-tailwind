@@ -1,12 +1,12 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react';
-import { PortableTextBlock } from '@portabletext/types'
+import { PortableTextBlock } from '@portabletext/types';
 import { getServiceBySlugFetch } from '@/sanity/lib/fetch';
 import { Metadata } from 'next';
 import { TableOfContents } from '@/components/pages/services/TableOfContents';
-import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs'; // Asegúrate de que esté implementado correctamente
+import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs';
 import { GetServiceDetailQueryResult } from '@/sanity.types';
-import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
+import Image from 'next/image';
 
 interface TableOfContents {
   id: string;
@@ -14,18 +14,18 @@ interface TableOfContents {
   level: number;
 }
 
-interface ServiceData {
-  title: string;
-  content: PortableTextBlock[]; // Considera crear un tipo más específico si es posible
-  tableOfContents: TableOfContents[];
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(
+    params.slug
+  );
   return {
     title: service?.title,
     openGraph: {
-      title: service?.title  || '',
+      title: service?.title || '',
       type: 'article',
     },
     other: {
@@ -37,25 +37,24 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 const components: PortableTextComponents = {
   block: {
     // Personalizar el renderizado del encabezado h2
+    h1: ({ value, children }) => (
+      <h1 className="h2 group relative">{children}</h1>
+    ),
     h2: ({ value, children }) => (
-      <h2 id={`heading-${value._key}`} className="relative group dark:text-gray-300">
-        {children}
-      </h2>
+      <div className="border-l-4 border-red-500 dark:border-red-700">
+        <h2 id={`heading-${value._key}`} className="h3 group relative ml-2">
+          {children}
+        </h2>
+      </div>
     ),
     h3: ({ value, children }) => (
-      <h3 id={`heading-${value._key}`} className="dark:text-gray-300">
+      <h3 id={`heading-${value._key}`} className="h3">
         {children}
       </h3>
     ),
-    normal: ({ children }) => (
-      <span className="dark:text-gray-400">
-        {children}
-      </span>
-    ),
+    normal: ({ children }) => <span className="p3">{children}</span>,
     blockquote: ({ children }) => (
-      <blockquote className="relative flex p-4 pl-4 border-l-4 border-gray-900 
-      dark:border-gray-400 text-gray-900 dark:text-gray-300 bg-gray-100
-      dark:bg-slate-800">
+      <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 p-4 pl-4 dark:border-red-700 dark:bg-slate-800">
         <span className="pr-3 text-5xl text-red-500">“</span>
         <div>{children}</div>
       </blockquote>
@@ -63,22 +62,19 @@ const components: PortableTextComponents = {
   },
   marks: {
     strong: ({ children }) => (
-      <span className="font-extrabold dark:text-gray-300">
-        {children}
-      </span>
+      <span className="p3 font-extrabold text-red-600">{children}</span>
     ),
     link: ({ value, children }) => (
-      <a href={value.href} className="underline text-gray-900 dark:text-gray-300 callToAction">
+      <a
+        href={value.href}
+        className="callToAction text-gray-900 underline dark:text-gray-300"
+      >
         {children}
       </a>
     ),
   },
   list: {
-    bullet: ({ children }) => (
-      <ul className="dark:text-gray-400">
-        {children}
-      </ul>
-    ),
+    bullet: ({ children }) => <ul className="p3">{children}</ul>,
   },
   types: {
     image: ({ value }) => {
@@ -88,36 +84,54 @@ const components: PortableTextComponents = {
       }
 
       const imageUrl = urlForImage(value);
-      // Renderizar la imagen aquí
+      if (!imageUrl) {
+        return <p>Imagen no disponible</p>; // O una imagen predeterminada
+      }
+
+      return (
+        <div className="relative my-5 max-h-[500px] min-h-[350px] w-full overflow-hidden">
+          <Image
+            alt={value.alt || 'Descripción por defecto'}
+            src={imageUrl.url()}
+            fill
+          />
+        </div>
+      );
     },
   },
 };
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(params.slug);
+  const service: GetServiceDetailQueryResult = await getServiceBySlugFetch(
+    params.slug
+  );
 
   if (!service) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores
   }
 
   return (
-    <article className="container max-w-7xl mx-auto px-4 py-8">
-      {/* Breadcrumbs */}
+    <article>
       {/* <Breadcrumbs /> */}
 
-      <h1 className="text-4xl font-bold mb-6">{service.title}</h1>
+      <h1 className="h2 mb-6">{service.title}</h1>
 
-      <div className="flex flex-col md:flex-row gap-14">
+      <div className="flex flex-col gap-14 md:flex-row">
         {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
-        <div className="md:w-3/4 order-2 md:order-1">
+        <div className="order-2 md:order-1 md:w-3/4">
           <div className="prose prose-sm max-w-none">
-            <PortableText value={service.content || []} components={components} />
+            <PortableText
+              value={service.content || []}
+              components={components}
+            />
           </div>
         </div>
 
         {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
-        <aside className="md:w-1/4 order-1 md:order-2">
-          <TableOfContents items={service.tableOfContents ? service.tableOfContents : [] } />
+        <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
+          <TableOfContents
+            items={service.tableOfContents ? service.tableOfContents : []}
+          />
         </aside>
       </div>
     </article>

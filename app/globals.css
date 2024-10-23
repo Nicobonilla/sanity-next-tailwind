@@ -53,31 +53,25 @@ body {
 }
 
 @layer components {
-  .p {
-    @apply font-mono text-lg md:text-xl lg:text-2xl dark:text-slate-100;
-  }
-}
-
-@layer components {
   .h2 {
-    @apply font-crimson mb-4 text-4xl font-extrabold md:text-3xl lg:text-6xl dark:text-slate-300;
+    @apply mb-4 font-crimson text-4xl font-bold md:text-5xl dark:text-slate-300;
   }
 }
 
 @layer components {
   .p2 {
-    @apply font-montserrat text-lg font-extrabold;
+    @apply text-lg font-thin text-slate-700 md:text-lg lg:text-xl dark:text-slate-100;
+  }
+}
+
+@layer components {
+  .h3 {
+    @apply font-crimson text-xl font-semibold sm:text-2xl md:text-xl lg:text-xl dark:text-slate-200;
   }
 }
 
 @layer components {
   .p3 {
-    @apply font-montserrat text-sm font-bold md:text-base;
-  }
-}
-
-@layer components {
-  h2 + p {
-    @apply font-montserrat font-bold md:text-xl;
+    @apply font-montserrat font-light text-gray-600 dark:font-light dark:text-gray-200;
   }
 }

@@ -7,14 +7,8 @@ import { urlForImage } from '@/sanity/lib/utils';
 // Definición de componentes para PortableText
 const components: PortableTextComponents = {
   block: {
-    h2: ({ children }) => (
-      <h2 className="h2 group relative">
-        {' '}
-        {/*text-4xl md:text-3xl lg:text-6xl*/}
-        {children}
-      </h2>
-    ),
-    normal: ({ children }) => <p className="p">{children}</p>,
+    h2: ({ children }) => <h2 className="h2 relative">{children}</h2>,
+    normal: ({ children }) => <p className="p2">{children}</p>,
   },
   marks: {
     strong: ({ children }) => (
@@ -53,7 +47,7 @@ export default async function Banner1() {
   const bannerData = banner[0];
 
   return (
-    <div className="relative flex h-[900px] w-full flex-col-reverse items-center px-4 text-slate-700 md:h-[400px] md:flex-row md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px] dark:text-slate-700">
+    <div className="relative flex h-[900px] w-full flex-col-reverse items-center px-4 md:h-[400px] md:flex-row md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       {/* Imagen */}
       <div className="relative flex h-full w-full flex-row md:mb-0 md:h-full md:w-1/3">
         <Image
@@ -65,7 +59,7 @@ export default async function Banner1() {
       </div>
 
       {/* Contenido */}
-      <div className="lg:max-w-1/3 relative flex max-w-[470px] flex-col items-start justify-center md:items-start">
+      <div className="lg:max-w-1/3 relative flex max-w-[470px] flex-col items-start justify-center">
         <PortableText
           value={bannerData.content || []}
           components={components}

@@ -15,7 +15,8 @@ const config: Config = {
         sans: ['var(--font-inter)'],
         montserrat: ['Montserrat', 'sans-serif'],
         bebas: ['Bebas Neue', 'sans-serif'],
-        crimson: ['"Crimson Text"', 'serif'],
+        crimson: ['Crimson Text', 'serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',
