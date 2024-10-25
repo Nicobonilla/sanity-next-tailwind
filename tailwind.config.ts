@@ -9,19 +9,22 @@ const config: Config = {
     './sanity/**/*.{ts,tsx}',
   ],
   mode: 'jit',
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)'],
-        montserrat: ['Montserrat', 'sans-serif'],
-        bebas: ['Bebas Neue', 'sans-serif'],
-        crimson: ['Crimson Text', 'serif'],
-        roboto: ['Roboto', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+        roboto: ['var(--font-roboto-flex)', 'sans-serif'],
+        robotomono: ['var(--font-roboto-mono)', 'sans-serif'],
+        crimson: ['var(--font-crimson-pro)', 'serif'],
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
-        'body-dark': 'rgba(28,31,42,1.0)',
+        bodydark: 'rgba(28,31,42,1.0)',
+        bodydarknav: 'rgba(8,14,38,1.0)',
         menuColor2: 'rgba(48,54,73,1.0)',
         textBlue: 'rgba(5, 27, 129, 0.7)',
         drawerColor: 'rgba(0,44,84, 1.0)',

@@ -1,18 +1,19 @@
 import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 
-import { Inter, Montserrat } from 'next/font/google';
-import FontHead from '@/components/global/FontHead';
 import Footer from '@/components/global/Footer';
 import { getServicesNavFetch } from '@/sanity/lib/fetch';
-import type { Links, NavProps } from '@/types';
+import type { NavProps } from '@/types';
 import { formatServices } from '@/components/pages/services/formatService';
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  display: 'swap',
-});
+import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
+import Head from 'next/head';
+import {
+  inter,
+  robotoFlex,
+  crimsonPro,
+  montserrat,
+  robotoMono,
+} from '@/components/global/fonts';
 
 export { metadata, viewport } from 'next-sanity/studio';
 
@@ -55,9 +56,14 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <FontHead />
-      <body className="flex min-h-screen min-w-[320px] flex-col bg-gray-100 text-gray-900 dark:bg-body-dark dark:text-gray-200">
+    <html
+      lang="es"
+      className={`${inter.variable} ${robotoFlex.variable} ${crimsonPro.variable} ${montserrat.variable} ${robotoMono.variable} scroll-smooth`}
+    >
+      <Head>
+        <DarkModeScript />
+      </Head>
+      <body className="dark:bg-bodydark flex min-h-screen min-w-[320px] flex-col bg-gray-100 text-gray-900 dark:text-gray-200">
         <div className="z-50 h-24">
           <Navbar links={navProps.links} />
         </div>

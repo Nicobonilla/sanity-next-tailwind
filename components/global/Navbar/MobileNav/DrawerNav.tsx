@@ -54,10 +54,10 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
 
   return (
     <div className="right-0 z-50 h-full grow-0 lg:hidden">
-      <div className="relative z-50 flex h-full cursor-pointer text-white">
+      <div className="relative z-50 flex h-full cursor-pointer">
         <div
           onClick={toggleMenu}
-          className="mr-4 flex items-center justify-center"
+          className="mr-4 flex items-center justify-center text-white"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
         >
@@ -73,14 +73,14 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
         <>
           {/* Overlay */}
           <div
-            className="fixed inset-0 z-40 bg-black bg-opacity-50"
+            className="fixed inset-0 z-40 bg-black/70"
             onClick={closeMenu} // Close menu on overlay click
           ></div>
 
           {/* Mobile Menu Drawer */}
           <div
             id="mobile-menu"
-            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen transform overflow-y-auto bg-body-dark shadow-lg transition-transform duration-300 ease-in-out dark:bg-body-dark ${
+            className={`mobile-nav-drawer bg-bodydark dark:bg-bodydark fixed right-0 top-0 z-50 h-screen transform overflow-y-auto shadow-lg transition-transform duration-300 ease-in-out ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
@@ -88,7 +88,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               <div className="z-20 mx-auto mb-10 flex h-24 grow-0 justify-start">
                 <Logo />
               </div>
-              <ul className="items-center divide-y divide-dividerDrawer">
+              <ul className="items-center divide-y divide-gray-700">
                 {links.map((link) => {
                   // Verificamos que link.title exista antes de renderizar
                   const mainSlug = link.slug || '';
@@ -99,7 +99,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                           onClick={(e) =>
                             toggleSection(link.title ? link.title : '', e)
                           } // Añadir evento aquí
-                          className="flex w-full items-center justify-between py-3 text-gray-300 hover:text-white focus:outline-none"
+                          className="nav flex w-full items-center justify-between py-2 focus:outline-none"
                         >
                           {link.title}
                           {link.subsections &&
@@ -111,28 +111,30 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                             ))}
                         </button>
                         {expandedSections.includes(link.title) && (
-                          <ul className="space-y-2 pl-4">
-                            {link.subsections &&
-                              link.subsections.map((sublink) => (
-                                <li key={sublink.title}>
-                                  <Link
-                                    href={
-                                      sublink.slug
-                                        ? {
-                                            pathname:
-                                              mainSlug + '/' + sublink.slug,
-                                          }
-                                        : { pathname: '' }
-                                    }
-                                    onClick={closeMenu}
-                                  >
-                                    <span className="block font-thin text-gray-300 hover:font-normal hover:text-white">
-                                      {sublink.title}
-                                    </span>
-                                  </Link>
-                                </li>
-                              ))}
-                          </ul>
+                          <div className="mb-2 -translate-y-1">
+                            <ul className="space-y-1 pl-4">
+                              {link.subsections &&
+                                link.subsections.map((sublink) => (
+                                  <li key={sublink.title}>
+                                    <Link
+                                      href={
+                                        sublink.slug
+                                          ? {
+                                              pathname:
+                                                mainSlug + '/' + sublink.slug,
+                                            }
+                                          : { pathname: '' }
+                                      }
+                                      onClick={closeMenu}
+                                    >
+                                      <span className="nav block text-xs">
+                                        {sublink.title}
+                                      </span>
+                                    </Link>
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
                         )}
                       </li>
                     );

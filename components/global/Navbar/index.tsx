@@ -4,6 +4,7 @@ import type { NavProps } from '@/types';
 import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/shared/Logo';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar({ links }: NavProps) {
   const [scrolling, setScrolling] = useState(false);
@@ -24,12 +25,12 @@ export default function Navbar({ links }: NavProps) {
   return (
     <>
       <div
-        className={`inset-x-0 top-0 origin-top bg-body-dark transition duration-300 ${
+        className={`bg-bodydark inset-x-0 top-0 origin-top transition duration-300 ${
           scrolling && 'fixed -translate-y-2'
         }`}
       >
         {/* Logo */}
-        <div className="mx-auto flex h-24 w-[90%] md:w-full lg:max-w-screen-xl md:px-4">
+        <div className="mx-auto flex h-24 w-[90%] md:w-full md:px-4 lg:max-w-screen-xl">
           <div
             className={`z-20 flex grow-0 justify-center py-4 ${
               scrolling && 'translate-y-2'
@@ -38,7 +39,11 @@ export default function Navbar({ links }: NavProps) {
             <Logo />
           </div>
 
-          <div className="z-10 grow"></div>
+          <div className="z-10 flex grow items-center justify-end">
+            <div className="pr-10">
+              <ThemeToggle />
+            </div>
+          </div>
 
           {/* Drop Menu */}
           <MobileNav links={links || []} />

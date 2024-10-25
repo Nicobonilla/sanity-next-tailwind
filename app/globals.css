@@ -60,7 +60,7 @@ body {
 
 @layer components {
   .p2 {
-    @apply text-lg font-thin text-slate-700 md:text-lg lg:text-xl dark:text-slate-100;
+    @apply font-robotomono font-extralight text-slate-700 lg:text-lg dark:text-slate-100;
   }
 }
 
@@ -74,4 +74,32 @@ body {
   .p3 {
     @apply font-montserrat font-light text-gray-600 dark:font-light dark:text-gray-200;
   }
+}
+
+@layer components {
+  .nav {
+    @apply font-robotomono text-sm font-thin text-gray-200 hover:font-light hover:text-gray-100;
+  }
+}
+
+@layer components {
+  .nav-unit-business {
+    @apply font-crimson text-xl font-medium text-red-500;
+  }
+}
+
+@layer components {
+  .nav-subsection {
+    @apply font-robotomono text-sm font-light text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
+  }
+}
+
+@layer components {
+  .nav-bg-subsection {
+    @apply dark:from-bodydark dark:to-bodydark bg-gradient-to-r from-white via-gray-200 to-white dark:bg-gradient-to-b dark:via-gray-950;
+  }
+}
+
+.t {
+  box-flex-group: rgb(8, 14, 38);
 }
