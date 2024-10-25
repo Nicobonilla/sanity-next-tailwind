@@ -63,7 +63,7 @@ export default async function RootLayout({
       <Head>
         <DarkModeScript />
       </Head>
-      <body className="dark:bg-bodydark flex min-h-screen min-w-[320px] flex-col bg-gray-100 text-gray-900 dark:text-gray-200">
+      <body className="flex min-h-screen min-w-[320px] flex-col">
         <div className="z-50 h-24">
           <Navbar links={navProps.links} />
         </div>

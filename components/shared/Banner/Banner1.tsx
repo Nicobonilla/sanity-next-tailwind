@@ -3,25 +3,8 @@ import { getBannerDataFetch } from '@/sanity/lib/fetch';
 import { GetBannerDataQueryResult } from '@/sanity.types';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
-
-// Definición de componentes para PortableText
-const components: PortableTextComponents = {
-  block: {
-    h2: ({ children }) => <h2 className="h2 relative">{children}</h2>,
-    normal: ({ children }) => <p className="p2">{children}</p>,
-  },
-  marks: {
-    strong: ({ children }) => (
-      <span className="font-extrabold dark:text-gray-300">{children}</span>
-    ),
-  },
-  list: {
-    bullet: ({ children }) => (
-      <ul className="dark:text-gray-400">{children}</ul>
-    ),
-  },
-};
-
+import { PTextBanner } from '../PortableText/PTextBanner';
+  
 export default async function Banner1() {
   let banner: GetBannerDataQueryResult | null = null;
 
@@ -62,7 +45,7 @@ export default async function Banner1() {
       <div className="lg:max-w-1/3 relative flex max-w-[470px] flex-col items-start justify-center">
         <PortableText
           value={bannerData.content || []}
-          components={components}
+          components={PTextBanner}
         />
       </div>
     </div>

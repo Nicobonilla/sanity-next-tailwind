@@ -15,10 +15,10 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-gray-100 text-gray-900 dark:bg-bodydark dark:text-gray-200;
+  }
 }
 
 @layer utilities {
@@ -54,25 +54,25 @@ body {
 
 @layer components {
   .h2 {
-    @apply mb-4 font-crimson text-4xl font-bold md:text-5xl dark:text-slate-300;
+    @apply mb-4 font-crimson text-4xl font-bold dark:text-slate-300 md:text-5xl;
   }
 }
 
 @layer components {
   .p2 {
-    @apply font-robotomono font-extralight text-slate-700 lg:text-lg dark:text-slate-100;
+    @apply font-robotomono font-light text-slate-700 dark:text-slate-100 lg:text-lg;
   }
 }
 
 @layer components {
   .h3 {
-    @apply font-crimson text-xl font-semibold sm:text-2xl md:text-xl lg:text-xl dark:text-slate-200;
+    @apply font-crimson text-xl font-semibold dark:text-slate-200 sm:text-2xl md:text-xl lg:text-xl;
   }
 }
 
 @layer components {
   .p3 {
-    @apply font-montserrat font-light text-gray-600 dark:font-light dark:text-gray-200;
+    @apply font-montserrat font-normal text-gray-600 dark:font-light dark:text-gray-200;
   }
 }
 
@@ -96,10 +96,22 @@ body {
 
 @layer components {
   .nav-bg-subsection {
-    @apply dark:from-bodydark dark:to-bodydark bg-gradient-to-r from-white via-gray-200 to-white dark:bg-gradient-to-b dark:via-gray-950;
+    @apply bg-gradient-to-r from-white via-gray-200 to-white dark:bg-gradient-to-b dark:from-bodydark dark:via-gray-950 dark:to-bodydark;
   }
 }
 
 .t {
   box-flex-group: rgb(8, 14, 38);
+}
+
+@layer components {
+  .form-h {
+    @apply h-[800px] md:h-[600px] lg:h-[600px];
+  }
+}
+
+@layer components {
+  .form-input {
+    @apply w-full rounded border border-gray-300 p-1 pl-10 text-sm;
+  }
 }

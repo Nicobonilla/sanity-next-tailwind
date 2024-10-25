@@ -1,25 +1,24 @@
-import { User, Mail, Phone } from 'lucide-react';
+import Icon from '@/components/shared/Icon';
 
 export default function Form() {
   function handlerClick() {}
-  const color = 'gray';
   return (
-    <div className="relative mx-auto flex h-[700px] flex-col items-center gap-10 overflow-hidden bg-gray-100 p-8 text-slate-700 md:flex-row md:justify-center lg:h-[600px] dark:text-slate-700">
-      <div className="relative z-10 max-w-md md:w-1/2">
-        <h2 className="text-xl font-bold text-red-600 dark:text-red-600">
+    <div className="form-h relative mx-auto flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-700 md:flex-row md:justify-center">
+      <div className="relative z-10 max-w-md dark:text-slate-200 md:w-1/2">
+        <h2 className="text-xl font-bold text-red-600 dark:text-red-500">
           Desarrollo de Software
         </h2>
         <h2 className="mb-4 text-3xl font-bold">
           Creamos alianzas para ser tu socio tecnológico
         </h2>
-        <p>
+        <p className="">
           Nuestro objetivo es diseñar el servicio adecuado a tus necesidades,
           oportunidades y posibilidades. Con visión estratégica para mejorar los
           resultados de tu empresa
         </p>
       </div>
 
-      <div className="relative z-20 mt-4 w-full max-w-md md:w-1/2">
+      <div className="relative z-20 mt-4 w-full max-w-md text-slate-700 md:w-1/2">
         <form className="relative rounded-lg bg-white p-6 shadow-md">
           <h3 className="mb-4 text-center text-xl font-semibold">
             ¿Quieres Recibir Más Información?
@@ -27,52 +26,40 @@ export default function Form() {
           <p className="mb-4 text-center text-gray-500">
             Un ejecutivo se contactará contigo
           </p>
+          <div className="text-gray-500">
+            <div className="relative mt-4">
+              <Icon name="user" size={18} className="absolute left-3 top-1" />
+              <input
+                type="text"
+                id="name"
+                placeholder="Nombre"
+                required
+                className="form-input"
+              />
+            </div>
 
-          <div className="relative mt-4">
-            <User
-              color={color}
-              size={18}
-              className="absolute left-3 top-1 text-gray-500"
-            />
-            <input
-              type="text"
-              id="name"
-              placeholder="Nombre"
-              required
-              className="w-full rounded border border-gray-300 p-1 pl-10 text-sm"
-            />
+            <div className="relative mt-4">
+              <Icon name="mail" size={18} className="absolute left-3 top-1" />
+              <input
+                placeholder="Email"
+                type="email"
+                id="email"
+                required
+                className="form-input"
+              />
+            </div>
+
+            <div className="relative mt-4">
+              <Icon name="phone" size={18} className="absolute left-3 top-1" />
+              <input
+                placeholder="Teléfono"
+                type="tel"
+                id="phone"
+                required
+                className="form-input"
+              />
+            </div>
           </div>
-
-          <div className="relative mt-4">
-            <Mail
-              color={color}
-              size={18}
-              className="absolute left-3 top-1 text-gray-500"
-            />
-            <input
-              placeholder="Email"
-              type="email"
-              id="email"
-              required
-              className="w-full rounded border border-gray-300 p-1 pl-10 text-sm"
-            />
-          </div>
-
-          <div className="relative mt-4">
-            <Phone
-              color={color}
-              size={18}
-              className="absolute left-3 top-1 text-gray-500"
-            />
-            <input
-              placeholder="Teléfono"
-              type="tel"
-              id="phone"
-              required
-              className="w-full rounded border border-gray-300 p-1 pl-10 text-sm"
-            />
-          </div>
-
           <div className="mt-4">
             <label
               className="mb-1 block text-sm font-bold"
@@ -82,7 +69,7 @@ export default function Form() {
             </label>
             <select
               id="desarrollo-informatico"
-              className="w-full rounded border border-gray-300 p-1 text-sm"
+              className="form-input pl-1"
               required
             >
               <option>Selecciona una Opción</option>
