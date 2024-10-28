@@ -25,7 +25,7 @@ export default function Navbar({ links }: NavProps) {
   return (
     <>
       <div
-        className={`bg-bodydark inset-x-0 top-0 origin-top transition duration-300 ${
+        className={`inset-x-0 top-0 origin-top bg-bodydark transition duration-300 ${
           scrolling && 'fixed -translate-y-2'
         }`}
       >

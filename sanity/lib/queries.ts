@@ -65,3 +65,11 @@ export const getBannerDataQuery = defineQuery(
     image
   }`
 );
+
+export const getPagesQuery = defineQuery(groq`*[_type == 'page']{
+  "id": _id,
+  "title": title,
+  "slug" : '/'+slug.current,
+  position,
+  content
+}`);

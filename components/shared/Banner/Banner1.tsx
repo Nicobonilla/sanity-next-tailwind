@@ -6,6 +6,7 @@ import { urlForImage } from '@/sanity/lib/utils';
 import { PTextBanner } from '../PortableText/PTextBanner';
   
 export default async function Banner1() {
+  
   let banner: GetBannerDataQueryResult | null = null;
 
   try {

@@ -1,8 +1,9 @@
 import { GetServicesNavQueryResult } from '@/sanity.types';
 import type { Links } from '@/types';
+import { GetPagesQueryResult } from '../../../sanity.types';
 
 // Función para formatear los servicios en Links[]
-export function formatServices(
+export function formatService(
   servicesList: GetServicesNavQueryResult
 ): Links[] {
   return servicesList.map((service) => ({
@@ -16,5 +17,14 @@ export function formatServices(
           slug: service.unitBusiness.slug || undefined, // Usa undefined si slug es null
         }
       : null, // Si unitBusiness no existe, establece como null
+  }));
+}
+
+export function formatPages(pagesList: GetPagesQueryResult): Links[] {
+  return pagesList.map((page) => ({
+    id: page.slug || '', // Usa un string vacío si slug es null
+    title: page.title || '', // Usa un string vacío si title es null
+    slug: page.slug || undefined, // Usa undefined si slug es null
+    position: page.position || undefined,
   }));
 }

@@ -1,12 +1,13 @@
 import '../globals.css';
 import Navbar from '@/components/global/Navbar';
-
 import Footer from '@/components/global/Footer';
-import { getServicesNavFetch } from '@/sanity/lib/fetch';
-import type { NavProps } from '@/types';
-import { formatServices } from '@/components/pages/services/formatService';
+import { getPagesFetch, getServicesNavFetch } from '@/sanity/lib/fetch';
+import { formatService, formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import Head from 'next/head';
+import { GoogleTagManager } from '@next/third-parties/google';
+import GTMGlobals from '@/components/lib/GTMGlobals';
+import type { Links } from '@/types';
 import {
   inter,
   robotoFlex,
@@ -14,6 +15,11 @@ import {
   montserrat,
   robotoMono,
 } from '@/components/global/fonts';
+import {
+  GetPagesQueryResult,
+  GetServiceDetailQueryResult,
+  GetServicesNavQueryResult,
+} from '@/sanity.types';
 
 export { metadata, viewport } from 'next-sanity/studio';
 
@@ -22,38 +28,39 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const servicesList = (await getServicesNavFetch()) || null;
+  // Fetch data for pages and services
+  const pages: GetPagesQueryResult | null = await getPagesFetch();
+  const servicesList: GetServicesNavQueryResult | null =
+    await getServicesNavFetch();
 
-  if (!servicesList) {
-    return <div>Lista de servicios no encontrados</div>;
+  // Handle cases where data is not available
+  if (!pages) {
+    return <div>Lista de páginas no encontrada</div>;
   }
 
-  const formattedList = formatServices(servicesList);
-  const navProps: NavProps = {
-    links: [
-      {
-        id: '1',
-        title: 'INICIO',
-        slug: '/',
-      },
-      {
-        id: '2',
-        title: 'SERVICIOS',
-        slug: '/services',
-        subsections: formattedList, // Aquí usamos `formattedServices` que es un array de `Links`
-      },
-      {
-        id: '5',
-        title: 'PRECIOS',
-        slug: '/debes-saber-abogado-familiar',
-      },
-      {
-        id: '6',
-        title: 'CONTACTO',
-        slug: '/contacto-abogado-familiar-san-felipe',
-      },
-    ],
-  };
+  if (!servicesList) {
+    return <div>Lista de servicios no encontrada</div>;
+  }
+
+  // Format pages and services data
+  let pagesLink: Links[] = formatPages(pages);
+
+  // Filtrar páginas y ordenarlas
+  pagesLink = pagesLink.map((page) => {
+    if (page && page.title && page.title.toLowerCase() === 'servicios') {
+      return {
+        ...page,
+        subsections: formatService(servicesList),
+      };
+    }
+    return page;
+  });
+
+  pagesLink = pagesLink
+    .filter((page): page is Links => !!page && page.position != null)
+    .sort((a, b) => a?.position! - b?.position!); // Aserción no nula
+
+  console.log(pagesLink);
 
   return (
     <html
@@ -63,9 +70,12 @@ export default async function RootLayout({
       <Head>
         <DarkModeScript />
       </Head>
+      {/* Uncomment the following lines if Google Tag Manager is used */}
+      <GTMGlobals />
+      <GoogleTagManager gtmId={process.env.GTM || ''} />
       <body className="flex min-h-screen min-w-[320px] flex-col">
         <div className="z-50 h-24">
-          <Navbar links={navProps.links} />
+          <Navbar links={pagesLink || null} />
         </div>
         <main className="flex-grow">{children}</main>
         <Footer />

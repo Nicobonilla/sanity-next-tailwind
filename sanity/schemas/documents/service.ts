@@ -24,7 +24,7 @@ export default defineType({
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Detalles del servicio',
       type: 'array',
       of: [
         { type: 'block' },
@@ -35,7 +35,7 @@ export default defineType({
     }),
     defineField({
       name: 'unitBusiness',
-      title: 'Unidad de Negocio - Servicios Informáticos',
+      title: 'Unidad de Negocio',
       type: 'reference',
       to: [{ type: 'unitBusiness' }],
       description: 'Select the unit business this service belongs to',

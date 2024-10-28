@@ -10,7 +10,7 @@ const bannerSchema = defineType({
       type: 'array',
       title: 'Contenido del Banner',
       of: [{ type: 'block' }], // Portable Text
-      validation: (Rule) => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'image',
@@ -19,7 +19,7 @@ const bannerSchema = defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
   ],
 });

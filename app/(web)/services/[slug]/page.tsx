@@ -43,8 +43,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <article>
-      {/* <Breadcrumbs /> */}
-
+      {/*<Breadcrumbs
+        servicios={{
+          label: service.title,
+          href: '/servicios',
+          slug: params.slug,
+        }}
+      /> */}
       <h1 className="h2 mb-6">{service.title}</h1>
 
       <div className="flex flex-col gap-14 md:flex-row">

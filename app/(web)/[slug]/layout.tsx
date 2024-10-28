@@ -9,7 +9,6 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <Form />
       <div className="container mx-auto max-w-screen-xl px-5 py-8 md:px-10">
         {children}
       </div>

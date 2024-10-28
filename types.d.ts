@@ -1,3 +1,4 @@
+import { PortableTextBlock } from 'next-sanity';
 import { UrlObject } from 'url';
 
 export type UniteBusiness = {
@@ -8,14 +9,17 @@ export type UniteBusiness = {
 
 export type Links = {
   id?: string; // Puede ser undefined o string
-  title?: string; // Puede ser undefined o string
-  slug?: string; // Puede ser undefined o string
-  subsections?: Links[]; // Puede ser undefined o un array de Links
-  unitBusiness?: UniteBusiness; // Puede ser undefined o null
-};
+  title?: string | null; // Puede ser undefined o string
+  slug?: string | null; // Puede ser undefined o string
+  subsections?: Links[] | null; // Puede ser undefined o un array de Links
+  unitBusiness?: UniteBusiness | null; // Puede ser undefined o null
+  content?: PortableTextBlock | null; // Puede ser undefined o string
+  position?: number | null;
+} | null;
 
+// Updated NavProps type without null
 export type NavProps = {
-  links: Links[];
+  links: Links[]; // links should always be an array
 };
 
 export interface ServiceItem {

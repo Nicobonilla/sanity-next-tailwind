@@ -1,3 +1,5 @@
+'use client';
+
 import { NavProps } from "@/types";
 import DrawerNAv from './DrawerNav'
 
