@@ -17,9 +17,9 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
   // Agrupar servicios por unidad de negocio
   const groupedServices = links.reduce(
     (acc, service) => {
-      if (service.subsections) {
+      if (service?.subsections) {
         service.subsections.forEach((subsection) => {
-          if (subsection.unitBusiness) {
+          if (subsection?.unitBusiness) {
             const { title } = subsection.unitBusiness; // Asumiendo que unitBusiness tiene un título
             if (title) {
               if (!acc[title]) {
@@ -62,7 +62,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
           activeLink === link.title && (
             <div
               key={link.title}
-              className="absolute left-0 z-50 h-56 w-screen nav-bg-subsection"
+              className="nav-bg-subsection absolute left-0 z-50 h-56 w-screen"
               onMouseEnter={() => handleMouseEnter(link.title || '')}
               onMouseLeave={handleMouseLeave}
             >
