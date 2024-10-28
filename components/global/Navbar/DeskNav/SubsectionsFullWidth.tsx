@@ -40,14 +40,14 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
       <ul className="flex h-24 items-center">
         {links?.map((link) => (
           <li
-            key={link.title}
+            key={link?.title}
             className="group relative flex h-24 cursor-pointer items-center px-4 2xl:px-8"
-            onMouseEnter={() => handleMouseEnter(link.title || '')}
+            onMouseEnter={() => handleMouseEnter(link?.title || '')}
             onMouseLeave={handleMouseLeave}
           >
-            <Link href={{ pathname: link.slug }} passHref>
+            <Link href={{ pathname: link?.slug }} passHref>
               <span className="nav inline-flex items-center justify-center">
-                {link.title}
+                {link?.title}
               </span>
               <div className="absolute w-0 border-b-2 border-red-700 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-[70%] group-hover:xl:w-2/5"></div>
             </Link>
@@ -57,7 +57,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
 
       {links?.map(
         (link) =>
-          link.subsections &&
+          link?.subsections &&
           link.subsections?.length > 0 &&
           activeLink === link.title && (
             <div
@@ -73,7 +73,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                       console.log(link.slug);
                       const mainSlug = link.slug || '';
                       const servicesForBusiness = groupedServices[businessName];
-                      const business = servicesForBusiness[0].unitBusiness; // Obtener información de negocio del primer servicio
+                      const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
                       return (
                         <div
                           key={businessName}
@@ -89,14 +89,16 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                             </div>
                           )}
                           <ul className="mt-2 flex flex-col">
-                            {servicesForBusiness.map(({ title, slug }) => (
-                              <li key={title}>
+                            {servicesForBusiness.map((service, index) => (
+                              <li key={service?.slug}>
                                 <Link
-                                  href={{ pathname: mainSlug + '/' + slug }}
+                                  href={{
+                                    pathname: mainSlug + '/' + service?.slug,
+                                  }}
                                   passHref
                                   className="nav-subsection block"
                                 >
-                                  {title}
+                                  {service?.title}
                                 </Link>
                               </li>
                             ))}
