@@ -49,7 +49,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
               <span className="nav inline-flex items-center justify-center">
                 {link?.title}
               </span>
-              <div className="absolute w-0 border-b-2 border-red-700 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-[70%] group-hover:xl:w-2/5"></div>
+              <div className="absolute w-0 border-b-2 border-red-700 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-[80%] group-hover:xl:w-[70%] group-hover:2xl:w-[60%]"></div>
             </Link>
           </li>
         ))}
