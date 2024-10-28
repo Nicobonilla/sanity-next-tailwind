@@ -7,31 +7,6 @@ import { PTServices } from '@/components/shared/PortableText/PTServices';
 import Banner from '@/components/shared/Banner/Banner1';
 import type { Banner as BannerType } from '@/sanity.types';
 
-export async function generateMetadata(): Promise<Metadata>  {
-  let page: GetPagesQueryResult | null = null;
-
-  const fetchedData = await getPagesFetch();
-  if (
-    fetchedData !== null &&
-    Array.isArray(fetchedData) &&
-    fetchedData.length > 0
-  ) {
-    page = fetchedData; // Asignar el primer elemento si los datos existen
-  } else {
-    console.error('Los datos obtenidos son nulos o no válidos');
-  }
-
-  if (page) {
-    return {
-      title: page[0]?.name,
-      openGraph: {
-        title: page[0]?.name || 'TRH Web',
-        type: 'article',
-      },
-    };
-  }
-}
-
 export default async function Page({ params }: { params: { slug: string } }) {
   let page: GetPagesQueryResult | null = null;
 
@@ -56,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <article>
-      <h1 className="h2 mb-6">{page[0].name}</h1>
+      <h1 className="h2 mb-6">{page[0].title}</h1>
 
       <div className="flex flex-col gap-14 md:flex-row">
         {/* Main Content: Ensure main content is on the left */}
