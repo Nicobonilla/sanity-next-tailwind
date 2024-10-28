@@ -80,7 +80,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           {/* Mobile Menu Drawer */}
           <div
             id="mobile-menu"
-            className={`mobile-nav-drawer bg-bodydark dark:bg-bodydark fixed right-0 top-0 z-50 h-screen transform overflow-y-auto shadow-lg transition-transform duration-300 ease-in-out ${
+            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen transform overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out dark:bg-bodydark ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
@@ -91,8 +91,8 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               <ul className="items-center divide-y divide-gray-700">
                 {links.map((link) => {
                   // Verificamos que link.title exista antes de renderizar
-                  const mainSlug = link.slug || '';
-                  if (link.title) {
+                  const mainSlug = link?.slug || '';
+                  if (link?.title) {
                     return (
                       <li key={link.title}>
                         <button
@@ -115,10 +115,10 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                             <ul className="space-y-1 pl-4">
                               {link.subsections &&
                                 link.subsections.map((sublink) => (
-                                  <li key={sublink.title}>
+                                  <li key={sublink?.slug}>
                                     <Link
                                       href={
-                                        sublink.slug
+                                        sublink?.slug
                                           ? {
                                               pathname:
                                                 mainSlug + '/' + sublink.slug,
@@ -128,7 +128,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                                       onClick={closeMenu}
                                     >
                                       <span className="nav block text-xs">
-                                        {sublink.title}
+                                        {sublink?.title}
                                       </span>
                                     </Link>
                                   </li>
