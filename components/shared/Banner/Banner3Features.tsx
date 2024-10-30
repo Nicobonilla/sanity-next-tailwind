@@ -13,7 +13,10 @@ export default function Banner3Features({ data }: { data: Component }) {
         data.map(
           (component, index) =>
             component && (
-              <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
+              <div
+                key={index}
+                className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl"
+              >
                 <h2 className="h2 mb-6 text-center uppercase">
                   {component.title ? component.title : 'Title'}
                 </h2>
