@@ -2,6 +2,7 @@ import Banner1 from '@/components/shared/Banner/Banner1';
 import { HeroImage } from '@/components/shared/Banner/HeroImage';
 import { BannerData } from '@/sanity/fetchs/bannerFetch';
 import { getCurrentPage, getHomeData } from '@/sanity/fetchs/pagesFetch';
+import type { Component } from '@/sanity/fetchs/pagesFetch';
 import Banner3Features from '@/components/shared/Banner/Banner3Features';
 import IconList from '@/components/shared/Card/ServiceIconList';
 import { Highlight1 } from '@/components/shared/Highlight1';
@@ -10,12 +11,10 @@ import { PortableText } from 'next-sanity';
 import { type Page } from '@/sanity/fetchs/pagesFetch';
 
 export default async function PageTemplate({ service }: { service?: string }) {
-  let currentPage: Page = null;
-  if (service) {
-    currentPage = await getCurrentPage(service);
-  } else {
-    currentPage = await getHomeData();
-  }
+  const currentPage: Page | null | undefined = service
+    ? await getCurrentPage(service)
+    : await getHomeData();
+
   console.log('currentPage', currentPage);
   if (!currentPage) {
     return <div>Error al cargar la lista de páginas.</div>;
@@ -29,7 +28,7 @@ export default async function PageTemplate({ service }: { service?: string }) {
     (comp) => comp.typeComponent === 'heroImage'
   );
 
-  const banner3Features = currentPage.components?.find(
+  const banner3Features = currentPage.components?.filter(
     (comp) => comp.typeComponent === 'banner3Features'
   );
 
@@ -43,7 +42,7 @@ export default async function PageTemplate({ service }: { service?: string }) {
       )}
       {banner3Features && (
         <div className="mb-5 py-10 lg:mb-20">
-          <Banner3Features data={banner3Features as BannerData} />
+          <Banner3Features data={banner3Features as Component} />
         </div>
       )}
       <IconList services={mockServices} />

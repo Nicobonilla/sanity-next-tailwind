@@ -1,20 +1,12 @@
 import Image from 'next/image';
-import type { Banner3FeaturesItemData } from '@/sanity/fetchs/bannerFetch';
+import { type Item } from '@/sanity/fetchs/pagesFetch';
 import { urlForImage } from '../../../sanity/lib/utils';
 
-export default function ItemBanner({
-  items,
-}: {
-  items: Banner3FeaturesItemData[];
-}) {
+export default function ItemBanner({ items }: { items: Item[] }) {
   if (!items || items.length === 0 || undefined) {
     return <p>No items available</p>;
   }
-  const Item: React.FC<Banner3FeaturesItemData> = ({
-    image,
-    title,
-    description,
-  }: Banner3FeaturesItemData) => {
+  const Item: React.FC<Item> = ({ image, title, description }: Item) => {
     return (
       <div className="mb-10 flex flex-col items-center text-center md:mb-0">
         <div className="relative flex h-[200px] w-full max-w-[380px] justify-center md:h-[160px] md:max-w-[300px] lg:h-[200px] lg:max-w-[300px]">
