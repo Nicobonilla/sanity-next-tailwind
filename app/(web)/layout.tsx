@@ -76,7 +76,7 @@ export default async function RootLayout({
         <div className="z-50 h-24">
           <Navbar links={pagesLink || null} />
         </div>
-        <main className="flex grow">{children}</main>
+        <main className="grow flex-col">{children}</main>
         <Footer />
       </body>
     </html>
