@@ -60,8 +60,7 @@ export default async function RootLayout({
     .filter((page): page is Links => !!page && page.position != null)
     .sort((a, b) => a?.position! - b?.position!); // Aserción no nula
 
-  console.log(pagesLink);
-
+  console.log('pagesLink: ', pagesLink);
   return (
     <html
       lang="es"

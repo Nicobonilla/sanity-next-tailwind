@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { Links, NavProps } from '@/types';
 import Link from 'next/link';
 import Icon from '@/components/shared/Icon';
+import { usePathname } from 'next/navigation';
 
 export default function SubsectionsFullWidth({ links }: NavProps) {
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  const handleMouseEnter = (title: string) => {
-    setActiveLink(title);
+  const path = usePathname();
+  const handleMouseEnter = (slug: string) => {
+    setActiveLink(slug);
   };
 
   const handleMouseLeave = () => {
@@ -45,7 +47,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
             onMouseEnter={() => handleMouseEnter(link?.title || '')}
             onMouseLeave={handleMouseLeave}
           >
-            <Link href={{ pathname: link?.slug }} passHref>
+            <Link href={{ pathname: `/${link?.slug}` }} passHref>
               <span className="nav inline-flex items-center justify-center">
                 {link?.title}
               </span>
@@ -70,8 +72,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                 <div className={`flex flex-row gap-8`}>
                   {groupedServices &&
                     Object.keys(groupedServices).map((businessName) => {
-                      console.log(link.slug);
-                      const mainSlug = link.slug || '';
+                      console.log('link.slug: ', link.slug);
                       const servicesForBusiness = groupedServices[businessName];
                       const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
                       return (
@@ -93,7 +94,10 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                               <li key={service?.slug}>
                                 <Link
                                   href={{
-                                    pathname: mainSlug + '/' + service?.slug,
+                                    pathname:
+                                      path.split('/')[1] == link.slug
+                                        ? service?.slug
+                                        : `${link?.slug}/${service?.slug}`,
                                   }}
                                   passHref
                                   className="nav-subsection block"

@@ -1,76 +1,30 @@
 import React from 'react';
-import Image from 'next/image';
+import ItemBanner from '@/components/shared/Banner/ItemBanner';
+import type { BannerData } from '@/sanity/fetchs/bannerFetch';
 
-interface FeatureSectionProps {
-  title: string;
-  description: string;
-  imageSrc: string;
-  imageAlt: string;
-}
+export default function Banner3Features({ data }: { data: BannerData | null }) {
+  if (!data) {
+    return <div>Error al cargar el banner.</div>;
+  }
 
-const FeatureSection: React.FC<FeatureSectionProps> = ({
-  title,
-  description,
-  imageSrc,
-  imageAlt,
-}) => (
-  <div className="mb-10 flex flex-col items-center text-center md:mb-0">
-    <div className="relative flex h-[200px] w-full max-w-[380px] justify-center md:h-[160px] md:max-w-[300px] lg:h-[200px] lg:max-w-[300px]">
-      {/* Efecto degradado */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-gray-200 to-transparent"></div>
-      <Image
-        src={imageSrc}
-        alt={imageAlt}
-        fill
-        className="relative z-10 object-contain p-2 md:pt-5"
-      />
-    </div>
-    <h3 className="h3 mt-4 md:max-w-[280px]">{title}</h3>
-    <p className="p3 mt-2 md:max-w-[300px]">{description}</p>
-  </div>
-);
+  if (data.typeComponent !== 'banner3Features') {
+    return <div>Banner no es de tipo 3Features</div>;
+  }
 
-const MobileFeatures: React.FC = () => {
-  const features: FeatureSectionProps[] = [
-    {
-      title: 'Responsive Mobile Solutions',
-      description:
-        'Enjoy consistent and engaging experiences across devices with our mobile-friendly solutions.',
-      imageSrc: '/f_01.png',
-      imageAlt: 'Mobile design',
-    },
-    {
-      title: 'E-Commerce Excellence',
-      description:
-        'Elevate your online store with user-friendly interfaces and secure payment gateways.',
-      imageSrc: '/f_02.png',
-      imageAlt: 'E-commerce icons',
-    },
-    {
-      title: 'Dynamic Content Platforms',
-      description:
-        'Empower content creators with dynamic platforms fostering engagement and personalization.',
-      imageSrc: '/f_03.png',
-      imageAlt: 'Content platform analytics',
-    },
-  ];
-
+  if (!data.items || data.items.length === 0) {
+    return <p>No items available</p>;
+  }
+  
   return (
     <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
-      <h2 className="h2 mb-6 text-center uppercase">
-        Empowerment at Your Fingertips
-      </h2>
+      <h2 className="h2 mb-6 text-center uppercase">{data.title || 'Title'}</h2>
       <p className="p2 mb-10 w-full text-center md:w-3/4">
-        Explore the range of industries we&apos;ve served and the impactful
-        solutions we&apos;ve crafted for our clients.
+        {data.description || 'Description'}
       </p>
-      <div className="container grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
-        {features.map((feature, index) => (
-          <FeatureSection key={index} {...feature} />
-        ))}
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
+        <ItemBanner items={data.items as BannerData} />
       </div>
     </div>
   );
-};
-
-export default MobileFeatures;
+}

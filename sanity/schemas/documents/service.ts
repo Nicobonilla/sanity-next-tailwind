@@ -40,5 +40,12 @@ export default defineType({
       to: [{ type: 'unitBusiness' }],
       description: 'Select the unit business this service belongs to',
     }),
+    defineField({
+      name: 'components',
+      title: 'Componentes',
+      type: 'reference',
+      to: [{ type: 'banner' }],
+      description: 'Agrega un banner para este servicio',
+    }),
   ],
 });

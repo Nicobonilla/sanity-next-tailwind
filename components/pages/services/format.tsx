@@ -24,7 +24,7 @@ export function formatPages(pagesList: GetPagesQueryResult): Links[] {
   return pagesList.map((page) => ({
     id: page.slug || '', // Usa un string vacío si slug es null
     title: page.title || '', // Usa un string vacío si title es null
-    slug: page.slug || undefined, // Usa undefined si slug es null
+    slug: page.isHome ? '' : page.slug || undefined, // Usa undefined si slug es null
     position: page.position || undefined,
   }));
 }

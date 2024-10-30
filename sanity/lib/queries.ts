@@ -61,15 +61,32 @@ export const getServicesNavQuery = defineQuery(
 
 export const getBannerDataQuery = defineQuery(
   groq`*[_type == 'banner']{
+    title,
+    description,
     content,
-    image
+    image,
+    typeComponent,
+    items
   }`
 );
 
 export const getPagesQuery = defineQuery(groq`*[_type == 'page']{
   "id": _id,
   "title": title,
-  "slug" : '/'+slug.current,
+  "slug" : slug.current,
   position,
-  content
+  content,
+  components,
+  "isHome": isHome
+}`);
+
+export const getItemsQuery = defineQuery(groq`*[_type == 'item']{
+  "id": _id,
+  "title": title,
+  description,
+  isActive,
+  image,
+  alt,
+  position,
+  content,
 }`);
