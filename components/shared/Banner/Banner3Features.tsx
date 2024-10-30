@@ -1,8 +1,8 @@
 import React from 'react';
 import ItemBanner from '@/components/shared/Banner/ItemBanner';
-import type { BannerData } from '@/sanity/fetchs/bannerFetch';
+import type { BannerData, ItemData } from '@/sanity/fetchs/bannerFetch';
 
-export default function Banner3Features({ data }: { data: BannerData | null }) {
+export default function Banner3Features({ data }: { data: BannerData }) {
   if (!data) {
     return <div>Error al cargar el banner.</div>;
   }
@@ -11,10 +11,10 @@ export default function Banner3Features({ data }: { data: BannerData | null }) {
     return <div>Banner no es de tipo 3Features</div>;
   }
 
-  if (!data.items || data.items.length === 0) {
+  if (!data.items || data.items.length === 0 || data.items === null) {
     return <p>No items available</p>;
   }
-  
+
   return (
     <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
       <h2 className="h2 mb-6 text-center uppercase">{data.title || 'Title'}</h2>
@@ -23,7 +23,7 @@ export default function Banner3Features({ data }: { data: BannerData | null }) {
       </p>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
-        <ItemBanner items={data.items as BannerData} />
+        <ItemBanner items={data.items as ItemData} />
       </div>
     </div>
   );

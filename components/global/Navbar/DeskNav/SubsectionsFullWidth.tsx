@@ -86,7 +86,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
                                 <Icon name={business.icon} className="size-6" />
                               )}
                               <span>{business.title}</span>
-                              <div className="flex-grow border-b border-gray-300 dark:border-gray-600" />
+                              <div className="flex grow border-b border-gray-300 dark:border-gray-600" />
                             </div>
                           )}
                           <ul className="mt-2 flex flex-col">
