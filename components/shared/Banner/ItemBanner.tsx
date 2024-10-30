@@ -2,10 +2,11 @@ import Image from 'next/image';
 import { type Item } from '@/sanity/fetchs/pagesFetch';
 import { urlForImage } from '../../../sanity/lib/utils';
 
-export default function ItemBanner({ items }: { items: Item[] }) {
-  if (!items || items.length === 0 || undefined) {
+export default function ItemBanner({ items }: { items: Item[] | null }) {
+  if (!items || items.length === 0) {
     return <p>No items available</p>;
   }
+
   const Item: React.FC<Item> = ({ image, title, description }: Item) => {
     return (
       <div className="mb-10 flex flex-col items-center text-center md:mb-0">
