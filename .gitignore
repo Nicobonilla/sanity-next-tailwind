@@ -50,3 +50,4 @@ next-env.d.ts
 /components/shared/empty
 /components/Banner.tsx
 /components/global/Navbar/DeskNav/SubsectionsFullWidth1.tsx
+/components/shared/Card/BasicImageCard
