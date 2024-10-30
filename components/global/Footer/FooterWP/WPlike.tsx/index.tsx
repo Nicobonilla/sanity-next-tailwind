@@ -12,7 +12,7 @@ export default function WPlike() {
   return (
     <>
       <div className="text-x bg-menuColor2/80 p-2 text-white">
-        <div className="container mx-auto my-auto flex flex-col justify-center lg:flex-row">
+        <div className="container m-auto flex flex-col justify-center lg:flex-row">
           <div className="my-auto flex flex-col md:flex-row">
             <div className="flex flex-col md:w-1/2">
               <div className="mt-10 flex items-center justify-center">
@@ -63,7 +63,6 @@ export default function WPlike() {
           </div>
         </div>
       </div>
-      
     </>
   );
 }

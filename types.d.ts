@@ -1,5 +1,6 @@
 import { PortableTextBlock } from 'next-sanity';
 import { UrlObject } from 'url';
+import { Item, Banner } from './sanity.types';
 
 export type UniteBusiness = {
   title?: string; // Puede ser undefined o string
@@ -33,4 +34,17 @@ export interface ServiceItem {
   title: string;
   img?: string;
   description?: string;
+}
+
+export interface ItemBannerType {
+  title?: string;
+  description?: string;
+  image?: UrlObject;
+}
+
+export interface BannerData {
+  title?: string;
+  description?: string;
+  typeComponent?: 'banner3Features';
+  items?: ItemBannerType[];
 }
