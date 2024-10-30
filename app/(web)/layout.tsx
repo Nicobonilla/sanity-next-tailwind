@@ -17,7 +17,6 @@ import {
 } from '@/components/global/fonts';
 import {
   GetPagesQueryResult,
-  GetServiceDetailQueryResult,
   GetServicesNavQueryResult,
 } from '@/sanity.types';
 
