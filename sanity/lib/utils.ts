@@ -9,12 +9,20 @@ const imageBuilder = createImageUrlBuilder({
   dataset: dataset || '',
 });
 
-export const urlForImage = (source: any) => {
+export const urlForImage = (
+  source: { asset?: { _ref?: string } } | null | undefined
+) => {
   // Ensure that source image contains a valid reference
   if (!source?.asset?._ref) {
-    return undefined;
+    // If there's no valid reference, create a fallback source
+    source = {
+      asset: {
+        _ref: 'image-aa5cf84793776bbe4a334f44bd118fb6e057d26f-667x658-jpg',
+      },
+    };
   }
 
+  // Return the URL for the image
   return imageBuilder?.image(source).auto('format').fit('max');
 };
 

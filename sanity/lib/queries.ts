@@ -70,23 +70,28 @@ export const getBannerDataQuery = defineQuery(
   }`
 );
 
-export const getPagesQuery = defineQuery(groq`*[_type == 'page']{
-  "id": _id,
+export const getPagesQuery = defineQuery(groq`
+  *[_type == 'page'] {
+    "id": _id,
   "title": title,
-  "slug" : slug.current,
+  "slug": slug.current,
   position,
   content,
-  components,
+  components[] {
+    title,
+    description,
+    content,
+    image,
+    typeComponent,
+    items[] {
+      title,
+      description,
+      isActive,
+      image,
+      alt,
+      position,
+      content
+    }
+  },
   "isHome": isHome
-}`);
-
-export const getItemsQuery = defineQuery(groq`*[_type == 'item']{
-  "id": _id,
-  "title": title,
-  description,
-  isActive,
-  image,
-  alt,
-  position,
-  content,
 }`);

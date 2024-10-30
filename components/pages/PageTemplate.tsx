@@ -20,13 +20,6 @@ export default async function PageTemplate({ service }: { service?: string }) {
   if (!currentPage) {
     return <div>Error al cargar la lista de páginas.</div>;
   }
-  const banner = currentPage.components?.find(
-    (comp) => comp._type === 'banner'
-  );
-
-  if (!banner) {
-    return <div>Error al cargar los banners.</div>;
-  }
 
   const banner1 = currentPage.components?.find(
     (comp) => comp.typeComponent === 'banner1'

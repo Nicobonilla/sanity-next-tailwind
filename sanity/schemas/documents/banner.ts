@@ -46,6 +46,7 @@ const banner = defineType({
       title: 'Items',
       type: 'array',
       of: [{ type: 'item' }],
+      hidden: ({ parent }) => parent?.typeComponent !== 'banner3Features',
     }),
   ],
 });

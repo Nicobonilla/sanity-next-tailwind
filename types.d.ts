@@ -32,19 +32,6 @@ export interface ServiceItem {
     | 'mail'
     | 'code'; // Definir los nombres de los íconos disponibles
   title: string;
-  img?: string;
+  img?: UrlObject | string;
   description?: string;
-}
-
-export interface ItemBannerType {
-  title?: string;
-  description?: string;
-  image?: UrlObject;
-}
-
-export interface BannerData {
-  title?: string;
-  description?: string;
-  typeComponent?: 'banner3Features';
-  items?: ItemBannerType[];
 }

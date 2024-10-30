@@ -35,7 +35,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="bg-bodydark relative flex h-6 w-12 items-center rounded-full border border-gray-500 p-1"
+      className="relative flex h-6 w-12 items-center rounded-full border border-gray-500 bg-bodydark p-1"
     >
       {/* Iconos estáticos del sol y la luna */}
       <span className="absolute left-1">
@@ -47,7 +47,7 @@ const ThemeToggle = () => {
 
       {/* Círculo deslizante que cambia según el tema */}
       <div
-        className={`bg-bodydark size-4 transform rounded-full border border-gray-500 transition-transform duration-300 ease-in-out ${
+        className={`size-4 rounded-full border border-gray-500 bg-bodydark transition-transform duration-300 ease-in-out ${
           isDark ? 'translate-x-6' : ''
         }`}
       ></div>

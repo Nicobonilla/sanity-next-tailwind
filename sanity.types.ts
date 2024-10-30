@@ -625,6 +625,17 @@ export type Settings = {
     metadataBase?: string;
     _type: 'image';
   };
+  notFoundImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
 };
 
 export type SanityImageCrop = {
@@ -909,6 +920,17 @@ export type SettingsQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     metadataBase?: string;
+    _type: 'image';
+  };
+  notFoundImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
     _type: 'image';
   };
 } | null;
@@ -1228,7 +1250,7 @@ export type GetBannerDataQueryResult = Array<{
   }> | null;
 }>;
 // Variable: getPagesQuery
-// Query: *[_type == 'page']{  "id": _id,  "title": title,  "slug" : slug.current,  position,  content,  components,  "isHome": isHome}
+// Query: *[_type == 'page'] {    "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[] {    title,    description,    content,    image,    typeComponent,    items[] {      title,      description,      isActive,      image,      alt,      position,      content    }  },  "isHome": isHome}
 export type GetPagesQueryResult = Array<{
   id: string;
   title: string | null;
@@ -1275,9 +1297,9 @@ export type GetPagesQueryResult = Array<{
       }
   > | null;
   components: Array<{
-    title?: string;
-    description?: string;
-    content?: Array<{
+    title: string | null;
+    description: string | null;
+    content: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
@@ -1294,8 +1316,8 @@ export type GetPagesQueryResult = Array<{
       level?: number;
       _type: 'block';
       _key: string;
-    }>;
-    image?: {
+    }> | null;
+    image: {
       asset?: {
         _ref: string;
         _type: 'reference';
@@ -1305,13 +1327,13 @@ export type GetPagesQueryResult = Array<{
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: 'image';
-    };
-    typeComponent?: 'banner1' | 'banner3Features' | 'heroImage';
-    items?: Array<{
-      title?: string;
-      description?: string;
-      isActive?: boolean;
-      image?: {
+    } | null;
+    typeComponent: 'banner1' | 'banner3Features' | 'heroImage' | null;
+    items: Array<{
+      title: string | null;
+      description: string | null;
+      isActive: boolean | null;
+      image: {
         asset?: {
           _ref: string;
           _type: 'reference';
@@ -1321,10 +1343,10 @@ export type GetPagesQueryResult = Array<{
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: 'image';
-      };
-      alt?: string;
-      position?: number;
-      content?: Array<
+      } | null;
+      alt: string | null;
+      position: number | null;
+      content: Array<
         | {
             children?: Array<{
               marks?: Array<string>;
@@ -1363,75 +1385,10 @@ export type GetPagesQueryResult = Array<{
             _type: 'image';
             _key: string;
           }
-      >;
-      _type: 'item';
-      _key: string;
-    }>;
-    _type: 'banner';
-    _key: string;
+      > | null;
+    }> | null;
   }> | null;
   isHome: boolean | null;
-}>;
-// Variable: getItemsQuery
-// Query: *[_type == 'item']{  "id": _id,  "title": title,  description,  isActive,  image,  alt,  position,  content,}
-export type GetItemsQueryResult = Array<{
-  id: string;
-  title: string | null;
-  description: string | null;
-  isActive: boolean | null;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  } | null;
-  alt: string | null;
-  position: number | null;
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
 }>;
 
 // Query TypeMap
@@ -1445,7 +1402,6 @@ declare module '@sanity/client' {
     "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  }\n}": GetServiceDetailQueryResult;
     '*[_type == \'service\']{\n    title,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
     "*[_type == 'banner']{\n    title,\n    description,\n    content,\n    image,\n    typeComponent,\n    items\n  }": GetBannerDataQueryResult;
-    '*[_type == \'page\']{\n  "id": _id,\n  "title": title,\n  "slug" : slug.current,\n  position,\n  content,\n  components,\n  "isHome": isHome\n}': GetPagesQueryResult;
-    '*[_type == \'item\']{\n  "id": _id,\n  "title": title,\n  description,\n  isActive,\n  image,\n  alt,\n  position,\n  content,\n}': GetItemsQueryResult;
+    '\n  *[_type == \'page\'] {\n    "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[] {\n    title,\n    description,\n    content,\n    image,\n    typeComponent,\n    items[] {\n      title,\n      description,\n      isActive,\n      image,\n      alt,\n      position,\n      content\n    }\n  },\n  "isHome": isHome\n}': GetPagesQueryResult;
   }
 }

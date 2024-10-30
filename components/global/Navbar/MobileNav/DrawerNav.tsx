@@ -80,7 +80,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           {/* Mobile Menu Drawer */}
           <div
             id="mobile-menu"
-            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen transform overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out dark:bg-bodydark ${
+            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out dark:bg-bodydark ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
