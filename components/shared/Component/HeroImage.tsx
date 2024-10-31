@@ -4,7 +4,7 @@ import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
 import Image from 'next/image';
 
-export function HeroImage({ data }: { data: BannerData | null }) {
+export default function HeroImage({ data }: { data: BannerData | null }) {
   if (!data) {
     return <div>Error al cargar el banner.</div>;
   }

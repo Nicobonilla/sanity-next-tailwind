@@ -25,6 +25,7 @@ import banner from './sanity/schemas/documents/banner';
 import unitBusiness from './sanity/schemas/documents/unitBusiness';
 import page from './sanity/schemas/documents/page';
 import item from './sanity/schemas/documents/item';
+import component from './sanity/schemas/documents/component';
 
 const homeLocation = {
   title: 'Home',
@@ -47,6 +48,7 @@ export default defineConfig({
       banner,
       page,
       item,
+      component,
     ],
   },
   plugins: [

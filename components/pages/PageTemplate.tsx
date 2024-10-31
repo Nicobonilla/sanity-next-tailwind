@@ -1,68 +1,79 @@
-import Banner1 from '@/components/shared/Banner/Banner1';
-import { HeroImage } from '@/components/shared/Banner/HeroImage';
-import { BannerData } from '@/sanity/fetchs/bannerFetch';
-import { getCurrentPage, getHomeData } from '@/sanity/fetchs/pagesFetch';
-import type { Component } from '@/sanity/fetchs/pagesFetch';
-import Banner3Features from '@/components/shared/Banner/Banner3Features';
-import IconList from '@/components/shared/Card/ServiceIconList';
-import { Highlight1 } from '@/components/shared/Highlight1';
-import { mockServices } from '@/sanity/lib/fetchMockData';
-import { PortableText } from 'next-sanity';
-import { type Page } from '@/sanity/fetchs/pagesFetch';
+import dynamic from 'next/dynamic';
+import { Component, getCurrentPage, SanPage } from '@/sanity/fetchs/pagesFetch';
+import { GetComponentListQueryResult } from '@/sanity.types';
+import { getComponentListFetch } from '@/sanity/lib/fetch';
 
-export default async function PageTemplate({ service }: { service?: string }) {
-  const currentPage: Page | null | undefined = service
-    ? await getCurrentPage(service)
-    : await getHomeData();
+// Función para transformar la lista de componentes en un diccionario
+function transformToDict(
+  components: GetComponentListQueryResult | null
+): Record<string, string | null> {
+  if (!components) return {};
+
+  return components.reduce(
+    (acc, { value, name }) => {
+      if (value) {
+        acc[value] = name; // Asigna el value al nombre en el diccionario
+      }
+      return acc; // Devuelve el acumulador
+    },
+    {} as Record<string, string | null>
+  );
+}
+
+// Componente de página
+export default async function PageTemplate({
+  service,
+}: {
+  service?: string | undefined;
+}) {
+  // Obtener datos de la página actual
+  const currentPage: SanPage | null | undefined = await getCurrentPage(service);
 
   console.log('currentPage', currentPage);
   if (!currentPage) {
     return <div>Error al cargar la lista de páginas.</div>;
   }
 
-  const banner1 = currentPage.components?.find(
-    (comp) => comp.typeComponent === 'banner1'
-  );
+  // Obtener datos de los componentes
+  const componentList: GetComponentListQueryResult | null =
+    await getComponentListFetch();
 
-  const heroImage = currentPage.components?.find(
-    (comp) => comp.typeComponent === 'heroImage'
-  );
-
-  const banner3Features = currentPage.components?.filter(
-    (comp) => comp.typeComponent === 'banner3Features'
-  );
+  // Crear un mapa de componentes
+  const componentMap = transformToDict(componentList);
+  console.log('componentMap', componentMap);
+  // Función para cargar componentes dinámicamente
+  const DynamicComponent = (name: string) =>
+    dynamic<{ data: Component }>(() =>
+      import(`@/components/shared/Component/${name}`).catch(
+        () => import('@/components/shared/Component/Default')
+      )
+    );
 
   return (
     <>
-      {currentPage.isHome && <HeroImage data={heroImage as BannerData} />}
-      {banner1 && (
-        <div className="mb-5 py-10 lg:mb-20">
-          <Banner1 data={banner1 as BannerData} />
-        </div>
-      )}
-      {banner3Features && (
-        <div className="mb-5 py-10 lg:mb-20">
-          <Banner3Features data={banner3Features as Component} />
-        </div>
-      )}
-      <IconList services={mockServices} />
-      <div className="py-20">
-        <Highlight1
-          title="25 Años De Experiencia Con Excelente Resultados!"
-          description="En MBA Ingeniería, nuestra especialidad es proveer soluciones técnicas
-        de vanguardia, personalizadas para una amplia gama de espacios,
-        incluyendo inmobiliario residencial y corporativo, industrias, centros
-        médicos y comerciales"
-        />
-      </div>
-      <div className="flex flex-col gap-14 md:flex-row">
-        {/* Main Content: Ensure main content is on the left */}
-        <div className="order-2 md:order-1 md:w-3/4">
-          <div className="prose prose-sm max-w-none">
-            <PortableText value={currentPage.content || []} components={{}} />
-          </div>
-        </div>
-      </div>
+      {currentPage.components &&
+        currentPage.components.map((component, index) => {
+          const componentName = component.typeComponentValue
+            ? componentMap[component.typeComponentValue]
+            : null;
+          console.log('component', component);
+          console.log(
+            'component.typeComponentValue',
+            component.typeComponentValue
+          );
+          console.log('componentName', componentName);
+
+          if (componentName === null) {
+            console.error('componentName null');
+            return <div key={index}>COMPONENTE NO ENCONTRADO</div>;
+          }
+          const DComponent = DynamicComponent(componentName);
+          return component ? (
+            <DComponent key={index} data={component as Component} />
+          ) : (
+            <div>CAN'T LOAD COMPONENT</div>
+          );
+        })}
     </>
   );
 }

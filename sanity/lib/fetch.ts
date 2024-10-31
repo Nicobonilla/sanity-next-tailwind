@@ -9,9 +9,11 @@ import {
   getServiceDetailQuery,
   getServicesNavQuery,
   getPagesQuery,
+  getComponentListQuery,
 } from '@/sanity/lib/queries';
 import {
   GetBannerDataQueryResult,
+  GetComponentListQueryResult,
   GetPagesQueryResult,
   GetServicesNavQueryResult,
   type GetServiceDetailQueryResult,
@@ -154,6 +156,27 @@ export async function getPagesFetch(): Promise<GetPagesQueryResult | null> {
     const data = (await sanityFetch({
       query,
     })) as GetPagesQueryResult | null;
+    // Si service es null, retornamos null
+    // Si data es null o está vacío, retornamos null
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
+export async function getComponentListFetch(): Promise<GetComponentListQueryResult | null> {
+  // Remove extra quotes if any
+  const query = getComponentListQuery; // This should be a GROQ string
+
+  try {
+    const data = (await sanityFetch({
+      query,
+    })) as GetComponentListQueryResult | null;
     // Si service es null, retornamos null
     // Si data es null o está vacío, retornamos null
     if (!data || (Array.isArray(data) && data.length === 0)) {

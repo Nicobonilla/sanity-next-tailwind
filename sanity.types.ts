@@ -215,7 +215,12 @@ export type Page = {
       crop?: SanityImageCrop;
       _type: 'image';
     };
-    typeComponent?: 'heroImage' | 'banner1' | 'banner3Features';
+    typeComponent?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'component';
+    };
     items?: Array<{
       title?: string;
       description?: string;
@@ -380,7 +385,12 @@ export type Banner = {
     crop?: SanityImageCrop;
     _type: 'image';
   };
-  typeComponent?: 'heroImage' | 'banner1' | 'banner3Features';
+  typeComponent?: {
+    _ref: string;
+    _type: 'reference';
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: 'component';
+  };
   items?: Array<{
     title?: string;
     description?: string;
@@ -441,6 +451,16 @@ export type Banner = {
     _type: 'item';
     _key: string;
   }>;
+};
+
+export type Component = {
+  _id: string;
+  _type: 'component';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  value?: string;
 };
 
 export type UnitBusiness = {
@@ -840,6 +860,7 @@ export type AllSanitySchemaTypes =
   | Page
   | Service
   | Banner
+  | Component
   | UnitBusiness
   | Post
   | Author
@@ -1187,7 +1208,12 @@ export type GetBannerDataQueryResult = Array<{
     crop?: SanityImageCrop;
     _type: 'image';
   } | null;
-  typeComponent: 'banner1' | 'banner3Features' | 'heroImage' | null;
+  typeComponent: {
+    _ref: string;
+    _type: 'reference';
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: 'component';
+  } | null;
   items: Array<{
     title?: string;
     description?: string;
@@ -1250,7 +1276,7 @@ export type GetBannerDataQueryResult = Array<{
   }> | null;
 }>;
 // Variable: getPagesQuery
-// Query: *[_type == 'page'] {    "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[] {    title,    description,    content,    image,    typeComponent,    items[] {      title,      description,      isActive,      image,      alt,      position,      content    }  },  "isHome": isHome}
+// Query: *[_type == 'page'] {    "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[] {    title,    description,    content,    image,    "typeComponentValue": typeComponent->value,    items[] {      title,      description,      isActive,      image,      alt,      position,      content    }  },  "isHome": isHome}
 export type GetPagesQueryResult = Array<{
   id: string;
   title: string | null;
@@ -1328,7 +1354,7 @@ export type GetPagesQueryResult = Array<{
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
-    typeComponent: 'banner1' | 'banner3Features' | 'heroImage' | null;
+    typeComponentValue: string | null;
     items: Array<{
       title: string | null;
       description: string | null;
@@ -1390,6 +1416,12 @@ export type GetPagesQueryResult = Array<{
   }> | null;
   isHome: boolean | null;
 }>;
+// Variable: getComponentListQuery
+// Query: *[_type == 'component']{  value, name}
+export type GetComponentListQueryResult = Array<{
+  value: string | null;
+  name: string | null;
+}>;
 
 // Query TypeMap
 import '@sanity/client';
@@ -1402,6 +1434,7 @@ declare module '@sanity/client' {
     "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  }\n}": GetServiceDetailQueryResult;
     '*[_type == \'service\']{\n    title,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
     "*[_type == 'banner']{\n    title,\n    description,\n    content,\n    image,\n    typeComponent,\n    items\n  }": GetBannerDataQueryResult;
-    '\n  *[_type == \'page\'] {\n    "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[] {\n    title,\n    description,\n    content,\n    image,\n    typeComponent,\n    items[] {\n      title,\n      description,\n      isActive,\n      image,\n      alt,\n      position,\n      content\n    }\n  },\n  "isHome": isHome\n}': GetPagesQueryResult;
+    '\n  *[_type == \'page\'] {\n    "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[] {\n    title,\n    description,\n    content,\n    image,\n    "typeComponentValue": typeComponent->value,\n    items[] {\n      title,\n      description,\n      isActive,\n      image,\n      alt,\n      position,\n      content\n    }\n  },\n  "isHome": isHome\n}': GetPagesQueryResult;
+    "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
   }
 }

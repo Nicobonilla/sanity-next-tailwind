@@ -82,7 +82,7 @@ export const getPagesQuery = defineQuery(groq`
     description,
     content,
     image,
-    typeComponent,
+    "typeComponentValue": typeComponent->value,
     items[] {
       title,
       description,
@@ -94,4 +94,8 @@ export const getPagesQuery = defineQuery(groq`
     }
   },
   "isHome": isHome
+}`);
+
+export const getComponentListQuery = defineQuery(groq`*[_type == 'component']{
+  value, name
 }`);

@@ -31,22 +31,15 @@ const banner = defineType({
     }),
     defineField({
       name: 'typeComponent',
-      type: 'string',
+      type: 'reference',
       title: 'Tipo de Componente',
-      options: {
-        list: [
-          { title: 'HeroImage', value: 'heroImage' },
-          { title: 'Banner1', value: 'banner1' },
-          { title: 'Banner3Features', value: 'banner3Features' },
-        ],
-      },
+      to: [{ type: 'component' }],
     }),
     defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
       of: [{ type: 'item' }],
-      hidden: ({ parent }) => parent?.typeComponent !== 'banner3Features',
     }),
   ],
 });

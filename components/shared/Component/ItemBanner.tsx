@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { type Item } from '@/sanity/fetchs/pagesFetch';
-import { urlForImage } from '../../../sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/utils';
 
 export default function ItemBanner({ items }: { items: Item[] | null }) {
   if (!items || items.length === 0) {

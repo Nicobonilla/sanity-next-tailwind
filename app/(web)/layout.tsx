@@ -15,10 +15,7 @@ import {
   montserrat,
   robotoMono,
 } from '@/components/global/fonts';
-import {
-  GetPagesQueryResult,
-  GetServicesNavQueryResult,
-} from '@/sanity.types';
+import { GetPagesQueryResult, GetServicesNavQueryResult } from '@/sanity.types';
 
 export { metadata, viewport } from 'next-sanity/studio';
 

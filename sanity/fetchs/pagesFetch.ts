@@ -1,44 +1,74 @@
-import { GetPagesQueryResult } from '@/sanity.types';
+import type { GetPagesQueryResult as SanGetPagesQueryResult } from '@/sanity.types';
 import { getPagesFetch } from '../lib/fetch';
 
-export type Page = GetPagesQueryResult[number];
+export type SanPage = SanGetPagesQueryResult[number];
 
 // Extend the generated type if necessary
-export type Component = Page['components']  & {
-  items: Item[] | null; // Ensure items is correctly defined
-};
+export type SanComponent = SanPage['components'];
 
 // Define the Item type as before
 export type Item = {
   title: string | null;
   description: string | null;
   isActive?: boolean | null;
-  image?: any | null;
+  image?: SanityImage | null;
   alt?: string | null;
   position?: number | null;
-  content?: any | null;
+  content?: Content | null;
 };
 
-
-export async function getHomeData() {
-  const pages: GetPagesQueryResult | null = await getPagesFetch();
-  return pages ? pages.find((page) => page.isHome === true) : null;
+export async function getCurrentPage(slug: string | undefined) {
+  const pages: SanGetPagesQueryResult | null = await getPagesFetch();
+  const page = slug
+    ? pages?.find((page) => page.slug === slug)
+    : pages?.find((page) => page.isHome === true);
+  return page;
 }
 
-export async function getCurrentPage(slug: string) {
-  const pages: GetPagesQueryResult | null = await getPagesFetch();
-  return pages ? pages?.find((page) => page.slug === slug) : null;
-}
+export type Component =
+  | {
+      title: string | null;
+      description: string | null;
+      content: Content;
+      typeComponentValue: string | null;
+      items: Array<Item> | null;
+    }
+  | null
+  | undefined;
 
-export async function getComponentsCurrentPage(slug: string) {
-  const currentPage: Page = (await getCurrentPage(slug)) || ({} as Page);
-  return currentPage.components ? currentPage.components : null;
-}
+export type Page = {
+  id: string;
+  title: string | null;
+  slug: string | null;
+  position: number | null;
+  content: Content;
+  components: Component[];
+  isHome: boolean | null;
+};
 
-export async function getItemsCurrentComponent(slug: string) {
-  const components = (await getComponentsCurrentPage(slug)) || null;
-  console.log('components', components);
-  return components
-    ? components.flatMap((component) => component.items || [])
-    : null;
-}
+export type SanityImage = {
+  asset?: {
+    _ref: string;
+  };
+};
+
+export type TextBlock = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: 'span';
+    _key: string;
+  }>;
+  style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+  listItem?: 'bullet' | 'number';
+  markDefs?: Array<{
+    href?: string;
+    _type: 'link';
+    _key: string;
+  }>;
+  level?: number;
+  _type: 'block';
+  _key: string;
+}>;
+
+export type Content = Array<TextBlock | SanityImage> | null;

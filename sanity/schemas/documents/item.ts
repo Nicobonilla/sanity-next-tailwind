@@ -8,7 +8,7 @@ const item = defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Nombre de la pagina',
+      title: 'Titulo',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
