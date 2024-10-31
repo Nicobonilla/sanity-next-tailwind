@@ -71,7 +71,7 @@ export default async function PageTemplate({
           return component ? (
             <DComponent key={index} data={component as Component} />
           ) : (
-            <div>CAN'T LOAD COMPONENT</div>
+            <div>CANT LOAD COMPONENT</div>
           );
         })}
     </>
