@@ -583,12 +583,6 @@ export type Author = {
   };
 };
 
-export type Slug = {
-  _type: 'slug';
-  current?: string;
-  source?: string;
-};
-
 export type Settings = {
   _id: string;
   _type: 'settings';
@@ -850,6 +844,21 @@ export type SanityAssistSchemaTypeField = {
   >;
 };
 
+export type MediaTag = {
+  _id: string;
+  _type: 'media.tag';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
+};
+
+export type Slug = {
+  _type: 'slug';
+  current?: string;
+  source?: string;
+};
+
 export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -864,7 +873,6 @@ export type AllSanitySchemaTypes =
   | UnitBusiness
   | Post
   | Author
-  | Slug
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
@@ -882,7 +890,9 @@ export type AllSanitySchemaTypes =
   | SanityAssistInstructionPrompt
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
-  | SanityAssistSchemaTypeField;
+  | SanityAssistSchemaTypeField
+  | MediaTag
+  | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery

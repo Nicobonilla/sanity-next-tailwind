@@ -26,6 +26,7 @@ import unitBusiness from './sanity/schemas/documents/unitBusiness';
 import page from './sanity/schemas/documents/page';
 import item from './sanity/schemas/documents/item';
 import component from './sanity/schemas/documents/component';
+import { media } from 'sanity-plugin-media';
 
 const homeLocation = {
   title: 'Home',
@@ -52,6 +53,18 @@ export default defineConfig({
     ],
   },
   plugins: [
+    media({
+      creditLine: {
+        enabled: true,
+        // boolean - enables an optional "Credit Line" field in the plugin.
+        // Used to store credits e.g. photographer, licence information
+        excludeSources: ['unsplash'],
+        // string | string[] - when used with 3rd party asset sources, you may
+        // wish to prevent users overwriting the creditLine based on the `source.name`
+      },
+      maximumUploadSize: 10000000,
+      // number - maximum file size (in bytes) that can be uploaded through the plugin interface
+    }),
     presentationTool({
       resolve: {
         mainDocuments: defineDocuments([
