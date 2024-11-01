@@ -89,11 +89,17 @@
 }
 
 @layer components {
-  .nav-subsection {
+  .nav-subsection-desk {
     @apply font-robotomono text-sm font-light text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
   }
 }
 
+
+@layer components {
+  .nav-subsection-mob {
+    @apply font-robotomono text-sm font-light text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
+  }
+}
 @layer components {
   .nav-bg-subsection {
     @apply bg-gradient-to-r from-white via-gray-200 to-white dark:bg-gradient-to-b dark:from-bodydark dark:via-gray-950 dark:to-bodydark;

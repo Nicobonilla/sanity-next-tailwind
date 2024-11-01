@@ -24,7 +24,7 @@ export default function HeroImage({ data }: { data: BannerData | null }) {
 
       <div className="layer flex items-center justify-center">
         <div className="align-left relative z-20 mx-10 flex h-1/2 flex-col justify-center md:w-1/2">
-          <h1 className="h1 text-4xl font-extrabold text-white md:text-5xl">
+          <h1 className="h1 text-4xl font-extrabold text-white md:text-5xl drop-shadow-2xl">
             {data.title}
           </h1>
           <PortableText value={data.content || []} components={PTheroImage} />

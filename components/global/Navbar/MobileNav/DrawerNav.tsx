@@ -1,20 +1,15 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-  X as CloseIcon,
-  Menu as MenuIcon,
-  ChevronDown,
-  ChevronUp,
-  PhoneIcon,
-  User,
-} from 'lucide-react';
 import { NavProps } from '@/types';
 import Logo from '@/components/shared/Logo';
+import Icon from '@/components/shared/Icon';
+import { usePathname } from 'next/navigation';
 
 const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  const path = usePathname();
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -62,9 +57,9 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           aria-controls="mobile-menu"
         >
           {isMenuOpen ? (
-            <CloseIcon className="size-8" />
+            <Icon name="x" className="size-8" />
           ) : (
-            <MenuIcon className="size-8" />
+            <Icon name="menu" className="size-8" />
           )}
         </div>
       </div>
@@ -80,7 +75,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
           {/* Mobile Menu Drawer */}
           <div
             id="mobile-menu"
-            className={`mobile-nav-drawer fixed right-0 top-0 z-50 h-screen overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out dark:bg-bodydark ${
+            className={`fixed right-0 top-0 z-50 h-screen overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } w-[70%] sm:w-[60%] md:w-[40%]`}
           >
@@ -91,51 +86,71 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               <ul className="items-center divide-y divide-gray-700">
                 {links.map((link) => {
                   // Verificamos que link.title exista antes de renderizar
-                  const mainSlug = link?.slug || '';
                   if (link?.title) {
                     return (
-                      <li key={link.title}>
-                        <button
-                          onClick={(e) =>
-                            toggleSection(link.title ? link.title : '', e)
-                          } // Añadir evento aquí
-                          className="nav flex w-full items-center justify-between py-2 focus:outline-none"
-                        >
-                          {link.title}
-                          {link.subsections &&
-                            link.subsections.length > 0 &&
-                            (expandedSections.includes(link.title) ? (
-                              <ChevronUp />
-                            ) : (
-                              <ChevronDown />
-                            ))}
-                        </button>
-                        {expandedSections.includes(link.title) && (
-                          <div className="mb-2 -translate-y-1">
-                            <ul className="space-y-1 pl-4">
+                      <li
+                        key={link.title}
+                        className="flex w-full items-center justify-between"
+                      >
+                        <div className="flex w-full flex-col items-center">
+                          <div className="flex w-full items-center">
+                            <Link
+                              href={{
+                                pathname: `/${link?.slug}`,
+                              }}
+                              passHref
+                              className="nav block flex-1 py-2 uppercase" // Takes full width
+                            >
+                              {link.title}
+                            </Link>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent Link navigation on button click
+                                toggleSection(link.title || '', e);
+                              }}
+                              className="nav px-2 focus:outline-none"
+                            >
                               {link.subsections &&
-                                link.subsections.map((sublink) => (
-                                  <li key={sublink?.slug}>
-                                    <Link
-                                      href={
-                                        sublink?.slug
-                                          ? {
-                                              pathname:
-                                                mainSlug + '/' + sublink.slug,
-                                            }
-                                          : { pathname: '' }
-                                      }
-                                      onClick={closeMenu}
-                                    >
-                                      <span className="nav block text-xs">
-                                        {sublink?.title}
-                                      </span>
-                                    </Link>
-                                  </li>
+                                link.subsections.length > 0 &&
+                                (expandedSections.includes(link.title) ? (
+                                  <Icon name="chevron-right" />
+                                ) : (
+                                  <Icon name="chevron-down" />
                                 ))}
-                            </ul>
+                            </button>
                           </div>
-                        )}
+                          <div className="w-full items-start">
+                            {expandedSections.includes(link.title) && (
+                              <div className="mb-2 -translate-y-1">
+                                <ul className="space-y-1 pl-4">
+                                  {link.subsections &&
+                                    link.subsections.map((sublink) => (
+                                      <li key={sublink?.slug}>
+                                        <Link
+                                          href={
+                                            sublink?.slug
+                                              ? {
+                                                  pathname:
+                                                    path.split('/')[1] ==
+                                                    link.slug
+                                                      ? sublink?.slug
+                                                      : `${link?.slug}/${sublink?.slug}`,
+                                                }
+                                              : { pathname: '' }
+                                          }
+                                          onClick={closeMenu}
+                                        >
+                                          <span className="nav block text-xs">
+                                            {sublink?.title}
+                                          </span>
+                                        </Link>
+                                      </li>
+                                    ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </li>
                     );
                   }
@@ -144,11 +159,11 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
               </ul>
               <div className="flex flex-col space-y-4 pt-10 text-sm">
                 <button className="bg-second flex justify-center rounded px-4 py-2 text-gray-300">
-                  <User className="mr-3 size-5" />
+                  <Icon name="user" className="mr-3 size-5" />
                   PORTAL CLIENTES
                 </button>
                 <button className="flex justify-center rounded bg-white px-4 py-2 text-gray-600">
-                  <PhoneIcon className="mr-3 size-5" />
+                  <Icon name="phone" className="mr-3 size-5" />
                   LLÁMENOS AHORA
                 </button>
               </div>
