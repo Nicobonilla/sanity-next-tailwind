@@ -42,6 +42,19 @@ const banner = defineType({
       of: [{ type: 'item' }],
     }),
   ],
+
+  preview: {
+    select: {
+      title: 'title',
+      type: 'typeComponent.value',
+    },
+    prepare({ title, type }) {
+      return {
+        title: title,
+        subtitle: type
+      };
+    },
+  },
 });
 
 export default banner;
