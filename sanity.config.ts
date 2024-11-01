@@ -27,6 +27,7 @@ import page from './sanity/schemas/documents/page';
 import item from './sanity/schemas/documents/item';
 import component from './sanity/schemas/documents/component';
 import { media } from 'sanity-plugin-media';
+import icon from './sanity/schemas/documents/icon';
 
 const homeLocation = {
   title: 'Home',
@@ -50,6 +51,7 @@ export default defineConfig({
       page,
       item,
       component,
+      icon
     ],
   },
   plugins: [

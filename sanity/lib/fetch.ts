@@ -14,6 +14,7 @@ import {
 import {
   GetBannerDataQueryResult,
   GetComponentListQueryResult,
+  GetIconListQueryResult,
   GetPagesQueryResult,
   GetServicesNavQueryResult,
   type GetServiceDetailQueryResult,
@@ -177,6 +178,27 @@ export async function getComponentListFetch(): Promise<GetComponentListQueryResu
     const data = (await sanityFetch({
       query,
     })) as GetComponentListQueryResult | null;
+    // Si service es null, retornamos null
+    // Si data es null o está vacío, retornamos null
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
+export async function getIconListFetch(): Promise<GetIconListQueryResult | null> {
+  // Remove extra quotes if any
+  const query = getComponentListQuery; // This should be a GROQ string
+
+  try {
+    const data = (await sanityFetch({
+      query,
+    })) as GetIconListQueryResult | null;
     // Si service es null, retornamos null
     // Si data es null o está vacío, retornamos null
     if (!data || (Array.isArray(data) && data.length === 0)) {

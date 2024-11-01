@@ -31,13 +31,11 @@ const item = defineType({
       options: {
         hotspot: true,
       },
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'alt',
       title: 'Alt de la imagen',
       type: 'string',
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'position',
@@ -47,6 +45,12 @@ const item = defineType({
         rule.custom((position, context) =>
           validateUniquePosition(position, context)
         ),
+    }),
+    defineField({
+      name: 'icon',
+      title: 'Icon de Lucide React',
+      type: 'reference',
+      to: [{ type: 'icon' }],
     }),
     defineField({
       name: 'content',

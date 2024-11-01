@@ -1,5 +1,6 @@
 import type { GetPagesQueryResult as SanGetPagesQueryResult } from '@/sanity.types';
 import { getPagesFetch } from '../lib/fetch';
+import icon from '../schemas/documents/icon';
 
 export type SanPage = SanGetPagesQueryResult[number];
 
@@ -7,15 +8,19 @@ export type SanPage = SanGetPagesQueryResult[number];
 export type SanComponent = SanPage['components'];
 
 // Define the Item type as before
-export type Item = {
-  title: string | null;
-  description: string | null;
-  isActive?: boolean | null;
-  image?: SanityImage | null;
-  alt?: string | null;
-  position?: number | null;
-  content?: Content | null;
-};
+export type Item =
+  | {
+      title: string | null;
+      description: string | null;
+      isActive?: boolean | null;
+      image?: SanityImage | null;
+      iconValue?: string | null;
+      alt?: string | null;
+      position?: number | null;
+      content?: Content | null;
+    }
+  | null
+  | undefined;
 
 export async function getCurrentPage(slug: string | undefined) {
   const pages: SanGetPagesQueryResult | null = await getPagesFetch();

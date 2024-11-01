@@ -88,6 +88,7 @@ export const getPagesQuery = defineQuery(groq`
       description,
       isActive,
       image,
+      "iconValue": icon->value,
       alt,
       position,
       content
@@ -97,5 +98,9 @@ export const getPagesQuery = defineQuery(groq`
 }`);
 
 export const getComponentListQuery = defineQuery(groq`*[_type == 'component']{
+  value, name
+}`);
+
+export const getIconListQuery = defineQuery(groq`*[_type == 'icon']{
   value, name
 }`);
