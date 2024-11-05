@@ -10,6 +10,8 @@ export default function PageTemplate({
   components?: Component[];
 }) {
   // Dynamically load the component based on its name
+  const { componentsMap } = useAppContext();
+
   const DynamicComponent = (name: string) =>
     dynamic<{ data: Component }>(() =>
       import(`@/components/shared/Component/${name}`).catch(
@@ -21,8 +23,6 @@ export default function PageTemplate({
   if (!components) {
     return <div>No components available</div>;
   }
-
-  const { componentsMap } = useAppContext();
 
   return (
     <>
