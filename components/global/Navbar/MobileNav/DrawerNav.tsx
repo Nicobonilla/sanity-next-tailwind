@@ -1,15 +1,16 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { NavProps } from '@/types';
 import Logo from '@/components/shared/Logo';
 import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
+import { useAppContext } from '@/context/AppContext';
 
-const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
+export default function MobileNavDrawer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const path = usePathname();
+  const { pagesLink } = useAppContext();
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -84,7 +85,7 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
                 <Logo />
               </div>
               <ul className="items-center divide-y divide-gray-700">
-                {links.map((link) => {
+                {pagesLink.map((link) => {
                   // Verificamos que link.title exista antes de renderizar
                   if (link?.title) {
                     return (
@@ -173,6 +174,4 @@ const MobileNavDrawer: React.FC<NavProps> = ({ links }) => {
       )}
     </div>
   );
-};
-
-export default MobileNavDrawer;
+}

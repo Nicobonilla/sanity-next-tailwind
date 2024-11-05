@@ -1,47 +1,15 @@
+'use client';
 import dynamic from 'next/dynamic';
-import { Component, getCurrentPage, SanPage } from '@/sanity/fetchs/pagesFetch';
-import { GetComponentListQueryResult } from '@/sanity.types';
-import { getComponentListFetch } from '@/sanity/lib/fetch';
-
-// Función para transformar la lista de componentes en un diccionario
-function transformToDict(
-  components: GetComponentListQueryResult | null
-): Record<string, string | null> {
-  if (!components) return {};
-
-  return components.reduce(
-    (acc, { value, name }) => {
-      if (value) {
-        acc[value] = name; // Asigna el value al nombre en el diccionario
-      }
-      return acc; // Devuelve el acumulador
-    },
-    {} as Record<string, string | null>
-  );
-}
+import { Component } from '@/sanity/fetchs/pagesFetch'; // Ensure this is the correct type
+import { AppContextProvider, useAppContext } from '@/context/AppContext';
 
 // Componente de página
-export default async function PageTemplate({
-  service,
+export default function PageTemplate({
+  components,
 }: {
-  service?: string | undefined;
+  components?: Component[];
 }) {
-  // Obtener datos de la página actual
-  const currentPage: SanPage | null | undefined = await getCurrentPage(service);
-
-  console.log('currentPage', currentPage);
-  if (!currentPage) {
-    return <div>Error al cargar la lista de páginas.</div>;
-  }
-
-  // Obtener datos de los componentes
-  const componentList: GetComponentListQueryResult | null =
-    await getComponentListFetch();
-
-  // Crear un mapa de componentes
-  const componentMap = transformToDict(componentList);
-  console.log('componentMap', componentMap);
-  // Función para cargar componentes dinámicamente
+  // Dynamically load the component based on its name
   const DynamicComponent = (name: string) =>
     dynamic<{ data: Component }>(() =>
       import(`@/components/shared/Component/${name}`).catch(
@@ -49,31 +17,36 @@ export default async function PageTemplate({
       )
     );
 
+  // If there are no components, show a message
+  if (!components) {
+    return <div>No components available</div>;
+  }
+
+  const { componentsMap } = useAppContext();
+
   return (
     <>
-      {currentPage.components &&
-        currentPage.components.map((component, index) => {
-          const componentName = component.typeComponentValue
-            ? componentMap[component.typeComponentValue]
-            : null;
-          console.log('component', component);
-          console.log(
-            'component.typeComponentValue',
-            component.typeComponentValue
-          );
-          console.log('componentName', componentName);
+      {components.map((component: Component, index: number) => {
+        if (!component) {
+          return <div key={index}>NO COMPONENT</div>;
+        }
 
-          if (componentName === null) {
-            console.error('componentName null');
-            return <div key={index}>COMPONENTE NO ENCONTRADO</div>;
-          }
-          const DComponent = DynamicComponent(componentName);
-          return component ? (
-            <DComponent key={index} data={component as Component} />
-          ) : (
-            <div>CANT LOAD COMPONENT</div>
-          );
-        })}
+        // Get the component name from the typeComponentValue
+        const componentName = component.typeComponentValue
+          ? componentsMap[component.typeComponentValue]
+          : null;
+
+        if (!componentName) {
+          console.error('componentName is null or undefined');
+          return <div key={index}>COMPONENTE NO ENCONTRADO</div>;
+        }
+
+        // Dynamically load the component
+        const DComponent = DynamicComponent(componentName);
+
+        // Render the dynamic component or an error message
+        return <DComponent key={index} data={component} />;
+      })}
     </>
   );
 }

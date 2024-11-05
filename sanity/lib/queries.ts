@@ -33,19 +33,47 @@ export const postQuery = defineQuery(`
   }
 `);
 
-export const getServiceDetailQuery = defineQuery(
-  groq`*[_type == 'service' && slug.current == $slug][0] {
-  title,  // Fetch the title of the service
-  content,  // Fetch the content of the service
-  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings
-    _key,  // Directly include the _key for each heading
-    style,  // Include the style of the heading (h2, h3)
-    children[] {  // Retrieve all children elements
-      text  // Fetch the text from each child element
-    }
+const componentFields = /* groq */ `
+  title,
+  description,
+  content,
+  image,
+  "typeComponentValue": typeComponent->value,
+  items[] {
+    title,
+    description,
+    isActive,
+    image,
+    "iconValue": icon->value,
+    alt,
+    position,
+    content
   }
-}`
-);
+`;
+
+/* PAGES */
+
+export const getPagesNavQuery = defineQuery(groq`
+  *[_type == 'page'] {
+  "id": _id,
+  "title": title,
+  "slug": slug.current,
+  position,
+  isHome
+}`);
+
+export const getPageDetailQuery = defineQuery(groq`
+  *[_type == 'page' && slug.current == $slug][0] {
+  "id": _id,
+  "title": title,
+  "slug": slug.current,
+  position,
+  content,
+  components[] { ${componentFields} },
+  "isHome": isHome
+}`);
+
+/* SERVICES */
 
 export const getServicesNavQuery = defineQuery(
   groq`*[_type == 'service']{
@@ -59,6 +87,21 @@ export const getServicesNavQuery = defineQuery(
     }`
 );
 
+export const getServiceDetailQuery = defineQuery(
+  groq`*[_type == 'service' && slug.current == $slug][0] {
+  title,  // Fetch the title of the service
+  content,  // Fetch the content of the service
+  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings
+    _key,  // Directly include the _key for each heading
+    style,  // Include the style of the heading (h2, h3)
+    children[] {  // Retrieve all children elements
+      text  // Fetch the text from each child element
+    }
+  },
+  components[] { ${componentFields} }
+}`
+);
+
 export const getBannerDataQuery = defineQuery(
   groq`*[_type == 'banner']{
     title,
@@ -69,33 +112,6 @@ export const getBannerDataQuery = defineQuery(
     items
   }`
 );
-
-export const getPagesQuery = defineQuery(groq`
-  *[_type == 'page'] {
-    "id": _id,
-  "title": title,
-  "slug": slug.current,
-  position,
-  content,
-  components[] {
-    title,
-    description,
-    content,
-    image,
-    "typeComponentValue": typeComponent->value,
-    items[] {
-      title,
-      description,
-      isActive,
-      image,
-      "iconValue": icon->value,
-      alt,
-      position,
-      content
-    }
-  },
-  "isHome": isHome
-}`);
 
 export const getComponentListQuery = defineQuery(groq`*[_type == 'component']{
   value, name

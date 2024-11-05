@@ -1,10 +1,7 @@
 'use client';
+import DrawerNAv from './DrawerNav';
 
-import { NavProps } from "@/types";
-import DrawerNAv from './DrawerNav'
-
-const MobileNav : React.FC<NavProps> = ({ links }) => {
-    return <DrawerNAv links={links}/>
-
+export default function MobileNav() {
+  return <DrawerNAv />;
 }
-export default MobileNav;
+MobileNav;

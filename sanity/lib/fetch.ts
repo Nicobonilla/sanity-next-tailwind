@@ -8,14 +8,16 @@ import {
   getBannerDataQuery,
   getServiceDetailQuery,
   getServicesNavQuery,
-  getPagesQuery,
   getComponentListQuery,
+  getPageDetailQuery,
+  getPagesNavQuery,
 } from '@/sanity/lib/queries';
 import {
   GetBannerDataQueryResult,
   GetComponentListQueryResult,
   GetIconListQueryResult,
-  GetPagesQueryResult,
+  GetPageDetailQueryResult,
+  GetPagesNavQueryResult,
   GetServicesNavQueryResult,
   type GetServiceDetailQueryResult,
 } from '@/sanity.types';
@@ -68,6 +70,74 @@ export async function sanityFetch<const QueryString extends string>({
   });
 }
 
+/* MAIN PAGES */
+export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {
+  // Remove extra quotes if any
+  const query = getPagesNavQuery; // This should be a GROQ string
+
+  try {
+    const data = (await sanityFetch({
+      query,
+    })) as GetPagesNavQueryResult | null;
+    // Si service es null, retornamos null
+    // Si data es null o está vacío, retornamos null
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
+export async function getPageBySlugFetch(
+  slug: string
+): Promise<GetPageDetailQueryResult | null> {
+  // Remove extra quotes if any
+  const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
+  const query = getPageDetailQuery; // This should be a GROQ string
+  const params = { slug: sanitizedSlug }; // Pass the sanitized slug
+
+  try {
+    const data = (await sanityFetch({
+      query,
+      params,
+    })) as GetPageDetailQueryResult | null;
+    // Si service es null, retornamos null
+    // Si data es null o está vacío, retornamos null
+    if (!data) {
+      return null; // Si no hay datos, retornamos null
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
+/* SERVICES */
+export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult | null> {
+  // Remove extra quotes if any
+  const query = getServicesNavQuery; // This should be a GROQ string
+
+  try {
+    const services = (await sanityFetch({
+      query,
+    })) as GetServicesNavQueryResult | null;
+    // Si service es null, retornamos null
+    if (!services || (Array.isArray(services) && services.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+    return services;
+  } catch (error) {
+    console.error('Error fetching service by slug:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
 export async function getServiceBySlugFetch(
   slug: string
 ): Promise<GetServiceDetailQueryResult | null> {
@@ -101,27 +171,8 @@ export async function getServiceBySlugFetch(
       title: service.title || null, // Asegúrate de que title no sea undefined
       content: service.content || null, // Asegúrate de que content no sea undefined
       tableOfContents,
+      components: service.components || null, // Asegúrate de que components no sea undefined
     };
-  } catch (error) {
-    console.error('Error fetching service by slug:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
-  }
-}
-
-export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getServicesNavQuery; // This should be a GROQ string
-
-  try {
-    const services = (await sanityFetch({
-      query,
-    })) as GetServicesNavQueryResult | null;
-    // Si service es null, retornamos null
-    if (!services) {
-      return null; // Si no hay servicio, retornamos null
-    }
-
-    return services;
   } catch (error) {
     console.error('Error fetching service by slug:', error);
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
@@ -136,27 +187,6 @@ export async function getBannerDataFetch(): Promise<GetBannerDataQueryResult | n
     const data = (await sanityFetch({
       query,
     })) as GetBannerDataQueryResult | null;
-    // Si service es null, retornamos null
-    // Si data es null o está vacío, retornamos null
-    if (!data || (Array.isArray(data) && data.length === 0)) {
-      return null; // Si no hay datos, retornamos null
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error fetching banner:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
-  }
-}
-
-export async function getPagesFetch(): Promise<GetPagesQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getPagesQuery; // This should be a GROQ string
-
-  try {
-    const data = (await sanityFetch({
-      query,
-    })) as GetPagesQueryResult | null;
     // Si service es null, retornamos null
     // Si data es null o está vacío, retornamos null
     if (!data || (Array.isArray(data) && data.length === 0)) {

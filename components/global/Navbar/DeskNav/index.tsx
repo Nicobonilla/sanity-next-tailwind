@@ -2,11 +2,11 @@
 import { NavProps } from '@/types';
 import SubsectionsFullWidth from './SubsectionsFullWidth';
 
-export default function DeskNav({ links }: NavProps) {
+export default function DeskNav() {
   return (
     <>
       {/* <Simple links={links} /> */}
-      <SubsectionsFullWidth links={links} />
+      <SubsectionsFullWidth />
     </>
   );
 }

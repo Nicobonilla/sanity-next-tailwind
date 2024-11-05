@@ -1,10 +1,9 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
-import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
 
 export default defineType({
-  name: 'service',
-  title: 'Servicio',
+  name: 'recurso',
+  title: 'Recurso',
   type: 'document',
   icon: DocumentsIcon,
   fields: [
@@ -21,19 +20,11 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        isUnique: isUniqueAcrossAllDocuments,
       },
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      title: 'Activar',
-      name: 'pageIsActive',
-      type: 'boolean',
-      initialValue: false,
     }),
     defineField({
       name: 'content',
-      title: 'Detalles del servicio',
+      title: 'Escribe aquí el contenido del recurso',
       type: 'array',
       of: [
         { type: 'block' },
@@ -52,8 +43,9 @@ export default defineType({
     defineField({
       name: 'components',
       title: 'Componentes',
-      type: 'array',
-      of: [{ type: 'banner' }],
+      type: 'reference',
+      to: [{ type: 'banner' }],
+      description: 'Agrega un banner para este servicio',
     }),
   ],
 });

@@ -1,12 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import type { NavProps } from '@/types';
 import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/shared/Logo';
 import ThemeToggle from './ThemeToggle';
 
-export default function Navbar({ links }: NavProps) {
+export default function Navbar() {
   const [scrolling, setScrolling] = useState(false);
 
   useEffect(() => {
@@ -46,8 +45,8 @@ export default function Navbar({ links }: NavProps) {
           </div>
 
           {/* Drop Menu */}
-          <MobileNav links={links || []} />
-          <DeskNav links={links || []} />
+          <MobileNav />
+          <DeskNav />
         </div>
       </div>
     </>

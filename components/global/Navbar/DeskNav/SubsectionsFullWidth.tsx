@@ -1,14 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Links, NavProps } from '@/types';
+import { Links } from '@/types';
 import Link from 'next/link';
 import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
+import { useAppContext } from '@/context/AppContext';
 
-export default function SubsectionsFullWidth({ links }: NavProps) {
+export default function SubsectionsFullWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
+  const { pagesLink } = useAppContext();
+
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -17,7 +20,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
     setActiveLink(null);
   };
   // Agrupar servicios por unidad de negocio
-  const groupedServices = links.reduce(
+  const groupedServices = pagesLink.reduce(
     (acc, service) => {
       if (service?.subsections) {
         service.subsections.forEach((subsection) => {
@@ -40,7 +43,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
   return (
     <nav className="hidden lg:block">
       <ul className="flex h-24 items-center">
-        {links?.map((link) => (
+        {pagesLink?.map((link) => (
           <li
             key={link?.title}
             className="group relative flex h-24 cursor-pointer items-center px-4 2xl:px-8"
@@ -57,7 +60,7 @@ export default function SubsectionsFullWidth({ links }: NavProps) {
         ))}
       </ul>
 
-      {links?.map(
+      {pagesLink?.map(
         (link) =>
           link?.subsections &&
           link.subsections?.length > 0 &&
