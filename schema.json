@@ -1409,6 +1409,20 @@
                 },
                 "optional": true
               },
+              "invertLayoutMobile": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "invertLayoutDesk": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
               "items": {
                 "type": "objectAttribute",
                 "value": {
@@ -2161,6 +2175,20 @@
             }
           },
           "dereferencesTo": "component"
+        },
+        "optional": true
+      },
+      "invertLayoutMobile": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
+      "invertLayoutDesk": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },
@@ -3256,6 +3284,20 @@
                     }
                   },
                   "dereferencesTo": "component"
+                },
+                "optional": true
+              },
+              "invertLayoutMobile": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "invertLayoutDesk": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
                 },
                 "optional": true
               },

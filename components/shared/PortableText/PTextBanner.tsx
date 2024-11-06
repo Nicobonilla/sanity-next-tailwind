@@ -7,7 +7,7 @@ export const PTextBanner: PortableTextComponents = {
   },
   marks: {
     strong: ({ children }) => (
-      <span className="font-extrabold dark:text-gray-300">{children}</span>
+      <span className="font-extrabold dark:text-red-500">{children}</span>
     ),
   },
   list: {

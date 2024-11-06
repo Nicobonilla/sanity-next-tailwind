@@ -43,6 +43,8 @@ const componentFields = /* groq */ `
     title,
     description,
     isActive,
+    invertLayoutMobile,
+    invertLayoutDesk,
     image,
     "iconValue": icon->value,
     alt,
@@ -109,6 +111,8 @@ export const getBannerDataQuery = defineQuery(
     content,
     image,
     typeComponent,
+    invertLayoutMobile,
+    invertLayoutDesk,
     items
   }`
 );

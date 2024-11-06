@@ -36,6 +36,18 @@ const banner = defineType({
       to: [{ type: 'component' }],
     }),
     defineField({
+      title: 'Invertir Layout Mobile',
+      name: 'invertLayoutMobile',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      title: 'Invertir Layout Desk',
+      name: 'invertLayoutDesk',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
@@ -51,7 +63,7 @@ const banner = defineType({
     prepare({ title, type }) {
       return {
         title: title,
-        subtitle: type
+        subtitle: type,
       };
     },
   },
