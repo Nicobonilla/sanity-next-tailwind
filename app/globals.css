@@ -78,7 +78,7 @@
 
 @layer components {
   .nav {
-    @apply font-robotomono text-sm font-thin text-gray-200 hover:font-light hover:text-gray-100;
+    @apply font-robotomono hover:font-semibold;
   }
 }
 
@@ -94,7 +94,6 @@
   }
 }
 
-
 @layer components {
   .nav-subsection-mob {
     @apply font-robotomono text-sm font-light text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
@@ -107,7 +106,7 @@
 }
 
 .t {
-  box-flex-group: rgb(8, 14, 38);
+  box-flex-group: rgb(178, 34, 34);
 }
 
 @layer components {
@@ -119,5 +118,17 @@
 @layer components {
   .form-input {
     @apply w-full rounded border border-gray-300 p-1 pl-10 text-sm;
+  }
+}
+
+@layer components {
+  .responsive-banner-1 {
+    @apply h-[700px] w-full md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px];
+  }
+}
+
+@layer components {
+  .responsive-image-1 {
+    @apply h-1/2 md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[600px] xl:h-[600px] xl:w-[800px];
   }
 }

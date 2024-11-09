@@ -6,7 +6,7 @@ import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
 
-export default function MobileNavDrawer() {
+export default function MobileNavDrawer({ scrolling }: { scrolling: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const path = usePathname();
@@ -49,8 +49,8 @@ export default function MobileNavDrawer() {
   }, [isMenuOpen]);
 
   return (
-    <div className="right-0 z-50 h-full grow-0 lg:hidden">
-      <div className="relative z-50 flex h-full cursor-pointer">
+    <div className="right-0 flex h-full grow-0 lg:hidden">
+      <div className="relative flex h-full cursor-pointer">
         <div
           onClick={toggleMenu}
           className="mr-4 flex items-center justify-center text-white"
@@ -58,9 +58,18 @@ export default function MobileNavDrawer() {
           aria-controls="mobile-menu"
         >
           {isMenuOpen ? (
-            <Icon name="x" className="size-8" />
+            <Icon
+              name="x"
+              color={scrolling ? 'orange' : 'white'}
+              className="size-6"
+            />
           ) : (
-            <Icon name="menu" className="size-8" />
+            <Icon
+              name="menu"
+              fill={'white'}
+              color={scrolling ? 'red' : 'white'}
+              className="size-6"
+            />
           )}
         </div>
       </div>
@@ -78,11 +87,11 @@ export default function MobileNavDrawer() {
             id="mobile-menu"
             className={`fixed right-0 top-0 z-50 h-screen overflow-y-auto bg-bodydark shadow-lg transition-transform duration-300 ease-in-out ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-            } w-[70%] sm:w-[60%] md:w-[40%]`}
+            } w-[70%] sm:w-3/5 md:w-2/5`}
           >
             <nav className="scale-y-80 p-6">
               <div className="z-20 mx-auto mb-10 flex h-24 grow-0 justify-start">
-                <Logo />
+                <Logo scrolling />
               </div>
               <ul className="items-center divide-y divide-gray-700">
                 {pagesLink.map((link) => {

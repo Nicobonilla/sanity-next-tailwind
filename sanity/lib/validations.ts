@@ -9,12 +9,12 @@ export const validateUniquePosition = async (
   const { document } = context; // No es necesario esperar aquí, ya que context es un objeto
 
   // Si la página no está activa o si no hay posición definida, se permite
-  if (!document?.pageIsActive || position === undefined || position === null) {
+  if (!document?.isActive || position === undefined || position === null) {
     return true;
   }
 
   // Si la página está activa, se requiere una posición
-  if (document.pageIsActive && (position === undefined || position === null)) {
+  if (document.isActive && (position === undefined || position === null)) {
     return 'Position is required when page is active';
   }
 

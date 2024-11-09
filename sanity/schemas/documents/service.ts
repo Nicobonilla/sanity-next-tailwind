@@ -27,7 +27,7 @@ export default defineType({
     }),
     defineField({
       title: 'Activar',
-      name: 'pageIsActive',
+      name: 'isActive',
       type: 'boolean',
       initialValue: false,
     }),
@@ -56,4 +56,16 @@ export default defineType({
       of: [{ type: 'banner' }],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      active: 'isActive',
+    },
+    prepare({ title, active }) {
+      return {
+        title: title,
+        subtitle: `${active ? 'Activo' : 'Inactivo'}`,
+      };
+    },
+  },
 });

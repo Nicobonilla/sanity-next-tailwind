@@ -6,19 +6,10 @@ const banner = defineType({
   type: 'document', // Tipo de documento
   fields: [
     defineField({
-      name: 'title',
-      type: 'string',
-      title: 'Título del Banner',
-    }),
-    defineField({
-      name: 'description',
-      type: 'string',
-      title: 'Descripción del Banner',
-    }),
-    defineField({
       name: 'content',
       type: 'array',
-      title: 'Contenido del Banner',
+      title:
+        'Puedes escribir el contenido utilizando h1, h2, h3, bold, normal y viñetas',
       of: [{ type: 'block' }], // Portable Text
     }),
     defineField({
@@ -28,6 +19,12 @@ const banner = defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      title: 'Activar',
+      name: 'isActive',
+      type: 'boolean',
+      initialValue: false,
     }),
     defineField({
       name: 'typeComponent',
@@ -54,16 +51,22 @@ const banner = defineType({
       of: [{ type: 'item' }],
     }),
   ],
-
   preview: {
     select: {
-      title: 'title',
+      content: 'content',
       type: 'typeComponent.value',
+      active: 'isActive',
     },
-    prepare({ title, type }) {
+    prepare({ content, type, active }) {
+      // Si no hay título, tomamos el texto del primer bloque de content
+      const previewTitle =
+        content && content[0] && content[0].children && content[0].children[0]
+          ? content[0].children[0].text
+          : 'Sin título';
+
       return {
-        title: title,
-        subtitle: type,
+        title: previewTitle,
+        subtitle: `${type} | ${active ? 'Activo' : 'Inactivo'}`,
       };
     },
   },

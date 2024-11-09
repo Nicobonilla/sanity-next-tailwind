@@ -45,9 +45,10 @@ next-env.d.ts
 /app/(web)/posts
 /app/(web)/actions.ts
 /components/global/Navbar/others
-/public/dev
+/public/icons-bank
 /components/shared/Faq.tsx
 /components/shared/empty
 /components/Banner.tsx
 /components/global/Navbar/DeskNav/SubsectionsFullWidth1.tsx
 /components/shared/Card/BasicImageCard
+

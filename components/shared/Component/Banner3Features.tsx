@@ -2,6 +2,8 @@ import React from 'react';
 import ItemBanner from '@/components/shared/Component/ItemBanner';
 import { BannerData } from '@/sanity/fetchs/bannerFetch';
 import { Item } from '@/sanity/fetchs/pagesFetch';
+import { PortableText } from 'next-sanity';
+import { PTextBanner3Features } from '../PortableText/PTextBanner3Features';
 
 export default function Banner3Features({ data }: { data: BannerData }) {
   if (!data) {
@@ -10,16 +12,11 @@ export default function Banner3Features({ data }: { data: BannerData }) {
 
   return (
     <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
-      {data.title && (
-        <h2 className="h2 mb-6 text-center uppercase">
-          {data.title || 'Title'}
-        </h2>
-      )}
-
-      {data?.description && (
-        <h2 className="h2 mb-6 text-center uppercase">
-          {data.description || 'Description'}
-        </h2>
+      {data.content && (
+        <PortableText
+          value={data.content || []}
+          components={PTextBanner3Features}
+        />
       )}
 
       {data.items && (

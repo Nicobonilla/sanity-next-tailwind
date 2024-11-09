@@ -61,9 +61,7 @@ export default async function RootLayout({
       <GoogleTagManager gtmId={process.env.GTM || ''} />
       <body className="flex min-h-screen min-w-[320px] flex-col">
         <AppContextProvider initialData={initialData}>
-          <div className="z-50 h-24">
-            <Navbar />
-          </div>
+          <Navbar />
           <main className="grow flex-col">{children}</main>
           <Footer />
         </AppContextProvider>

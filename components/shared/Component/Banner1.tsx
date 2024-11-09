@@ -10,10 +10,10 @@ export default async function Banner1({ data }: { data: BannerData | null }) {
   }
   return (
     <div
-      className={`relative ${data.invertLayoutMobile ? 'flex-col' : 'flex-col-reverse'} flex h-[700px] w-full items-center px-4 md:h-[400px] md:${data.invertLayoutDesk ? 'flex-row' : 'flex-row-reverse'} md:justify-center lg:h-[500px] xl:h-[600px] 2xl:h-[700px]`}
+      className={`responsive-1 relative ${data.invertLayoutMobile ? 'flex-col' : 'flex-col-reverse'} flex items-center gap-4 px-4 md:${data.invertLayoutDesk ? 'flex-row' : 'flex-row-reverse'} md:justify-center`}
     >
       {/* Imagen */}
-      <div className="relative flex h-1/2 w-full flex-row md:mb-0 md:h-full md:w-1/3">
+      <div className="responsive-image-1 relative flex flex-row md:mb-0">
         <Image
           src={urlForImage(data.image)?.url() || '/meeting.jpeg'}
           fill

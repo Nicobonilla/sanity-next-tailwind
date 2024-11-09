@@ -26,7 +26,7 @@ const page = defineType({
     }),
     defineField({
       title: 'Activar',
-      name: 'pageIsActive',
+      name: 'isActive',
       type: 'boolean',
       initialValue: false,
     }),

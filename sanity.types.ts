@@ -74,8 +74,6 @@ export type Item = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  description?: string;
   isActive?: boolean;
   image?: {
     asset?: {
@@ -156,7 +154,7 @@ export type Page = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  pageIsActive?: boolean;
+  isActive?: boolean;
   isHome?: boolean;
   position?: number;
   content?: Array<
@@ -200,8 +198,6 @@ export type Page = {
       }
   >;
   components?: Array<{
-    title?: string;
-    description?: string;
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -231,6 +227,7 @@ export type Page = {
       crop?: SanityImageCrop;
       _type: 'image';
     };
+    isActive?: boolean;
     typeComponent?: {
       _ref: string;
       _type: 'reference';
@@ -240,8 +237,6 @@ export type Page = {
     invertLayoutMobile?: boolean;
     invertLayoutDesk?: boolean;
     items?: Array<{
-      title?: string;
-      description?: string;
       isActive?: boolean;
       image?: {
         asset?: {
@@ -316,8 +311,6 @@ export type Banner = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  description?: string;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -347,6 +340,7 @@ export type Banner = {
     crop?: SanityImageCrop;
     _type: 'image';
   };
+  isActive?: boolean;
   typeComponent?: {
     _ref: string;
     _type: 'reference';
@@ -356,8 +350,6 @@ export type Banner = {
   invertLayoutMobile?: boolean;
   invertLayoutDesk?: boolean;
   items?: Array<{
-    title?: string;
-    description?: string;
     isActive?: boolean;
     image?: {
       asset?: {
@@ -441,7 +433,7 @@ export type Service = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  pageIsActive?: boolean;
+  isActive?: boolean;
   content?: Array<
     | {
         children?: Array<{
@@ -489,8 +481,6 @@ export type Service = {
     [internalGroqTypeReferenceTo]?: 'unitBusiness';
   };
   components?: Array<{
-    title?: string;
-    description?: string;
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -520,6 +510,7 @@ export type Service = {
       crop?: SanityImageCrop;
       _type: 'image';
     };
+    isActive?: boolean;
     typeComponent?: {
       _ref: string;
       _type: 'reference';
@@ -529,8 +520,6 @@ export type Service = {
     invertLayoutMobile?: boolean;
     invertLayoutDesk?: boolean;
     items?: Array<{
-      title?: string;
-      description?: string;
       isActive?: boolean;
       image?: {
         asset?: {
@@ -1250,7 +1239,7 @@ export type PostQueryResult = {
   } | null;
 } | null;
 // Variable: getPagesNavQuery
-// Query: *[_type == 'page'] {  "id": _id,  "title": title,  "slug": slug.current,  position,  isHome}
+// Query: *[_type == 'page' ] | order(position asc) {  "id": _id,  "title": title,  "slug": slug.current,  position,  isHome}
 export type GetPagesNavQueryResult = Array<{
   id: string;
   title: string | null;
@@ -1259,7 +1248,7 @@ export type GetPagesNavQueryResult = Array<{
   isHome: boolean | null;
 }>;
 // Variable: getPageDetailQuery
-// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[] {   title,  description,  content,  image,  "typeComponentValue": typeComponent->value,  items[] {    title,    description,    isActive,    invertLayoutMobile,    invertLayoutDesk,    image,    "iconValue": icon->value,    alt,    position,    content  } },  "isHome": isHome}
+// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    "iconValue": icon->value,    alt,    position,    content  } },  "isHome": isHome}
 export type GetPageDetailQueryResult = {
   id: string;
   title: string | null;
@@ -1306,8 +1295,6 @@ export type GetPageDetailQueryResult = {
       }
   > | null;
   components: Array<{
-    title: string | null;
-    description: string | null;
     content: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -1337,13 +1324,12 @@ export type GetPageDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
+    isActive: boolean | null;
     typeComponentValue: string | null;
+    invertLayoutMobile: boolean | null;
+    invertLayoutDesk: boolean | null;
     items: Array<{
-      title: string | null;
-      description: string | null;
       isActive: boolean | null;
-      invertLayoutMobile: null;
-      invertLayoutDesk: null;
       image: {
         asset?: {
           _ref: string;
@@ -1403,9 +1389,10 @@ export type GetPageDetailQueryResult = {
   isHome: boolean | null;
 } | null;
 // Variable: getServicesNavQuery
-// Query: *[_type == 'service']{    title,    "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current    },    "slug": slug.current    }
+// Query: *[_type == 'service' && isActive] | order(position asc) {    title,    isActive,    "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current    },    "slug": slug.current    }
 export type GetServicesNavQueryResult = Array<{
   title: string | null;
+  isActive: boolean | null;
   unitBusiness: {
     title: string | null;
     icon: 'menu' | 'user' | null;
@@ -1414,7 +1401,7 @@ export type GetServicesNavQueryResult = Array<{
   slug: string | null;
 }>;
 // Variable: getServiceDetailQuery
-// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[] {   title,  description,  content,  image,  "typeComponentValue": typeComponent->value,  items[] {    title,    description,    isActive,    invertLayoutMobile,    invertLayoutDesk,    image,    "iconValue": icon->value,    alt,    position,    content  } }}
+// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    "iconValue": icon->value,    alt,    position,    content  } }}
 export type GetServiceDetailQueryResult = {
   title: string | null;
   content: Array<
@@ -1474,8 +1461,6 @@ export type GetServiceDetailQueryResult = {
     }> | null;
   }> | null;
   components: Array<{
-    title: string | null;
-    description: string | null;
     content: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -1505,13 +1490,12 @@ export type GetServiceDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
+    isActive: boolean | null;
     typeComponentValue: string | null;
+    invertLayoutMobile: boolean | null;
+    invertLayoutDesk: boolean | null;
     items: Array<{
-      title: string | null;
-      description: string | null;
       isActive: boolean | null;
-      invertLayoutMobile: null;
-      invertLayoutDesk: null;
       image: {
         asset?: {
           _ref: string;
@@ -1569,115 +1553,6 @@ export type GetServiceDetailQueryResult = {
     }> | null;
   }> | null;
 } | null;
-// Variable: getBannerDataQuery
-// Query: *[_type == 'banner']{    title,    description,    content,    image,    typeComponent,    invertLayoutMobile,    invertLayoutDesk,    items  }
-export type GetBannerDataQueryResult = Array<{
-  title: string | null;
-  description: string | null;
-  content: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: 'span';
-      _key: string;
-    }>;
-    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-    listItem?: 'bullet' | 'number';
-    markDefs?: Array<{
-      href?: string;
-      _type: 'link';
-      _key: string;
-    }>;
-    level?: number;
-    _type: 'block';
-    _key: string;
-  }> | null;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  } | null;
-  typeComponent: {
-    _ref: string;
-    _type: 'reference';
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'component';
-  } | null;
-  invertLayoutMobile: boolean | null;
-  invertLayoutDesk: boolean | null;
-  items: Array<{
-    title?: string;
-    description?: string;
-    isActive?: boolean;
-    image?: {
-      asset?: {
-        _ref: string;
-        _type: 'reference';
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: 'image';
-    };
-    alt?: string;
-    position?: number;
-    icon?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'icon';
-    };
-    content?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: 'span';
-            _key: string;
-          }>;
-          style?:
-            | 'blockquote'
-            | 'h1'
-            | 'h2'
-            | 'h3'
-            | 'h4'
-            | 'h5'
-            | 'h6'
-            | 'normal';
-          listItem?: 'bullet' | 'number';
-          markDefs?: Array<{
-            href?: string;
-            _type: 'link';
-            _key: string;
-          }>;
-          level?: number;
-          _type: 'block';
-          _key: string;
-        }
-      | {
-          asset?: {
-            _ref: string;
-            _type: 'reference';
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-          };
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          _type: 'image';
-          _key: string;
-        }
-    >;
-    _type: 'item';
-    _key: string;
-  }> | null;
-}>;
 // Variable: getComponentListQuery
 // Query: *[_type == 'component']{  value, name}
 export type GetComponentListQueryResult = Array<{
@@ -1699,11 +1574,10 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': HeroQueryResult;
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
-    '\n  *[_type == \'page\'] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  isHome\n}': GetPagesNavQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[] { \n  title,\n  description,\n  content,\n  image,\n  "typeComponentValue": typeComponent->value,\n  items[] {\n    title,\n    description,\n    isActive,\n    invertLayoutMobile,\n    invertLayoutDesk,\n    image,\n    "iconValue": icon->value,\n    alt,\n    position,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
-    '*[_type == \'service\']{\n    title,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
-    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[] { \n  title,\n  description,\n  content,\n  image,\n  \"typeComponentValue\": typeComponent->value,\n  items[] {\n    title,\n    description,\n    isActive,\n    invertLayoutMobile,\n    invertLayoutDesk,\n    image,\n    \"iconValue\": icon->value,\n    alt,\n    position,\n    content\n  }\n }\n}": GetServiceDetailQueryResult;
-    "*[_type == 'banner']{\n    title,\n    description,\n    content,\n    image,\n    typeComponent,\n    invertLayoutMobile,\n    invertLayoutDesk,\n    items\n  }": GetBannerDataQueryResult;
+    '\n  *[_type == \'page\' ] | order(position asc) {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  isHome\n}': GetPagesNavQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  "typeComponentValue": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    "iconValue": icon->value,\n    alt,\n    position,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
+    '*[_type == \'service\' && isActive] | order(position asc) {\n    title,\n    isActive,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
+    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  \"typeComponentValue\": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    \"iconValue\": icon->value,\n    alt,\n    position,\n    content\n  }\n }\n}": GetServiceDetailQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
   }

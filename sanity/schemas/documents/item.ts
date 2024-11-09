@@ -7,18 +7,6 @@ const item = defineType({
   type: 'document', // Tipo de documento
   fields: [
     defineField({
-      name: 'title',
-      title: 'Titulo',
-      type: 'string',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'string',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       title: 'Activar',
       name: 'isActive',
       type: 'boolean',
@@ -64,6 +52,24 @@ const item = defineType({
       ], // Para contenido enriquecido
     }),
   ],
+  preview: {
+    select: {
+      content: 'content',
+      alt: 'alt',
+      active: 'isActive',
+      image: 'image',
+    },
+    prepare({ content, alt, active, image }) {
+      const previewTitle =
+        content && content[0] && content[0].children && content[0].children[0]
+          ? content[0].children[0].text
+          : '';
+      return {
+        title: `${previewTitle} |${alt ? '' : ' Sin alt |'} ${active ? 'Activo' : 'Inactivo'}`,
+        media: image, // Aquí asignas la imagen para que se muestre
+      };
+    },
+  },
 });
 
 export default item;

@@ -2,11 +2,11 @@
 import { NavProps } from '@/types';
 import SubsectionsFullWidth from './SubsectionsFullWidth';
 
-export default function DeskNav() {
+export default function DeskNav({ scrolling }: { scrolling: boolean }) {
   return (
     <>
       {/* <Simple links={links} /> */}
-      <SubsectionsFullWidth />
+      <SubsectionsFullWidth  scrolling={scrolling}/>
     </>
   );
 }

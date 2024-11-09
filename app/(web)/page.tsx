@@ -5,6 +5,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import { Component, SanPage } from '@/sanity/fetchs/pagesFetch';
 import { GetPagesNavQueryResult } from '@/sanity.types';
 import { getPageBySlugFetch, getPagesNavFetch } from '@/sanity/lib/fetch';
+import Image from 'next/image';
 
 export default async function Page() {
   let currentPage: SanPage | null = null;
@@ -28,6 +29,12 @@ export default async function Page() {
         <PageTemplate components={currentPage?.components as Component[]} />
       )}
       <Form />
+      <Image
+        src="/icons/apacheairflow/apacheairflow-original-wordmark.svg"
+        alt="JavaScript Icon"
+        width={250}
+        height={250}
+      />
     </>
   );
 }

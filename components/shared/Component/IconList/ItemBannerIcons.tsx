@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Icon from '@/components/shared/Icon';
 import type { Item } from '@/sanity/fetchs/pagesFetch';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
+import { PortableText } from 'next-sanity';
+import { PTextItemIcon } from '../../PortableText/PTextItemIcon';
 
 export default function ItemBannerIcons({ items }: { items: Item[] | null }) {
   if (!items || items.length === 0) {
@@ -43,9 +45,14 @@ export default function ItemBannerIcons({ items }: { items: Item[] | null }) {
             alt="follow-me"
           />
         </div>
+        PTextItemIcon
         <div className="text-center md:text-start">
-          <h3 className="h3 mb-3">{item?.title}</h3>
-          <p className="p3">{item?.description}</p>
+          {item?.content && (
+            <PortableText
+              value={item.content || []}
+              components={PTextItemIcon}
+            />
+          )}
         </div>
       </div>
     );

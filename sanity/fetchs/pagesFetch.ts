@@ -70,8 +70,6 @@ export type Content = Array<
 // Define the Item type as before
 export type Item =
   | {
-      title: string | null;
-      description: string | null;
       isActive?: boolean | null;
       image?: SanityImage | null;
       iconValue?: string | null;
@@ -84,10 +82,12 @@ export type Item =
 
 export type Component =
   | {
-      title: string | null;
-      description: string | null;
       content: Content;
+      image: SanityImage | null;
+      isActive: boolean | null;
       typeComponentValue: string | null;
+      invertLayoutMobile: boolean | null;
+      invertLayoutDesk: boolean | null;
       items: Array<Item> | null;
     }
   | null
@@ -97,8 +97,9 @@ export type Page = {
   id: string;
   title: string | null;
   slug: string | null;
+  isActive: boolean | null;
+  isHome: boolean | null;
   position: number | null;
   content: Content;
   components: Component[];
-  isHome: boolean | null;
 };

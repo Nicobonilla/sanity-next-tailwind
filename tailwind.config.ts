@@ -19,6 +19,7 @@ const config: Config = {
         robotomono: ['var(--font-roboto-mono)', 'sans-serif'],
         crimson: ['var(--font-crimson-pro)', 'serif'],
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
+        bitter: ['var(--font-bitter)', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',
@@ -29,6 +30,7 @@ const config: Config = {
         textBlue: 'rgba(5, 27, 129, 0.7)',
         drawerColor: 'rgba(0,44,84, 1.0)',
         dividerDrawer: 'rgba(49, 78, 105, 1)',
+        primary: 'rgba(178, 34, 34, 1)',
         second: colors.red, //green-600
         lay: 'rgba(70, 66, 85, 1)',
       },

@@ -5,7 +5,6 @@ import { client } from '@/sanity/lib/client';
 import { token } from '@/sanity/lib/token';
 
 import {
-  getBannerDataQuery,
   getServiceDetailQuery,
   getServicesNavQuery,
   getComponentListQuery,
@@ -13,7 +12,6 @@ import {
   getPagesNavQuery,
 } from '@/sanity/lib/queries';
 import {
-  GetBannerDataQueryResult,
   GetComponentListQueryResult,
   GetIconListQueryResult,
   GetPageDetailQueryResult,
@@ -175,27 +173,6 @@ export async function getServiceBySlugFetch(
     };
   } catch (error) {
     console.error('Error fetching service by slug:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
-  }
-}
-
-export async function getBannerDataFetch(): Promise<GetBannerDataQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getBannerDataQuery; // This should be a GROQ string
-
-  try {
-    const data = (await sanityFetch({
-      query,
-    })) as GetBannerDataQueryResult | null;
-    // Si service es null, retornamos null
-    // Si data es null o está vacío, retornamos null
-    if (!data || (Array.isArray(data) && data.length === 0)) {
-      return null; // Si no hay datos, retornamos null
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error fetching banner:', error);
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
 }

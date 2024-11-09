@@ -7,11 +7,14 @@ import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
 
-export default function SubsectionsFullWidth() {
+export default function SubsectionsFullWidth({
+  scrolling,
+}: {
+  scrolling: boolean;
+}) {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
   const { pagesLink } = useAppContext();
-
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -42,19 +45,21 @@ export default function SubsectionsFullWidth() {
 
   return (
     <nav className="hidden lg:block">
-      <ul className="flex h-24 items-center">
+      <ul className="flex h-full items-center justify-center">
         {pagesLink?.map((link) => (
           <li
             key={link?.title}
-            className="group relative flex h-24 cursor-pointer items-center px-4 2xl:px-8"
+            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 2xl:px-8"
             onMouseEnter={() => handleMouseEnter(link?.title || '')}
             onMouseLeave={handleMouseLeave}
           >
             <Link href={{ pathname: `/${link?.slug}` }} passHref>
-              <span className="nav inline-flex items-center justify-center">
+              <span
+                className={`nav ${scrolling ? 'text-gray-600' : 'text-white'} inline-flex items-center justify-center uppercase`}
+              >
                 {link?.title}
               </span>
-              <div className="absolute w-0 border-b-2 border-red-700 bg-gray-200 transition-all duration-300 ease-in-out group-hover:w-[80%] group-hover:xl:w-[70%] group-hover:2xl:w-[60%]"></div>
+              <div className="absolute w-0 border-b-2 border-gray-200 transition-all duration-300 ease-in-out group-hover:w-4/5 group-hover:xl:w-[70%] group-hover:2xl:w-3/5"></div>
             </Link>
           </li>
         ))}

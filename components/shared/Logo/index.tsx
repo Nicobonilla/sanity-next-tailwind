@@ -1,18 +1,42 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Logo() {
+export default function Logo({ scrolling }: { scrolling: boolean }) {
   return (
     <Link href={'/'}>
-      <div className="flex items-center md:px-10">
-        <div className="relative size-12 md:size-14">
-          {' '}
-          {/* Ajusta el tamaño de la imagen si es necesario */}
-          <Image src="/bunnwhite.svg" alt="logo" priority fill />
+      <div className="flex h-full items-center justify-center">
+        {/* Logo SVG opcional, puedes cambiar `false` a `true` si deseas mostrarlo */}
+        {false && (
+          <div className="relative h-12 w-12 md:h-14 md:w-14">
+            <Image src="/bunnwhite.svg" alt="logo" priority fill />
+          </div>
+        )}
+
+        {/* Texto del Logo */}
+        <div className="font-bitter z-50 flex items-center justify-center">
+          <h1
+            className={`z-50 font-extrabold ${
+              scrolling
+                ? 'bg-gradient-to-r from-red-500 to-red-500 bg-clip-text text-3xl text-transparent lg:text-5xl'
+                : 'text-4xl text-white md:text-7xl'
+            }`}
+          >
+            ON
+          </h1>
+          <h1
+            className={`z-50 font-extrabold ${
+              scrolling
+                ? 'bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-3xl text-transparent lg:text-5xl'
+                : 'text-4xl text-white md:text-7xl'
+            }`}
+          >
+            IT
+          </h1>
+          {/* Mostrar el sufijo opcional `.cl` */}
+          {false && (
+            <span className="ml-1 text-lg font-semibold text-white">.cl</span>
+          )}
         </div>
-        <span className="w-12 font-robotomono font-light leading-4 text-white">
-          Follow the rabbit!
-        </span>
       </div>
     </Link>
   );

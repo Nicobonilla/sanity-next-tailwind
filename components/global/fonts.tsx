@@ -36,4 +36,10 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-export const fonts = { inter, robotoFlex, robotoMono, crimsonPro, montserrat };
+const bitter = Montserrat({
+  variable: '--font-bitter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+export const fonts = { inter, robotoFlex, robotoMono, crimsonPro, montserrat, bitter };
