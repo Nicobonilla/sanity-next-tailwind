@@ -85,7 +85,7 @@ export default function Navbar() {
           <Contacto />
           <button className="p-2">
             <h1
-              className={`z-50 bg-gradient-to-r  ${scrolling ? 'from-red-500' : 'from-white'} to-red-600 bg-clip-text pr-10 font-semibold text-transparent`}
+              className={`z-50 bg-gradient-to-r ${scrolling ? 'from-red-500' : 'from-white'} to-red-600 bg-clip-text pr-10 font-semibold text-transparent`}
             >
               Hablemos!
             </h1>

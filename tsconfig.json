@@ -26,7 +26,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "types.d.ts",
-    "components/global/Footer/index.tsx"
+    "components/global/Footer/index.tsx",
+    "components/global/Footer/FooterWP/WPlike"
   ],
   "exclude": ["node_modules"]
 }
