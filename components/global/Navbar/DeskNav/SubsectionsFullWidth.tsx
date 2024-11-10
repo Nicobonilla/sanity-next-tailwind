@@ -6,15 +6,13 @@ import Link from 'next/link';
 import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
+import { useScrollContext } from '@/context/ScrollContext';
 
-export default function SubsectionsFullWidth({
-  scrolling,
-}: {
-  scrolling: boolean;
-}) {
+export default function SubsectionsFullWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
   const { pagesLink } = useAppContext();
+  const { scrolling } = useScrollContext();
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };

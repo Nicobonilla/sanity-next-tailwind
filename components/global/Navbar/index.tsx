@@ -102,8 +102,8 @@ export default function Navbar() {
             <Contacto />
           </div>
 
-          <MobileNav scrolling={scrolling} />
-          <DeskNav scrolling={scrolling} />
+          <MobileNav />
+          <DeskNav />
         </div>
       </div>
     </div>
