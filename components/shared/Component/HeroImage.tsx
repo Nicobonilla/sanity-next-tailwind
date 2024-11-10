@@ -1,10 +1,10 @@
 import { PTheroImage } from '@/components/shared/PortableText/PTheroImage';
-import { BannerData } from '@/sanity/fetchs/bannerFetch';
+import { Banner } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
 import Image from 'next/image';
 
-export default function HeroImage({ data }: { data: BannerData | null }) {
+export default function HeroImage({ data }: { data: Banner | null }) {
   if (!data) {
     return <div>Error al cargar el banner.</div>;
   }

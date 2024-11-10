@@ -1,11 +1,11 @@
 import React from 'react';
 import ItemBanner from '@/components/shared/Component/ItemBanner';
-import { BannerData } from '@/sanity/fetchs/bannerFetch';
 import { Item } from '@/sanity/fetchs/pagesFetch';
 import { PortableText } from 'next-sanity';
 import { PTextBanner3Features } from '../PortableText/PTextBanner3Features';
+import { Banner } from '@/sanity.types';
 
-export default function Banner3Features({ data }: { data: BannerData }) {
+export default function Banner3Features({ data }: { data: Banner }) {
   if (!data) {
     return <div>Error al cargar el banner.</div>;
   }

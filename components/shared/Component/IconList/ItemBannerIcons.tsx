@@ -27,7 +27,7 @@ export default function ItemBannerIcons({ items }: { items: Item[] | null }) {
 
     return (
       <div className="flex flex-col items-center justify-center md:flex-row md:items-start">
-        <div className="relative z-0 mb-5 flex h-full w-full items-center justify-center md:max-w-24">
+        <div className="relative z-0 mb-5 flex size-full items-center justify-center md:max-w-24">
           <div className="absolute bottom-0 z-20 -translate-y-2 translate-x-2">
             <Icon
               name={iconName}

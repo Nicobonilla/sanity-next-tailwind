@@ -62,10 +62,8 @@ export default function Navbar() {
         className={`h-10 ${colorBg2} flex-col transition-all duration-300 ease-in-out`}
       >
         <div className="z-50 hidden w-full px-4 lg:flex">
-          <div className={`z-10 flex grow items-center justify-end`}>
-            <button className="pr-10">
-              <ThemeToggle color={colorText} />
-            </button>
+          <div className={`z-10 flex grow items-center justify-end pl-10`}>
+            <ThemeToggle color={colorText} />
           </div>
 
           <Contacto />

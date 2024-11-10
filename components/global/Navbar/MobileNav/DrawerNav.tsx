@@ -6,6 +6,7 @@ import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
 import { useScrollContext } from '@/context/ScrollContext';
+import { IoIosMenu, IoIosClose } from 'react-icons/io';
 
 export default function MobileNavDrawer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,20 +60,9 @@ export default function MobileNavDrawer() {
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
         >
-          {isMenuOpen ? (
-            <Icon
-              name="x"
-              color={scrolling ? 'orange' : 'white'}
-              className="size-6"
-            />
-          ) : (
-            <Icon
-              name="menu"
-              fill={'white'}
-              color={scrolling ? 'red' : 'white'}
-              className="size-6"
-            />
-          )}
+          <div className={`${scrolling ? 'text-red-500' : 'text-white'}`}>
+            {isMenuOpen ? <IoIosClose size={25} /> : <IoIosMenu size={25} />}
+          </div>
         </div>
       </div>
 

@@ -2,9 +2,9 @@ import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from '@portabletext/react';
 import { PTextBanner } from '../PortableText/PTextBanner';
-import { BannerData } from '@/sanity/fetchs/bannerFetch';
+import { Banner } from '@/sanity.types';
 
-export default async function Banner1({ data }: { data: BannerData | null }) {
+export default function Banner1({ data }: { data: Banner | null }) {
   if (!data) {
     return <div>Error al cargar el banner.</div>;
   }
