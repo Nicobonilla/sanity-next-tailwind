@@ -1,30 +1,16 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/shared/Logo';
 import ThemeToggle from './ThemeToggle';
-import Icon from '@/components/shared/Icon';
 import { FaWhatsapp } from 'react-icons/fa';
-import { PiUserBold } from 'react-icons/pi';
 import { IoIosMail } from 'react-icons/io';
 import Link from 'next/link';
+import { useScrollContext } from '@/context/ScrollContext';
 
 export default function Navbar() {
-  const [scrolling, setScrolling] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { scrolling } = useScrollContext();
 
   const colorScroll = {
     gradient:
@@ -107,7 +93,7 @@ export default function Navbar() {
         >
           {/* Logo */}
           <div className={`z-20 flex grow-0 justify-center p-2`}>
-            <Logo scrolling={scrolling} />
+            <Logo />
           </div>
           <div className={`z-10 flex grow items-center justify-end`}></div>
 

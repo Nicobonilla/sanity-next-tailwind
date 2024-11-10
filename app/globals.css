@@ -129,6 +129,6 @@
 
 @layer components {
   .responsive-image-1 {
-    @apply h-1/2 md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[600px] xl:h-[600px] xl:w-[800px];
+    @apply h-1/2 w-full md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[600px] xl:h-[600px] xl:w-[800px];
   }
 }

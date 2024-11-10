@@ -5,12 +5,14 @@ import Logo from '@/components/shared/Logo';
 import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
+import { useScrollContext } from '@/context/ScrollContext';
 
-export default function MobileNavDrawer({ scrolling }: { scrolling: boolean }) {
+export default function MobileNavDrawer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const path = usePathname();
   const { pagesLink } = useAppContext();
+  const { scrolling } = useScrollContext();
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -91,7 +93,7 @@ export default function MobileNavDrawer({ scrolling }: { scrolling: boolean }) {
           >
             <nav className="scale-y-80 p-6">
               <div className="z-20 mx-auto mb-10 flex h-24 grow-0 justify-start">
-                <Logo scrolling />
+                <Logo />
               </div>
               <ul className="items-center divide-y divide-gray-700">
                 {pagesLink.map((link) => {

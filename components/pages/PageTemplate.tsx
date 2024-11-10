@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { Component } from '@/sanity/fetchs/pagesFetch'; // Ensure this is the correct type
-import { AppContextProvider, useAppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 
 // Componente de página
 export default function PageTemplate({

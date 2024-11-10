@@ -1,19 +1,23 @@
+'use client';
+import { useScrollContext } from '@/context/ScrollContext';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Logo({ scrolling }: { scrolling: boolean }) {
+export default function Logo() {
+  const { scrolling } = useScrollContext();
+
   return (
     <Link href={'/'}>
       <div className="flex h-full items-center justify-center">
         {/* Logo SVG opcional, puedes cambiar `false` a `true` si deseas mostrarlo */}
         {false && (
-          <div className="relative h-12 w-12 md:h-14 md:w-14">
+          <div className="relative size-12 md:size-14">
             <Image src="/bunnwhite.svg" alt="logo" priority fill />
           </div>
         )}
 
         {/* Texto del Logo */}
-        <div className="font-bitter z-50 flex items-center justify-center">
+        <div className="z-50 flex items-center justify-center font-bitter">
           <h1
             className={`z-50 font-extrabold ${
               scrolling

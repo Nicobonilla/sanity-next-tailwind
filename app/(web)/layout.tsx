@@ -20,6 +20,7 @@ import {
   GetServicesNavQueryResult,
 } from '@/sanity.types';
 import { transformToDict } from '@/components/utils';
+import { ScrollContextProvider } from '@/context/ScrollContext';
 
 export { metadata, viewport } from 'next-sanity/studio';
 
@@ -61,9 +62,13 @@ export default async function RootLayout({
       <GoogleTagManager gtmId={process.env.GTM || ''} />
       <body className="flex min-h-screen min-w-[320px] flex-col">
         <AppContextProvider initialData={initialData}>
-          <Navbar />
+          <ScrollContextProvider>
+            <Navbar />
+          </ScrollContextProvider>
           <main className="grow flex-col">{children}</main>
-          <Footer />
+          <ScrollContextProvider>
+            <Footer />
+          </ScrollContextProvider>
         </AppContextProvider>
       </body>
     </html>

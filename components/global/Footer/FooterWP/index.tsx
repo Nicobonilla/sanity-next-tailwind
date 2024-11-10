@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/solid';
 import Logo from '@/components/shared/Logo';
 
-export default function WPlike({ scrolling }: { scrolling: boolean }) {
+export default function WPlike() {
   return (
     <>
       <div className="text-x bg-menuColor2/80 p-2 text-white">
@@ -16,7 +16,7 @@ export default function WPlike({ scrolling }: { scrolling: boolean }) {
           <div className="my-auto flex flex-col md:flex-row">
             <div className="flex flex-col md:w-1/2">
               <div className="mt-10 flex items-center justify-center">
-                <Logo scrolling />
+                <Logo  />
               </div>
 
               <div className="mx-5 flex items-center py-5 text-center leading-relaxed text-white">

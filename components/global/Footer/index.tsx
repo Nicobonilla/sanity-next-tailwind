@@ -2,6 +2,7 @@
 import FooterWP from './FooterWP/index.jsx';
 import Simple from './Simple';
 export default function Footer() {
+  
   return (
     <>
       <Simple />
