@@ -1,6 +1,5 @@
 import React from 'react';
-import { PortableText } from 'next-sanity';
-import { PTextItemIcon } from '../../PortableText/PTextItemIcon';
+import { PortableText, PortableTextComponents } from 'next-sanity';
 import { Icon } from '@iconify/react';
 import { Item } from '@/sanity.types';
 
@@ -8,6 +7,22 @@ export type ItemProps = Omit<
   Item,
   '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
 >;
+
+const PTextItemIcon: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => <h1 className="h3 mb-3">{children}</h1>,
+    normal: ({ children }) => (
+      <div className="p3 max-w-96 text-justify">
+        <span>{children}</span>
+      </div>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => (
+      <span className="p3 font-bold text-red-500">{children}</span>
+    ),
+  },
+};
 
 export default function ItemBannerIcons({ items }: { items: ItemProps[] }) {
   if (!items || items.length === 0) {
@@ -21,8 +36,8 @@ export default function ItemBannerIcons({ items }: { items: ItemProps[] }) {
     const hasSvgIcon = !!item.svgIcon;
 
     return (
-      <div className="flex flex-col items-center justify-center md:flex-row md:items-start">
-        <div className="relative z-0 mx-auto mb-5 flex size-full items-center justify-center md:max-w-24">
+      <div className="flex flex-col items-center justify-center">
+        <div className="relative z-0 mx-auto mb-5 flex size-full items-center justify-center text-red-500 md:max-w-24">
           {icon ? (
             <Icon
               icon={icon}
@@ -44,7 +59,7 @@ export default function ItemBannerIcons({ items }: { items: ItemProps[] }) {
             )
           )}
         </div>
-        <div className="text-center md:text-start">
+        <div>
           {item.content && (
             <PortableText
               value={item.content || []}
