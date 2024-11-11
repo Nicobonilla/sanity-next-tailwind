@@ -40,7 +40,15 @@ const componentFields = /* groq */ `
   "typeComponentValue": typeComponent->value,
   invertLayoutMobile,
   invertLayoutDesk,
-  items[isActive]
+  items[isActive] {
+    isActive,
+    image,
+    svgIcon,
+    icon,
+    alt,
+    position,
+    content
+  }
 `;
 
 /* PAGES */

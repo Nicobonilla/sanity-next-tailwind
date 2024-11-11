@@ -4,12 +4,17 @@ import { PTextItemIcon } from '../../PortableText/PTextItemIcon';
 import { Icon } from '@iconify/react';
 import { Item } from '@/sanity.types';
 
-export default function ItemBannerIcons({ items }: { items: Item[] }) {
+export type ItemProps = Omit<
+  Item,
+  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
+>;
+
+export default function ItemBannerIcons({ items }: { items: ItemProps[] }) {
   if (!items || items.length === 0) {
     return <p>No items available</p>;
   }
 
-  const ItemComponent: React.FC<Item> = (item) => {
+  const ItemComponent: React.FC<ItemProps> = (item) => {
     if (!item) return null;
 
     const { icon, metadata } = item.icon || {};

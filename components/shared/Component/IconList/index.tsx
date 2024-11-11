@@ -1,8 +1,9 @@
 import React from 'react';
 import ItemBannerIcons from './ItemBannerIcons';
-import { Banner, Item } from '@/sanity.types';
+import { Banner } from '@/sanity.types';
 import { PortableText } from 'next-sanity';
 import { PTextBannerIcons } from '../../PortableText/PTextBannerIcons';
+import { ItemProps } from './ItemBannerIcons';
 
 export default function IconList({ data }: { data: Banner }) {
   if (!data?.items) {
@@ -20,7 +21,7 @@ export default function IconList({ data }: { data: Banner }) {
       )}
       {data?.items && data.items.length > 0 && (
         <div className="mx-auto grid max-w-md grid-cols-1 items-center justify-center gap-10 md:max-w-full md:grid-cols-2 md:gap-5">
-          <ItemBannerIcons items={data?.items as Item[]} />
+          <ItemBannerIcons items={data?.items as ItemProps[]} />
         </div>
       )}
     </div>
