@@ -1298,7 +1298,7 @@ export type GetPagesNavQueryResult = Array<{
   isHome: boolean | null;
 }>;
 // Variable: getPageDetailQuery
-// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    svgIcon,    icon,    alt,    position,    content  } },  "isHome": isHome}
+// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] },  "isHome": isHome}
 export type GetPageDetailQueryResult = {
   id: string;
   title: string | null;
@@ -1379,8 +1379,8 @@ export type GetPageDetailQueryResult = {
     invertLayoutMobile: boolean | null;
     invertLayoutDesk: boolean | null;
     items: Array<{
-      isActive: boolean | null;
-      image: {
+      isActive?: boolean;
+      image?: {
         asset?: {
           _ref: string;
           _type: 'reference';
@@ -1390,12 +1390,12 @@ export type GetPageDetailQueryResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: 'image';
-      } | null;
-      svgIcon: string | null;
-      icon: IconManager | null;
-      alt: string | null;
-      position: number | null;
-      content: Array<
+      };
+      alt?: string;
+      position?: number;
+      icon?: IconManager;
+      svgIcon?: string;
+      content?: Array<
         | {
             children?: Array<{
               marks?: Array<string>;
@@ -1434,7 +1434,9 @@ export type GetPageDetailQueryResult = {
             _type: 'image';
             _key: string;
           }
-      > | null;
+      >;
+      _type: 'item';
+      _key: string;
     }> | null;
   }> | null;
   isHome: boolean | null;
@@ -1452,7 +1454,7 @@ export type GetServicesNavQueryResult = Array<{
   slug: string | null;
 }>;
 // Variable: getServiceDetailQuery
-// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    svgIcon,    icon,    alt,    position,    content  } }}
+// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] }}
 export type GetServiceDetailQueryResult = {
   title: string | null;
   content: Array<
@@ -1546,8 +1548,8 @@ export type GetServiceDetailQueryResult = {
     invertLayoutMobile: boolean | null;
     invertLayoutDesk: boolean | null;
     items: Array<{
-      isActive: boolean | null;
-      image: {
+      isActive?: boolean;
+      image?: {
         asset?: {
           _ref: string;
           _type: 'reference';
@@ -1557,12 +1559,12 @@ export type GetServiceDetailQueryResult = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         _type: 'image';
-      } | null;
-      svgIcon: string | null;
-      icon: IconManager | null;
-      alt: string | null;
-      position: number | null;
-      content: Array<
+      };
+      alt?: string;
+      position?: number;
+      icon?: IconManager;
+      svgIcon?: string;
+      content?: Array<
         | {
             children?: Array<{
               marks?: Array<string>;
@@ -1601,7 +1603,9 @@ export type GetServiceDetailQueryResult = {
             _type: 'image';
             _key: string;
           }
-      > | null;
+      >;
+      _type: 'item';
+      _key: string;
     }> | null;
   }> | null;
 } | null;
@@ -1630,9 +1634,9 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
     '\n  *[_type == \'page\' ] | order(position asc) {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  isHome\n}': GetPagesNavQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  "typeComponentValue": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    svgIcon,\n    icon,\n    alt,\n    position,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  "typeComponentValue": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive]\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
     '*[_type == \'service\' && isActive] | order(position asc) {\n    title,\n    isActive,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
-    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  \"typeComponentValue\": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    svgIcon,\n    icon,\n    alt,\n    position,\n    content\n  }\n }\n}": GetServiceDetailQueryResult;
+    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  \"typeComponentValue\": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive]\n }\n}": GetServiceDetailQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;

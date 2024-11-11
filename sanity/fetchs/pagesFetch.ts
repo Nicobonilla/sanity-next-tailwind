@@ -71,18 +71,15 @@ export type Content = Array<
 > | null;
 
 // Define the Item type as before
-export type Item =
-  | {
-      isActive?: boolean | null;
-      image?: SanityImage | null;
-      iconValue?: string | null;
-      alt?: string | null;
-      iconManager?: IconProps | null;
-      position?: number | null;
-      content?: Content | null;
-    }
-  | null
-  | undefined;
+export type Item = {
+  isActive?: boolean | null;
+  image?: SanityImage | null;
+  iconValue?: string | null;
+  alt?: string | null;
+  iconManager?: IconProps | null;
+  position?: number | null;
+  content?: Content | null;
+};
 
 export type Component =
   | {

@@ -2,18 +2,14 @@ import React from 'react';
 import { PortableText } from 'next-sanity';
 import { PTextItemIcon } from '../../PortableText/PTextItemIcon';
 import { Icon } from '@iconify/react';
-import { Item as ItemType } from '@/sanity.types';
+import { Item } from '@/sanity.types';
 
-export default function ItemBannerIcons({
-  items,
-}: {
-  items: ItemType[] | null;
-}) {
+export default function ItemBannerIcons({ items }: { items: Item[] }) {
   if (!items || items.length === 0) {
     return <p>No items available</p>;
   }
 
-  const ItemComponent: React.FC<ItemType> = (item) => {
+  const ItemComponent: React.FC<Item> = (item) => {
     if (!item) return null;
 
     const { icon, metadata } = item.icon || {};
