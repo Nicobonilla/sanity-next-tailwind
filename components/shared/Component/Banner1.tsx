@@ -10,7 +10,7 @@ export default function Banner1({ data }: { data: Banner | null }) {
   }
   return (
     <div
-      className={`responsive-banner-1 relative ${data.invertLayoutMobile ? 'flex-col' : 'flex-col-reverse'} flex items-center gap-4 px-4 md:${data.invertLayoutDesk ? 'flex-row' : 'flex-row-reverse'} md:justify-center`}
+      className={`responsive-banner-1 relative flex items-center gap-4 px-4 ${data.invertLayoutMobile ? 'flex-col' : 'flex-col-reverse'} md:${data.invertLayoutDesk ? 'flex-row' : 'flex-row-reverse'} md:justify-center`}
     >
       {/* Imagen */}
       <div className="responsive-image-1 relative flex flex-row md:mb-0">

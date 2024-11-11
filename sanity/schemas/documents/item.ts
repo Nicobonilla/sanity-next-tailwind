@@ -35,10 +35,14 @@ const item = defineType({
         ),
     }),
     defineField({
+      type: 'icon.manager',
       name: 'icon',
-      title: 'Icon de Lucide React',
-      type: 'reference',
-      to: [{ type: 'icon' }],
+      title: 'Icon Manager',
+    }),
+    defineField({
+      name: 'svgIcon',
+      title: 'SVG Icon',
+      type: 'inlineSvg',
     }),
     defineField({
       name: 'content',

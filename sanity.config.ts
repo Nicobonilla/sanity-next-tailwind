@@ -28,6 +28,8 @@ import item from './sanity/schemas/documents/item';
 import component from './sanity/schemas/documents/component';
 import { media } from 'sanity-plugin-media';
 import icon from './sanity/schemas/documents/icon';
+import { IconManager } from 'sanity-plugin-icon-manager';
+import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input';
 
 const homeLocation = {
   title: 'Home',
@@ -51,7 +53,7 @@ export default defineConfig({
       page,
       item,
       component,
-      icon
+      icon,
     ],
   },
   plugins: [
@@ -67,6 +69,8 @@ export default defineConfig({
       maximumUploadSize: 10000000,
       // number - maximum file size (in bytes) that can be uploaded through the plugin interface
     }),
+    IconManager({}),
+    inlineSvgInput(),
     presentationTool({
       resolve: {
         mainDocuments: defineDocuments([

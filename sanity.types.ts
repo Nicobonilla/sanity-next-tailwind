@@ -68,6 +68,16 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Icon = {
+  _id: string;
+  _type: 'icon';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  value?: string;
+};
+
 export type Item = {
   _id: string;
   _type: 'item';
@@ -88,12 +98,8 @@ export type Item = {
   };
   alt?: string;
   position?: number;
-  icon?: {
-    _ref: string;
-    _type: 'reference';
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'icon';
-  };
+  icon?: IconManager;
+  svgIcon?: string;
   content?: Array<
     | {
         children?: Array<{
@@ -134,16 +140,6 @@ export type Item = {
         _key: string;
       }
   >;
-};
-
-export type Icon = {
-  _id: string;
-  _type: 'icon';
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  value?: string;
 };
 
 export type Page = {
@@ -251,12 +247,8 @@ export type Page = {
       };
       alt?: string;
       position?: number;
-      icon?: {
-        _ref: string;
-        _type: 'reference';
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'icon';
-      };
+      icon?: IconManager;
+      svgIcon?: string;
       content?: Array<
         | {
             children?: Array<{
@@ -364,12 +356,8 @@ export type Banner = {
     };
     alt?: string;
     position?: number;
-    icon?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'icon';
-    };
+    icon?: IconManager;
+    svgIcon?: string;
     content?: Array<
       | {
           children?: Array<{
@@ -534,12 +522,8 @@ export type Service = {
       };
       alt?: string;
       position?: number;
-      icon?: {
-        _ref: string;
-        _type: 'reference';
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'icon';
-      };
+      icon?: IconManager;
+      svgIcon?: string;
       content?: Array<
         | {
             children?: Array<{
@@ -969,6 +953,64 @@ export type SanityAssistSchemaTypeField = {
   >;
 };
 
+export type InlineSvg = string;
+
+export type IconManager = {
+  _type: 'icon.manager';
+  icon?: string;
+  metadata?: IconManagerMetadata;
+};
+
+export type IconManagerMetadata = {
+  _type: 'icon.manager.metadata';
+  downloadUrl?: string;
+  url?: string;
+  inlineSvg?: string;
+  collectionId?: string;
+  collectionName?: string;
+  iconName?: string;
+  palette?: boolean;
+  license?: IconManagerLicense;
+  author?: IconManagerAuthor;
+  size?: IconManagerSize;
+  hFlip?: boolean;
+  vFlip?: boolean;
+  rotate?: number;
+  color?: IconManagerColor;
+};
+
+export type IconManagerLicense = {
+  _type: 'icon.manager.license';
+  name?: string;
+  url?: string;
+};
+
+export type IconManagerAuthor = {
+  _type: 'icon.manager.author';
+  name?: string;
+  url?: string;
+};
+
+export type IconManagerSize = {
+  _type: 'icon.manager.size';
+  width?: number;
+  height?: number;
+};
+
+export type IconManagerColor = {
+  _type: 'icon.manager.color';
+  hex?: string;
+  rgba?: IconManagerColorRgba;
+};
+
+export type IconManagerColorRgba = {
+  _type: 'icon.manager.color.rgba';
+  r?: number;
+  g?: number;
+  b?: number;
+  a?: number;
+};
+
 export type MediaTag = {
   _id: string;
   _type: 'media.tag';
@@ -990,8 +1032,8 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
-  | Item
   | Icon
+  | Item
   | Page
   | Banner
   | Component
@@ -1017,6 +1059,14 @@ export type AllSanitySchemaTypes =
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
   | SanityAssistSchemaTypeField
+  | InlineSvg
+  | IconManager
+  | IconManagerMetadata
+  | IconManagerLicense
+  | IconManagerAuthor
+  | IconManagerSize
+  | IconManagerColor
+  | IconManagerColorRgba
   | MediaTag
   | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
@@ -1248,7 +1298,7 @@ export type GetPagesNavQueryResult = Array<{
   isHome: boolean | null;
 }>;
 // Variable: getPageDetailQuery
-// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    "iconValue": icon->value,    alt,    position,    content  } },  "isHome": isHome}
+// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  position,  content,  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    svgIcon,    icon,    alt,    position,    content  } },  "isHome": isHome}
 export type GetPageDetailQueryResult = {
   id: string;
   title: string | null;
@@ -1341,7 +1391,8 @@ export type GetPageDetailQueryResult = {
         crop?: SanityImageCrop;
         _type: 'image';
       } | null;
-      iconValue: string | null;
+      svgIcon: string | null;
+      icon: IconManager | null;
       alt: string | null;
       position: number | null;
       content: Array<
@@ -1401,7 +1452,7 @@ export type GetServicesNavQueryResult = Array<{
   slug: string | null;
 }>;
 // Variable: getServiceDetailQuery
-// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    "iconValue": icon->value,    alt,    position,    content  } }}
+// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   content,  image,  isActive,  "typeComponentValue": typeComponent->value,  invertLayoutMobile,  invertLayoutDesk,  items[isActive] {    isActive,    image,    svgIcon,    icon,    alt,    position,    content  } }}
 export type GetServiceDetailQueryResult = {
   title: string | null;
   content: Array<
@@ -1507,7 +1558,8 @@ export type GetServiceDetailQueryResult = {
         crop?: SanityImageCrop;
         _type: 'image';
       } | null;
-      iconValue: string | null;
+      svgIcon: string | null;
+      icon: IconManager | null;
       alt: string | null;
       position: number | null;
       content: Array<
@@ -1565,6 +1617,9 @@ export type GetIconListQueryResult = Array<{
   value: string | null;
   name: string | null;
 }>;
+// Variable: getReactIconListQuery
+// Query: *[_type == 'reactIcon']{  iconGroup, iconName}
+export type GetReactIconListQueryResult = Array<never>;
 
 // Query TypeMap
 import '@sanity/client';
@@ -1575,10 +1630,11 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
     '\n  *[_type == \'page\' ] | order(position asc) {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  isHome\n}': GetPagesNavQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  "typeComponentValue": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    "iconValue": icon->value,\n    alt,\n    position,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  position,\n  content,\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  "typeComponentValue": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    svgIcon,\n    icon,\n    alt,\n    position,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
     '*[_type == \'service\' && isActive] | order(position asc) {\n    title,\n    isActive,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
-    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  \"typeComponentValue\": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    \"iconValue\": icon->value,\n    alt,\n    position,\n    content\n  }\n }\n}": GetServiceDetailQueryResult;
+    "*[_type == 'service' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  content,  // Fetch the content of the service\n  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  content,\n  image,\n  isActive,\n  \"typeComponentValue\": typeComponent->value,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  items[isActive] {\n    isActive,\n    image,\n    svgIcon,\n    icon,\n    alt,\n    position,\n    content\n  }\n }\n}": GetServiceDetailQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
+    "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
   }
 }

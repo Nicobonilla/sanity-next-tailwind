@@ -72,7 +72,7 @@
 
 @layer components {
   .p3 {
-    @apply font-montserrat font-normal text-gray-600 dark:font-light dark:text-gray-200;
+    @apply font-montserrat text-base font-normal text-gray-600 dark:font-light dark:text-gray-200;
   }
 }
 

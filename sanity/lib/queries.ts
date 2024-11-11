@@ -43,7 +43,8 @@ const componentFields = /* groq */ `
   items[isActive] {
     isActive,
     image,
-    "iconValue": icon->value,
+    svgIcon,
+    icon,
     alt,
     position,
     content
@@ -108,4 +109,8 @@ export const getComponentListQuery = defineQuery(groq`*[_type == 'component']{
 
 export const getIconListQuery = defineQuery(groq`*[_type == 'icon']{
   value, name
+}`);
+
+export const getReactIconListQuery = defineQuery(groq`*[_type == 'reactIcon']{
+  iconGroup, iconName
 }`);

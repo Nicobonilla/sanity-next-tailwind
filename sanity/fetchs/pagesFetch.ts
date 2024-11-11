@@ -1,5 +1,8 @@
+import { IconProps } from '@sanity/icons';
+import icon from '../schemas/documents/icon';
 import type {
   GetServiceDetailQueryResult,
+  IconManager,
   internalGroqTypeReferenceTo,
   GetPageDetailQueryResult as SanGetPageDetailQueryResult,
   SanityImageCrop,
@@ -74,6 +77,7 @@ export type Item =
       image?: SanityImage | null;
       iconValue?: string | null;
       alt?: string | null;
+      iconManager?: IconProps | null;
       position?: number | null;
       content?: Content | null;
     }

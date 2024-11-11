@@ -4,7 +4,7 @@ export const PTextItemIcon: PortableTextComponents = {
   block: {
     h1: ({ children }) => <h1 className="h3 mb-3">{children}</h1>,
     normal: ({ children }) => (
-      <div className="p3">
+      <div className="p3 text-justify">
         <span>{children}</span>
       </div>
     ),
