@@ -1,15 +1,20 @@
 import Image from 'next/image';
-import { type Item } from '@/sanity/fetchs/pagesFetch';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
 import { PTextBannerItem } from '../PortableText/PTextBannerItem';
+import { Item } from '@/sanity.types';
 
-export default function ItemBanner({ items }: { items: Item[] | null }) {
+type ItemProps = Omit<
+  Item,
+  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
+>;
+
+export default function ItemBanner({ items }: { items: ItemProps[] | null }) {
   if (!items || items.length === 0) {
     return <p>No items available</p>;
   }
 
-  const Item: React.FC<Item> = (item: Item) => {
+  const Item: React.FC<ItemProps> = (item: ItemProps) => {
     return (
       <div className="mb-10 flex flex-col items-center text-center md:mb-0">
         <div className="relative flex h-[75px] w-full max-w-[150px] justify-center">

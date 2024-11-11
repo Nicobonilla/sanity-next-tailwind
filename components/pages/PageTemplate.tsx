@@ -1,23 +1,32 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useAppContext } from '@/context/AppContext';
-import { GetPageDetailQueryResult } from '@/sanity.types';
+import {
+  GetPageDetailQueryResult,
+  GetServiceDetailQueryResult,
+} from '@/sanity.types';
 
 type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
-
 type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
+
+type ComponentsServiceProps =
+  NonNullable<GetServiceDetailQueryResult>['components'];
+type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
+
+export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
+export type ComponentProps = ComponentPageProps | ComponentServiceProps;
 
 // Componente de página
 export default function PageTemplate({
   dataPage,
 }: {
-  dataPage?: GetPageDetailQueryResult;
+  dataPage?: GetPageDetailQueryResult | GetServiceDetailQueryResult;
 }) {
   // Dynamically load the component based on its name
   const { componentsMap } = useAppContext();
 
   const DynamicComponent = (name: string) =>
-    dynamic<{ data: ComponentPageProps }>(() =>
+    dynamic<{ data: ComponentPageProps | ComponentServiceProps }>(() =>
       import(`@/components/shared/Component/${name}`).catch(
         () => import('@/components/shared/Component/Default')
       )
@@ -32,7 +41,10 @@ export default function PageTemplate({
     <>
       {dataPage?.components &&
         dataPage.components.map(
-          (component: ComponentPageProps, index: number) => {
+          (
+            component: ComponentPageProps | ComponentServiceProps,
+            index: number
+          ) => {
             // Get the component name from the typeComponentValue
             const componentName = component?.typeComponentValue
               ? componentsMap[component.typeComponentValue]

@@ -4,7 +4,7 @@ import { PTextItemIcon } from '../../PortableText/PTextItemIcon';
 import { Icon } from '@iconify/react';
 import { Item } from '@/sanity.types';
 
-export type ItemProps = Omit<
+type ItemProps = Omit<
   Item,
   '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
 >;

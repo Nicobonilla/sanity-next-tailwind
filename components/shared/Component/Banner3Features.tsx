@@ -1,29 +1,34 @@
 import React from 'react';
 import ItemBanner from '@/components/shared/Component/ItemBanner';
-import { Item } from '@/sanity/fetchs/pagesFetch';
 import { PortableText } from 'next-sanity';
 import { PTextBanner3Features } from '../PortableText/PTextBanner3Features';
-import { Banner } from '@/sanity.types';
+import { ComponentProps } from '@/components/pages/PageTemplate';
+import { Item } from '@/sanity.types';
 
-export default function Banner3Features({ data }: { data: Banner }) {
-  if (!data) {
+type ItemProps = Omit<
+  Item,
+  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
+>;
+
+export default function Banner3Features({ data }: { data: ComponentProps }) {
+  if (data) {
+    return (
+      <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
+        {data.content && (
+          <PortableText
+            value={data.content || []}
+            components={PTextBanner3Features}
+          />
+        )}
+
+        {data.items && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
+            <ItemBanner items={data.items as ItemProps[]} />
+          </div>
+        )}
+      </div>
+    );
+  } else {
     return <div>Error al cargar el banner.</div>;
   }
-
-  return (
-    <div className="mx-auto flex max-w-[500px] flex-col items-center justify-center px-4 py-8 md:max-w-screen-xl">
-      {data.content && (
-        <PortableText
-          value={data.content || []}
-          components={PTextBanner3Features}
-        />
-      )}
-
-      {data.items && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:gap-1">
-          <ItemBanner items={data.items as Item[]} />
-        </div>
-      )}
-    </div>
-  );
 }
