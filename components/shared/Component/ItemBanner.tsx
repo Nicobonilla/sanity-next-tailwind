@@ -4,7 +4,7 @@ import { PortableText } from 'next-sanity';
 import { PTextBannerItem } from '../PortableText/PTextBannerItem';
 import { Item } from '@/sanity.types';
 
-type ItemProps = Omit<
+export type ItemProps = Omit<
   Item,
   '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
 >;

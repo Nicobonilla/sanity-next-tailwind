@@ -3,12 +3,7 @@ import ItemBanner from '@/components/shared/Component/ItemBanner';
 import { PortableText } from 'next-sanity';
 import { PTextBanner3Features } from '../PortableText/PTextBanner3Features';
 import { ComponentProps } from '@/components/pages/PageTemplate';
-import { Item } from '@/sanity.types';
-
-type ItemProps = Omit<
-  Item,
-  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
->;
+import { ItemProps } from './ItemBanner';
 
 export default function Banner3Features({ data }: { data: ComponentProps }) {
   if (data) {
