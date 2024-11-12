@@ -36,6 +36,7 @@ export const postQuery = defineQuery(`
 const componentFields = /* groq */ `
   content,
   image,
+  isBgImage,
   isActive,
   "typeComponentValue": typeComponent->value,
   invertLayoutMobile,

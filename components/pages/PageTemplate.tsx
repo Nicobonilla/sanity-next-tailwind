@@ -26,7 +26,7 @@ export default function PageTemplate({
   const { componentsMap } = useAppContext();
 
   const DynamicComponent = (name: string) =>
-    dynamic<{ data: ComponentPageProps | ComponentServiceProps }>(() =>
+    dynamic<{ data: ComponentProps }>(() =>
       import(`@/components/shared/Component/${name}`).catch(
         () => import('@/components/shared/Component/Default')
       )
@@ -59,7 +59,9 @@ export default function PageTemplate({
             const DComponent = DynamicComponent(componentName);
 
             // Render the dynamic component or an error message
-            return <DComponent key={index} data={component} />;
+            return (
+              <DComponent key={index} data={component as ComponentProps} />
+            );
           }
         )}
     </>

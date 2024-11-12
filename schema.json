@@ -1336,6 +1336,13 @@
                 },
                 "optional": true
               },
+              "isBgImage": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
               "isActive": {
                 "type": "objectAttribute",
                 "value": {
@@ -2066,6 +2073,13 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "isBgImage": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },
@@ -3139,6 +3153,13 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "isBgImage": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
                 },
                 "optional": true
               },

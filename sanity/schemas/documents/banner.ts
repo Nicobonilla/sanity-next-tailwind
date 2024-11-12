@@ -21,6 +21,12 @@ const banner = defineType({
       },
     }),
     defineField({
+      title: 'Usar imagen de fondo',
+      name: 'isBgImage',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       title: 'Activar',
       name: 'isActive',
       type: 'boolean',
