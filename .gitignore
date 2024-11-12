@@ -51,4 +51,5 @@ next-env.d.ts
 /components/Banner.tsx
 /components/global/Navbar/DeskNav/SubsectionsFullWidth1.tsx
 /components/shared/Card/BasicImageCard
+/cli
 

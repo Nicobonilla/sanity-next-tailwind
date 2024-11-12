@@ -25,7 +25,6 @@ import {
  * and will also fetch from the CDN.
  * When using the "previewDrafts" perspective then the data is fetched from the live API and isn't cached, it will also fetch draft content that isn't published yet.
  */
-
 export async function sanityFetch<const QueryString extends string>({
   query,
   params = {},
@@ -37,36 +36,36 @@ export async function sanityFetch<const QueryString extends string>({
   perspective?: Omit<ClientPerspective, 'raw'>;
   stega?: boolean;
 }) {
-  const { isEnabled } = await draftMode(); // Await the draftMode function
-  const actualPerspective =
-    perspective ?? (isEnabled ? 'previewDrafts' : 'published');
-  const actualStega =
-    stega ??
-    (actualPerspective === 'previewDrafts' ||
-      process.env.VERCEL_ENV === 'preview');
+  const { isEnabled } = await draftMode();
+  const actualPerspective = perspective ?? (isEnabled ? 'previewDrafts' : 'published');
+  const actualStega = stega ?? (actualPerspective === 'previewDrafts' || process.env.VERCEL_ENV === 'preview');
+
+  console.log("Draft Mode Enabled:", isEnabled);
+  console.log("Actual Perspective:", actualPerspective);
+  console.log("Actual Stega (Visual Editing):", actualStega);
 
   if (actualPerspective === 'previewDrafts') {
+    console.log("Fetching in draft mode with perspective 'previewDrafts'");
     return client.fetch(query, params, {
       stega: actualStega,
       perspective: 'previewDrafts',
-      // The token is required to fetch draft content
       token,
-      // The `previewDrafts` perspective isn't available on the API CDN
       useCdn: false,
-      // And we can't cache the responses as it would slow down the live preview experience
-      next: { revalidate: 0 },
+      // Configuración razonable de revalidación para reducir la carga
+      next: { revalidate: 300 }, // Revalida cada 5 minutos en borrador
     });
   }
+
+  console.log("Fetching in production mode with perspective 'published'");
   return client.fetch(query, params, {
     stega: actualStega,
     perspective: 'published',
-    // The `published` perspective is available on the API CDN
     useCdn: true,
-    // Only enable Stega in production if it's a Vercel Preview Deployment, as the Vercel Toolbar supports Visual Editing
-    // When using the `published` perspective we use time-based revalidation to match the time-to-live on Sanity's API CDN (60 seconds)
-    next: { revalidate: 60 },
+    // Revalida cada 10 minutos en producción
+    next: { revalidate: 600 },
   });
 }
+
 
 /* MAIN PAGES */
 export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {

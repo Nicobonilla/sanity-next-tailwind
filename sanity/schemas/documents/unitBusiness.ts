@@ -3,7 +3,7 @@ import { DocumentsIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'unitBusiness',
-  title: 'Servicios Informáticos',
+  title: 'Unidades de Negocios',
   type: 'document',
   icon: DocumentsIcon,
   fields: [
@@ -34,7 +34,7 @@ export default defineType({
         ],
       },
     }),
-    
+
     defineField({
       name: 'description',
       title: 'Descripción',

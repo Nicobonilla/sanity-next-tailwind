@@ -12,7 +12,6 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
-
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { pageStructure, singletonPlugin } from '@/sanity/plugins/settings';
 import { assistWithPresets } from '@/sanity/plugins/assist';
@@ -30,11 +29,9 @@ import { media } from 'sanity-plugin-media';
 import icon from './sanity/schemas/documents/icon';
 import { IconManager } from 'sanity-plugin-icon-manager';
 import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input';
+import { resolve } from './sanity/lib/presentation/resolve';
 
-const homeLocation = {
-  title: 'Home',
-  href: '/',
-} satisfies DocumentLocation;
+
 
 export default defineConfig({
   basePath: studioUrl,
@@ -45,12 +42,12 @@ export default defineConfig({
       // Singletons
       settings,
       // Documents
+      page,
+      service,
+      unitBusiness,
       post,
       author,
-      unitBusiness,
-      service,
       banner,
-      page,
       item,
       component,
       icon,
@@ -72,37 +69,13 @@ export default defineConfig({
     IconManager({}),
     inlineSvgInput(),
     presentationTool({
-      resolve: {
-        mainDocuments: defineDocuments([
-          {
-            route: '/posts/:slug',
-            filter: `_type == "post" && slug.current == $slug`,
-          },
-        ]),
-        locations: {
-          settings: defineLocations({
-            locations: [homeLocation],
-            message: 'This document is used on all pages',
-            tone: 'caution',
-          }),
-          post: defineLocations({
-            select: {
-              title: 'title',
-              slug: 'slug.current',
-            },
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
-                },
-                homeLocation,
-              ],
-            }),
-          }),
+      resolve,
+      previewUrl: {
+        previewMode: {
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
         },
       },
-      previewUrl: { previewMode: { enable: '/api/draft' } },
     }),
     structureTool({ structure: pageStructure([settings]) }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton

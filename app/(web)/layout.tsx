@@ -8,7 +8,6 @@ import {
 } from '@/sanity/lib/fetch';
 import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
-import Head from 'next/head';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
 import type { Links } from '@/types';
@@ -21,7 +20,6 @@ import {
 } from '@/sanity.types';
 import { transformToDict } from '@/components/utils';
 import { ScrollContextProvider } from '@/context/ScrollContext';
-
 export { metadata, viewport } from 'next-sanity/studio';
 
 export default async function RootLayout({
@@ -55,9 +53,9 @@ export default async function RootLayout({
         .map((font) => font.variable)
         .join(' ')} scroll-smooth`}
     >
-      <Head>
+      <head>
         <DarkModeScript />
-      </Head>
+      </head>
       <GTMGlobals />
       <GoogleTagManager gtmId={process.env.GTM || ''} />
       <body className="flex min-h-screen min-w-[320px] flex-col">
@@ -65,7 +63,9 @@ export default async function RootLayout({
           <ScrollContextProvider>
             <Navbar />
           </ScrollContextProvider>
-          <main className="grow flex-col">{children}</main>
+          <main className="grow flex-col">
+            {children}
+          </main>
           <ScrollContextProvider>
             <Footer />
           </ScrollContextProvider>

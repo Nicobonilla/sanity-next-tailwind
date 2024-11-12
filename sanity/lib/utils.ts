@@ -38,8 +38,11 @@ export function resolveHref(
   slug?: string
 ): string | undefined {
   switch (documentType) {
-    case 'post':
-      return slug ? `/posts/${slug}` : undefined;
+    case 'page':
+      if (!slug) return '/'; // This is the home page
+      return `/${slug}`;
+    case 'service':
+      return slug ? `/services/${slug}` : undefined;
     default:
       console.warn('Invalid document type:', documentType);
       return undefined;
