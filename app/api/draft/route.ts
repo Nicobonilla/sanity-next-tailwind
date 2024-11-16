@@ -11,15 +11,13 @@ import { client } from '@/sanity/lib/client';
 import { token } from '@/sanity/lib/token';
 
 export async function GET(request: Request) {
+  const clientWithToken = client.withConfig({ token });
+
   const { searchParams } = new URL(request.url);
   const secret = searchParams.get('sanity-preview-secret');
   console.log('sanity-preview-secret:', secret);
   console.log('request.url:', request.url);
   console.log('searchParams:', searchParams);
-
-  const clientWithToken = client.withConfig({
-    token: process.env.SANITY_API_READ_TOKEN,
-  });
 
   const { isValid, redirectTo = '/' } = await validatePreviewUrl(
     clientWithToken,

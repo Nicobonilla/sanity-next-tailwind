@@ -15,6 +15,10 @@ const homeLocation = {
 export const resolve: PresentationPluginOptions['resolve'] = {
   mainDocuments: defineDocuments([
     {
+      route: '/',
+      filter: `_type == "page" && isHome == true`,
+    },
+    {
       route: '/:slug',
       filter: `_type == "page" && slug.current == $slug`,
     },

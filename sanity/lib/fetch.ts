@@ -3,6 +3,7 @@ import { draftMode } from 'next/headers';
 
 import { client } from '@/sanity/lib/client';
 import { token } from '@/sanity/lib/token';
+import { apiVersion } from './api';
 
 import {
   getServiceDetailQuery,
@@ -40,6 +41,7 @@ export async function sanityFetch<const QueryString extends string>({
   console.log('Draft Mode Enabled:', isEnabled);
   const actualPerspective =
     perspective ?? (isEnabled ? 'previewDrafts' : 'published');
+    
   const actualStega =
     stega ??
     (actualPerspective === 'previewDrafts' ||

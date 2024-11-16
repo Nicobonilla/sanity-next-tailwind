@@ -7,7 +7,7 @@ module.exports = {
     typedRoutes: true,
   },
   logging: {
-    fetches: { fullUrl: false },
+    fetches: { fullUrl: true },
   },
   productionBrowserSourceMaps: true,
   images: {

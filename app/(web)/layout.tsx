@@ -22,8 +22,30 @@ import { transformToDict } from '@/components/utils';
 import { ScrollContextProvider } from '@/context/ScrollContext';
 import { VisualEditing } from 'next-sanity';
 import { draftMode } from 'next/headers';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 export { metadata, viewport } from 'next-sanity/studio';
+
+interface VisualEditingOptions {
+  refresh?: (payload: HistoryRefresh) => false | Promise<void>;
+}
+
+type HistoryRefresh =
+  | {
+      source: 'manual';
+      livePreviewEnabled: boolean;
+    }
+  | {
+      source: 'mutation';
+      livePreviewEnabled: boolean;
+      document: {
+        _id: string;
+        _type: string;
+        _rev: string;
+        slug?: {
+          current?: string | null;
+        };
+      };
+    };
 
 export default async function RootLayout({
   children,
@@ -67,28 +89,7 @@ export default async function RootLayout({
             <Navbar />
           </ScrollContextProvider>
           <main className="grow flex-col">
-            {draftMode().isEnabled && (
-              <VisualEditing
-                zIndex={1000}
-                refresh={async (payload) => {
-                  'use server';
-                  // Guard against a bad actor attempting to revalidate the page
-                  if (!draftMode().isEnabled) {
-                    return;
-                  }
-                  if (payload.source === 'manual') {
-                    await revalidatePath('/', 'layout');
-                  }
-                  // Only revalidate on mutations if the route doesn't have loaders or preview-kit
-                  if (
-                    payload.source === 'mutation' &&
-                    !payload.livePreviewEnabled
-                  ) {
-                    await revalidatePath('/', 'layout');
-                  }
-                }}
-              />
-            )}
+            {draftMode().isEnabled && <VisualEditing />}
             {children}
           </main>
           <ScrollContextProvider>
