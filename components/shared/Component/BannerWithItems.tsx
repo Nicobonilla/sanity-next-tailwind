@@ -25,7 +25,7 @@ function Inner({ data }: { data: ComponentProps }) {
   return (
     <div
       className={clsx(
-        'relative z-20 mx-auto flex flex-col items-center justify-center px-4 py-16',
+        'relative z-20 mx-auto flex flex-col items-center justify-center py-16',
         data.isBgImage ? 'lg:max-w-none' : 'lg:max-w-screen-xl'
       )}
     >
@@ -40,9 +40,9 @@ function Inner({ data }: { data: ComponentProps }) {
       {data?.items && (
         <div
           className={clsx(
-            'mx-auto grid max-w-md grid-cols-1 items-start justify-center gap-10',
-            'md:max-w-full md:grid-cols-2',
-            'lg:grid-cols-3 lg:gap-20'
+            'mx-auto grid max-w-md grid-cols-2 items-start justify-center gap-1',
+            'md:max-w-full md:grid-cols-3 md:gap-2',
+            'lg:grid-cols-4'
           )}
         >
           {data.items.map(

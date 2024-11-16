@@ -24,6 +24,7 @@
     "@sanity/orderable-document-list": "^1.2.2",
     "@sanity/preview-url-secret": "^1.6.20",
     "@sanity/vision": "^3.55.0",
+    "@sanity/visual-editing": "^2.7.0",
     "@tailwindcss/typography": "^0.5.14",
     "@types/node": "^20.14.13",
     "@types/react": "^18.3.4",
@@ -44,12 +45,14 @@
     "sanity-plugin-asset-source-unsplash": "^3.0.1",
     "sanity-plugin-icon-manager": "^2.1.0",
     "sanity-plugin-media": "^2.3.2",
+    "sanity-plugin-visual-options": "^2.0.2",
     "server-only": "^0.0.1",
     "styled-components": "^6.1.12",
     "tailwindcss": "^3.4.10",
     "typescript": "5.6.3"
   },
   "devDependencies": {
+    "@sanity/pkg-utils": "^6.11.11",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.5",
     "eslint-plugin-tailwindcss": "^3.17.5",

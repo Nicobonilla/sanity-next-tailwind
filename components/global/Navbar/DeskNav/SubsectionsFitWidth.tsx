@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
 import { useScrollContext } from '@/context/ScrollContext';
 
-export default function SubsectionsFullWidth() {
+export default function SubsectionsFitWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
   const { pagesLink } = useAppContext();
@@ -69,49 +69,49 @@ export default function SubsectionsFullWidth() {
           activeLink === link.title && (
             <div
               key={link.title}
-              className="nav-bg-subsection absolute left-0 z-50 h-56 w-screen"
+              className="nav-bg-subsection absolute right-0 z-50 h-56 px-10 pb-5 lg:w-fit"
               onMouseEnter={() => handleMouseEnter(link.title || '')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="mx-auto max-w-screen-xl p-6">
+              <div className="mx-auto w-fit max-w-screen-lg p-2">
                 <div className={`flex flex-row gap-8`}>
-                  {groupedServices &&
-                    Object.keys(groupedServices).map((businessName) => {
-                      console.log('link.slug: ', link.slug);
-                      const servicesForBusiness = groupedServices[businessName];
-                      const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
-                      return (
-                        <div
-                          key={businessName}
-                          className="flex h-20 w-full flex-col"
-                        >
-                          {business && (
-                            <div className="nav-unit-business mb-2 flex items-center space-x-4">
-                              <span>{business.title}</span>
-                              <div className="flex grow border-b border-gray-300 dark:border-gray-600" />
-                            </div>
-                          )}
-                          <ul className="mt-2 flex flex-col">
-                            {servicesForBusiness.map((service, index) => (
-                              <li key={service?.slug}>
-                                <Link
-                                  href={{
-                                    pathname:
-                                      path.split('/')[1] == link.slug
-                                        ? service?.slug
-                                        : `${link?.slug}/${service?.slug}`,
-                                  }}
-                                  passHref
-                                  className="nav-subsection block"
-                                >
-                                  {service?.title}
-                                </Link>
+                  <ul className="mt-1 flex flex-row gap-4">
+                    {groupedServices &&
+                      Object.keys(groupedServices).map((businessName) => {
+                        console.log('link.slug: ', link.slug);
+                        const servicesForBusiness =
+                          groupedServices[businessName];
+                        const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
+                        return (
+                          <>
+                            {business && (
+                              <li
+                                key={businessName}
+                                className="nav-subsection-desk flex flex-col font-semibold"
+                              >
+                                <li>{business.title}</li>
+                                {servicesForBusiness.map((service, index) => (
+                                  <li key={service?.slug}>
+                                    <Link
+                                      href={{
+                                        pathname:
+                                          path.split('/')[1] == link.slug
+                                            ? service?.slug
+                                            : `${link?.slug}/${service?.slug}`,
+                                      }}
+                                      passHref
+                                      className="nav-subsection-desk block"
+                                    >
+                                      {service?.title}
+                                    </Link>
+                                  </li>
+                                ))}
                               </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    })}
+                            )}
+                          </>
+                        );
+                      })}
+                  </ul>
                 </div>
               </div>
             </div>

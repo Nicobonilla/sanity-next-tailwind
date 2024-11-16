@@ -2,8 +2,7 @@ import React from 'react';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import { Icon } from '@iconify/react';
 import { Item } from '@/sanity.types';
-import { urlForImage } from '@/sanity/lib/utils';
-import Image from 'next/image';
+import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
 
 export type ItemProps = Omit<
   Item,
@@ -13,12 +12,14 @@ export type ItemProps = Omit<
 export const PTextItemBanner: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h2 className="h3 mx-auto mb-2 items-center justify-center md:max-w-[300px]">
+      <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold md:max-w-[250px]">
         {children}
       </h2>
     ),
     normal: ({ children }) => (
-      <p className="p3 text-justify md:max-w-[350px]">{children}</p>
+      <p className="p3 xs4:px-5 px-1 pb-5 text-center font-crimson text-base leading-none md:max-w-[250px]">
+        {children}
+      </p>
     ),
   },
   marks: {
@@ -28,15 +29,36 @@ export const PTextItemBanner: PortableTextComponents = {
   },
 };
 
+export const PTextItemBanner2: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold md:max-w-[250px]">
+        {children}
+      </h2>
+    ),
+    normal: ({ children }) => (
+      <p className="p3 px-5 pb-5 text-center font-crimson text-base leading-none md:max-w-[250px]">
+        {children}
+      </p>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => (
+      <span className="font-extrabold dark:text-red-500">{children}</span>
+    ),
+  },
+};
 export default function ItemBanner({ item }: { item: ItemProps }) {
   if (!item) return null;
 
   const { icon, metadata } = item.icon || {};
-  const hasSvgIcon = !!item.svgIcon;
+  const hasSvgIconList = item.svgIconList;
+  const hasSvgIcon = item.svgIcon;
   const hasImage = item.image;
   const hasContent = item.content;
+
   return (
-    <div className="mb-10 flex flex-col items-center text-center md:mb-0">
+    <div className="hover:border-1 mb-10 flex h-full flex-col items-start rounded-3xl border-gray-300 text-center hover:cursor-pointer hover:shadow-lg xs4:h-72 md:mb-0">
       {/* Mostrar solo uno de los tipos, dependiendo de lo que esté disponible */}
       {icon && (
         <div className="relative z-0 mx-auto mb-5 flex items-center justify-center text-red-500 md:max-w-24">
@@ -51,24 +73,41 @@ export default function ItemBanner({ item }: { item: ItemProps }) {
           />
         </div>
       )}
-
-      {hasSvgIcon && !icon && (
-        <div className="relative z-0 mx-auto mb-5">
-          <div
-            dangerouslySetInnerHTML={{ __html: item.svgIcon || '' }}
-            aria-hidden="true"
-          />
+      {hasSvgIcon && !hasSvgIconList && !icon && (
+        <div
+          className={`relative z-0 mx-auto mb-1 mt-10 size-12 rounded-xl shadow-md`}
+        >
+          <InlineSvgPreviewComponent value={item.svgIcon || ''} />
+        </div>
+      )}
+      {hasSvgIconList && hasSvgIconList.length > 0 && (
+        <div className="relative z-0 mx-auto mb-1 mt-10 size-12 drop-shadow-md">
+          {hasSvgIconList.map((item, index) => (
+            <div key={index}>
+              {index === 0 && (
+                <div className="block text-black dark:hidden">
+                  <InlineSvgPreviewComponent
+                    value={item.icon}
+                    style={{ color: 'currentColor' }}
+                  />
+                </div>
+              )}
+              {index === 1 && (
+                <div className="hidden text-white dark:block">
+                  <InlineSvgPreviewComponent
+                    value={item.icon}
+                    style={{ color: 'currentColor' }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
 
-      {hasImage && !icon && !hasSvgIcon && (
-        <div className="relative flex h-[100px] w-full max-w-[100px] justify-center">
-          <Image
-            src={urlForImage(item?.image).url() || '/meeting.jpg'}
-            alt={'Image'}
-            fill
-            className="relative z-10 object-contain"
-          />
+      {hasImage && !hasSvgIconList && !hasSvgIcon && !icon && (
+        <div className="relative flex h-[100px] w-full max-w-[100px] justify-center text-white">
+          <InlineSvgPreviewComponent value={item.svgIcon || ''} />
         </div>
       )}
 

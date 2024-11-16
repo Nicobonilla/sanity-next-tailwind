@@ -4,34 +4,29 @@
  */
 import { visionTool } from '@sanity/vision';
 import { PluginOptions, defineConfig } from 'sanity';
-import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
-import {
-  presentationTool,
-  defineDocuments,
-  defineLocations,
-  type DocumentLocation,
-} from 'sanity/presentation';
+import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { pageStructure, singletonPlugin } from '@/sanity/plugins/settings';
+
+import { resolve } from './sanity/lib/presentation/resolve';
+
 import { assistWithPresets } from '@/sanity/plugins/assist';
+import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input';
+import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
+import { IconManager } from 'sanity-plugin-icon-manager';
+import { media } from 'sanity-plugin-media';
+
 import author from '@/sanity/schemas/documents/author';
 import post from '@/sanity/schemas/documents/post';
 import settings from '@/sanity/schemas/singletons/settings';
-import { resolveHref } from '@/sanity/lib/utils';
 import service from './sanity/schemas/documents/service';
 import banner from './sanity/schemas/documents/banner';
 import unitBusiness from './sanity/schemas/documents/unitBusiness';
 import page from './sanity/schemas/documents/page';
 import item from './sanity/schemas/documents/item';
 import component from './sanity/schemas/documents/component';
-import { media } from 'sanity-plugin-media';
-import icon from './sanity/schemas/documents/icon';
-import { IconManager } from 'sanity-plugin-icon-manager';
-import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input';
-import { resolve } from './sanity/lib/presentation/resolve';
-
-
+import { IconsList, IconsListItem } from './sanity/schemas/documents/IconsList';
 
 export default defineConfig({
   basePath: studioUrl,
@@ -49,8 +44,9 @@ export default defineConfig({
       author,
       banner,
       item,
+      IconsList,
+      IconsListItem,
       component,
-      icon,
     ],
   },
   plugins: [
@@ -68,12 +64,16 @@ export default defineConfig({
     }),
     IconManager({}),
     inlineSvgInput(),
+    // Vision lets you query your content with GROQ in the studio
+    // https://www.sanity.io/docs/the-vision-plugin
+
     presentationTool({
       resolve,
       previewUrl: {
+        origin: 'http://localhost:3000',
         previewMode: {
-          enable: '/api/draft-mode/enable',
-          disable: '/api/draft-mode/disable',
+          enable: '/api/draft',
+          disable: '/api/disable',
         },
       },
     }),
@@ -88,6 +88,6 @@ export default defineConfig({
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     process.env.NODE_ENV === 'development' &&
-      visionTool({ defaultApiVersion: apiVersion }),
+      visionTool({ defaultApiVersion: apiVersion, defaultDataset: dataset }),
   ].filter(Boolean) as PluginOptions[],
 });

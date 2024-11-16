@@ -11,10 +11,8 @@ export default function WPlike() {
                 <Logo />
               </div>
 
-              <div className="p3 mx-5 flex items-center py-5 text-center text-sm leading-relaxed text-white md:text-start">
-                Asesoría legal Lideres en Gestión Integral de Proyectos de
-                Climatización. Con 25 años de experiencia entregando seguridad
-                operacional, bienestar y eficiencia
+              <div className="p3 mx-5 flex items-center py-5 text-center font-montserrat text-sm leading-relaxed text-white md:text-start">
+                    Entregamos soluciones tecnológicas para tu negocio,  
               </div>
             </div>
 

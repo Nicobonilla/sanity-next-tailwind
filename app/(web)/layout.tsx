@@ -20,6 +20,9 @@ import {
 } from '@/sanity.types';
 import { transformToDict } from '@/components/utils';
 import { ScrollContextProvider } from '@/context/ScrollContext';
+import { VisualEditing } from 'next-sanity';
+import { draftMode } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 export { metadata, viewport } from 'next-sanity/studio';
 
 export default async function RootLayout({
@@ -64,6 +67,28 @@ export default async function RootLayout({
             <Navbar />
           </ScrollContextProvider>
           <main className="grow flex-col">
+            {draftMode().isEnabled && (
+              <VisualEditing
+                zIndex={1000}
+                refresh={async (payload) => {
+                  'use server';
+                  // Guard against a bad actor attempting to revalidate the page
+                  if (!draftMode().isEnabled) {
+                    return;
+                  }
+                  if (payload.source === 'manual') {
+                    await revalidatePath('/', 'layout');
+                  }
+                  // Only revalidate on mutations if the route doesn't have loaders or preview-kit
+                  if (
+                    payload.source === 'mutation' &&
+                    !payload.livePreviewEnabled
+                  ) {
+                    await revalidatePath('/', 'layout');
+                  }
+                }}
+              />
+            )}
             {children}
           </main>
           <ScrollContextProvider>

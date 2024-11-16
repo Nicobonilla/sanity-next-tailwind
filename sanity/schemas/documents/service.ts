@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
+import unitBusiness from './unitBusiness';
 
 export default defineType({
   name: 'service',
@@ -60,11 +61,12 @@ export default defineType({
     select: {
       title: 'title',
       active: 'isActive',
+      unitBusiness: 'unitBusiness.title',
     },
-    prepare({ title, active }) {
+    prepare({ title, active, unitBusiness }) {
       return {
-        title: title,
-        subtitle: `${active ? 'Activo' : 'Inactivo'}`,
+        title: `${title} | ${active ? 'Activo' : 'Inactivo'}`,
+        subtitle: `${unitBusiness}`,
       };
     },
   },

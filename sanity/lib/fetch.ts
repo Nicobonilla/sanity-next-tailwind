@@ -37,12 +37,17 @@ export async function sanityFetch<const QueryString extends string>({
   stega?: boolean;
 }) {
   const { isEnabled } = await draftMode();
-  const actualPerspective = perspective ?? (isEnabled ? 'previewDrafts' : 'published');
-  const actualStega = stega ?? (actualPerspective === 'previewDrafts' || process.env.VERCEL_ENV === 'preview');
+  console.log('Draft Mode Enabled:', isEnabled);
+  const actualPerspective =
+    perspective ?? (isEnabled ? 'previewDrafts' : 'published');
+  const actualStega =
+    stega ??
+    (actualPerspective === 'previewDrafts' ||
+      process.env.VERCEL_ENV === 'preview');
 
-  console.log("Draft Mode Enabled:", isEnabled);
-  console.log("Actual Perspective:", actualPerspective);
-  console.log("Actual Stega (Visual Editing):", actualStega);
+  console.log('Draft Mode Enabled:', isEnabled);
+  console.log('Actual Perspective:', actualPerspective);
+  console.log('Actual Stega (Visual Editing):', actualStega);
 
   if (actualPerspective === 'previewDrafts') {
     console.log("Fetching in draft mode with perspective 'previewDrafts'");
@@ -52,7 +57,7 @@ export async function sanityFetch<const QueryString extends string>({
       token,
       useCdn: false,
       // Configuración razonable de revalidación para reducir la carga
-      next: { revalidate: 300 }, // Revalida cada 5 minutos en borrador
+      next: { revalidate: 0 }, // Revalida cada 5 minutos en borrador
     });
   }
 
@@ -62,10 +67,9 @@ export async function sanityFetch<const QueryString extends string>({
     perspective: 'published',
     useCdn: true,
     // Revalida cada 10 minutos en producción
-    next: { revalidate: 600 },
+    next: { revalidate: 60 },
   });
 }
-
 
 /* MAIN PAGES */
 export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {
@@ -167,6 +171,7 @@ export async function getServiceBySlugFetch(
     return {
       title: service.title || null, // Asegúrate de que title no sea undefined
       content: service.content || null, // Asegúrate de que content no sea undefined
+      unitBusiness: service.unitBusiness || null, // Asegúrate de que unitBusiness no sea undefined
       tableOfContents,
       components: service.components || null, // Asegúrate de que components no sea undefined
     };

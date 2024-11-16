@@ -1,5 +1,8 @@
 import { defineType, defineField } from 'sanity';
-import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
+import {
+  isUniqueAcrossAllDocuments,
+  isUniqueTrueForField,
+} from '@/sanity/lib/utils';
 import { validateUniquePosition } from '@/sanity/lib/validations';
 
 const page = defineType({
@@ -35,6 +38,8 @@ const page = defineType({
       title: 'Página de inicio',
       type: 'boolean',
       initialValue: false,
+      validation: (rule) =>
+        rule.custom((isHome, context) =>  isUniqueTrueForField(isHome, context)),
     }),
     defineField({
       name: 'position',

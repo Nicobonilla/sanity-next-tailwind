@@ -45,7 +45,7 @@ const componentFields = /* groq */ `
     isActive,
     image,
     svgIcon,
-    icon,
+    svgIconList,
     alt,
     position,
     content
@@ -92,6 +92,11 @@ export const getServicesNavQuery = defineQuery(
 export const getServiceDetailQuery = defineQuery(
   groq`*[_type == 'service' && slug.current == $slug][0] {
   title,  // Fetch the title of the service
+  "unitBusiness": {
+      "title": unitBusiness->title,
+      "icon": unitBusiness-> icon,
+      "slug": unitBusiness->slug.current
+    },
   content,  // Fetch the content of the service
   'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings
     _key,  // Directly include the _key for each heading

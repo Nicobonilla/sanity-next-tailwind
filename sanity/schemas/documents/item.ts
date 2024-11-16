@@ -39,10 +39,17 @@ const item = defineType({
       name: 'icon',
       title: 'Icon Manager',
     }),
+    
     defineField({
       name: 'svgIcon',
       title: 'SVG Icon',
       type: 'inlineSvg',
+    }),
+    
+    defineField({
+      name: 'svgIconList',
+      title: 'SVG Icon List',
+      type: 'iconsList',
     }),
     defineField({
       name: 'content',

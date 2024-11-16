@@ -1,3 +1,4 @@
+import BannerWithItems from '@/components/shared/Component/BannerWithItems';
 import Form from '@/components/shared/Form';
 
 export { metadata, viewport } from 'next-sanity/studio';
@@ -9,8 +10,8 @@ export default function RootLayout({
 }) {
   return (
     <div className="">
-      <Form />
       <div className="max-w-screen-3xl w-full">{children}</div>
+      <Form />
     </div>
   );
 }

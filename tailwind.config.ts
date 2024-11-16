@@ -38,7 +38,9 @@ const config: Config = {
         'extra-tight': '1px',
       },
       screens: {
-        xs: '320px',
+        xs4: '400px',
+        xs5: '500px',
+        xs6: '600px',
       },
     },
   },
