@@ -1,14 +1,16 @@
-// app/layout.tsx
-
 import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
-import { getComponentListFetch, getPagesNavFetch, getServicesNavFetch } from '@/sanity/lib/fetch';
+import {
+  getComponentListFetch,
+  getPagesNavFetch,
+  getServicesNavFetch,
+} from '@/sanity/lib/fetch';
 import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
-import { AppContextProvider } from '@/context/AppContext';
+import { AppContextProvider, AppContextType } from '@/context/AppContext';
 import { ScrollContextProvider } from '@/context/ScrollContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
@@ -22,34 +24,46 @@ import {
   GetServicesNavQueryResult,
 } from '@/sanity.types';
 
+// Async function to fetch data
 async function getData() {
-  const pages: GetPagesNavQueryResult | null = await getPagesNavFetch();
-  const servicesList: GetServicesNavQueryResult | null = await getServicesNavFetch();
-  const componentList: GetComponentListQueryResult | null = await getComponentListFetch();
-  return {
-    pages,
-    servicesList,
-    componentList,
-  };
+  try {
+    const pages: GetPagesNavQueryResult | null = await getPagesNavFetch();
+    const servicesList: GetServicesNavQueryResult | null = await getServicesNavFetch();
+    const componentList: GetComponentListQueryResult | null = await getComponentListFetch();
+
+    // Ensure we always return an object with null checks
+    return {
+      pages,
+      servicesList,
+      componentList,
+    };
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    return {
+      pages: null,
+      servicesList: null,
+      componentList: null,
+    };
+  }
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Fetching data for the layout (pages, services, and components)
   const { pages, servicesList, componentList } = await getData();
-  
+
   // Error handling if no data is returned
   if (!pages || !servicesList) {
     return (
       <div className="error-message">
-        { !pages && "Lista de páginas no encontrada" }
-        { !servicesList && "Lista de servicios no encontrada" }
+        {!pages && 'Lista de páginas no encontrada'}
+        {!servicesList && 'Lista de servicios no encontrada'}
       </div>
     );
   }
 
   // Prepare the initial data for context
   const initialData = {
-    componentsMap: transformToDict(componentList) as Record<string, string | null>,
+    componentsMap: transformToDict(componentList) as AppContextType['componentsMap'],
     pagesLink: formatPages(pages, servicesList) as Links[],
   };
 
@@ -57,33 +71,27 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const isDraftMode = await draftMode();
 
   return (
-    <html lang="es" className={`${Object.values(fonts).map((font) => font.variable).join(' ')} scroll-smooth`}>
+    <html
+      lang="es"
+      className={`${Object.values(fonts)
+        .map((font) => font.variable)
+        .join(' ')} scroll-smooth`}
+    >
       <head>
         <DarkModeScript />
       </head>
-      <GTMGlobals />
-      <GoogleTagManager gtmId={process.env.GTM || ''} />
+      {/* Uncomment for Google Tag Manager if needed */}
+      {/* <GTMGlobals />
+      <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
       <body className="flex min-h-screen min-w-[320px] flex-col">
-        {/* Global context providers */}
         <AppContextProvider initialData={initialData}>
-          <ScrollContextProvider>
-            {/* Navbar */}
-            <Navbar />
-          </ScrollContextProvider>
-
+          <Navbar />
           <main className="grow flex-col">
-            {/* Render children (the content of the page) */}
             {children}
-
-            {/* Live Content Editing */}
             <SanityLive />
             {isDraftMode.isEnabled && <VisualEditing />}
           </main>
-
-          <ScrollContextProvider>
-            {/* Footer */}
-            <Footer />
-          </ScrollContextProvider>
+          <Footer />
         </AppContextProvider>
       </body>
     </html>

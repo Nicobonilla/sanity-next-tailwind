@@ -3,7 +3,7 @@ import { Links } from '@/types';
 import { createContext, useContext, ReactNode } from 'react';
 
 // Define the expected structure of the context data
-type AppContextType = {
+export type AppContextType = {
   componentsMap: Record<string, string | null>;
   pagesLink: Links[]; // Ensure this type matches with your expected structure
 };
