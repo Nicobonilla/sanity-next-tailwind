@@ -23,13 +23,16 @@ import {
   GetPagesNavQueryResult,
   GetServicesNavQueryResult,
 } from '@/sanity.types';
+import DisableDraftMode from '@/components/global/DisableDraftMode';
 
 // Async function to fetch data
 async function getData() {
   try {
     const pages: GetPagesNavQueryResult | null = await getPagesNavFetch();
-    const servicesList: GetServicesNavQueryResult | null = await getServicesNavFetch();
-    const componentList: GetComponentListQueryResult | null = await getComponentListFetch();
+    const servicesList: GetServicesNavQueryResult | null =
+      await getServicesNavFetch();
+    const componentList: GetComponentListQueryResult | null =
+      await getComponentListFetch();
 
     // Ensure we always return an object with null checks
     return {
@@ -47,7 +50,11 @@ async function getData() {
   }
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // Fetching data for the layout (pages, services, and components)
   const { pages, servicesList, componentList } = await getData();
 
@@ -63,12 +70,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   // Prepare the initial data for context
   const initialData = {
-    componentsMap: transformToDict(componentList) as AppContextType['componentsMap'],
+    componentsMap: transformToDict(
+      componentList
+    ) as AppContextType['componentsMap'],
     pagesLink: formatPages(pages, servicesList) as Links[],
   };
 
   // Check if draft mode is enabled (for content editing features)
-  const isDraftMode = await draftMode();
+  const { isEnabled } = draftMode();
 
   return (
     <html
@@ -89,7 +98,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main className="grow flex-col">
             {children}
             <SanityLive />
-            {isDraftMode.isEnabled && <VisualEditing />}
+            {isEnabled && (
+              <>
+                <DisableDraftMode />
+                <VisualEditing />
+              </>
+            )}
           </main>
           <Footer />
         </AppContextProvider>
