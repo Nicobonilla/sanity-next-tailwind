@@ -1,7 +1,9 @@
 import React from 'react';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import { urlForImage } from '@/sanity/lib/utils';
-import ItemBanner, { ItemProps } from './ItemBanner';
+import ItemBanner from './ItemBanner';
+import type { ItemProps } from '@/components/pages/PageTemplate';
+
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
 

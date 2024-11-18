@@ -5,7 +5,7 @@ export function transformToDict(
 ): Record<string, string | null> {
   if (!components) return {};
 
-  return components.reduce(
+  const result = components.reduce(
     (acc, { value, name }) => {
       if (value) {
         acc[value] = name; // Asigna el value al nombre en el diccionario
@@ -14,6 +14,5 @@ export function transformToDict(
     },
     {} as Record<string, string | null>
   );
+  return result;
 }
-
-

@@ -1,13 +1,8 @@
 import React from 'react';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import { Icon } from '@iconify/react';
-import { Item } from '@/sanity.types';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
-
-export type ItemProps = Omit<
-  Item,
-  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
->;
+import { ItemProps } from '@/components/pages/PageTemplate';
 
 export const PTextItemBanner: PortableTextComponents = {
   block: {
@@ -17,7 +12,7 @@ export const PTextItemBanner: PortableTextComponents = {
       </h2>
     ),
     normal: ({ children }) => (
-      <p className="p3 xs4:px-5 px-1 pb-5 text-center font-crimson text-base leading-none md:max-w-[250px]">
+      <p className="p3 px-1 pb-5 text-center font-crimson text-base leading-none xs4:px-5 md:max-w-[250px]">
         {children}
       </p>
     ),

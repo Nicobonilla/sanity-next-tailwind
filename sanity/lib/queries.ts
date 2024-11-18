@@ -44,6 +44,7 @@ const componentFields = /* groq */ `
   items[isActive] {
     isActive,
     image,
+    icon,
     svgIcon,
     svgIconList,
     alt,

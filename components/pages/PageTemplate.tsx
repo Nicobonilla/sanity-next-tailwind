@@ -16,6 +16,9 @@ type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
 export type ComponentProps = ComponentPageProps | ComponentServiceProps;
 
+export type ItemsProps = NonNullable<ComponentProps>['items'];
+export type ItemProps = NonNullable<ItemsProps>[number];
+
 // Componente de página
 export default function PageTemplate({
   dataPage,
@@ -36,7 +39,14 @@ export default function PageTemplate({
   if (!dataPage?.components) {
     return <div>No components available</div>;
   }
-
+  console.log('dataPage.components:', dataPage.components);
+  const cleanedComponentMap = Object.fromEntries(
+    Object.entries(componentsMap).map(([key, value]) => [
+      key.replace(/[^\x20-\x7E]/g, ''), // Elimina los caracteres no ASCII (invisibles, etc.)
+      value?.replace(/[^\x20-\x7E]/g, ''),
+    ])
+  );
+  console.log('cleanedComponentMap:', cleanedComponentMap);
   return (
     <>
       {dataPage?.components &&
@@ -47,8 +57,14 @@ export default function PageTemplate({
           ) => {
             // Get the component name from the typeComponentValue
             const componentName = component?.typeComponentValue
-              ? componentsMap[component.typeComponentValue]
-              : null;
+              ? cleanedComponentMap[component.typeComponentValue]
+              : 'Banner1';
+            console.log('componentName:', componentName);
+            console.log('component:', component);
+            console.log(
+              'component.typeComponentValue:',
+              component.typeComponentValue
+            );
 
             if (!componentName) {
               console.error('componentName is null or undefined');

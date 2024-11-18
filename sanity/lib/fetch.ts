@@ -2,8 +2,7 @@ import { type ClientPerspective, type QueryParams } from 'next-sanity';
 import { draftMode } from 'next/headers';
 
 import { client } from '@/sanity/lib/client';
-import { token } from '@/sanity/lib/token';
-import { apiVersion } from './api';
+import { sanityFetch as liveFetch } from '@/sanity/lib/live';
 
 import {
   getServiceDetailQuery,
@@ -26,6 +25,7 @@ import {
  * and will also fetch from the CDN.
  * When using the "previewDrafts" perspective then the data is fetched from the live API and isn't cached, it will also fetch draft content that isn't published yet.
  */
+
 export async function sanityFetch<const QueryString extends string>({
   query,
   params = {},
@@ -38,29 +38,27 @@ export async function sanityFetch<const QueryString extends string>({
   stega?: boolean;
 }) {
   const { isEnabled } = await draftMode();
-  console.log('Draft Mode Enabled:', isEnabled);
+
   const actualPerspective =
     perspective ?? (isEnabled ? 'previewDrafts' : 'published');
-    
+
   const actualStega =
     stega ??
     (actualPerspective === 'previewDrafts' ||
       process.env.VERCEL_ENV === 'preview');
 
-  console.log('Draft Mode Enabled:', isEnabled);
-  console.log('Actual Perspective:', actualPerspective);
   console.log('Actual Stega (Visual Editing):', actualStega);
-
   if (actualPerspective === 'previewDrafts') {
     console.log("Fetching in draft mode with perspective 'previewDrafts'");
-    return client.fetch(query, params, {
-      stega: actualStega,
+
+    // Reemplazamos client.fetch por liveFetch
+    const result = await liveFetch({
+      query,
+      params,
       perspective: 'previewDrafts',
-      token,
-      useCdn: false,
-      // Configuración razonable de revalidación para reducir la carga
-      next: { revalidate: 0 }, // Revalida cada 5 minutos en borrador
     });
+
+    return result.data;
   }
 
   console.log("Fetching in production mode with perspective 'published'");
@@ -68,22 +66,17 @@ export async function sanityFetch<const QueryString extends string>({
     stega: actualStega,
     perspective: 'published',
     useCdn: true,
-    // Revalida cada 10 minutos en producción
-    next: { revalidate: 60 },
+    next: { revalidate: 60 }, // Revalida cada 10 minutos en producción
   });
 }
 
 /* MAIN PAGES */
 export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getPagesNavQuery; // This should be a GROQ string
-
+  const query = getPagesNavQuery;
   try {
     const data = (await sanityFetch({
       query,
     })) as GetPagesNavQueryResult | null;
-    // Si service es null, retornamos null
-    // Si data es null o está vacío, retornamos null
     if (!data || (Array.isArray(data) && data.length === 0)) {
       return null; // Si no hay datos, retornamos null
     }
@@ -102,7 +95,6 @@ export async function getPageBySlugFetch(
   const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
   const query = getPageDetailQuery; // This should be a GROQ string
   const params = { slug: sanitizedSlug }; // Pass the sanitized slug
-
   try {
     const data = (await sanityFetch({
       query,
@@ -186,13 +178,11 @@ export async function getServiceBySlugFetch(
 export async function getComponentListFetch(): Promise<GetComponentListQueryResult | null> {
   // Remove extra quotes if any
   const query = getComponentListQuery; // This should be a GROQ string
-
   try {
     const data = (await sanityFetch({
       query,
     })) as GetComponentListQueryResult | null;
     // Si service es null, retornamos null
-    // Si data es null o está vacío, retornamos null
     if (!data || (Array.isArray(data) && data.length === 0)) {
       return null; // Si no hay datos, retornamos null
     }

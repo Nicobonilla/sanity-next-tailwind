@@ -1,14 +1,9 @@
 import React from 'react';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import { Icon } from '@iconify/react';
-import { Item } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import Image from 'next/image';
-
-export type ItemProps = Omit<
-  Item,
-  '_id' | '_type' | '_key' | '_createdAt' | '_updatedAt' | '_rev'
->;
+import { ItemProps } from '@/components/pages/PageTemplate';
 
 export const PTextItemBanner: PortableTextComponents = {
   block: {

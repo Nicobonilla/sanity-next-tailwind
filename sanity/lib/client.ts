@@ -5,8 +5,8 @@ import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 export const client = createClient({
   projectId,
   dataset,
-  apiVersion: 'v2023-11-09',
-  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  apiVersion: apiVersion,
+  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
   perspective: 'published',
   stega: {
     enabled: false,
