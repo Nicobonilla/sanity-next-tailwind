@@ -6,6 +6,28 @@ const banner = defineType({
   type: 'document', // Tipo de documento
   fields: [
     defineField({
+      title: 'Activar',
+      name: 'isActive',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'typeComponent',
+      type: 'reference',
+      title: 'Tipo de Componente',
+      to: [{ type: 'component' }],
+    }),
+    defineField({
+      title: 'Layout Banner',
+      name: 'lautchBanner',
+      type: 'string',
+    }),
+    defineField({
+      title: 'Estilo de Letras Banner',
+      name: 'PTextBanner',
+      type: 'string',
+    }),
+    defineField({
       name: 'content',
       type: 'array',
       title:
@@ -21,22 +43,18 @@ const banner = defineType({
       },
     }),
     defineField({
-      title: 'Usar imagen de fondo',
-      name: 'isBgImage',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      title: 'Activar',
-      name: 'isActive',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      name: 'typeComponent',
-      type: 'reference',
-      title: 'Tipo de Componente',
-      to: [{ type: 'component' }],
+      title: 'Ubicación de la imagen',
+      name: 'imagePosition',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Izquierda', value: 'left' },
+          { title: 'Derecha', value: 'right' },
+          { title: 'Centro', value: 'center' },
+          { title: 'Background', value: 'background' },
+          { title: 'Arriba', value: 'arriba' },
+        ],
+      },
     }),
     defineField({
       title: 'Invertir Layout Mobile',
@@ -49,6 +67,16 @@ const banner = defineType({
       name: 'invertLayoutDesk',
       type: 'boolean',
       initialValue: false,
+    }),
+    defineField({
+      title: 'Layout Items',
+      name: 'layoutItems',
+      type: 'string',
+    }),
+    defineField({
+      title: 'Estilo de Letras Items',
+      name: 'PTextItem',
+      type: 'string',
     }),
     defineField({
       name: 'items',

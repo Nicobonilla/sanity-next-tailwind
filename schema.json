@@ -815,6 +815,57 @@
           "type": "string"
         }
       },
+      "isActive": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
+      "typeComponent": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "_ref": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              }
+            },
+            "_type": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string",
+                "value": "reference"
+              }
+            },
+            "_weak": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            }
+          },
+          "dereferencesTo": "component"
+        },
+        "optional": true
+      },
+      "lautchBanner": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "PTextBanner": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "content": {
         "type": "objectAttribute",
         "value": {
@@ -1056,47 +1107,32 @@
         },
         "optional": true
       },
-      "isBgImage": {
+      "imagePosition": {
         "type": "objectAttribute",
         "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
-      "isActive": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
-      "typeComponent": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "_ref": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              }
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "left"
             },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "reference"
-              }
+            {
+              "type": "string",
+              "value": "right"
             },
-            "_weak": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "center"
+            },
+            {
+              "type": "string",
+              "value": "background"
+            },
+            {
+              "type": "string",
+              "value": "arriba"
             }
-          },
-          "dereferencesTo": "component"
+          ]
         },
         "optional": true
       },
@@ -1111,6 +1147,20 @@
         "type": "objectAttribute",
         "value": {
           "type": "boolean"
+        },
+        "optional": true
+      },
+      "layoutItems": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "PTextItem": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },
@@ -2360,6 +2410,57 @@
           "of": {
             "type": "object",
             "attributes": {
+              "isActive": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "typeComponent": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "_ref": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "_type": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string",
+                        "value": "reference"
+                      }
+                    },
+                    "_weak": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "boolean"
+                      },
+                      "optional": true
+                    }
+                  },
+                  "dereferencesTo": "component"
+                },
+                "optional": true
+              },
+              "lautchBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "content": {
                 "type": "objectAttribute",
                 "value": {
@@ -2601,47 +2702,32 @@
                 },
                 "optional": true
               },
-              "isBgImage": {
+              "imagePosition": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "isActive": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "typeComponent": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "object",
-                  "attributes": {
-                    "_ref": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "left"
                     },
-                    "_type": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string",
-                        "value": "reference"
-                      }
+                    {
+                      "type": "string",
+                      "value": "right"
                     },
-                    "_weak": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "boolean"
-                      },
-                      "optional": true
+                    {
+                      "type": "string",
+                      "value": "center"
+                    },
+                    {
+                      "type": "string",
+                      "value": "background"
+                    },
+                    {
+                      "type": "string",
+                      "value": "arriba"
                     }
-                  },
-                  "dereferencesTo": "component"
+                  ]
                 },
                 "optional": true
               },
@@ -2656,6 +2742,20 @@
                 "type": "objectAttribute",
                 "value": {
                   "type": "boolean"
+                },
+                "optional": true
+              },
+              "layoutItems": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextItem": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -3726,6 +3826,57 @@
           "of": {
             "type": "object",
             "attributes": {
+              "isActive": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "typeComponent": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "_ref": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "_type": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string",
+                        "value": "reference"
+                      }
+                    },
+                    "_weak": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "boolean"
+                      },
+                      "optional": true
+                    }
+                  },
+                  "dereferencesTo": "component"
+                },
+                "optional": true
+              },
+              "lautchBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "content": {
                 "type": "objectAttribute",
                 "value": {
@@ -3967,47 +4118,32 @@
                 },
                 "optional": true
               },
-              "isBgImage": {
+              "imagePosition": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "isActive": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "typeComponent": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "object",
-                  "attributes": {
-                    "_ref": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "left"
                     },
-                    "_type": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string",
-                        "value": "reference"
-                      }
+                    {
+                      "type": "string",
+                      "value": "right"
                     },
-                    "_weak": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "boolean"
-                      },
-                      "optional": true
+                    {
+                      "type": "string",
+                      "value": "center"
+                    },
+                    {
+                      "type": "string",
+                      "value": "background"
+                    },
+                    {
+                      "type": "string",
+                      "value": "arriba"
                     }
-                  },
-                  "dereferencesTo": "component"
+                  ]
                 },
                 "optional": true
               },
@@ -4022,6 +4158,20 @@
                 "type": "objectAttribute",
                 "value": {
                   "type": "boolean"
+                },
+                "optional": true
+              },
+              "layoutItems": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextItem": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               },

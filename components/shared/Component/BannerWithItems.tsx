@@ -28,11 +28,18 @@ function Inner({ data }: { data: ComponentProps }) {
     <div
       className={clsx(
         'relative z-20 mx-auto flex flex-col items-center justify-center py-16',
-        data.isBgImage ? 'lg:max-w-none' : 'lg:max-w-screen-xl'
+        data.imagePosition == 'background'
+          ? 'lg:max-w-none'
+          : 'lg:max-w-screen-xl'
       )}
     >
       {data.content && (
-        <div className={clsx('mb-12 md:mb-14', data.isBgImage && 'text-white')}>
+        <div
+          className={clsx(
+            'mb-12 md:mb-14',
+            data.imagePosition == 'background' && 'text-white'
+          )}
+        >
           <PortableText
             value={data.content || []}
             components={PTextBannerIcons}
@@ -61,7 +68,7 @@ function Inner({ data }: { data: ComponentProps }) {
 export default function BannerWithItems({ data }: { data: ComponentProps }) {
   // Establecemos el estilo del fondo condicionalmente
   const backgroundImageStyle =
-    data.isBgImage && data.image
+    data.imagePosition == 'background' && data.image
       ? {
           backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
         }
@@ -71,16 +78,20 @@ export default function BannerWithItems({ data }: { data: ComponentProps }) {
     <div
       className={clsx(
         'relative w-full',
-        data.isBgImage && 'min-h-screen md:min-h-0 lg:max-h-fit'
+        data.imagePosition == 'background' &&
+          'min-h-screen md:min-h-0 lg:max-h-fit'
       )}
     >
       {/* Fondo condicional */}
       <div
-        className={clsx(data.isBgImage && 'z-0 bg-cover bg-fixed bg-center')}
+        className={clsx(
+          data.imagePosition == 'background' &&
+            'z-0 bg-cover bg-fixed bg-center'
+        )}
         style={backgroundImageStyle}
       >
         {/* Filtro de color oscuro sobre la imagen si tiene fondo */}
-        {data.isBgImage && (
+        {data.imagePosition == 'background' && (
           <div className="absolute inset-0 z-10 bg-white/80 dark:bg-black/80" />
         )}
         {/* Renderiza el contenido y los items */}
