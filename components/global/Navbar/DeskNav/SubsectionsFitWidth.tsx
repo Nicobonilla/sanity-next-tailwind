@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Links } from '@/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAppContext } from '@/context/AppContext';
+import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
 
 export default function SubsectionsFitWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
-  const { pagesLink } = useAppContext();
+  const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
@@ -85,7 +85,7 @@ export default function SubsectionsFitWidth() {
                         return (
                           <>
                             {business && (
-                              <li
+                              <ul
                                 key={businessName}
                                 className="nav-subsection-desk flex flex-col font-semibold"
                               >
@@ -106,7 +106,7 @@ export default function SubsectionsFitWidth() {
                                     </Link>
                                   </li>
                                 ))}
-                              </li>
+                              </ul>
                             )}
                           </>
                         );

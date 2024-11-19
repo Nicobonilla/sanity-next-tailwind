@@ -4,15 +4,17 @@ import Link from 'next/link';
 import Logo from '@/components/shared/Logo';
 import Icon from '@/components/shared/Icon';
 import { usePathname } from 'next/navigation';
-import { useAppContext } from '@/context/AppContext';
+import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
 import { IoIosMenu, IoIosClose } from 'react-icons/io';
+import { RiArrowDownSLine } from 'react-icons/ri';
+import { RiArrowRightSLine } from 'react-icons/ri';
 
 export default function MobileNavDrawer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const path = usePathname();
-  const { pagesLink } = useAppContext();
+  const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
 
   const toggleMenu = (e: React.MouseEvent) => {
@@ -101,7 +103,7 @@ export default function MobileNavDrawer() {
                                 pathname: `/${link?.slug}`,
                               }}
                               passHref
-                              className="nav block flex-1 py-2 uppercase" // Takes full width
+                              className="nav block flex-1 py-2 uppercase text-gray-300" // Takes full width
                             >
                               {link.title}
                             </Link>
@@ -110,14 +112,14 @@ export default function MobileNavDrawer() {
                                 e.stopPropagation(); // Prevent Link navigation on button click
                                 toggleSection(link.title || '', e);
                               }}
-                              className="nav px-2 focus:outline-none"
+                              className="nav px-2 text-gray-300 focus:outline-none"
                             >
                               {link.subsections &&
                                 link.subsections.length > 0 &&
                                 (expandedSections.includes(link.title) ? (
-                                  <Icon name="chevron-right" />
+                                  <RiArrowRightSLine size={25} />
                                 ) : (
-                                  <Icon name="chevron-down" />
+                                  <RiArrowDownSLine size={25} />
                                 ))}
                             </button>
                           </div>
@@ -142,7 +144,7 @@ export default function MobileNavDrawer() {
                                           }
                                           onClick={closeMenu}
                                         >
-                                          <span className="nav block text-xs">
+                                          <span className="nav block text-xs text-gray-300">
                                             {sublink?.title}
                                           </span>
                                         </Link>

@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useAppContext } from '@/context/AppContext';
+import { useSanityContext } from '@/context/SanityContext';
 import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
@@ -26,7 +26,7 @@ export default function PageTemplate({
   dataPage?: GetPageDetailQueryResult | GetServiceDetailQueryResult;
 }) {
   // Dynamically load the component based on its name
-  const { componentsMap } = useAppContext();
+  const { componentsMap } = useSanityContext();
 
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(() =>

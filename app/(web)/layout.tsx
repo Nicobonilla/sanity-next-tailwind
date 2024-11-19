@@ -10,7 +10,10 @@ import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
-import { AppContextProvider, AppContextType } from '@/context/AppContext';
+import {
+  SanityContextProvider,
+  SanityContextType,
+} from '@/context/SanityContext';
 import { ScrollContextProvider } from '@/context/ScrollContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
@@ -24,29 +27,22 @@ import {
   GetServicesNavQueryResult,
 } from '@/sanity.types';
 import DisableDraftMode from '@/components/global/DisableDraftMode';
+import { ThemeProvider } from '@/context/ThemeContext';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Async function to fetch data
 async function getData() {
   try {
-    const pages: GetPagesNavQueryResult | null = await getPagesNavFetch();
-    const servicesList: GetServicesNavQueryResult | null =
-      await getServicesNavFetch();
-    const componentList: GetComponentListQueryResult | null =
-      await getComponentListFetch();
+    const [pages, servicesList, componentList] = await Promise.all([
+      getPagesNavFetch(),
+      getServicesNavFetch(),
+      getComponentListFetch(),
+    ]);
 
-    // Ensure we always return an object with null checks
-    return {
-      pages,
-      servicesList,
-      componentList,
-    };
+    return { pages, servicesList, componentList };
   } catch (error) {
     console.error('Failed to fetch data:', error);
-    return {
-      pages: null,
-      servicesList: null,
-      componentList: null,
-    };
+    throw new Error('Failed to fetch necessary data for the application');
   }
 }
 
@@ -55,59 +51,72 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetching data for the layout (pages, services, and components)
-  const { pages, servicesList, componentList } = await getData();
+  try {
+    // Fetching data for the layout (pages, services, and components)
+    const { pages, servicesList, componentList } = await getData();
 
-  // Error handling if no data is returned
-  if (!pages || !servicesList) {
+    // Error handling if no data is returned
+    if (!pages || !servicesList || !componentList) {
+      throw new Error('Essential data is missing');
+    }
+
+    // Prepare the initial data for context
+    const initialData = {
+      componentsMap: transformToDict(
+        componentList
+      ) as SanityContextType['componentsMap'],
+      pagesLink: formatPages(pages, servicesList) as Links[],
+    };
+
+    // Check if draft mode is enabled (for content editing features)
+    const { isEnabled } = draftMode();
+
     return (
-      <div className="error-message">
-        {!pages && 'Lista de páginas no encontrada'}
-        {!servicesList && 'Lista de servicios no encontrada'}
-      </div>
+      <html
+        lang="es"
+        className={`${Object.values(fonts)
+          .map((font) => font.variable)
+          .join(' ')} scroll-smooth`}
+      >
+        <head>
+          <DarkModeScript />
+        </head>
+        {/* Uncomment for Google Tag Manager if needed */}
+        {/* <GTMGlobals />
+        <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
+        <body className="flex min-h-screen min-w-[320px] flex-col">
+          <ErrorBoundary>
+            <SanityContextProvider initialData={initialData}>
+              <ThemeProvider>
+                <Navbar />
+                <main className="grow flex-col">
+                  {children}
+                  <SanityLive />
+                  {isEnabled && (
+                    <>
+                      <DisableDraftMode />
+                      <VisualEditing />
+                    </>
+                  )}
+                </main>
+                <Footer />
+              </ThemeProvider>
+            </SanityContextProvider>
+          </ErrorBoundary>
+        </body>
+      </html>
+    );
+  } catch (error) {
+    console.error('Error in RootLayout:', error);
+    return (
+      <html lang="es">
+        <body>
+          <div className="error-message">
+            An error occurred while loading the application. Please try again
+            later.
+          </div>
+        </body>
+      </html>
     );
   }
-
-  // Prepare the initial data for context
-  const initialData = {
-    componentsMap: transformToDict(
-      componentList
-    ) as AppContextType['componentsMap'],
-    pagesLink: formatPages(pages, servicesList) as Links[],
-  };
-
-  // Check if draft mode is enabled (for content editing features)
-  const { isEnabled } = draftMode();
-
-  return (
-    <html
-      lang="es"
-      className={`${Object.values(fonts)
-        .map((font) => font.variable)
-        .join(' ')} scroll-smooth`}
-    >
-      <head>
-        <DarkModeScript />
-      </head>
-      {/* Uncomment for Google Tag Manager if needed */}
-      {/* <GTMGlobals />
-      <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
-      <body className="flex min-h-screen min-w-[320px] flex-col">
-        <AppContextProvider initialData={initialData}>
-          <Navbar />
-          <main className="grow flex-col">
-            {children}
-            <SanityLive />
-            {isEnabled && (
-              <>
-                <DisableDraftMode />
-                <VisualEditing />
-              </>
-            )}
-          </main>
-          <Footer />
-        </AppContextProvider>
-      </body>
-    </html>
-  );
 }

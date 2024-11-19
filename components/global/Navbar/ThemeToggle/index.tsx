@@ -1,11 +1,13 @@
 'use client';
 
+import { useScrollContext } from '@/context/ScrollContext';
 import { useEffect, useState } from 'react';
-import Icon from '@/components/shared/Icon';
+import { AiOutlineSun } from 'react-icons/ai';
+import { IoMoonSharp } from 'react-icons/io5';
 
 const ThemeToggle = ({ color }: { color: string }) => {
   const [isDark, setIsDark] = useState(false);
-
+  const { scrolling } = useScrollContext();
   // Cargar el tema del almacenamiento local o preferencia del sistema
   useEffect(() => {
     const currentTheme = localStorage.getItem('theme');
@@ -37,14 +39,10 @@ const ThemeToggle = ({ color }: { color: string }) => {
       onClick={toggleTheme}
       className="relative flex h-6 w-12 items-end justify-center p-1"
     >
-      <span className="absolute">
-        <Icon
-          name={isDark ? 'sun' : 'moon'}
-          fill={color}
-          color={color}
-          strokeWidth={isDark ? 2 : 0}
-          size={20}
-        />
+      <span
+        className={`absolute ${scrolling ? 'text-gray-500' : 'text-white'}`}
+      >
+        {isDark ? <AiOutlineSun size={20} /> : <IoMoonSharp size={20} />}
       </span>
     </button>
   );
