@@ -1,4 +1,7 @@
+'use server';
+
 import { createClient, defineLive } from 'next-sanity';
+import { token } from './token';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -8,7 +11,6 @@ const client = createClient({
   stega: { studioUrl: '/studio' },
 });
 
-const token = process.env.SANITY_API_READ_TOKEN;
 if (!token) {
   throw new Error('Missing SANITY_API_READ_TOKEN');
 }

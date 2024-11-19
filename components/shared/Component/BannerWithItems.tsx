@@ -74,6 +74,7 @@ export default function BannerWithItems({ data }: { data: ComponentProps }) {
         data.isBgImage && 'min-h-screen md:min-h-0 lg:max-h-fit'
       )}
     >
+      {/* Fondo condicional */}
       <div
         className={clsx(data.isBgImage && 'z-0 bg-cover bg-fixed bg-center')}
         style={backgroundImageStyle}
