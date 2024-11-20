@@ -3,12 +3,13 @@ import {
   isUniqueAcrossAllDocuments,
   isUniqueTrueForField,
 } from '@/sanity/lib/utils';
-import { validateUniquePosition } from '@/sanity/lib/validations';
+import { BinaryDocumentIcon } from '@sanity/icons';
 
 const page = defineType({
   name: 'page',
   title: 'Page',
   type: 'document', // Tipo de documento
+  icon: BinaryDocumentIcon,
   fields: [
     defineField({
       name: 'title',
@@ -39,16 +40,13 @@ const page = defineType({
       type: 'boolean',
       initialValue: false,
       validation: (rule) =>
-        rule.custom((isHome, context) =>  isUniqueTrueForField(isHome, context)),
+        rule.custom((isHome, context) => isUniqueTrueForField(isHome, context)),
     }),
     defineField({
-      name: 'position',
+      name: 'orderRank',
       title: 'Position',
-      type: 'number',
-      validation: (rule) =>
-        rule.custom((position, context) =>
-          validateUniquePosition(position, context)
-        ),
+      type: 'string',
+      hidden: true,
     }),
     defineField({
       name: 'content',

@@ -1,6 +1,7 @@
 import { PortableTextComponents } from 'next-sanity';
 
-export const PTheroImage: PortableTextComponents = {
+// Define PT1 and PT2 components
+const PT1: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
       <h1 className="pr-10 text-2xl font-extrabold text-white drop-shadow-2xl md:max-w-[600px] md:text-5xl">
@@ -27,7 +28,7 @@ export const PTheroImage: PortableTextComponents = {
   },
 };
 
-export const PTheroImage2: PortableTextComponents = {
+const PT2: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
       <div className="mb-2 font-bitter text-3xl font-medium text-black md:text-5xl lg:mb-6">
@@ -48,3 +49,7 @@ export const PTheroImage2: PortableTextComponents = {
     ),
   },
 };
+
+const HeroImage = { PT1, PT2 };
+
+export default HeroImage;

@@ -495,10 +495,10 @@
         },
         "optional": true
       },
-      "position": {
+      "orderRank": {
         "type": "objectAttribute",
         "value": {
-          "type": "number"
+          "type": "string"
         },
         "optional": true
       },
@@ -1247,10 +1247,10 @@
                 },
                 "optional": true
               },
-              "position": {
+              "orderRank": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "number"
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -2105,18 +2105,25 @@
         },
         "optional": true
       },
+      "isActive": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
+      "orderRank": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "slug": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
           "name": "slug"
-        },
-        "optional": true
-      },
-      "isActive": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
         },
         "optional": true
       },
@@ -2842,10 +2849,10 @@
                         },
                         "optional": true
                       },
-                      "position": {
+                      "orderRank": {
                         "type": "objectAttribute",
                         "value": {
-                          "type": "number"
+                          "type": "string"
                         },
                         "optional": true
                       },
@@ -3223,6 +3230,13 @@
         },
         "optional": true
       },
+      "orderRank": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "icon": {
         "type": "objectAttribute",
         "value": {
@@ -3559,10 +3573,10 @@
         },
         "optional": true
       },
-      "position": {
+      "orderRank": {
         "type": "objectAttribute",
         "value": {
-          "type": "number"
+          "type": "string"
         },
         "optional": true
       },
@@ -4258,10 +4272,10 @@
                         },
                         "optional": true
                       },
-                      "position": {
+                      "orderRank": {
                         "type": "objectAttribute",
                         "value": {
-                          "type": "number"
+                          "type": "string"
                         },
                         "optional": true
                       },

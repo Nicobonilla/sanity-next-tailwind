@@ -26,26 +26,23 @@ const item = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'position',
+      name: 'orderRank',
       title: 'Posición',
-      type: 'number',
-      validation: (rule) =>
-        rule.custom((position, context) =>
-          validateUniquePosition(position, context)
-        ),
+      type: 'string',
+      hidden: true,
     }),
     defineField({
       type: 'icon.manager',
       name: 'icon',
       title: 'Icon Manager',
     }),
-    
+
     defineField({
       name: 'svgIcon',
       title: 'SVG Icon',
       type: 'inlineSvg',
     }),
-    
+
     defineField({
       name: 'svgIconList',
       title: 'SVG Icon List',

@@ -16,6 +16,18 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      title: 'Activar',
+      name: 'isActive',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      title: 'Posición',
+      name: 'orderRank',
+      type: 'string',
+      hidden: true,
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -25,12 +37,6 @@ export default defineType({
         isUnique: isUniqueAcrossAllDocuments,
       },
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      title: 'Activar',
-      name: 'isActive',
-      type: 'boolean',
-      initialValue: false,
     }),
     defineField({
       name: 'content',

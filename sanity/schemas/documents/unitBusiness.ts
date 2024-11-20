@@ -23,6 +23,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'orderRank',
+      title: 'Posición',
+      type: 'string',
+      hidden: true,
+    }),
+    defineField({
       name: 'icon',
       title: 'Icon',
       type: 'string',
@@ -45,5 +51,12 @@ export default defineType({
         },
       ], // Para contenido enriquecido
     }),
+  ],
+  orderings: [
+    {
+      title: 'Posición',
+      name: 'positionAsc',
+      by: [{ field: 'orderRank', direction: 'asc' }],
+    },
   ],
 });

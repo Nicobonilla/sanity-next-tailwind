@@ -31,7 +31,7 @@ export function formatPages(
     id: page.slug || '', // Fallback to an empty string if `slug` is null or undefined
     title: page.title || '', // Fallback to an empty string if `title` is null or undefined
     slug: page.isHome ? '' : page.slug || undefined, // Set `slug` to undefined if `isHome` is true, else fallback to `undefined`
-    position: page.position || undefined, // Fallback to `undefined` if `position` is null or undefined
+    orderRank: page.orderRank || undefined, // Fallback to `undefined` if `orderRank` is null or undefined
   }));
 
   // Now, we need to process any page that has the title "servicios"
@@ -46,13 +46,11 @@ export function formatPages(
     return page;
   });
 
-  // Custom type guard to check if a page is valid Links (i.e., not null and has position)
+  // Custom type guard to check if a page is valid Links (i.e., not null and has orderRank)
   function isValidLink(page: any): page is Links {
-    return page != null && page.position != null; // Ensures `page` is not null and has a valid `position`
+    return page != null && page.orderRank != null; // Ensures `page` is not null and has a valid `orderRank`
   }
 
-  // Filter out pages that are invalid and sort them by position
-  return pagesLink
-    .filter(isValidLink) // Use the custom type guard to filter out invalid `Links`
-    .sort((a, b) => (a.position ?? 0) - (b.position ?? 0)); // Sort by position, default to 0 if `position` is `undefined`
+  // Filter out pages that are invalid and sort them by orderRank
+  return pagesLink.filter(isValidLink); // Use the custom type guard to filter out invalid `Links`
 }

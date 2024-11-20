@@ -52,7 +52,7 @@ const componentFields = /* groq */ `
     svgIcon,
     svgIconList,
     alt,
-    position,
+    orderRank,
     content
   }
 `;
@@ -60,11 +60,11 @@ const componentFields = /* groq */ `
 /* PAGES */
 
 export const getPagesNavQuery = defineQuery(groq`
-  *[_type == 'page' ] | order(position asc) {
+  *[_type == 'page' ] | order(orderRank asc) {
   "id": _id,
   "title": title,
   "slug": slug.current,
-  position,
+  orderRank,
   isHome
 }`);
 
@@ -73,7 +73,7 @@ export const getPageDetailQuery = defineQuery(groq`
   "id": _id,
   "title": title,
   "slug": slug.current,
-  position,
+  orderRank,
   content,
   components[isActive] { ${componentFields} },
   "isHome": isHome
@@ -82,13 +82,15 @@ export const getPageDetailQuery = defineQuery(groq`
 /* SERVICES */
 
 export const getServicesNavQuery = defineQuery(
-  groq`*[_type == 'service' && isActive] | order(position asc) {
+  groq`*[_type == 'service' && isActive] | order(unitBusiness -> orderRank asc, orderRank asc) {
     title,
     isActive,
+    orderRank,
     "unitBusiness": {
       "title": unitBusiness->title,
       "icon": unitBusiness-> icon,
-      "slug": unitBusiness->slug.current
+      "slug": unitBusiness->slug.current,
+      "orderRank": unitBusiness -> orderRank
     },
     "slug": slug.current
     }`

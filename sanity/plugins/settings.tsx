@@ -4,6 +4,8 @@
 
 import { definePlugin, type DocumentDefinition } from 'sanity';
 import { type StructureResolver } from 'sanity/structure';
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
+import { PlayIcon } from '@sanity/icons';
 
 export const singletonPlugin = definePlugin((types: string[]) => {
   return {
@@ -35,16 +37,9 @@ export const singletonPlugin = definePlugin((types: string[]) => {
 export const pageStructure = (
   typeDefArray: DocumentDefinition[]
 ): StructureResolver => {
-  return (S) => {
-    const hiddenDocuments = [
-      'post',
-      'author',
-      'unitBusiness',
-      'component',
-      'item',
-      'banner',
-    ];
-    
+  return (S, context) => {
+    const hiddenDocuments = ['post', 'author', 'component', 'item', 'banner'];
+    const orderableDocuments = ['page', 'service', 'unitBusiness'];
     // Crea los items de los singletons a partir de los typeDefs
     const singletonItems = typeDefArray.map((typeDef) => {
       return S.listItem()
@@ -58,16 +53,34 @@ export const pageStructure = (
         );
     });
 
+    const orderableListItems = S.documentTypeListItems()
+      .filter((listItem) => orderableDocuments.includes(listItem.getId() || ''))
+      .map((listItem) =>
+        orderableDocumentListDeskItem({
+          title: listItem.getTitle(),
+          type: listItem.getId() || '',
+          S,
+          context,
+        })
+      );
+
     // Filtra los elementos de lista predeterminados excluyendo los singletons y los documentos ocultos
     const defaultListItems = S.documentTypeListItems().filter(
       (listItem) =>
         !typeDefArray.find(
           (singleton) => singleton.name === listItem.getId()
-        ) && !hiddenDocuments.includes(listItem.getId() || '')
+        ) &&
+        !hiddenDocuments.includes(listItem.getId() || '') &&
+        !orderableDocuments.includes(listItem.getId() || '')
     );
 
     return S.list()
       .title('Admin Menu Principal - ONIT')
-      .items([...singletonItems, S.divider(), ...defaultListItems]);
+      .items([
+        ...singletonItems,
+        S.divider(),
+        ...orderableListItems,
+        ...defaultListItems,
+      ]);
   };
 };
