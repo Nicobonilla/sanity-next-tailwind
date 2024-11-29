@@ -18,7 +18,7 @@ export type ComponentProps = ComponentPageProps | ComponentServiceProps;
 
 export type ItemsProps = NonNullable<ComponentProps>['items'];
 export type ItemProps = NonNullable<ItemsProps>[number];
-
+const DefaultComponent = dynamic(() => import('@/components/shared/component'));
 // Componente de página
 export default function PageTemplate({
   dataPage,
@@ -32,14 +32,14 @@ export default function PageTemplate({
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(
       () =>
-        import(`@/components/shared/component/${name}`).catch(
-          () => import('@/components/shared/component')
+        import(`@/components/shared/component/${name}`).then(
+          (mod) => mod.default
         ),
       {
+        loading: () => <div>Cargando...</div>,
         ssr: false,
       }
     );
-
   // If there are no components, show a message
   if (!dataPage?.components) {
     return <div>No components available</div>;
@@ -65,7 +65,6 @@ export default function PageTemplate({
               ? cleanedComponentMap[component.typeComponentValue]
               : 'Banner1';
             console.log('componentName:', componentName);
-            console.log('component:', component);
             console.log(
               'component.typeComponentValue:',
               component.typeComponentValue
