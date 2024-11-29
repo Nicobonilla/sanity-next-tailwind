@@ -5,6 +5,7 @@ import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
+import Default from '@/components/shared/component/Default';
 
 type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
 type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
@@ -31,10 +32,7 @@ export default function PageTemplate({
 
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(
-      () =>
-        import(`@/components/shared/component/${name}`).then(
-          (mod) => mod.default
-        ),
+      () => import(`@/components/shared/component/${name}`),
       {
         loading: () => <div>Cargando...</div>,
         ssr: false,
@@ -67,7 +65,7 @@ export default function PageTemplate({
 
             if (!componentName) {
               console.error('componentName is null or undefined');
-              return <DefaultComponent key={index} />;
+              return <Default key={index} />;
             }
 
             // Dynamically load the component
