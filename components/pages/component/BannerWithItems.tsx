@@ -6,7 +6,7 @@ import type { ItemProps } from '@/components/pages/PageTemplate';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
-import PTItemBanner from '../PortableText/PTextItemBanner';
+import PTItemBanner from '../../shared/PortableText/PTextItemBanner';
 
 // Componente de PortableText con estilos personalizados
 export const PTextBannerIcons: PortableTextComponents = {

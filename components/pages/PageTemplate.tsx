@@ -32,13 +32,10 @@ export default function PageTemplate({
   console.log('componentsMap: ', componentsMap);
 
   const DynamicComponent = (name: string) =>
-    dynamic<{ data: ComponentProps }>(
-      () => import(`@/components/shared/component/${name}`),
-      {
-        loading: () => <div>Cargando...</div>,
-        ssr: false,
-      }
-    );
+    dynamic<{ data: ComponentProps }>(() => import(`./component/${name}`), {
+      loading: () => <div>Cargando...</div>,
+      ssr: false,
+    });
   // If there are no components, show a message
   if (!dataPage?.components) {
     return <div>No components available</div>;

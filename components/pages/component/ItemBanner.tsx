@@ -6,7 +6,7 @@ import { ItemProps } from '@/components/pages/PageTemplate';
 import PTItemBanner, {
   PTtype,
 } from '@/components/shared/PortableText/PTextItemBanner';
-import Iconfy from '../Icons/Iconfy';
+import Iconfy from '../../shared/Icons/Iconfy';
 
 interface ItemBannerProps {
   item: ItemProps;
