@@ -29,10 +29,14 @@ export default function PageTemplate({
   const { componentsMap } = useSanityContext();
   console.log('componentsMap: ', componentsMap);
   const DynamicComponent = (name: string) =>
-    dynamic<{ data: ComponentProps }>(() =>
-      import(`@/components/shared/component/${name}`).catch(
-        () => import('@/components/shared/component/Default')
-      )
+    dynamic<{ data: ComponentProps }>(
+      () =>
+        import(`@/components/shared/component/${name}`).catch(
+          () => import('@/components/shared/component/Default')
+        ),
+      {
+        ssr: false,
+      }
     );
 
   // If there are no components, show a message
