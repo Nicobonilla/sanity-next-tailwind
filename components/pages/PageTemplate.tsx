@@ -5,7 +5,6 @@ import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
-import Default from '../shared/component/Default';
 
 type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
 type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
@@ -31,17 +30,14 @@ export default function PageTemplate({
   console.log('componentsMap: ', componentsMap);
 
   const DynamicComponent = (name: string) =>
-    dynamic(
-      async () => {
-        try {
-          return (await import(`@/components/shared/component/${name}`))
-            .default;
-        } catch {
-          // Importación estática de `Default` para asegurar que se incluya en el bundle
-          return Default;
-        }
-      },
-      { ssr: false }
+    dynamic<{ data: ComponentProps }>(
+      () =>
+        import(`@/components/shared/component/${name}`).catch(
+          () => import('@/components/shared/component/')
+        ),
+      {
+        ssr: false,
+      }
     );
 
   // If there are no components, show a message
