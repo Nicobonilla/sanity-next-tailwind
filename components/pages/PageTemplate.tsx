@@ -33,7 +33,7 @@ export default function PageTemplate({
     dynamic<{ data: ComponentProps }>(
       () =>
         import(`@/components/shared/component/${name}`).catch(
-          () => import('@/components/shared/component/')
+          () => import('@/components/shared/component')
         ),
       {
         ssr: false,
