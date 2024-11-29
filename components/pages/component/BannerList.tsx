@@ -55,9 +55,9 @@ function Inner({ data }: { data: ComponentProps }) {
             'grid h-fit w-full max-w-[650px] grid-cols-1 items-start justify-center dark:text-slate-300',
             'xs4:grid-cols-2',
             'xs5:px-4',
-            'h-24 sm:grid-cols-3',
+            'sm:h-24 sm:grid-cols-3',
             'md:grid-cols-4',
-            'h-28 lg:max-w-[1350px] lg:grid-cols-5'
+            'lg:h-28 lg:max-w-[1350px] lg:grid-cols-5'
           )}
         >
           {data.content.map((line, indexItem) => {
