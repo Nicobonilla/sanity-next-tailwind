@@ -6,7 +6,7 @@ import {
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
 
-import Default from '../shared/component/Default';
+import Default from './Default';
 
 type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
 type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
