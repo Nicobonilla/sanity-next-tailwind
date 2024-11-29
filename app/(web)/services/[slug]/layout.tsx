@@ -1,4 +1,3 @@
-import BannerWithItems from '@/components/shared/Component/BannerWithItems';
 import Form from '@/components/shared/Form';
 
 export { metadata, viewport } from 'next-sanity/studio';

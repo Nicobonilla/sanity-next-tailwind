@@ -60,16 +60,31 @@ const componentFields = /* groq */ `
 /* PAGES */
 
 export const getPagesNavQuery = defineQuery(groq`
-  *[_type == 'page' ] | order(orderRank asc) {
+  *[_type == 'page'] | order(orderRank asc) {
+    "id": coalesce(_id, ""), 
+    "title": coalesce(title, ""),
+    "slug": select(
+      isHome == true => "",
+      slug.current
+    ),
+    "orderRank": orderRank,
+    isHome
+  }
+`);
+
+export const getPageDetailQuery = defineQuery(groq`
+  *[_type == 'page' && slug.current == $slug][0] {
   "id": _id,
   "title": title,
   "slug": slug.current,
   orderRank,
-  isHome
+  content,
+  components[isActive] { ${componentFields} },
+  "isHome": isHome
 }`);
 
-export const getPageDetailQuery = defineQuery(groq`
-  *[_type == 'page' && slug.current == $slug][0] {
+export const getHomeDetailQuery = defineQuery(groq`
+  *[_type == 'page' && isHome == true][0] {
   "id": _id,
   "title": title,
   "slug": slug.current,

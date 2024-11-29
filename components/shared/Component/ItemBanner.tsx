@@ -1,117 +1,62 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-import { Icon } from '@iconify/react';
+import { PortableText } from 'next-sanity';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
+import Image from 'next/image';
 import { ItemProps } from '@/components/pages/PageTemplate';
+import PTItemBanner, {
+  PTtype,
+} from '@/components/shared/PortableText/PTextItemBanner';
+import Iconfy from '../Icons/Iconfy';
 
-export const PTextItemBanner: PortableTextComponents = {
-  block: {
-    h1: ({ children }) => (
-      <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold md:max-w-[250px]">
-        {children}
-      </h2>
-    ),
-    normal: ({ children }) => (
-      <p className="p3 px-1 pb-5 text-center font-crimson text-base leading-none xs4:px-5 md:max-w-[250px]">
-        {children}
-      </p>
-    ),
-  },
-  marks: {
-    strong: ({ children }) => (
-      <span className="font-extrabold dark:text-red-500">{children}</span>
-    ),
-  },
-};
+interface ItemBannerProps {
+  item: ItemProps;
+  PTextItem?: keyof PTtype;
+}
 
-export const PTextItemBanner2: PortableTextComponents = {
-  block: {
-    h1: ({ children }) => (
-      <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold md:max-w-[250px]">
-        {children}
-      </h2>
-    ),
-    normal: ({ children }) => (
-      <p className="p3 px-5 pb-5 text-center font-crimson text-base leading-none md:max-w-[250px]">
-        {children}
-      </p>
-    ),
-  },
-  marks: {
-    strong: ({ children }) => (
-      <span className="font-extrabold dark:text-red-500">{children}</span>
-    ),
-  },
-};
-export default function ItemBanner({ item }: { item: ItemProps }) {
+export default function ItemBanner({ item, PTextItem }: ItemBannerProps) {
   if (!item) return null;
 
-  const { icon, metadata } = item.icon || {};
-  const hasSvgIconList = item.svgIconList;
-  const hasSvgIcon = item.svgIcon;
-  const hasImage = item.image;
-  const hasContent = item.content;
+  const selectedPT = PTextItem ? PTItemBanner[PTextItem] : PTItemBanner.PT1;
+  const { icon, svgIconList, svgIcon, content } = item;
+
+  const svg = svgIcon || svgIconList?.[0]?.icon || undefined;
 
   return (
-    <div className="hover:border-1 mb-10 flex h-full flex-col items-start rounded-3xl border-gray-300 text-center hover:cursor-pointer hover:shadow-lg xs4:h-72 md:mb-0">
-      {/* Mostrar solo uno de los tipos, dependiendo de lo que esté disponible */}
-      {icon && (
-        <div className="relative z-0 mx-auto mb-5 flex items-center justify-center text-red-500 md:max-w-24">
-          <Icon
-            icon={icon}
-            hFlip={metadata?.hFlip}
-            vFlip={metadata?.vFlip}
-            rotate={metadata?.rotate}
-            width={metadata?.size?.width}
-            height={metadata?.size?.height}
-            style={{ color: metadata?.color?.hex }}
+    <div className="flex h-full flex-row rounded-lg p-2 hover:cursor-pointer hover:border hover:shadow-md">
+      <div className="relative z-0 mr-2 size-20">
+        {svg ? (
+          <InlineSvgPreviewComponent
+            value={svg}
+            className="inline-svg-preview size-16 object-fill"
           />
-        </div>
-      )}
-      {hasSvgIcon && !hasSvgIconList && !icon && (
-        <div
-          className={`relative z-0 mx-auto mb-1 mt-10 size-12 rounded-xl shadow-md`}
-        >
-          <InlineSvgPreviewComponent value={item.svgIcon || ''} />
-        </div>
-      )}
-      {hasSvgIconList && hasSvgIconList.length > 0 && (
-        <div className="relative z-0 mx-auto mb-1 mt-10 size-12 drop-shadow-md">
-          {hasSvgIconList.map((item, index) => (
-            <div key={index}>
-              {index === 0 && (
-                <div className="block text-black dark:hidden">
-                  <InlineSvgPreviewComponent
-                    value={item.icon}
-                    style={{ color: 'currentColor' }}
-                  />
-                </div>
-              )}
-              {index === 1 && (
-                <div className="hidden text-white dark:block">
-                  <InlineSvgPreviewComponent
-                    value={item.icon}
-                    style={{ color: 'currentColor' }}
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {hasImage && !hasSvgIconList && !hasSvgIcon && !icon && (
-        <div className="relative flex h-[100px] w-full max-w-[100px] justify-center text-white">
-          <InlineSvgPreviewComponent value={item.svgIcon || ''} />
-        </div>
-      )}
-
-      {hasContent && (
-        <div className="mt-4">
-          <PortableText
-            value={item.content || []}
-            components={PTextItemBanner} // Utilizamos el conjunto de componentes para el texto
+        ) : icon?.icon ? (
+          <Iconfy
+            icon={icon?.icon} // Nombre del ícono que se va a renderizar
+            metadata={{
+              hFlip: icon?.metadata?.hFlip, // Flip horizontal si se proporciona
+              vFlip: icon?.metadata?.vFlip, // Flip vertical si se proporciona
+              rotate: icon?.metadata?.rotate, // Ángulo de rotación
+              size: {
+                width: icon?.metadata?.size?.width, // Ancho del ícono
+                height: icon?.metadata?.size?.height, // Alto del ícono
+              },
+              color: {
+                hex: icon?.metadata?.color?.hex, // Color del ícono
+              },
+            }}
           />
+        ) : (
+          <Image
+            src="/intranet.svg"
+            fill
+            className="inline-svg-preview size-16 p-2"
+            alt="Default icon "
+          />
+        )}
+      </div>
+      {content && (
+        <div className="relative w-4/5 text-justify leading-none">
+          <PortableText value={content} components={selectedPT} />
         </div>
       )}
     </div>

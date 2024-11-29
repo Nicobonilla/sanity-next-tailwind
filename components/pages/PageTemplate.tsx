@@ -27,11 +27,11 @@ export default function PageTemplate({
 }) {
   // Dynamically load the component based on its name
   const { componentsMap } = useSanityContext();
-
+  console.log('componentsMap: ', componentsMap);
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(() =>
-      import(`@/components/shared/Component/${name}`).catch(
-        () => import('@/components/shared/Component/Default')
+      import(`@/components/shared/component/${name}`).catch(
+        () => import('@/components/shared/component/Default')
       )
     );
 

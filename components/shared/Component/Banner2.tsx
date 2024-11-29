@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
-import { PortableText } from '@portabletext/react';
-import { PTextBanner } from '../PortableText/PTextBanner';
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
 
@@ -23,7 +21,7 @@ export default function Banner2({ data }: { data: ComponentProps }) {
         />
         <div
           className={clsx(
-            'absolute inset-x-0 top-0 z-0 h-fit rounded-xl bg-blue-900 xs5:py-5',
+            'absolute inset-x-0 top-0 z-0 h-fit bg-blue-900 xs5:py-5',
             'shadow-2xl md:left-auto md:right-0 md:top-10 md:w-2/5'
           )}
         >

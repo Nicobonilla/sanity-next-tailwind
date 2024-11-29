@@ -26,16 +26,8 @@ export function formatPages(
   pagesList: GetPagesNavQueryResult,
   servicesList: GetServicesNavQueryResult
 ): Links[] {
-  // Map through the pages list to transform it to the desired structure
-  const pages = pagesList.map((page) => ({
-    id: page.slug || '', // Fallback to an empty string if `slug` is null or undefined
-    title: page.title || '', // Fallback to an empty string if `title` is null or undefined
-    slug: page.isHome ? '' : page.slug || undefined, // Set `slug` to undefined if `isHome` is true, else fallback to `undefined`
-    orderRank: page.orderRank || undefined, // Fallback to `undefined` if `orderRank` is null or undefined
-  }));
-
   // Now, we need to process any page that has the title "servicios"
-  const pagesLink = pages.map((page) => {
+  const pagesLink = pagesList.map((page) => {
     if (page.title.toLowerCase() === 'servicios') {
       // If it's the "servicios" page, format its subsections
       return {
@@ -50,7 +42,7 @@ export function formatPages(
   function isValidLink(page: any): page is Links {
     return page != null && page.orderRank != null; // Ensures `page` is not null and has a valid `orderRank`
   }
-
+  console.log('formated pages', pagesLink.filter(isValidLink));
   // Filter out pages that are invalid and sort them by orderRank
   return pagesLink.filter(isValidLink); // Use the custom type guard to filter out invalid `Links`
 }

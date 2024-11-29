@@ -1,5 +1,4 @@
 'use server';
-
 import { createClient, defineLive } from 'next-sanity';
 import { token } from './token';
 

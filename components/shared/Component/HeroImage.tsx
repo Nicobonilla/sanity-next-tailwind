@@ -38,9 +38,9 @@ export default function HeroImage({ data }: { data: ComponentProps }) {
         priority
       />
       <div className="absolute inset-0 bg-red-700/60" />
-      <div className="layer layer1 z-10 bg-gray-100 dark:bg-bodydark" />
-      <div className="layer layer2 bg-gray-100/70 dark:bg-bodydark/60" />
-      <div className="layer layer3 bg-gray-100/40 dark:bg-bodydark/40" />
+      <div className="layer layer1 z-10 bg-gray-100 dark:bg-black" />
+      <div className="layer layer2 bg-gray-100/70 dark:bg-black/60" />
+      <div className="layer layer3 bg-gray-100/40 dark:bg-black/40" />
 
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative z-20 flex h-1/2 flex-col justify-center px-4 sm:-translate-y-20 md:w-4/5 md:px-0">

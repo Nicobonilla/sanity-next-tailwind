@@ -28,31 +28,36 @@ const NavbarContent = () => {
 
   const Contacto = () => {
     return (
-      <div>
-        <button className="p-2">
-          <Link
-            href={{
-              pathname: '/email-contacto',
-            }}
-            passHref
-            className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
-          >
-            <IoIosMail size={20} color={colorText} />
-          </Link>
-        </button>
+      <>
+        <div className={`z-10 flex grow items-center justify-end pl-10`}>
+          <ThemeToggle color={colorText} />
+        </div>
+        <div>
+          <button className="p-2">
+            <Link
+              href={{
+                pathname: '/email-contacto',
+              }}
+              passHref
+              className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
+            >
+              <IoIosMail size={20} color={colorText} />
+            </Link>
+          </button>
 
-        <button className="border-1 rounded-sm p-2">
-          <Link
-            href={{
-              pathname: '/whatsapp',
-            }}
-            passHref
-            className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
-          >
-            <FaWhatsapp size={20} color={colorText} />
-          </Link>
-        </button>
-      </div>
+          <button className="border-1 rounded-sm p-2">
+            <Link
+              href={{
+                pathname: '/whatsapp',
+              }}
+              passHref
+              className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
+            >
+              <FaWhatsapp size={20} color={colorText} />
+            </Link>
+          </button>
+        </div>
+      </>
     );
   };
 
@@ -66,10 +71,6 @@ const NavbarContent = () => {
         className={`h-10 ${colorBg2} flex-col transition-all duration-300 ease-in-out`}
       >
         <div className="z-50 hidden w-full px-4 lg:flex">
-          <div className={`z-10 flex grow items-center justify-end pl-10`}>
-            <ThemeToggle color={colorText} />
-          </div>
-
           <Contacto />
           <button className="p-2">
             <h1

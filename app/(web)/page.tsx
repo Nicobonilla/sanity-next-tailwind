@@ -1,24 +1,13 @@
 import Image from 'next/image';
 import Form from '@/components/shared/Form';
 import PageTemplate from '@/components/pages/PageTemplate';
-import {
-  GetPagesNavQueryResult,
-  GetPageDetailQueryResult,
-} from '@/sanity.types';
-import { getPageBySlugFetch, getPagesNavFetch } from '@/sanity/lib/fetch';
+import { GetHomeDetailQueryResult } from '@/sanity.types';
+import { getHomeDetailFetch } from '@/sanity/lib/fetch';
 
 async function getData() {
   try {
-    const pages: GetPagesNavQueryResult | null = await getPagesNavFetch();
-    const homePageSlug = pages?.find((page) => page.isHome === true);
-
-    if (homePageSlug) {
-      const currentPage: GetPageDetailQueryResult = await getPageBySlugFetch(
-        homePageSlug.slug || ''
-      );
-      return currentPage || null;
-    }
-    return null;
+    const home: GetHomeDetailQueryResult | null = await getHomeDetailFetch();
+    return home;
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;
@@ -26,8 +15,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  const currentPage: GetPageDetailQueryResult | undefined = await getData();
-
+  const currentPage: GetHomeDetailQueryResult | undefined = await getData();
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }

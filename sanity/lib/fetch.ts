@@ -10,9 +10,11 @@ import {
   getComponentListQuery,
   getPageDetailQuery,
   getPagesNavQuery,
+  getHomeDetailQuery,
 } from '@/sanity/lib/queries';
 import {
   GetComponentListQueryResult,
+  GetHomeDetailQueryResult,
   GetIconListQueryResult,
   GetPageDetailQueryResult,
   GetPagesNavQueryResult,
@@ -66,7 +68,7 @@ export async function sanityFetch<const QueryString extends string>({
     stega: actualStega,
     perspective: 'published',
     useCdn: true,
-    next: { revalidate: 60 }, // Revalida cada 10 minutos en producción
+    next: { revalidate: 40 }, // Revalida cada 10 minutos en producción
   });
 }
 
@@ -77,6 +79,22 @@ export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null>
     const data = (await sanityFetch({
       query,
     })) as GetPagesNavQueryResult | null;
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+export async function getHomeDetailFetch(): Promise<GetHomeDetailQueryResult | null> {
+  const query = getHomeDetailQuery;
+  try {
+    const data = (await sanityFetch({
+      query,
+    })) as GetHomeDetailQueryResult | null;
     if (!data || (Array.isArray(data) && data.length === 0)) {
       return null; // Si no hay datos, retornamos null
     }
