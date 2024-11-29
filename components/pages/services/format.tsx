@@ -42,7 +42,7 @@ export function formatPages(
   function isValidLink(page: any): page is Links {
     return page != null && page.orderRank != null; // Ensures `page` is not null and has a valid `orderRank`
   }
-  console.log('formated pages', pagesLink.filter(isValidLink));
+  //console.log('formated pages', pagesLink.filter(isValidLink));
   // Filter out pages that are invalid and sort them by orderRank
   return pagesLink.filter(isValidLink); // Use the custom type guard to filter out invalid `Links`
 }
