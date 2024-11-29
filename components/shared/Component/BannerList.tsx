@@ -1,12 +1,9 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import { PortableTextComponents } from 'next-sanity';
 import { urlForImage } from '@/sanity/lib/utils';
-import ItemBanner from './ItemBanner';
-import type { ItemProps } from '@/components/pages/PageTemplate';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
-import PTItemBanner from '../PortableText/PTextItemBanner';
 
 // Componente de PortableText con estilos personalizados
 export const PTextBanner: PortableTextComponents = {
