@@ -64,15 +64,10 @@ export default function PageTemplate({
             const componentName = component?.typeComponentValue
               ? cleanedComponentMap[component.typeComponentValue]
               : 'Banner1';
-            console.log('componentName:', componentName);
-            console.log(
-              'component.typeComponentValue:',
-              component.typeComponentValue
-            );
 
             if (!componentName) {
               console.error('componentName is null or undefined');
-              return <div key={index}>COMPONENTE NO ENCONTRADO</div>;
+              return <DefaultComponent key={index} />;
             }
 
             // Dynamically load the component
