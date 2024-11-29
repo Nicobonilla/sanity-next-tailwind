@@ -31,7 +31,7 @@ export default function PageTemplate({
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(() =>
       import(`@/components/shared/component/${name}`).catch(
-        () => import('@/components/shared/component/Default')
+        () => import('../shared/component/Default')
       )
     );
 
