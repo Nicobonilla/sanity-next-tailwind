@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineSun } from 'react-icons/ai';
 import { IoMoonSharp } from 'react-icons/io5';
 
-const ThemeToggle = ({ color }: { color: string }) => {
+const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
   const { scrolling } = useScrollContext();
   // Cargar el tema del almacenamiento local o preferencia del sistema
@@ -35,13 +35,8 @@ const ThemeToggle = ({ color }: { color: string }) => {
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="relative flex h-6 w-12 items-end justify-center p-1"
-    >
-      <span
-        className={`absolute ${scrolling ? 'text-gray-500' : 'text-white'}`}
-      >
+    <button onClick={toggleTheme}>
+      <span>
         {isDark ? <AiOutlineSun size={20} /> : <IoMoonSharp size={20} />}
       </span>
     </button>

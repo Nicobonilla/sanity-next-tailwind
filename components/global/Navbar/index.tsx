@@ -28,36 +28,33 @@ const NavbarContent = () => {
 
   const Contacto = () => {
     return (
-      <>
-        <div className={`z-10 flex grow items-center justify-end pl-10`}>
-          <ThemeToggle color={colorText} />
-        </div>
-        <div>
-          <button className="p-2">
-            <Link
-              href={{
-                pathname: '/email-contacto',
-              }}
-              passHref
-              className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
-            >
-              <IoIosMail size={20} color={colorText} />
-            </Link>
-          </button>
+      <div
+        className={`front-normal flex flex-row  gap-4 text-sm ${scrolling ? 'text-gray-500' : 'text-white'} `}
+      >
+        <ThemeToggle />
 
-          <button className="border-1 rounded-sm p-2">
-            <Link
-              href={{
-                pathname: '/whatsapp',
-              }}
-              passHref
-              className={`nav-subsection flex flex-row text-sm font-normal ${scrolling ? 'text-gray-500' : 'text-white'} `}
-            >
-              <FaWhatsapp size={20} color={colorText} />
-            </Link>
-          </button>
-        </div>
-      </>
+        <button>
+          <Link
+            href={{
+              pathname: '/email-contacto',
+            }}
+            passHref
+          >
+            <IoIosMail size={20} color={colorText} />
+          </Link>
+        </button>
+
+        <button>
+          <Link
+            href={{
+              pathname: '/whatsapp',
+            }}
+            passHref
+          >
+            <FaWhatsapp size={20} color={colorText} />
+          </Link>
+        </button>
+      </div>
     );
   };
 
@@ -70,7 +67,7 @@ const NavbarContent = () => {
       <div
         className={`h-10 ${colorBg2} flex-col transition-all duration-300 ease-in-out`}
       >
-        <div className="z-50 hidden w-full px-4 lg:flex">
+        <div className="z-50 hidden w-full justify-end px-4 lg:flex">
           <Contacto />
           <button className="p-2">
             <h1

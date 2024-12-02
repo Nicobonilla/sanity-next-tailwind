@@ -42,7 +42,7 @@ function Inner({ data }: { data: ComponentProps }) {
   return (
     <div
       className={clsx(
-        'relative z-20 mx-auto flex flex-col items-center justify-center py-16',
+        'relative z-20 mx-auto flex flex-col items-center justify-center',
         data.imagePosition == 'background'
           ? 'lg:max-w-none'
           : 'lg:max-w-screen-xl'
@@ -52,12 +52,12 @@ function Inner({ data }: { data: ComponentProps }) {
       {data?.content && (
         <div
           className={clsx(
-            'grid h-fit w-full max-w-[650px] grid-cols-1 items-start justify-center dark:text-slate-300',
+            'grid h-fit w-full grid-cols-1 place-content-center justify-center dark:text-slate-300',
             'xs4:grid-cols-2',
             'xs5:px-4',
-            'sm:h-24 sm:grid-cols-3',
+            'sm:grid-cols-3',
             'md:grid-cols-4',
-            'lg:h-28 lg:max-w-[1350px] lg:grid-cols-5'
+            'lg:h-[800px] lg:max-w-[1350px] lg:grid-cols-5'
           )}
         >
           {data.content.map((line, indexItem) => {
@@ -66,7 +66,7 @@ function Inner({ data }: { data: ComponentProps }) {
                 <div
                   key={indexItem}
                   className={clsx(
-                    'group relative h-20 cursor-pointer overflow-hidden p-2'
+                    'group relative h-20 cursor-pointer place-content-center overflow-hidden bg-white/70 p-2 dark:bg-black/70 sm:h-24'
                   )}
                 >
                   {line?.children?.[0].text
@@ -76,9 +76,9 @@ function Inner({ data }: { data: ComponentProps }) {
                         <h1
                           key={indexContent}
                           className={clsx(
-                            'absolute w-full transform items-center justify-center px-5 text-center leading-5 transition-transform duration-500 ease-in-out',
+                            'absolute w-full  transform text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
                             {
-                              'font-bold group-hover:translate-x-full group-hover:opacity-0':
+                              'group-hover:translate-x-full group-hover:opacity-0':
                                 indexContent === 0,
                               'translate-x-[-100%] opacity-0 group-hover:translate-x-0 group-hover:opacity-100':
                                 indexContent === 1,
@@ -100,7 +100,7 @@ function Inner({ data }: { data: ComponentProps }) {
 }
 
 // Componente principal del Banner con fondo condicional
-export default function BannerWithItems({ data }: { data: ComponentProps }) {
+export default function BannerList({ data }: { data: ComponentProps }) {
   // Establecemos el estilo del fondo condicionalmente
   const backgroundImageStyle =
     data.imagePosition == 'background' && data.image
@@ -114,20 +114,20 @@ export default function BannerWithItems({ data }: { data: ComponentProps }) {
       className={clsx(
         'relative w-full',
         data.imagePosition == 'background' &&
-          'min-h-screen md:min-h-0 lg:max-h-fit'
+          'min-h-screen xs5:min-h-fit md:h-[800px]'
       )}
     >
       {/* Fondo condicional */}
       <div
         className={clsx(
           data.imagePosition == 'background' &&
-            'z-0 bg-cover bg-fixed bg-center'
+            'z-0 h-full bg-cover bg-fixed bg-center'
         )}
         style={backgroundImageStyle}
       >
         {/* Filtro de color oscuro sobre la imagen si tiene fondo */}
         {data.imagePosition == 'background' && (
-          <div className="absolute inset-0 z-10 bg-white/80 dark:bg-black/80" />
+          <div className="absolute inset-0 z-10 max-h-fit" />
         )}
         {/* Renderiza el contenido y los items */}
         <Inner data={data} />
