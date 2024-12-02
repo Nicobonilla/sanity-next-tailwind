@@ -40,6 +40,7 @@ const componentFields = /* groq */ `
   PTextBanner,
   content,
   image,
+  responsiveComponent,
   imagePosition,
   invertLayoutMobile,
   invertLayoutDesk,

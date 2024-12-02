@@ -859,6 +859,13 @@
         },
         "optional": true
       },
+      "responsiveComponent": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "PTextBanner": {
         "type": "objectAttribute",
         "value": {
@@ -2461,6 +2468,13 @@
                 },
                 "optional": true
               },
+              "responsiveComponent": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "PTextBanner": {
                 "type": "objectAttribute",
                 "value": {
@@ -3878,6 +3892,13 @@
                 "optional": true
               },
               "lautchBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "responsiveComponent": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"

@@ -1,6 +1,6 @@
 import { PortableTextComponents } from 'next-sanity';
 
-export const PT4: PortableTextComponents = {
+export const PT5: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
       <h1 className="h2 relative font-extrabold uppercase dark:text-red-500">
@@ -8,10 +8,24 @@ export const PT4: PortableTextComponents = {
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="p2 font-bold">
+      <h2 className="front-monserrat font-monserrat mt-5 text-justify font-bold uppercase dark:text-red-500">
         {children}
       </h2>
     ),
+    normal: ({ children }) => (
+      <p className="font-menserrat pr-20 text-sm">{children}</p>
+    ),
+  },
+};
+
+export const PT4: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <h1 className="h2 relative font-extrabold uppercase dark:text-red-500">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => <h2 className="p2 font-bold">{children}</h2>,
     normal: ({ children }) => <p className="p2">{children}</p>,
     italic: ({ children }) => (
       <span className="p2 font-extrabold">{children}</span>
@@ -68,6 +82,6 @@ export type PTtype = {
   PT4: PortableTextComponents;
 };
 
-const PTBanner = { PT1, PT2, PT4 };
+const PTBanner = { PT1, PT2, PT4, PT5 };
 
 export default PTBanner;

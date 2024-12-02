@@ -27,13 +27,6 @@ export default async function Page() {
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}
-      <Image
-        src="/icons/apacheairflow/apacheairflow-original-wordmark.svg"
-        alt="JavaScript Icon"
-        width={250}
-        height={250}
-      />
-      <Form />
     </>
   );
 }

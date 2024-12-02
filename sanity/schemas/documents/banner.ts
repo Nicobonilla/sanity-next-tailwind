@@ -23,6 +23,11 @@ const banner = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'responsiveComponent',
+      type: 'string',
+      title: 'Tamaño responsivo del componente',
+    }),
+    defineField({
       title: 'Estilo de Letras Banner',
       name: 'PTextBanner',
       type: 'string',
