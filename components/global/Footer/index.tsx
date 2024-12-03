@@ -7,9 +7,9 @@ export default function Footer() {
     <>
       <ScrollContextProvider>
         <Simple />
-        <div className="flex items-center justify-center bg-bodydark text-white lg:p-2">
+        {/*<div className="flex items-center justify-center bg-bodydark text-white lg:p-2">
           Powered
-        </div>
+        </div> */}
       </ScrollContextProvider>
     </>
   );
