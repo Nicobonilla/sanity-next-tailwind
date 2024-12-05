@@ -23,7 +23,7 @@ export default function Banner1({ data }: { data: ComponentProps }) {
       <div
         className={clsx(
           'relative flex items-center gap-4 px-4',
-          responsiveComponent ? responsiveComponent : 'responsive-banner-1',
+          responsiveComponent ? 'responsive-banner-1' : 'responsive-banner-1',
           invertLayoutMobile ? 'flex-col' : 'flex-col-reverse',
           invertLayoutDesk ? 'md:flex-row' : 'md:flex-row-reverse',
           'md:justify-center'
@@ -31,7 +31,7 @@ export default function Banner1({ data }: { data: ComponentProps }) {
       >
         {/* Imagen */}
         <div
-          className={`responsive-image-1 relative flex h-3/5 flex-row md:mb-0`}
+          className={`responsive-image-1 relative flex h-3/5   flex-row md:mb-0`}
         >
           <Image
             src={urlForImage(image)?.url() || '/meeting.jpeg'}

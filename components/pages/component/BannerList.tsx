@@ -24,12 +24,12 @@ export const PTextItem: PortableTextComponents = {
     normal: ({ children }) => (
       <div className="group relative h-16 overflow-hidden">
         {/* Primer texto: visible inicialmente */}
-        <p className="absolute w-full transform text-center transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:opacity-0">
+        <p className="absolute w-full text-center transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:opacity-0">
           {children}
         </p>
 
         {/* Segundo texto: aparece al hover */}
-        <p className="absolute w-full translate-x-[-100%] transform text-center opacity-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:opacity-100">
+        <p className="absolute w-full -translate-x-full text-center opacity-0 transition-transform duration-300 ease-in-out group-hover:translate-x-0 group-hover:opacity-100">
           {children}
         </p>
       </div>
@@ -76,7 +76,7 @@ function Inner({ data }: { data: ComponentProps }) {
                         <h1
                           key={indexContent}
                           className={clsx(
-                            'absolute w-full  transform text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
+                            'absolute w-full text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
                             {
                               'group-hover:translate-x-full group-hover:opacity-0':
                                 indexContent === 0,

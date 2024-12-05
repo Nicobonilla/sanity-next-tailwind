@@ -42,6 +42,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
+    <div>
     <article>
       {/*<Breadcrumbs
         servicios={{
@@ -71,5 +72,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </aside>
       </div>
     </article>
+
+
+
+    
+    </div>
   );
 }
