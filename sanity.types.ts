@@ -1624,18 +1624,16 @@ export type GetHomeDetailQueryResult = {
   isHome: boolean | null;
 } | null;
 // Variable: getServicesNavQuery
-// Query: *[_type == 'service' && isActive] | order(unitBusiness -> orderRank asc, orderRank asc) {    title,    isActive,    orderRank,    "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current,      "orderRank": unitBusiness -> orderRank    },    "slug": slug.current    }
+// Query: *[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {    "id": coalesce(slug.current, null),    "title": coalesce(title, null),    "slug": coalesce(slug.current, null),    "unitBusiness": select(      defined(unitBusiness) => {        "title": coalesce(unitBusiness->title, null),        "icon": coalesce(unitBusiness->icon, null),        "slug": coalesce(unitBusiness->slug.current, null)      },      null    )  }
 export type GetServicesNavQueryResult = Array<{
+  id: string | null;
   title: string | null;
-  isActive: boolean | null;
-  orderRank: string | null;
+  slug: string | null;
   unitBusiness: {
     title: string | null;
     icon: 'menu' | 'user' | null;
     slug: string | null;
-    orderRank: string | null;
-  };
-  slug: string | null;
+  } | null;
 }>;
 // Variable: getServiceDetailQuery
 // Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current    },  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } }}
@@ -1827,7 +1825,7 @@ declare module '@sanity/client' {
     '\n  *[_type == \'page\'] | order(orderRank asc) {\n    "id": coalesce(_id, ""), \n    "title": coalesce(title, ""),\n    "slug": select(\n      isHome == true => "",\n      slug.current\n    ),\n    "orderRank": orderRank,\n    isHome\n  }\n': GetPagesNavQueryResult;
     '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
     '\n  *[_type == \'page\' && isHome == true][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetHomeDetailQueryResult;
-    '*[_type == \'service\' && isActive] | order(unitBusiness -> orderRank asc, orderRank asc) {\n    title,\n    isActive,\n    orderRank,\n    "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current,\n      "orderRank": unitBusiness -> orderRank\n    },\n    "slug": slug.current\n    }': GetServicesNavQueryResult;
+    '*[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n    "id": coalesce(slug.current, null),\n    "title": coalesce(title, null),\n    "slug": coalesce(slug.current, null),\n    "unitBusiness": select(\n      defined(unitBusiness) => {\n        "title": coalesce(unitBusiness->title, null),\n        "icon": coalesce(unitBusiness->icon, null),\n        "slug": coalesce(unitBusiness->slug.current, null)\n      },\n      null\n    )\n  }': GetServicesNavQueryResult;
     '*[_type == \'service\' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n  content,  // Fetch the content of the service\n  \'tableOfContents\': content[style in [\'h2\', \'h3\']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n }\n}': GetServiceDetailQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;

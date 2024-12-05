@@ -12,6 +12,7 @@ export default function SubsectionsFitWidth() {
   const path = usePathname();
   const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
+  console.log('pagesLink: ', pagesLink);
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };

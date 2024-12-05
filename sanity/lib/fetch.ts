@@ -82,7 +82,7 @@ export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null>
     if (!data || (Array.isArray(data) && data.length === 0)) {
       return null; // Si no hay datos, retornamos null
     }
-
+    console.log('fetch getPagesNavFetch data', data);
     return data;
   } catch (error) {
     console.error('Error fetching banner:', error);

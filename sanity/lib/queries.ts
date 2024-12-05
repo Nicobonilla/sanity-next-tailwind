@@ -98,18 +98,19 @@ export const getHomeDetailQuery = defineQuery(groq`
 /* SERVICES */
 
 export const getServicesNavQuery = defineQuery(
-  groq`*[_type == 'service' && isActive] | order(unitBusiness -> orderRank asc, orderRank asc) {
-    title,
-    isActive,
-    orderRank,
-    "unitBusiness": {
-      "title": unitBusiness->title,
-      "icon": unitBusiness-> icon,
-      "slug": unitBusiness->slug.current,
-      "orderRank": unitBusiness -> orderRank
-    },
-    "slug": slug.current
-    }`
+  groq`*[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {
+    "id": coalesce(slug.current, null),
+    "title": coalesce(title, null),
+    "slug": coalesce(slug.current, null),
+    "unitBusiness": select(
+      defined(unitBusiness) => {
+        "title": coalesce(unitBusiness->title, null),
+        "icon": coalesce(unitBusiness->icon, null),
+        "slug": coalesce(unitBusiness->slug.current, null)
+      },
+      null
+    )
+  }`
 );
 
 export const getServiceDetailQuery = defineQuery(

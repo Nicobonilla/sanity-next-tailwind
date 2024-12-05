@@ -30,7 +30,9 @@ export default function Banner1({ data }: { data: ComponentProps }) {
         )}
       >
         {/* Imagen */}
-        <div className={`responsive-image-1 relative flex flex-row md:mb-0`}>
+        <div
+          className={`responsive-image-1 relative flex h-3/5 flex-row md:mb-0`}
+        >
           <Image
             src={urlForImage(image)?.url() || '/meeting.jpeg'}
             fill

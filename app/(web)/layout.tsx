@@ -54,7 +54,7 @@ export default async function RootLayout({
   try {
     // Fetching data for the layout (pages, services, and components)
     const { pages, servicesList, componentList } = await getData();
-
+    console.log('layout pages', pages);
     // Error handling if no data is returned
     if (!pages || !servicesList || !componentList) {
       throw new Error('Essential data is missing');
