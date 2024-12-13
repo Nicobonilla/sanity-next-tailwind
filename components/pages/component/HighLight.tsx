@@ -1,5 +1,6 @@
 import React from 'react';
-import { PortableTextComponents } from 'next-sanity';
+import { PortableText, PortableTextComponents } from 'next-sanity';
+
 import { urlForImage } from '@/sanity/lib/utils';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
@@ -9,48 +10,44 @@ import clsx from 'clsx';
 export const PTextBanner: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="h2 mb-6 text-center uppercase">{children}</h1>
+      <h1 className="font-montserrat font-bold uppercase text-white">
+        {children}
+      </h1>
     ),
-    normal: ({ children }) => <p className="p3 text-center">{children}</p>,
-  },
-  marks: {
-    strong: ({ children }) => (
-      <span className="font-extrabold dark:text-red-500">{children}</span>
+    h2: ({ children }) => (
+      <h2 className="mb-2 font-bitter text-3xl font-semibold uppercase">
+        {children}
+      </h2>
+    ),
+    normal: ({ children }) => (
+      <p className="font-bitter text-base font-normal uppercase">{children}</p>
     ),
   },
 };
 
-// Componente Inner: Renderiza el contenido y los elementos dentro del banner
-function Inner({ data }: { data: ComponentProps }) {
-  return (
-    <div
-      className={clsx(
-        'relative z-20 mx-auto flex flex-col items-center justify-center',
-        data.imagePosition == 'background'
-          ? 'lg:max-w-none'
-          : 'lg:max-w-screen-xl'
-      )}
-    ></div>
-  );
-}
 export default function BannerList({ data }: { data: ComponentProps }) {
   return (
-    <div className={'relative h-[300px] w-full'}>
-      {/* Fondo condicional */}
-      <div
-        className={'z-0 h-full bg-cover bg-fixed bg-center'}
-        style={{
-          backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
-        }}
-      >
-        {/* Filtro de color oscuro sobre la imagen si tiene fondo */}
-        {data.imagePosition === 'background' && (
-          <div className="absolute inset-0 z-10 max-h-fit" />
-        )}
-        {/* Renderiza el contenido y los items */}
-        <Inner data={data} />
+    <div>
+      <div className={'relative h-[300px] w-full lg:h-[200px]'}>
+        <div
+          className="z-0 h-full bg-cover bg-fixed bg-center"
+          style={{
+            backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
+          }}
+        >
+          <div
+            className={clsx(
+              'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-white shadow-lg',
+              'xs5: px-10',
+              'lg:max-w-none'
+            )}
+          >
+            <PortableText components={PTextBanner} value={data.content || []} />
+            <div className="absolute inset-0 -z-10 bg-red-500/60"></div>
+          </div>
+        </div>
       </div>
-      <div className="z-30 bg-gradient-to-t from-rose-600/80 to-red-500/90"></div>
+      <div className="absolute inset-0 z-10 max-h-fit bg-black/90"></div>
     </div>
   );
 }
