@@ -38,7 +38,7 @@ const Slide = ({ slide, isActive, onMouseEnter, onMouseLeave }: SlideProps) => {
         {/* Hover overlay */}
         <div
           className={clsx(
-            'absolute inset-x-0 bottom-0 flex h-[160px] flex-col justify-end bg-gradient-to-t from-blue-700/90 to-purple-700/90 p-6 text-white',
+            'absolute inset-x-0 bottom-0 flex h-[250px] flex-col justify-end bg-gradient-to-t from-blue-700/90 to-purple-700/90 p-6 text-white',
             'lg:absolute lg:bottom-0 lg:h-full lg:justify-end lg:bg-gradient-to-b lg:from-transparent lg:to-purple-700/90 lg:opacity-0 lg:transition-opacity lg:duration-300',
             isActive && 'lg:opacity-100'
           )}
