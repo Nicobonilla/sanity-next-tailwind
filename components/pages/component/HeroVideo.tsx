@@ -33,7 +33,6 @@ export default function HeroVideo() {
           aria-hidden="true"
         ></div>
       </div>
-      <div className="absolute inset-0 bg-black/60" />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="relative z-20 m-0 flex h-1/2 flex-col justify-center px-4 font-robotomono text-4xl font-light uppercase text-white md:w-4/5 md:px-0">
           comentanos que te gustaría evaluar
