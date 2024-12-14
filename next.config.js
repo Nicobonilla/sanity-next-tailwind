@@ -21,6 +21,7 @@ module.exports = {
       {
         protocol: 'https',
         hostname: process.env.VIDEO_HERO_HOST,
+        port: '',
         pathname: '/**',
       },
     ],
