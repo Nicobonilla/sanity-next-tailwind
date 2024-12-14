@@ -18,6 +18,10 @@ module.exports = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: process.env.VIDEO_HERO_HOST,
+      },
     ],
   },
   transpilePackages: ['lucide-react'],

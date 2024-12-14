@@ -24,7 +24,7 @@ export default function HeroVideo() {
           className="absolute inset-0 size-full w-full object-cover"
         >
           <source
-            src={process.env.VIDEO_HERO}
+            src={`https://${process.env.VIDEO_HERO}/${process.env.VIDEO_HERO_FILE}`}
             type={process.env.VIDEO_HERO_TYPE}
           />
         </video>
