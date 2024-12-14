@@ -23,27 +23,25 @@ export default function HeroVideo() {
           playsInline
           className="absolute inset-0 size-full w-full object-cover"
         >
-          <source src="/videos/vid1.webm" type="video/webm" />
+          <source
+            src={process.env.VIDEO_HERO}
+            type={process.env.VIDEO_HERO_TYPE}
+          />
         </video>
-        <div className="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
-          <h1 className="px-20 pb-2 font-bitter text-2xl font-light uppercase text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            {'Conectate ahora'}
-          </h1>
-          <button
-            className={clsx(
-              'h-10 w-28 rounded-r border border-white text-white',
-              'hover:cursor-pointer hover:border-0 hover:bg-white/50 hover:text-black'
-            )}
-          >
-            voy
-          </button>
-        </div>
+        <div
+          className="absolute inset-0 bg-white/30 dark:bg-black/65"
+          aria-hidden="true"
+        ></div>
       </div>
       <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative z-20 flex h-1/2 flex-col justify-center px-4 sm:-translate-y-20 md:w-4/5 md:px-0">
-          hola
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="relative z-20 m-0 flex h-1/2 flex-col justify-center px-4 font-robotomono text-4xl font-light uppercase text-white md:w-4/5 md:px-0">
+          comentanos que te gustaría evaluar
+        </div>
+        <div>
+          <button className="text-light rounded border border-white px-5 py-2 text-2xl text-white">
+            SEGUIR
+          </button>
         </div>
       </div>
     </section>
