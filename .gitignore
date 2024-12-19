@@ -54,3 +54,4 @@ next-env.d.ts
 /components/shared/Card/BasicImageCard
 /cli
 
+.vscode

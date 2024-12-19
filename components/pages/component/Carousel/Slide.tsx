@@ -24,7 +24,7 @@ interface SlideProps {
 const Slide = ({ slide, isActive, onMouseEnter, onMouseLeave }: SlideProps) => {
   return (
     <div
-      className="relative min-w-[90%] md:min-w-[46%] lg:min-w-[28%]"
+      className="relative w-[90%] md:w-[46%] lg:w-[28%]"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
