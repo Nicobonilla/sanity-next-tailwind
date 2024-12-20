@@ -93,7 +93,7 @@ const banner = defineType({
   preview: {
     select: {
       content: 'content',
-      type: 'typeComponent.value',
+      type: 'typeComponent.name',
       active: 'isActive',
     },
     prepare({ content, type, active }) {

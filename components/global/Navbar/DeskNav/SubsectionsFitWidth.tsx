@@ -6,12 +6,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
+import { useTheme } from '@/context/ThemeContext';
+import clsx from 'clsx';
 
 export default function SubsectionsFitWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
   const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
+  const { isDarkMode } = useTheme();
+
   console.log('pagesLink: ', pagesLink);
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
@@ -53,7 +57,10 @@ export default function SubsectionsFitWidth() {
           >
             <Link href={{ pathname: `/${link?.slug}` }} passHref>
               <span
-                className={`nav ${scrolling ? 'text-gray-600' : 'text-white'} inline-flex items-center justify-center uppercase`}
+                className={clsx(
+                  'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
+                  scrolling ? 'text-gray-800' : 'text-white'
+                )}
               >
                 {link?.title}
               </span>

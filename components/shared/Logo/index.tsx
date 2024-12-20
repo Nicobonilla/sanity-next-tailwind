@@ -1,11 +1,13 @@
 'use client';
 import { useScrollContext } from '@/context/ScrollContext';
+import { useTheme } from '@/context/ThemeContext';
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Logo() {
   const { scrolling } = useScrollContext();
-
+  const { isDarkMode } = useTheme();
   return (
     <Link href={'/'}>
       <div className="flex h-full items-center justify-center">
@@ -19,22 +21,17 @@ export default function Logo() {
         {/* Texto del Logo */}
         <div className="z-50 flex items-center justify-center font-bitter">
           <h1
-            className={`z-50 font-extrabold ${
-              scrolling
-                ? 'bg-gradient-to-r from-red-500 to-red-500 bg-clip-text text-3xl text-transparent lg:text-5xl'
-                : 'text-4xl text-white md:text-7xl'
-            }`}
+            className={clsx(
+              'z-50 text-3xl font-extrabold drop-shadow-2xl',
+              'lg:-translate-y-3 lg:text-7xl',
+              !scrolling && 'text-4xl md:text-7xl',
+              // Only apply white text when both conditions are true
+              !scrolling
+                ? 'text-white'
+                : 'bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent'
+            )}
           >
-            ON
-          </h1>
-          <h1
-            className={`z-50 font-extrabold ${
-              scrolling
-                ? 'bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-3xl text-transparent lg:text-5xl'
-                : 'text-4xl text-white md:text-7xl'
-            }`}
-          >
-            IT
+            ONIT
           </h1>
           {/* Mostrar el sufijo opcional `.cl` */}
           {false && (
