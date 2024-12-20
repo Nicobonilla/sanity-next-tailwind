@@ -1,16 +1,3 @@
-import { ComponentProps } from '@/components/pages/PageTemplate';
-import { urlForImage } from '@/sanity/lib/utils';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-import Image from 'next/image';
-import PHeroImage from '@/components/shared/PortableText/HeroImage';
-import clsx from 'clsx';
-
-// Definimos el tipo de PHeroImage para que TypeScript lo entienda
-type PHeroImageType = {
-  PT1: PortableTextComponents;
-  PT2: PortableTextComponents;
-};
-
 export default function HeroVideo() {
   return (
     <section className="relative h-[70vh] w-full">

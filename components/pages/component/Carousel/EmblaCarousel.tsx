@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import { useCarouselEffects } from './hooks/useCarouselEffects';
-import { useHoverHandlers } from './hooks/useHoverHandlers';
 import Slide from './Slide';
 import { CarouselProps } from './types';
-import { useSequentialScroll } from './hooks/useSequentialScroll';
-
+import React, { useCallback } from 'react';
+import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
+import useEmblaCarousel from 'embla-carousel-react';
 export default function EmblaCarousel({
   data,
   options,
@@ -16,38 +15,59 @@ export default function EmblaCarousel({
   const [hoveredItemIndex, setHoveredItemIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { emblaRef, emblaApi, transitioning } = useCarouselEffects({
-    options,
-    autoplayOptions,
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+    Autoplay(autoplayOptions),
+  ]);
 
-  useSequentialScroll({ emblaApi, hoveredItemIndex, setActiveIndex });
+  // Sync with Embla's internal state
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+    setActiveIndex(emblaApi.selectedScrollSnap())
+  }, [])
 
-  const { handleMouseEnter, handleMouseLeave, getIsActive } = useHoverHandlers({
-    emblaApi,
-    setHoveredItemIndex,
-    setActiveIndex,
-    hoveredItemIndex,
-    activeIndex,
-  });
+  useEffect(() => {
+    if (!emblaApi) return
+
+    onSelect(emblaApi)
+    emblaApi.on('select', onSelect)
+    
+    return () => {
+      emblaApi.off('select', onSelect)
+    }
+  }, [emblaApi, onSelect])
+  
+  const handleMouseEnter = (index: number) => {
+    setHoveredItemIndex(index);
+    setActiveIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItemIndex(null);
+  };
+
+  const getIsActive = (index: number) => {
+    if (hoveredItemIndex !== null) {
+      return hoveredItemIndex === index;
+    }
+    return activeIndex === index;
+  };
 
   return (
-    <div ref={emblaRef} className="relative overflow-hidden">
-      <div
-        className={`flex transition-transform duration-300 ${
-          transitioning ? 'pointer-events-none' : ''
-        }`}
-      >
-        {data?.items.map((slide, index) => (
-          <Slide
-            key={slide.id}
-            slide={slide}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-            isActive={getIsActive(index)}
-          />
-        ))}
+    <section className="embla">
+      <div ref={emblaRef} className="embla__viewport">
+        <div className={`embla__container`}>
+          {data?.items.map((slide: any, index: number) => (
+            <div key={index} className="embla__slide">
+              <Slide
+                key={index}
+                slide={slide}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+                isActive={getIsActive(index)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
