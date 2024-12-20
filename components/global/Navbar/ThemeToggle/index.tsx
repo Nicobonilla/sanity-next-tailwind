@@ -37,7 +37,7 @@ const ThemeToggle = () => {
   return (
     <button onClick={toggleTheme}>
       <span>
-        {isDark ? <AiOutlineSun size={20} /> : <IoMoonSharp size={20} />}
+        {isDark ? <AiOutlineSun size={24} /> : <IoMoonSharp size={24} />}
       </span>
     </button>
   );

@@ -29,7 +29,7 @@ const NavbarContent = () => {
   const Contacto = () => {
     return (
       <div
-        className={`front-normal flex flex-row  gap-4 text-sm ${scrolling ? 'text-gray-500' : 'text-white'} `}
+        className={`front-normal flex flex-row gap-8 pr-4 text-sm ${scrolling ? 'text-gray-500' : 'text-white'} `}
       >
         <ThemeToggle />
 
@@ -40,7 +40,7 @@ const NavbarContent = () => {
             }}
             passHref
           >
-            <IoIosMail size={20} color={colorText} />
+            <IoIosMail size={24} color={colorText} />
           </Link>
         </button>
 
@@ -51,7 +51,7 @@ const NavbarContent = () => {
             }}
             passHref
           >
-            <FaWhatsapp size={20} color={colorText} />
+            <FaWhatsapp size={24} color={colorText} />
           </Link>
         </button>
       </div>
@@ -71,7 +71,7 @@ const NavbarContent = () => {
           <Contacto />
           <button className="p-2">
             <h1
-              className={`z-50 bg-gradient-to-r ${scrolling ? 'from-red-500' : 'from-white'} to-red-600 bg-clip-text pr-10 font-semibold text-transparent`}
+              className={`z-50 bg-gradient-to-r ${scrolling ? 'from-red-500' : 'from-white'} to-red-600 bg-clip-text px-5 font-semibold text-transparent`}
             >
               Hablemos!
             </h1>
@@ -82,7 +82,7 @@ const NavbarContent = () => {
                 pathname: '/portal-CLIENTES',
               }}
               passHref
-              className={`font-sm rounded-sm px-2 py-1 transition-all duration-300 ease-in-out hover:text-red-600 ${scrolling ? 'text-gray-500' : 'text-white hover:bg-white'} `}
+              className={`font-sm rounded-md px-2 py-1 transition-all duration-300 ease-in-out hover:text-red-600 ${scrolling ? 'text-gray-600' : 'border border-white text-white hover:bg-white'} `}
             >
               <span className="font-sm ml-2 font-normal">Iniciar Sesión</span>
             </Link>
