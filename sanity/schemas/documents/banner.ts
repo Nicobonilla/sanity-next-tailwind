@@ -1,55 +1,95 @@
 import { defineType, defineField } from 'sanity';
 
-const banner = defineType({
+const validIdItems = [
+  { bannerWithItems: '564a16c7-6618-4c3c-aeef-6f98d0597a7c' },
+  { carousel: '0cfd5a3b-5c9e-4410-85c8-820e96ebec2d' },
+  { iconList: '38c27cb0-402a-46bb-afb7-6aabf1c3e1d6' },
+  { bannerList: '67f4dffb-23de-4cf6-b79a-d491dd67e234' },
+].map((item) => Object.values(item)[0]);
+
+export default defineType({
   name: 'banner',
   title: 'Banner',
-  type: 'document', // Tipo de documento
+  type: 'document',
+  groups: [
+    {
+      name: 'exterior',
+      title: 'Exterior',
+      default: true,
+    },
+    {
+      name: 'content',
+      title: 'Interno',
+    },
+    {
+      name: 'items',
+      title: 'Items',
+    },
+  ],
   fields: [
+    // Configuración Exterior
     defineField({
-      title: 'Activar',
       name: 'isActive',
+      title: 'Activar',
       type: 'boolean',
       initialValue: false,
+      group: 'exterior',
     }),
     defineField({
       name: 'typeComponent',
-      type: 'reference',
       title: 'Tipo de Componente',
+      type: 'reference',
       to: [{ type: 'component' }],
-    }),
-    defineField({
-      title: 'Layout Banner',
-      name: 'lautchBanner',
-      type: 'string',
+      group: 'exterior',
     }),
     defineField({
       name: 'responsiveComponent',
+      title: 'Tamaño Responsivo del Componente',
       type: 'string',
-      title: 'Tamaño responsivo del componente',
+      group: 'exterior',
     }),
     defineField({
-      title: 'Estilo de Letras Banner',
-      name: 'PTextBanner',
-      type: 'string',
+      name: 'invertLayoutMobile',
+      title: 'Invertir Layout Mobile',
+      type: 'boolean',
+      initialValue: false,
+      group: 'exterior',
     }),
+    defineField({
+      name: 'invertLayoutDesk',
+      title: 'Invertir Layout Desk',
+      type: 'boolean',
+      initialValue: false,
+      group: 'exterior',
+    }),
+
+    // Contenido Interno
     defineField({
       name: 'content',
+      title: 'Contenido',
       type: 'array',
-      title:
-        'Puedes escribir el contenido utilizando h1, h2, h3, bold, normal y viñetas',
-      of: [{ type: 'block' }], // Portable Text
+      of: [{ type: 'block' }],
+      group: 'content',
+    }),
+    defineField({
+      name: 'PTextBanner',
+      title: 'Estilo de Letras Banner',
+      type: 'string',
+      group: 'content',
+      hidden: ({ parent }) => parent.content == undefined,
     }),
     defineField({
       name: 'image',
-      type: 'image',
       title: 'Imagen',
+      type: 'image',
       options: {
         hotspot: true,
       },
+      group: 'content',
     }),
     defineField({
-      title: 'Ubicación de la imagen',
       name: 'imagePosition',
+      title: 'Ubicación de la Imagen',
       type: 'string',
       options: {
         list: [
@@ -60,34 +100,31 @@ const banner = defineType({
           { title: 'Arriba', value: 'arriba' },
         ],
       },
-    }),
-    defineField({
-      title: 'Invertir Layout Mobile',
-      name: 'invertLayoutMobile',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      title: 'Invertir Layout Desk',
-      name: 'invertLayoutDesk',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      title: 'Layout Items',
-      name: 'layoutItems',
-      type: 'string',
-    }),
-    defineField({
-      title: 'Estilo de Letras Items',
-      name: 'PTextItem',
-      type: 'string',
+      group: 'content',
+      hidden: ({ parent }) => parent.image === undefined,
     }),
     defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
       of: [{ type: 'item' }],
+      group: 'items',
+      hidden: ({ parent }) =>
+        !validIdItems.includes(parent?.typeComponent?._ref),
+    }),
+    defineField({
+      name: 'layoutItems',
+      title: 'Layout Items',
+      type: 'string',
+      group: 'items',
+      hidden: ({ parent }) => parent.items === undefined,
+    }),
+    defineField({
+      name: 'PTextItem',
+      title: 'Estilo de Letras Items',
+      type: 'string',
+      group: 'items',
+      hidden: ({ parent }) => parent.items === undefined,
     }),
   ],
   preview: {
@@ -97,7 +134,6 @@ const banner = defineType({
       active: 'isActive',
     },
     prepare({ content, type, active }) {
-      // Si no hay título, tomamos el texto del primer bloque de content
       const previewTitle =
         content && content[0] && content[0].children && content[0].children[0]
           ? content[0].children[0].text
@@ -110,5 +146,3 @@ const banner = defineType({
     },
   },
 });
-
-export default banner;
