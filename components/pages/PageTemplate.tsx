@@ -41,13 +41,6 @@ export default function PageTemplate({
     return <div>No components available</div>;
   }
   console.log('dataPage.components:', dataPage.components);
-  const cleanedComponentMap = Object.fromEntries(
-    Object.entries(componentsMap).map(([key, value]) => [
-      key.replace(/[^\x20-\x7E]/g, ''), // Elimina los caracteres no ASCII (invisibles, etc.)
-      value?.replace(/[^\x20-\x7E]/g, ''),
-    ])
-  );
-  console.log('cleanedComponentMap:', cleanedComponentMap);
   return (
     <>
       {dataPage?.components &&
@@ -58,8 +51,9 @@ export default function PageTemplate({
           ) => {
             // Get the component name from the typeComponentValue
             const componentName = component?.typeComponentValue
-              ? cleanedComponentMap[component.typeComponentValue]
-              : 'Banner1';
+              ? component.typeComponentValue.charAt(0).toUpperCase() +
+                component.typeComponentValue.slice(1)
+              : 'Default';
 
             if (!componentName) {
               console.error('componentName is null or undefined');
