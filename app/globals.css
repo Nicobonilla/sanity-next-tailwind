@@ -140,8 +140,14 @@
 }
 
 @layer components {
+  .responsive-banner-3 {
+    @apply h-96;
+  }
+}
+
+@layer components {
   .responsive-image-1 {
-    @apply h-1/2 w-full md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[600px] xl:h-[600px] xl:w-[800px];
+    @apply size-[400px];
   }
 }
 

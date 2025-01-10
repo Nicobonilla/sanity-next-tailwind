@@ -3,26 +3,26 @@ import { PortableText } from 'next-sanity';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
 import Image from 'next/image';
 import { ItemProps } from '@/components/pages/PageTemplate';
-import PTItemBanner, {
-  PTtype,
-} from '@/components/shared/PortableText/PTextItemBanner';
-import Iconfy from '../../shared/Icons/Iconfy';
+import PTItemBanner, { type PTItemtype } from './PTextItemBanner';
+import Iconfy from '../../../shared/Icons/Iconfy';
 
 interface ItemBannerProps {
   item: ItemProps;
-  PTextItem?: keyof PTtype;
+  PTextItem?: keyof PTItemtype;
 }
 
 export default function ItemBanner({ item, PTextItem }: ItemBannerProps) {
   if (!item) return null;
 
-  const selectedPT = PTextItem ? PTItemBanner[PTextItem] : PTItemBanner.PT1;
+  const selectedPT = PTextItem
+    ? PTItemBanner[PTextItem as keyof PTItemtype]
+    : PTItemBanner.PT1;
   const { icon, svgIconList, svgIcon, content } = item;
 
   const svg = svgIcon || svgIconList?.[0]?.icon || undefined;
 
   return (
-    <div className="flex h-full flex-row rounded-lg p-2 hover:cursor-pointer hover:border hover:shadow-md">
+    <div className="flex h-full flex-row p-2">
       <div className="relative z-0 mr-2 size-20">
         {svg ? (
           <InlineSvgPreviewComponent
@@ -49,7 +49,7 @@ export default function ItemBanner({ item, PTextItem }: ItemBannerProps) {
           <Image
             src="/intranet.svg"
             fill
-            className="inline-svg-preview size-16 p-2"
+            className="inline-svg-preview z-10 size-16 p-2"
             alt="Default icon "
           />
         )}

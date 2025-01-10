@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from '@portabletext/react';
-import PTBanner, { type PTtype } from '../../shared/PortableText/PTextBanner';
+import PTBanner, { type PTBannerType } from '../BannerWithItems/PTextBanner';
 import { ComponentProps } from '@/components/pages/PageTemplate';
 
 export default function Banner1({ data }: { data: ComponentProps }) {
@@ -14,25 +14,20 @@ export default function Banner1({ data }: { data: ComponentProps }) {
     invertLayoutDesk,
     responsiveComponent,
   } = data;
-  const selectedComponent = PTextBanner
-    ? PTBanner[PTextBanner as keyof PTtype]
-    : PTBanner.PT1;
 
   if (data) {
     return (
       <div
         className={clsx(
-          'relative flex items-center gap-4 px-4',
-          responsiveComponent ? 'responsive-banner-1' : 'responsive-banner-1',
+          'relative mx-auto my-20 flex items-center gap-8 px-4',
           invertLayoutMobile ? 'flex-col' : 'flex-col-reverse',
+          'md:justify-between',
           invertLayoutDesk ? 'md:flex-row' : 'md:flex-row-reverse',
-          'md:justify-center'
+          'lg:justify-center'
         )}
       >
         {/* Imagen */}
-        <div
-          className={`responsive-image-1 relative flex h-3/5   flex-row md:mb-0`}
-        >
+        <div className="responsive-image-1 relative">
           <Image
             src={urlForImage(image)?.url() || '/meeting.jpeg'}
             fill
@@ -40,10 +35,18 @@ export default function Banner1({ data }: { data: ComponentProps }) {
             className="object-contain"
           />
         </div>
-
         {/* Contenido */}
-        <div className="lg:max-w-1/3 relative flex max-w-[470px] flex-col items-start justify-center">
-          <PortableText value={content || []} components={selectedComponent} />
+        <div className="">
+          <div className="relative flex max-w-[470px] flex-col items-start justify-center space-y-4">
+            <PortableText
+              value={content || []}
+              components={
+                PTextBanner
+                  ? PTBanner[PTextBanner as keyof PTBannerType]
+                  : PTBanner.PT1
+              }
+            />
+          </div>
         </div>
       </div>
     );

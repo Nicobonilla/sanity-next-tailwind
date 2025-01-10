@@ -4,7 +4,7 @@ import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-
 import { ItemProps } from '@/components/pages/PageTemplate';
 import PTItemBanner, {
   type PTtype,
-} from '@/components/shared/PortableText/PTextItemBanner';
+} from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 
 export default function ItemBanner1({
   item,

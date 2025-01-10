@@ -5,7 +5,7 @@ import { urlForImage } from '@/sanity/lib/utils';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
-import { Highlight1 } from '../../shared/Highlight1';
+import { Highlight1 } from '../../../shared/Highlight1';
 
 // Componente de PortableText con estilos personalizados
 export const PTextBanner: PortableTextComponents = {

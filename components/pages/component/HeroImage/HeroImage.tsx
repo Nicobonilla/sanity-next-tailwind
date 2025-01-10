@@ -3,7 +3,7 @@ import { ComponentProps } from '@/components/pages/PageTemplate';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import Image from 'next/image';
-import PHeroImage from '@/components/shared/PortableText/HeroImage';
+import PHeroImage from '@/components/pages/component/HeroImage/PTHeroImage';
 
 // Definimos el tipo de PHeroImage para que TypeScript lo entienda
 type PHeroImageType = {

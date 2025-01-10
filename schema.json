@@ -852,13 +852,6 @@
         },
         "optional": true
       },
-      "lautchBanner": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "responsiveComponent": {
         "type": "objectAttribute",
         "value": {
@@ -866,10 +859,17 @@
         },
         "optional": true
       },
-      "PTextBanner": {
+      "invertLayoutMobile": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "boolean"
+        },
+        "optional": true
+      },
+      "invertLayoutDesk": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },
@@ -1052,6 +1052,13 @@
         },
         "optional": true
       },
+      "PTextBanner": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "image": {
         "type": "objectAttribute",
         "value": {
@@ -1143,28 +1150,7 @@
         },
         "optional": true
       },
-      "invertLayoutMobile": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
-      "invertLayoutDesk": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
-      "layoutItems": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "PTextItem": {
+      "imageClass": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -1557,6 +1543,20 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "layoutItems": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "PTextItem": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       }
@@ -2461,13 +2461,6 @@
                 },
                 "optional": true
               },
-              "lautchBanner": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                },
-                "optional": true
-              },
               "responsiveComponent": {
                 "type": "objectAttribute",
                 "value": {
@@ -2475,10 +2468,17 @@
                 },
                 "optional": true
               },
-              "PTextBanner": {
+              "invertLayoutMobile": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "string"
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "invertLayoutDesk": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
                 },
                 "optional": true
               },
@@ -2661,6 +2661,13 @@
                 },
                 "optional": true
               },
+              "PTextBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "image": {
                 "type": "objectAttribute",
                 "value": {
@@ -2752,28 +2759,7 @@
                 },
                 "optional": true
               },
-              "invertLayoutMobile": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "invertLayoutDesk": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "layoutItems": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                },
-                "optional": true
-              },
-              "PTextItem": {
+              "imageClass": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"
@@ -3166,6 +3152,20 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "layoutItems": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextItem": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -3891,13 +3891,6 @@
                 },
                 "optional": true
               },
-              "lautchBanner": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                },
-                "optional": true
-              },
               "responsiveComponent": {
                 "type": "objectAttribute",
                 "value": {
@@ -3905,10 +3898,17 @@
                 },
                 "optional": true
               },
-              "PTextBanner": {
+              "invertLayoutMobile": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "string"
+                  "type": "boolean"
+                },
+                "optional": true
+              },
+              "invertLayoutDesk": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
                 },
                 "optional": true
               },
@@ -4091,6 +4091,13 @@
                 },
                 "optional": true
               },
+              "PTextBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "image": {
                 "type": "objectAttribute",
                 "value": {
@@ -4182,28 +4189,7 @@
                 },
                 "optional": true
               },
-              "invertLayoutMobile": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "invertLayoutDesk": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
-              },
-              "layoutItems": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                },
-                "optional": true
-              },
-              "PTextItem": {
+              "imageClass": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"
@@ -4596,6 +4582,20 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "layoutItems": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "PTextItem": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               },

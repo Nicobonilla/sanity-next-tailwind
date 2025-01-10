@@ -3,8 +3,8 @@ import Form from '@/components/shared/Form';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { GetHomeDetailQueryResult } from '@/sanity.types';
 import { getHomeDetailFetch } from '@/sanity/lib/fetch';
-import Video from '@/components/pages/component/Video';
-import HeroVideo from '@/components/pages/component/HeroVideo';
+import Video from '@/components/pages/component/HeroVideo/Video';
+import HeroVideo from '@/components/pages/component/HeroVideo/HeroVideo';
 
 async function getData() {
   try {

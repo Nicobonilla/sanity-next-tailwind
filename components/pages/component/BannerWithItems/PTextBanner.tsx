@@ -1,4 +1,5 @@
 import { PortableTextComponents } from 'next-sanity';
+// Componente de PortableText con estilos personalizados
 
 export const PT5: PortableTextComponents = {
   block: {
@@ -55,6 +56,20 @@ export const PT1: PortableTextComponents = {
   },
 };
 
+export const PT3: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <h1 className="h2 mb-6 text-center uppercase">{children}</h1>
+    ),
+    normal: ({ children }) => <p className="p3 text-center">{children}</p>,
+  },
+  marks: {
+    strong: ({ children }) => (
+      <span className="font-extrabold dark:text-red-500">{children}</span>
+    ),
+  },
+};
+
 export const PT2: PortableTextComponents = {
   block: {
     h2: ({ children }) => <h2 className="h2 relative">{children}</h2>,
@@ -76,12 +91,11 @@ export const PT2: PortableTextComponents = {
   },
 };
 
-export type PTtype = {
-  PT1: PortableTextComponents;
-  PT2: PortableTextComponents;
-  PT4: PortableTextComponents;
-};
+export type PTBannerType = Record<
+  'PT1' | 'PT2' | 'PT4' | 'PT5',
+  PortableTextComponents
+>;
 
-const PTBanner = { PT1, PT2, PT4, PT5 };
+const PTBanner = { PT1, PT2, PT3, PT4, PT5 };
 
 export default PTBanner;

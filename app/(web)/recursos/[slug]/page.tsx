@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { TableOfContents } from '@/components/pages/services/TableOfContents';
 import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs';
 import { GetServiceDetailQueryResult } from '@/sanity.types';
-import { PTServices } from '@/components/shared/PortableText/PTServices';
+import { PTServices } from '@/components/pages/services/PTServices';
 
 interface TableOfContents {
   id: string;
@@ -43,39 +43,35 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-    <article>
-      {/*<Breadcrumbs
+      <article>
+        {/*<Breadcrumbs
         servicios={{
           label: service.title,
           href: '/servicios',
           slug: params.slug,
         }}
       /> */}
-      <h1 className="h2 mb-6">{service.title}</h1>
+        <h1 className="h2 mb-6">{service.title}</h1>
 
-      <div className="flex flex-col gap-14 md:flex-row">
-        {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
-        <div className="order-2 md:order-1 md:w-3/4">
-          <div className="prose prose-sm max-w-none">
-            <PortableText
-              value={service.content || []}
-              components={PTServices}
-            />
+        <div className="flex flex-col gap-14 md:flex-row">
+          {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
+          <div className="order-2 md:order-1 md:w-3/4">
+            <div className="prose prose-sm max-w-none">
+              <PortableText
+                value={service.content || []}
+                components={PTServices}
+              />
+            </div>
           </div>
+
+          {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
+          <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
+            <TableOfContents
+              items={service.tableOfContents ? service.tableOfContents : []}
+            />
+          </aside>
         </div>
-
-        {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
-        <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
-          <TableOfContents
-            items={service.tableOfContents ? service.tableOfContents : []}
-          />
-        </aside>
-      </div>
-    </article>
-
-
-
-    
+      </article>
     </div>
   );
 }

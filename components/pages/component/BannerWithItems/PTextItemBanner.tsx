@@ -80,11 +80,11 @@ export const PT2: PortableTextComponents = {
   },
 };
 
-export type PTtype = {
-  PT1: PortableTextComponents;
-  PT2: PortableTextComponents;
-};
+export type PTItemtype = Record<
+  'PT1' | 'PT2' | 'PT3' | 'PT4',
+  PortableTextComponents
+>;
 
-const PTItemBanner = { PT1, PT2 };
+const PTItemBanner = { PT1, PT2, PT3, PT4 };
 
 export default PTItemBanner;

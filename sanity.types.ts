@@ -159,9 +159,9 @@ export type Banner = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: 'component';
   };
-  lautchBanner?: string;
   responsiveComponent?: string;
-  PTextBanner?: string;
+  invertLayoutMobile?: boolean;
+  invertLayoutDesk?: boolean;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -180,6 +180,7 @@ export type Banner = {
     _type: 'block';
     _key: string;
   }>;
+  PTextBanner?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -192,10 +193,7 @@ export type Banner = {
     _type: 'image';
   };
   imagePosition?: 'left' | 'right' | 'center' | 'background' | 'arriba';
-  invertLayoutMobile?: boolean;
-  invertLayoutDesk?: boolean;
-  layoutItems?: string;
-  PTextItem?: string;
+  imageClass?: string;
   items?: Array<{
     isActive?: boolean;
     image?: {
@@ -257,6 +255,8 @@ export type Banner = {
     _type: 'item';
     _key: string;
   }>;
+  layoutItems?: string;
+  PTextItem?: string;
 };
 
 export type Component = {
@@ -402,9 +402,9 @@ export type Service = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    lautchBanner?: string;
     responsiveComponent?: string;
-    PTextBanner?: string;
+    invertLayoutMobile?: boolean;
+    invertLayoutDesk?: boolean;
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -423,6 +423,7 @@ export type Service = {
       _type: 'block';
       _key: string;
     }>;
+    PTextBanner?: string;
     image?: {
       asset?: {
         _ref: string;
@@ -435,10 +436,7 @@ export type Service = {
       _type: 'image';
     };
     imagePosition?: 'left' | 'right' | 'center' | 'background' | 'arriba';
-    invertLayoutMobile?: boolean;
-    invertLayoutDesk?: boolean;
-    layoutItems?: string;
-    PTextItem?: string;
+    imageClass?: string;
     items?: Array<{
       isActive?: boolean;
       image?: {
@@ -500,6 +498,8 @@ export type Service = {
       _type: 'item';
       _key: string;
     }>;
+    layoutItems?: string;
+    PTextItem?: string;
     _type: 'banner';
     _key: string;
   }>;
@@ -616,9 +616,9 @@ export type Page = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    lautchBanner?: string;
     responsiveComponent?: string;
-    PTextBanner?: string;
+    invertLayoutMobile?: boolean;
+    invertLayoutDesk?: boolean;
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
@@ -637,6 +637,7 @@ export type Page = {
       _type: 'block';
       _key: string;
     }>;
+    PTextBanner?: string;
     image?: {
       asset?: {
         _ref: string;
@@ -649,10 +650,7 @@ export type Page = {
       _type: 'image';
     };
     imagePosition?: 'left' | 'right' | 'center' | 'background' | 'arriba';
-    invertLayoutMobile?: boolean;
-    invertLayoutDesk?: boolean;
-    layoutItems?: string;
-    PTextItem?: string;
+    imageClass?: string;
     items?: Array<{
       isActive?: boolean;
       image?: {
@@ -714,6 +712,8 @@ export type Page = {
       _type: 'item';
       _key: string;
     }>;
+    layoutItems?: string;
+    PTextItem?: string;
     _type: 'banner';
     _key: string;
   }>;

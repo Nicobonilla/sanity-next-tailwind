@@ -104,6 +104,13 @@ export default defineType({
       hidden: ({ parent }) => parent.image === undefined,
     }),
     defineField({
+      name: 'imageClass',
+      title: 'Class',
+      type: 'string',
+      group: 'content',
+    }),
+
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
