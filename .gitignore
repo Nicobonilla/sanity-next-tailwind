@@ -54,5 +54,5 @@ next-env.d.ts
 /components/shared/Card/BasicImageCard
 /cli
 /components/pages/component/Banner1Factored
-
+/componentes
 .vscode
