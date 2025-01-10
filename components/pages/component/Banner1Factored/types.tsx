@@ -1,4 +1,4 @@
-import { type PTtype } from '@/components/pages/component/BannerWithItems/PTextBanner';
+import { type PTBannerType } from '@/components/pages/component/BannerWithItems/PTextBanner';
 
 export interface BannerProps {
   content?: any;
@@ -9,7 +9,7 @@ export interface BannerProps {
     invertDesktop?: boolean;
     imagePosition?: string;
   };
-  PTextBanner?: keyof PTtype;
-  PTextItem?: keyof PTtype;
+  PTextBanner?: keyof PTBannerType;
+  PTextItem?: keyof PTBannerType;
   responsiveComponent?: string;
 }

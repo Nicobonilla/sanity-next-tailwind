@@ -3,7 +3,7 @@ import { PortableText } from 'next-sanity';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
 import { ItemProps } from '@/components/pages/PageTemplate';
 import PTItemBanner, {
-  type PTtype,
+  type PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 
 export default function ItemBanner1({
@@ -17,7 +17,7 @@ export default function ItemBanner1({
 
   // Selección del conjunto de componentes de PortableText
   const selectedPT = PTextItem
-    ? PTItemBanner[PTextItem as keyof PTtype]
+    ? PTItemBanner[PTextItem as keyof PTItemtype]
     : PTItemBanner.PT1;
 
   const hasSvgIconList = item.svgIconList;

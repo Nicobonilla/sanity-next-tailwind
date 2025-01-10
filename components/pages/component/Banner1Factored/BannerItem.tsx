@@ -1,10 +1,10 @@
 import { PortableText } from '@portabletext/react';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
 import Image from 'next/image';
-import Iconfy, { IconfyProps } from '@/components/shared/Icons/Iconfy';
+import Iconfy, { type IconfyProps } from '@/components/shared/Icons/Iconfy';
 import { ItemProps } from '../../PageTemplate';
 import PTItemBanner, {
-  PTtype,
+  PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 
 interface ItemBannerProps {
@@ -18,7 +18,9 @@ interface ItemBannerProps {
 export function BannerItem({ item, variant, PTextItem }: ItemBannerProps) {
   if (!item) return null;
 
-  const selectedPT = PTextItem ? PTItemBanner[PTextItem] : PTItemBanner.PT1;
+  const selectedPT = PTextItem
+    ? PTItemBanner[PTextItem as keyof PTItemtype]
+    : PTItemBanner.PT1;
 
   const { svgIcon, svgIconList, content } = item.props;
   const { icon } = item;

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import clsx from 'clsx';
 import PTBanner, {
-  type PTtype,
+  type PTBannerType,
 } from '@/components/pages/component/BannerWithItems/PTextBanner';
 
 interface BannerContentProps {
@@ -11,7 +11,7 @@ interface BannerContentProps {
   content: any;
   image: any;
   layout: any;
-  PTextBanner?: keyof PTtype; // Mantenemos el tipo original
+  PTextBanner?: PTBannerType; // Mantenemos el tipo original
 }
 
 export function BannerContent({
@@ -19,10 +19,10 @@ export function BannerContent({
   content,
   image,
   layout,
-  PTextBanner: textStyle, // Renombramos para mantener la consistencia con el schema
+  PTextBanner, // Renombramos para mantener la consistencia con el schema
 }: BannerContentProps) {
   // Usamos el componente PTBanner existente
-  const selectedComponent = textStyle ? PTBanner[textStyle] : PTBanner.PT1;
+  const selectedComponent = PTextBanner ? PTBanner[PTextBanner as keyof PTBannerType ] : PTBanner.PT1;
 
   if (variant === 'withSideImage') {
     return (

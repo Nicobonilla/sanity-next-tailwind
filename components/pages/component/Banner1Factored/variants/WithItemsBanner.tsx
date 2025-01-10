@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { BannerProps } from '../types';
 import { BannerItem } from '../BannerItem';
 import PTBanner, {
-  type PTtype,
+  type PTBannerType,
 } from '@/components/pages/component/BannerWithItems/PTextBanner';
 import PTItemBanner from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 
@@ -18,7 +18,7 @@ export function WithItemsBanner({
 }: BannerProps) {
   // Usamos el componente existente PTBanner
   const selectedComponent = PTextBanner
-    ? PTBanner[PTextBanner as keyof PTtype]
+    ? PTBanner[PTextBanner as keyof PTBannerType]
     : PTBanner.PT1;
 
   const backgroundStyles =

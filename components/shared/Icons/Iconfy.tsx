@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 
-type IconfyProps = {
+export type IconfyProps = {
   icon: string; // El nombre del ícono a renderizar
   metadata: {
     hFlip?: boolean; // Flip horizontal
