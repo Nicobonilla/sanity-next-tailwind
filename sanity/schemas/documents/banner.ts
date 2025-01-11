@@ -53,7 +53,7 @@ export default defineType({
       options: {
         list: [
           { title: 'Transparente', value: 'transparent' },
-          { title: 'Fondo por Imagen', value: 'image' },
+          { title: 'Imagen de Fondo', value: 'image' },
           { title: 'Colores de Fondo', value: 'colors' },
         ],
       },

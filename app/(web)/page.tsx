@@ -4,7 +4,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import { GetHomeDetailQueryResult } from '@/sanity.types';
 import { getHomeDetailFetch } from '@/sanity/lib/fetch';
 import Video from '@/components/pages/component/HeroVideo/Video';
-import HeroVideo from '@/components/pages/component/HeroVideo/HeroVideo';
+import HeroVideo from '@/components/pages/component/HeroVideo';
 
 async function getData() {
   try {

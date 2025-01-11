@@ -4,6 +4,7 @@ import { urlForImage } from '@/sanity/lib/utils';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import clsx from 'clsx';
+import Background from '../BannerWithItems/Background';
 
 // Componente de PortableText con estilos personalizados
 export const PTextBanner: PortableTextComponents = {
@@ -43,9 +44,7 @@ function Inner({ data }: { data: ComponentProps }) {
     <div
       className={clsx(
         'relative z-20 mx-auto flex flex-col items-center justify-center',
-        data.imagePosition == 'background'
-          ? 'lg:max-w-none'
-          : 'lg:max-w-screen-xl'
+        data.backgroundMode == 'image' ? 'lg:max-w-none' : 'lg:max-w-screen-xl'
       )}
     >
       {/* Renderiza los Items del banner */}
@@ -99,59 +98,9 @@ function Inner({ data }: { data: ComponentProps }) {
   );
 }
 export default function BannerList({ data }: { data: ComponentProps }) {
-  // Define the possible styles based on the image position
-  const positionStyles: Record<
-    string,
-    {
-      containerClass: string;
-      backgroundClass: string;
-      backgroundImageStyle: React.CSSProperties;
-    }
-  > = {
-    background: {
-      containerClass: clsx(
-        'relative w-full',
-        'min-h-screen xs5:min-h-fit md:h-[800px]'
-      ),
-      backgroundClass: 'z-0 h-full bg-cover bg-fixed bg-center',
-      backgroundImageStyle: data.image
-        ? {
-            backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
-          }
-        : {},
-    },
-    top: {
-      containerClass: clsx('relative w-full', 'flex flex-col items-start'),
-      backgroundClass: 'bg-top',
-      backgroundImageStyle: {},
-    },
-    bottom: {
-      containerClass: clsx('relative w-full', 'flex flex-col items-end'),
-      backgroundClass: 'bg-bottom',
-      backgroundImageStyle: {},
-    },
-    default: {
-      containerClass: clsx('relative w-full', 'flex flex-col items-center'),
-      backgroundClass: 'bg-center',
-      backgroundImageStyle: {},
-    },
-  };
-
-  // Ensure a valid key or fallback to "default"
-  const { containerClass, backgroundClass, backgroundImageStyle } =
-    positionStyles[data.imagePosition || 'default'] || positionStyles.default;
-
   return (
-    <div className={containerClass}>
-      {/* Fondo condicional */}
-      <div className={clsx(backgroundClass)} style={backgroundImageStyle}>
-        {/* Filtro de color oscuro sobre la imagen si tiene fondo */}
-        {data.imagePosition === 'background' && (
-          <div className="absolute inset-0 z-10 max-h-fit" />
-        )}
-        {/* Renderiza el contenido y los items */}
-        <Inner data={data} />
-      </div>
-    </div>
+    <Background data={data}>
+      <Inner data={data} />
+    </Background>
   );
 }
