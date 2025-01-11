@@ -59,9 +59,9 @@ export const PT1: PortableTextComponents = {
 export const PT3: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="h2 mb-6 text-center uppercase">{children}</h1>
+      <h1 className="h2 mb-6 px-5 text-center uppercase">{children}</h1>
     ),
-    normal: ({ children }) => <p className="p3 text-center">{children}</p>,
+    normal: ({ children }) => <p className="p3 px-24 text-right">{children}</p>,
   },
   marks: {
     strong: ({ children }) => (

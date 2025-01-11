@@ -1,5 +1,20 @@
 import { PortableTextComponents } from 'next-sanity';
 
+export const PT6: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <p className="font-sm mb-1 text-left font-bitter font-semibold text-red-600">
+        {children}
+      </p>
+    ),
+    normal: ({ children }) => (
+      <p className="font-monserrat text-justify text-sm leading-none">
+        {children}
+      </p>
+    ),
+  },
+};
+
 export const PT1: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
@@ -81,10 +96,10 @@ export const PT2: PortableTextComponents = {
 };
 
 export type PTItemtype = Record<
-  'PT1' | 'PT2' | 'PT3' | 'PT4',
+  'PT1' | 'PT2' | 'PT3' | 'PT4' | 'PT6',
   PortableTextComponents
 >;
 
-const PTItemBanner = { PT1, PT2, PT3, PT4 };
+const PTItemBanner = { PT1, PT2, PT3, PT4, PT6 };
 
 export default PTItemBanner;

@@ -4,23 +4,25 @@ import { ItemProps } from '@/components/pages/PageTemplate';
 import ItemBanner from './ItemBanner';
 import clsx from 'clsx';
 import PTextBanner, { type PTBannerType } from './PTextBanner';
-import PTItemBanner, { type PTItemtype } from './PTextItemBanner';
+import { type PTItemtype } from './PTextItemBanner';
+import Image from 'next/image';
+import { urlForImage } from '@/sanity/lib/utils';
 
 export default function Inner({ data }: { data: ComponentProps }) {
   return (
     <div
       className={clsx(
-        'relative z-20 mx-auto flex flex-col items-center justify-center px-3 py-16',
-        data.imagePosition == 'background'
-          ? 'lg:max-w-none'
-          : 'lg:max-w-screen-xl'
+        'relative z-20 mx-auto h-fit px-3 pt-16 lg:max-w-screen-xl lg:pb-16',
+        { 'pb-16': data.imagePosition === 'top' }
       )}
     >
+      {/* Title and Premise Section */}
       {data.content && (
         <div
           className={clsx(
-            'mx-2 mb-12 md:mb-14',
-            data.imagePosition == 'background' && 'text-white'
+            'mb-12 flex items-center justify-center gap-8 text-center md:mb-14 md:flex-row',
+            '',
+            data.backgroundMode == 'image' && 'text-white'
           )}
         >
           <PortableText
@@ -34,15 +36,27 @@ export default function Inner({ data }: { data: ComponentProps }) {
         </div>
       )}
 
-      {data?.items && (
+      {/* Responsive Image */}
+      <div
+        className={clsx('relative flex flex-col gap-6', {
+          'lg:flex-row':
+            data.imagePosition === 'right' || data.imagePosition === 'left',
+        })}
+      >
+        {/* Items Section */}
         <div
           className={clsx(
-            'mx-auto grid grid-cols-1 items-start justify-center dark:text-slate-300',
-            'max-w-[650px] xs5:px-4',
-            'lg:max-w-[1050px] lg:grid-cols-2'
+            'flex-1',
+            {
+              'lg:w-2/3':
+                data.imagePosition === 'right' || data.imagePosition === 'left',
+              'order-2':
+                data.imagePosition === 'top' || data.imagePosition === 'left',
+            },
+            'grid max-w-full grid-cols-1 gap-6'
           )}
         >
-          {data.items.map(
+          {data?.items?.map(
             (item, index) =>
               item && (
                 <ItemBanner
@@ -53,7 +67,24 @@ export default function Inner({ data }: { data: ComponentProps }) {
               )
           )}
         </div>
-      )}
+
+        {/* Image Section */}
+        {data.image && (
+          <div
+            className={clsx('relative z-50 h-48 w-full lg:h-auto', {
+              'lg:w-1/3':
+                data.imagePosition === 'right' || data.imagePosition === 'left',
+            })}
+          >
+            <Image
+              src={urlForImage(data.image)?.url()}
+              fill
+              alt="Banner Image"
+              className="overflow-hidden object-cover object-top"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

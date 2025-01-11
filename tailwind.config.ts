@@ -25,14 +25,9 @@ const config: Config = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         bodydark: 'rgba(28,31,42,1.0)',
-        bodydarknav: 'rgba(8,14,38,1.0)',
         menuColor2: 'rgba(48,54,73,1.0)',
-        textBlue: 'rgba(5, 27, 129, 0.7)',
-        drawerColor: 'rgba(0,44,84, 1.0)',
-        dividerDrawer: 'rgba(49, 78, 105, 1)',
         primary: 'rgba(178, 34, 34, 1)',
         second: colors.red, //green-600
-        lay: 'rgba(70, 66, 85, 1)',
       },
       lineHeight: {
         'extra-tight': '1px',
