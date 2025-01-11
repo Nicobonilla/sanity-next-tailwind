@@ -20,8 +20,7 @@ export default function Inner({ data }: { data: ComponentProps }) {
       {data.content && (
         <div
           className={clsx(
-            'mb-12 flex items-center justify-center gap-8 text-center md:mb-14 md:flex-row',
-            '',
+            'mb-12 flex flex-col items-center justify-center gap-8 text-center md:mb-14 md:flex-row md:gap-0',
             data.backgroundMode == 'image' && 'text-white'
           )}
         >
@@ -71,7 +70,7 @@ export default function Inner({ data }: { data: ComponentProps }) {
         {/* Image Section */}
         {data.image && (
           <div
-            className={clsx('relative z-50 h-48 w-full lg:h-auto', {
+            className={clsx('relative z-50 h-96 w-full lg:h-auto', {
               'lg:w-1/3':
                 data.imagePosition === 'right' || data.imagePosition === 'left',
             })}
