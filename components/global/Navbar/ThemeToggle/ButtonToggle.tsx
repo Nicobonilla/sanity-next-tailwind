@@ -5,13 +5,14 @@
 import { useTheme } from '@/context/ThemeContext';
 import { AiOutlineSun } from 'react-icons/ai';
 import { IoMoonSharp } from 'react-icons/io5';
+
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
-      className="relative flex h-6 w-12 items-center rounded-full border border-gray-500 bg-bodydark p-1"
+      className="relative flex h-8 w-16 items-center rounded-full border border-gray-500 bg-bodydark p-1 transition-all duration-300 ease-in-out"
     >
       {/* Iconos estáticos del sol y la luna */}
       <span className="absolute left-1 text-gray-500">
@@ -23,8 +24,8 @@ const ThemeToggle = () => {
 
       {/* Círculo deslizante que cambia según el tema */}
       <div
-        className={`z-10 size-4 rounded-full border border-gray-500 bg-bodydark transition-transform duration-300 ease-in-out dark:bg-bodydark ${
-          isDarkMode ? 'translate-x-6' : ''
+        className={`z-10 h-6 w-6 rounded-full border border-gray-500 bg-bodydark transition-transform duration-300 ease-in-out ${
+          isDarkMode ? 'translate-x-8' : ''
         }`}
       ></div>
     </button>

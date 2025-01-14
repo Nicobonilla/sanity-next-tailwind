@@ -29,7 +29,6 @@ export default function PageTemplate({
 }) {
   // Dynamically load the component based on its name
   const { componentsMap } = useSanityContext();
-  console.log('componentsMap: ', componentsMap);
 
   const DynamicComponent = (name: string) =>
     dynamic<{ data: ComponentProps }>(() => import(`./component/${name}`), {
@@ -40,7 +39,6 @@ export default function PageTemplate({
   if (!dataPage?.components) {
     return <div>No components available</div>;
   }
-  console.log('dataPage.components:', dataPage.components);
   return (
     <>
       {dataPage?.components &&

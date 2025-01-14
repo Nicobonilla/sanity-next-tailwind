@@ -1,6 +1,6 @@
 export default function HeroVideo() {
   return (
-    <section className="relative h-[70vh] w-full">
+    <section className="relative h-[900px] w-full">
       <div className="relative aspect-auto size-full overflow-hidden">
         <video
           autoPlay

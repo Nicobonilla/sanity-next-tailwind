@@ -20,7 +20,7 @@ export default function Inner({ data }: { data: ComponentProps }) {
       {data.content && (
         <div
           className={clsx(
-            'mb-12 flex flex-col items-center justify-center gap-8 text-center md:mb-14 md:flex-row md:gap-0',
+            'flex flex-col items-center justify-center text-center md:mb-14 md:flex-row md:gap-0',
             data.backgroundMode == 'image' && 'text-white'
           )}
         >
@@ -52,7 +52,7 @@ export default function Inner({ data }: { data: ComponentProps }) {
               'order-2':
                 data.imagePosition === 'top' || data.imagePosition === 'left',
             },
-            'grid max-w-full grid-cols-1 gap-6'
+            'grid max-w-full grid-cols-1 gap-6 md:grid-cols-2'
           )}
         >
           {data?.items?.map(
@@ -79,7 +79,7 @@ export default function Inner({ data }: { data: ComponentProps }) {
               src={urlForImage(data.image)?.url()}
               fill
               alt="Banner Image"
-              className="overflow-hidden object-cover object-top"
+              className="overflow-hidden object-cover object-top lg:overflow-visible"
             />
           </div>
         )}

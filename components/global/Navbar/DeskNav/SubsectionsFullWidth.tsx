@@ -77,7 +77,6 @@ export default function SubsectionsFullWidth() {
                 <div className={`flex flex-row gap-8`}>
                   {groupedServices &&
                     Object.keys(groupedServices).map((businessName) => {
-                      console.log('link.slug: ', link.slug);
                       const servicesForBusiness = groupedServices[businessName];
                       const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
                       return (

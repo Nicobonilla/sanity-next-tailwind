@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
-import { useTheme } from '@/context/ThemeContext';
 import clsx from 'clsx';
 
 export default function SubsectionsFitWidth() {
@@ -14,9 +13,7 @@ export default function SubsectionsFitWidth() {
   const path = usePathname();
   const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
-  const { isDarkMode } = useTheme();
 
-  console.log('pagesLink: ', pagesLink);
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -86,7 +83,6 @@ export default function SubsectionsFitWidth() {
                   <ul className="mt-1 flex flex-row gap-4">
                     {groupedServices &&
                       Object.keys(groupedServices).map((businessName) => {
-                        console.log('link.slug: ', link.slug);
                         const servicesForBusiness =
                           groupedServices[businessName];
                         const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio

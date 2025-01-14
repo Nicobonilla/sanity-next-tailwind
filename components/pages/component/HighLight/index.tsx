@@ -30,27 +30,24 @@ export const PTextBanner: PortableTextComponents = {
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   return (
-    <div>
-      <div className={'relative h-[400px] w-full lg:h-[200px]'}>
+    <div className={'relative h-[400px] w-full lg:h-[200px]'}>
+      <div
+        className="z-0 h-full bg-cover bg-fixed bg-center"
+        style={{
+          backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
+        }}
+      >
         <div
-          className="z-0 h-full bg-cover bg-fixed bg-center"
-          style={{
-            backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
-          }}
+          className={clsx(
+            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-white shadow-lg',
+            'xs5: px-10',
+            'lg:max-w-none'
+          )}
         >
-          <div
-            className={clsx(
-              'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-white shadow-lg',
-              'xs5: px-10',
-              'lg:max-w-none'
-            )}
-          >
-            <PortableText components={PTextBanner} value={data.content || []} />
-            <div className="absolute inset-0 -z-10 bg-red-500/60"></div>
-          </div>
+          <PortableText components={PTextBanner} value={data.content || []} />
         </div>
       </div>
-      <div className="absolute inset-0 z-10 max-h-fit bg-black/90"></div>
+      <div className="absolute inset-0 z-10 size-full bg-red-600/65 dark:bg-red-950/80"></div>
     </div>
   );
 }

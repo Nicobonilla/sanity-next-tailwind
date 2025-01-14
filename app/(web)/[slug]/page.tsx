@@ -10,7 +10,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!currentPage) {
     return <div>Pagina no encontrado.</div>; // Manejo básico de errores
   }
-  console.log('slug: ', params.slug);
   return (
     <>
       {currentPage?.components && (

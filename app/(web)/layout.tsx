@@ -12,24 +12,16 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
 import {
   SanityContextProvider,
-  SanityContextType,
+  type SanityContextType,
 } from '@/context/SanityContext';
-import { ScrollContextProvider } from '@/context/ScrollContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
 import { draftMode } from 'next/headers';
-import { transformToDict } from '@/components/utils';
 import { fonts } from '@/components/global/fonts';
 import type { Links } from '@/types';
-import {
-  GetComponentListQueryResult,
-  GetPagesNavQueryResult,
-  GetServicesNavQueryResult,
-} from '@/sanity.types';
 import DisableDraftMode from '@/components/global/DisableDraftMode';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
-
 // Async function to fetch data
 async function getData() {
   try {
@@ -54,17 +46,14 @@ export default async function RootLayout({
   try {
     // Fetching data for the layout (pages, services, and components)
     const { pages, servicesList, componentList } = await getData();
-    console.log('layout pages', pages);
     // Error handling if no data is returned
     if (!pages || !servicesList || !componentList) {
       throw new Error('Essential data is missing');
     }
 
     // Prepare the initial data for context
-    const initialData = {
-      componentsMap: transformToDict(
-        componentList
-      ) as SanityContextType['componentsMap'],
+    const initialData: SanityContextType = {
+      componentsMap: componentList,
       pagesLink: formatPages(pages, servicesList) as Links[],
     };
 
@@ -86,7 +75,9 @@ export default async function RootLayout({
         <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
         <body className="flex min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
-            <SanityContextProvider initialData={initialData}>
+            <SanityContextProvider
+              initialData={initialData as SanityContextType}
+            >
               <ThemeProvider>
                 <Navbar />
                 <main className="grow flex-col">

@@ -60,11 +60,21 @@ export default defineType({
       group: 'exterior',
     }),
     defineField({
+      name: 'colorWithDarkMode',
+      title: 'Agregar Modo Oscuro',
+      type: 'boolean',
+      initialValue: false,
+      group: 'colors',
+      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+    }),
+    defineField({
       name: 'directionDeg',
       title: 'Angulo de Inclinación del Degradado',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.colorBackgroundDark2 !== false ||
+        parent.colorBackground2 !== false,
     }),
     defineField({
       name: 'colorBackground1',
@@ -86,6 +96,30 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+    }),
+    defineField({
+      name: 'colorBackgroundDark1',
+      title: 'Color de Fondo 1 (Dark)',
+      type: 'color',
+      group: 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+    }),
+    defineField({
+      name: 'colorBackgroundDark2',
+      title: 'Color de Fondo 2 (Dark)',
+      type: 'color',
+      group: 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+    }),
+    defineField({
+      name: 'colorBackgroundDark3',
+      title: 'Color de Fondo 3 (Dark)',
+      type: 'color',
+      group: 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
       name: 'colorBackground1Position',

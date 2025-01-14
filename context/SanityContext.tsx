@@ -4,7 +4,7 @@ import { createContext, useContext, ReactNode } from 'react';
 
 // Define the expected structure of the context data
 export type SanityContextType = {
-  componentsMap: Record<string, string | null>;
+  componentsMap: Record<string, string | null>[]; 
   pagesLink: Links[]; // Ensure this type matches with your expected structure
 };
 

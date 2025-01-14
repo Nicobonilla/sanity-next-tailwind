@@ -23,7 +23,7 @@ export default function Banner1({ data }: { data: ComponentProps }) {
           invertLayoutMobile ? 'flex-col' : 'flex-col-reverse',
           'md:justify-between',
           invertLayoutDesk ? 'md:flex-row' : 'md:flex-row-reverse',
-          'lg:justify-center'
+          'lg:max-w-screen-xl',
         )}
       >
         {/* Imagen */}

@@ -873,6 +873,13 @@
         },
         "optional": true
       },
+      "colorWithDarkMode": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "directionDeg": {
         "type": "objectAttribute",
         "value": {
@@ -897,6 +904,30 @@
         "optional": true
       },
       "colorBackground3": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "color"
+        },
+        "optional": true
+      },
+      "colorBackgroundDark1": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "color"
+        },
+        "optional": true
+      },
+      "colorBackgroundDark2": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "color"
+        },
+        "optional": true
+      },
+      "colorBackgroundDark3": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
@@ -2613,6 +2644,13 @@
                 },
                 "optional": true
               },
+              "colorWithDarkMode": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
               "directionDeg": {
                 "type": "objectAttribute",
                 "value": {
@@ -2637,6 +2675,30 @@
                 "optional": true
               },
               "colorBackground3": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark1": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark2": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark3": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "inline",
@@ -4174,6 +4236,13 @@
                 },
                 "optional": true
               },
+              "colorWithDarkMode": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "boolean"
+                },
+                "optional": true
+              },
               "directionDeg": {
                 "type": "objectAttribute",
                 "value": {
@@ -4198,6 +4267,30 @@
                 "optional": true
               },
               "colorBackground3": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark1": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark2": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "color"
+                },
+                "optional": true
+              },
+              "colorBackgroundDark3": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "inline",

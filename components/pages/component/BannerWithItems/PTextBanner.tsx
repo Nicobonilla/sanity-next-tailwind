@@ -19,6 +19,7 @@ export const PT5: PortableTextComponents = {
   },
 };
 
+// PT para componente COMO LO HACEMOS?
 export const PT4: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
@@ -59,15 +60,19 @@ export const PT1: PortableTextComponents = {
 export const PT3: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="h2 mb-6 px-2  uppercase">{children}</h1>
+      <h1 className="h2 mx-auto max-w-screen-md justify-center px-2 uppercase">
+        {children}
+      </h1>
     ),
     normal: ({ children }) => (
-      <p className="p3  md:px-24 md:text-right">{children}</p>
+      <p className="p3 mx-20 mb-10 mt-5 md:m-0 md:max-w-80 md:text-right">
+        {children}
+      </p>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <span className="font-extrabold dark:text-red-500">{children}</span>
+      <span className="font-extrabold dark:text-red-600">{children}</span>
     ),
   },
 };
