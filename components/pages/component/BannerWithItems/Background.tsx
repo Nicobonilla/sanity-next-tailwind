@@ -120,18 +120,6 @@ export default function Background({ data, children }: BackgroundProps) {
       };
     }
 
-    // Implementación para video de fondo
-    if (data.backgroundMode === 'video' && data.videoUrl) {
-      return {
-        light: {
-          backgroundColor: 'transparent',
-        },
-        dark: {
-          backgroundColor: 'transparent',
-        },
-      };
-    }
-
     if (data.backgroundMode === 'colors') {
       const lightTheme: Theme = {
         color1: (data.colorBackground1 as Color) || defaultColor,
@@ -164,16 +152,8 @@ export default function Background({ data, children }: BackgroundProps) {
     if (data.backgroundMode === 'colors' && data.colorWithDarkMode) {
       return themeStyles[activeTheme];
     }
-    if (data.backgroundMode === 'video' && data.videoUrl) {
-      return {
-        background: 'transparent',
-        position: 'relative',
-        zIndex: 0,
-      };
-    }
     return themeStyles.light;
   }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
-
   return (
     <div
       className={clsx(
@@ -184,17 +164,19 @@ export default function Background({ data, children }: BackgroundProps) {
       )}
     >
       {data.backgroundMode === 'video' && data.videoUrl && (
-        <div className="relative aspect-auto size-full overflow-hidden">
+        <div
+          className={clsx('absolute inset-0 z-0', currentStyle)} // Mantén currentStyle
+        >
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="absolute inset-0 size-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           >
             <source
               src={data.videoUrl}
-              type={'video/' + data.videoType || 'mp4'}
+              type={'video/' + (data.videoType || 'mp4')}
             />
           </video>
           <div
@@ -205,6 +187,25 @@ export default function Background({ data, children }: BackgroundProps) {
           />
         </div>
       )}
+      {
+        <div
+          className={clsx(
+            'z-0 transition-all duration-300',
+            data.backgroundMode === 'image' && 'bg-cover bg-fixed bg-center'
+          )}
+          style={currentStyle}
+        >
+          {data.backgroundMode === 'image' && (
+            <div
+              className={clsx(
+                'absolute inset-0 z-10 transition-colors duration-300',
+                activeTheme === 'light' ? 'bg-white/80' : 'bg-black/80'
+              )}
+            />
+          )}
+          {children}
+        </div>
+      }
       {children}
     </div>
   );
