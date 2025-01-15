@@ -868,6 +868,10 @@
             {
               "type": "string",
               "value": "colors"
+            },
+            {
+              "type": "string",
+              "value": "video"
             }
           ]
         },
@@ -1015,6 +1019,30 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "videoUrl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "videoType": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "mp4"
+            },
+            {
+              "type": "string",
+              "value": "webm"
+            }
+          ]
         },
         "optional": true
       },
@@ -2639,6 +2667,10 @@
                     {
                       "type": "string",
                       "value": "colors"
+                    },
+                    {
+                      "type": "string",
+                      "value": "video"
                     }
                   ]
                 },
@@ -2786,6 +2818,30 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "videoUrl": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "videoType": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "mp4"
+                    },
+                    {
+                      "type": "string",
+                      "value": "webm"
+                    }
+                  ]
                 },
                 "optional": true
               },
@@ -4231,6 +4287,10 @@
                     {
                       "type": "string",
                       "value": "colors"
+                    },
+                    {
+                      "type": "string",
+                      "value": "video"
                     }
                   ]
                 },
@@ -4378,6 +4438,30 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "videoUrl": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "videoType": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "mp4"
+                    },
+                    {
+                      "type": "string",
+                      "value": "webm"
+                    }
+                  ]
                 },
                 "optional": true
               },

@@ -53,6 +53,8 @@ const componentFields = /* groq */ `
   colorBackground3Position,
   directionDeg,
   imageBackground,
+  videoUrl,
+  videoType,
   responsiveComponent,
   imagePosition,
   invertLayoutMobile,

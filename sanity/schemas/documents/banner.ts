@@ -55,6 +55,7 @@ export default defineType({
           { title: 'Transparente', value: 'transparent' },
           { title: 'Imagen de Fondo', value: 'image' },
           { title: 'Colores de Fondo', value: 'colors' },
+          { title: 'Video de Fondo', value: 'video' },
         ],
       },
       group: 'exterior',
@@ -103,7 +104,8 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        parent.backgroundMode !== 'colors' ||
+        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
       name: 'colorBackgroundDark2',
@@ -111,7 +113,8 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        parent.backgroundMode !== 'colors' ||
+        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
       name: 'colorBackgroundDark3',
@@ -119,7 +122,8 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        parent.backgroundMode !== 'colors' ||
+        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
       name: 'colorBackground1Position',
@@ -151,6 +155,26 @@ export default defineType({
       },
       group: 'exterior',
       hidden: ({ parent }) => parent.backgroundMode !== 'image',
+    }),
+    defineField({
+      name: 'videoUrl',
+      title: 'URL del video para ser usado de fondo', // Campo para el video
+      type: 'url',
+      group: 'exterior',
+      hidden: ({ parent }) => parent.backgroundMode !== 'video', // Solo visible si el backgroundMode es "video"
+    }),
+    defineField({
+      name: 'videoType',
+      title: 'Indica formato del archivo de video', // Campo para el video
+      type: 'string',
+      group: 'exterior',
+      options: {
+        list: [
+          { title: 'mp4', value: 'mp4' },
+          { title: 'webm', value: 'webm' },
+        ],
+      },
+      hidden: ({ parent }) => parent.backgroundMode !== 'video', // Solo visible si el backgroundMode es "video"
     }),
     defineField({
       name: 'responsiveComponent',

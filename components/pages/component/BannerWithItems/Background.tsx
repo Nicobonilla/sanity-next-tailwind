@@ -120,6 +120,18 @@ export default function Background({ data, children }: BackgroundProps) {
       };
     }
 
+    // Implementación para video de fondo
+    if (data.backgroundMode === 'video' && data.videoUrl) {
+      return {
+        light: {
+          backgroundColor: 'transparent',
+        },
+        dark: {
+          backgroundColor: 'transparent',
+        },
+      };
+    }
+
     if (data.backgroundMode === 'colors') {
       const lightTheme: Theme = {
         color1: (data.colorBackground1 as Color) || defaultColor,
@@ -152,6 +164,13 @@ export default function Background({ data, children }: BackgroundProps) {
     if (data.backgroundMode === 'colors' && data.colorWithDarkMode) {
       return themeStyles[activeTheme];
     }
+    if (data.backgroundMode === 'video' && data.videoUrl) {
+      return {
+        background: 'transparent',
+        position: 'relative',
+        zIndex: 0,
+      };
+    }
     return themeStyles.light;
   }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
 
@@ -160,26 +179,33 @@ export default function Background({ data, children }: BackgroundProps) {
       className={clsx(
         'relative w-full transition-colors duration-300',
         data.backgroundMode === 'image' &&
-          'min-h-screen md:min-h-0 lg:max-h-fit'
+          'min-h-screen md:min-h-0 lg:max-h-fit',
+        data.backgroundMode === 'video' && 'h-[900px]'
       )}
     >
-      <div
-        className={clsx(
-          'z-0 transition-all duration-300',
-          data.backgroundMode === 'image' && 'bg-cover bg-fixed bg-center'
-        )}
-        style={currentStyle}
-      >
-        {data.backgroundMode === 'image' && (
+      {data.backgroundMode === 'video' && data.videoUrl && (
+        <div className="relative aspect-auto size-full overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 size-full object-cover"
+          >
+            <source
+              src={data.videoUrl}
+              type={'video/' + data.videoType || 'mp4'}
+            />
+          </video>
           <div
             className={clsx(
               'absolute inset-0 z-10 transition-colors duration-300',
               activeTheme === 'light' ? 'bg-white/80' : 'bg-black/80'
             )}
           />
-        )}
-        {children}
-      </div>
+        </div>
+      )}
+      {children}
     </div>
   );
 }

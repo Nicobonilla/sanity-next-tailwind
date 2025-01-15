@@ -24,7 +24,6 @@ export default async function Page() {
 
   return (
     <>
-      <HeroVideo />
       {currentPage?.components ? (
         <PageTemplate dataPage={currentPage} />
       ) : (

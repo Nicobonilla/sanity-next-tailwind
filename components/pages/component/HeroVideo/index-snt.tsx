@@ -11,7 +11,10 @@ export default function HeroVideo({ data }: { data: ComponentProps }) {
           playsInline
           className="absolute inset-0 size-full object-cover"
         >
-          <source src={data?.videoUrl || ''} type={data.videoType || 'mp4'} />
+          <source
+            src={process.env.VIDEO_HERO_URL}
+            type={process.env.VIDEO_HERO_TYPE}
+          />
         </video>
         <div className="absolute inset-0 bg-black/60" aria-hidden="true"></div>
       </div>
