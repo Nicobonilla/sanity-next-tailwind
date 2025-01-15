@@ -5,50 +5,8 @@ import clsx from 'clsx';
 import { ComponentProps } from '@/components/pages/PageTemplate';
 import { useTheme } from '@/context/ThemeContext';
 import { CSSProperties, useEffect, useState, useMemo } from 'react';
-
-interface BackgroundProps {
-  data: ComponentProps;
-  children: React.ReactNode;
-}
-
-interface ColorRGB {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
-
-interface Color {
-  rgb: ColorRGB;
-}
-
-interface Theme {
-  color1: Color;
-  color2: Color;
-  color3: Color;
-}
-
-interface Themes {
-  light: CSSProperties;
-  dark: CSSProperties;
-}
-
-const defaultColor: Color = { rgb: { r: 0, g: 0, b: 0, a: 0 } };
-
-export function getRgbaString(color: Color, position?: number): string {
-  if (!color?.rgb) return 'transparent';
-  const { r, g, b, a } = color.rgb;
-  return position !== undefined
-    ? `rgba(${r}, ${g}, ${b}, ${a}) ${position}%`
-    : `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
-const getGradient = (colors: Color[], positions: number[]): string => {
-  return `linear-gradient(
-    to right,
-    ${colors.map((color, index) => getRgbaString(color, positions[index] || 0)).join(', ')}
-  )`;
-};
+import { BackgroundProps, Color, Theme } from './types';
+import { getThemeStyle, defaultColor } from './utils';
 
 export default function Background({ data, children }: BackgroundProps) {
   const { isDarkMode } = useTheme();
@@ -62,53 +20,6 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Generate theme styles
   const themeStyles = useMemo(() => {
-    const getThemeStyle = (theme: Theme) => {
-      const position1 = data.colorBackground1Position || 0;
-      const position2 = data.colorBackground2Position || 100;
-      const position3 = data.colorBackground3Position || 100;
-
-      // Fondo de un solo color
-      if (
-        theme.color1 !== defaultColor &&
-        theme.color2 === defaultColor &&
-        theme.color3 === defaultColor
-      ) {
-        return { background: getRgbaString(theme.color1, position1) };
-      }
-
-      // Gradiente de dos colores
-      if (
-        theme.color1 !== defaultColor &&
-        theme.color2 !== defaultColor &&
-        theme.color3 === defaultColor
-      ) {
-        const angle = (data?.directionDeg || 0) + 135;
-        return {
-          background: `linear-gradient(
-            ${angle}deg,
-            ${getRgbaString(theme.color1, position1)},
-            ${getRgbaString(theme.color2, position2)}
-          )`,
-        };
-      }
-
-      // Gradiente de tres colores
-      if (
-        theme.color1 !== defaultColor &&
-        theme.color2 !== defaultColor &&
-        theme.color3 !== defaultColor
-      ) {
-        return {
-          background: getGradient(
-            [theme.color1, theme.color2, theme.color3],
-            [position1, position2, position3]
-          ),
-        };
-      }
-
-      return { background: 'transparent' };
-    };
-
     if (data.backgroundMode === 'image' && data.imageBackground) {
       return {
         light: {
@@ -132,12 +43,18 @@ export default function Background({ data, children }: BackgroundProps) {
         color2: (data.colorBackgroundDark2 as Color) || defaultColor,
         color3: (data.colorBackgroundDark3 as Color) || defaultColor,
       };
+      const positions = [
+        data.colorBackground1Position || 0,
+        data.colorBackground2Position || 100,
+        data.colorBackground3Position || 100,
+      ];
+
+      const lightThemeStyle = getThemeStyle(0, lightTheme, positions);
+      const darkThemeStyle = getThemeStyle(0, darkTheme, positions);
 
       return {
-        light: getThemeStyle(lightTheme),
-        dark: data.colorWithDarkMode
-          ? getThemeStyle(darkTheme)
-          : getThemeStyle(lightTheme),
+        light: lightThemeStyle,
+        dark: data.colorWithDarkMode ? darkThemeStyle : lightThemeStyle,
       };
     }
 
