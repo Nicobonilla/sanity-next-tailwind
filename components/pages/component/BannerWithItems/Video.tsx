@@ -11,14 +11,14 @@ export default function Video({
 }) {
   return (
     <div
-      className={'absolute inset-0 z-0'} // Mantén currentStyle
+      className={'relative inset-0 z-0 size-full'} // Mantén currentStyle
     >
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 size-full object-cover"
       >
         <source src={videoUrl} type={'video/' + (videoType || 'mp4')} />
       </video>
