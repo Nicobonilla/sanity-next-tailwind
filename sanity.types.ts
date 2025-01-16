@@ -159,7 +159,8 @@ export type Banner = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: 'component';
   };
-  backgroundMode?: 'transparent' | 'image' | 'colors' | 'video';
+  responsiveHeight?: 'fit-max' | 'h-[900px]';
+  backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
   colorWithDarkMode?: boolean;
   directionDeg?: number;
   colorBackground1?: Color;
@@ -182,6 +183,8 @@ export type Banner = {
     crop?: SanityImageCrop;
     _type: 'image';
   };
+  imageBackgroundType?: 'fixed' | 'dynamic';
+  imageBackgroundLayer?: 'layer1' | 'layer2';
   videoUrl?: string;
   videoType?: 'mp4' | 'webm';
   responsiveComponent?: string;
@@ -427,7 +430,8 @@ export type Service = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    backgroundMode?: 'transparent' | 'image' | 'colors' | 'video';
+    responsiveHeight?: 'fit-max' | 'h-[900px]';
+    backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
     colorWithDarkMode?: boolean;
     directionDeg?: number;
     colorBackground1?: Color;
@@ -450,6 +454,8 @@ export type Service = {
       crop?: SanityImageCrop;
       _type: 'image';
     };
+    imageBackgroundType?: 'fixed' | 'dynamic';
+    imageBackgroundLayer?: 'layer1' | 'layer2';
     videoUrl?: string;
     videoType?: 'mp4' | 'webm';
     responsiveComponent?: string;
@@ -666,7 +672,8 @@ export type Page = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    backgroundMode?: 'transparent' | 'image' | 'colors' | 'video';
+    responsiveHeight?: 'fit-max' | 'h-[900px]';
+    backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
     colorWithDarkMode?: boolean;
     directionDeg?: number;
     colorBackground1?: Color;
@@ -689,6 +696,8 @@ export type Page = {
       crop?: SanityImageCrop;
       _type: 'image';
     };
+    imageBackgroundType?: 'fixed' | 'dynamic';
+    imageBackgroundLayer?: 'layer1' | 'layer2';
     videoUrl?: string;
     videoType?: 'mp4' | 'webm';
     responsiveComponent?: string;
@@ -1438,7 +1447,7 @@ export type GetPagesNavQueryResult = Array<{
   isHome: boolean | null;
 }>;
 // Variable: getPageDetailQuery
-// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  orderRank,  content,  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "isHome": isHome}
+// Query: *[_type == 'page' && slug.current == $slug][0] {  "id": _id,  "title": title,  "slug": slug.current,  orderRank,  content,  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "isHome": isHome}
 export type GetPageDetailQueryResult = {
   id: string;
   title: string | null;
@@ -1518,7 +1527,14 @@ export type GetPageDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
-    backgroundMode: 'colors' | 'image' | 'transparent' | 'video' | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;
@@ -1541,6 +1557,8 @@ export type GetPageDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;
@@ -1612,7 +1630,7 @@ export type GetPageDetailQueryResult = {
   isHome: boolean | null;
 } | null;
 // Variable: getHomeDetailQuery
-// Query: *[_type == 'page' && isHome == true][0] {  "id": _id,  "title": title,  "slug": slug.current,  orderRank,  content,  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "isHome": isHome}
+// Query: *[_type == 'page' && isHome == true][0] {  "id": _id,  "title": title,  "slug": slug.current,  orderRank,  content,  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "isHome": isHome}
 export type GetHomeDetailQueryResult = {
   id: string;
   title: string | null;
@@ -1692,7 +1710,14 @@ export type GetHomeDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
-    backgroundMode: 'colors' | 'image' | 'transparent' | 'video' | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;
@@ -1715,6 +1740,8 @@ export type GetHomeDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;
@@ -1798,7 +1825,7 @@ export type GetServicesNavQueryResult = Array<{
   } | null;
 }>;
 // Variable: getServiceDetailQuery
-// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current    },  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } }}
+// Query: *[_type == 'service' && slug.current == $slug][0] {  title,  // Fetch the title of the service  "unitBusiness": {      "title": unitBusiness->title,      "icon": unitBusiness-> icon,      "slug": unitBusiness->slug.current    },  content,  // Fetch the content of the service  'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings    _key,  // Directly include the _key for each heading    style,  // Include the style of the heading (h2, h3)    children[] {  // Retrieve all children elements      text  // Fetch the text from each child element    }  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } }}
 export type GetServiceDetailQueryResult = {
   title: string | null;
   unitBusiness: {
@@ -1896,7 +1923,14 @@ export type GetServiceDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
-    backgroundMode: 'colors' | 'image' | 'transparent' | 'video' | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;
@@ -1919,6 +1953,8 @@ export type GetServiceDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: 'image';
     } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;
@@ -2010,10 +2046,10 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
     '\n  *[_type == \'page\'] | order(orderRank asc) {\n    "id": coalesce(_id, ""), \n    "title": coalesce(title, ""),\n    "slug": select(\n      isHome == true => "",\n      slug.current\n    ),\n    "orderRank": orderRank,\n    isHome\n  }\n': GetPagesNavQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
-    '\n  *[_type == \'page\' && isHome == true][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetHomeDetailQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetPageDetailQueryResult;
+    '\n  *[_type == \'page\' && isHome == true][0] {\n  "id": _id,\n  "title": title,\n  "slug": slug.current,\n  orderRank,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "isHome": isHome\n}': GetHomeDetailQueryResult;
     '*[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n    "id": coalesce(slug.current, null),\n    "title": coalesce(title, null),\n    "slug": coalesce(slug.current, null),\n    "unitBusiness": select(\n      defined(unitBusiness) => {\n        "title": coalesce(unitBusiness->title, null),\n        "icon": coalesce(unitBusiness->icon, null),\n        "slug": coalesce(unitBusiness->slug.current, null)\n      },\n      null\n    )\n  }': GetServicesNavQueryResult;
-    '*[_type == \'service\' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n  content,  // Fetch the content of the service\n  \'tableOfContents\': content[style in [\'h2\', \'h3\']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n }\n}': GetServiceDetailQueryResult;
+    '*[_type == \'service\' && slug.current == $slug][0] {\n  title,  // Fetch the title of the service\n  "unitBusiness": {\n      "title": unitBusiness->title,\n      "icon": unitBusiness-> icon,\n      "slug": unitBusiness->slug.current\n    },\n  content,  // Fetch the content of the service\n  \'tableOfContents\': content[style in [\'h2\', \'h3\']] {  // Filter content for headings\n    _key,  // Directly include the _key for each heading\n    style,  // Include the style of the heading (h2, h3)\n    children[] {  // Retrieve all children elements\n      text  // Fetch the text from each child element\n    }\n  },\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n }\n}': GetServiceDetailQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;

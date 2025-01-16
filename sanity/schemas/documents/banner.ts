@@ -47,6 +47,18 @@ export default defineType({
       group: 'exterior',
     }),
     defineField({
+      name: 'responsiveHeight',
+      title: 'Tamaño Responsivo del Componente',
+      type: 'string',
+      group: 'exterior',
+      options: {
+        list: [
+          { title: 'fit-max', value: 'fit-max' },
+          { title: 'h-900', value: 'h-900' },
+        ],
+      },
+    }),
+    defineField({
       name: 'backgroundMode',
       title: 'Modo de Fondo',
       type: 'string',
@@ -56,6 +68,7 @@ export default defineType({
           { title: 'Imagen de Fondo', value: 'image' },
           { title: 'Colores de Fondo', value: 'colors' },
           { title: 'Video de Fondo', value: 'video' },
+          { title: 'Con Items', value: 'items' },
         ],
       },
       group: 'exterior',
@@ -157,6 +170,33 @@ export default defineType({
       hidden: ({ parent }) => parent.backgroundMode !== 'image',
     }),
     defineField({
+      name: 'imageBackgroundType',
+      title: 'Interacción de la Imagen de Fondo con el Scroll',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Fija', value: 'fixed' },
+          { title: 'Movible', value: 'dynamic' },
+        ],
+      },
+      group: 'exterior',
+      hidden: ({ parent }) => parent.backgroundMode !== 'image',
+    }),
+    defineField({
+      name: 'imageBackgroundLayer',
+      title:
+        'Elige una capa para usar sobre el componente con la imagen de fondo',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Layer1', value: 'layer1' },
+          { title: 'Layer2', value: 'layer2' },
+        ],
+      },
+      group: 'exterior',
+      hidden: ({ parent }) => parent.backgroundMode !== 'image',
+    }),
+    defineField({
       name: 'videoUrl',
       title: 'URL del video para ser usado de fondo', // Campo para el video
       type: 'url',
@@ -178,7 +218,7 @@ export default defineType({
     }),
     defineField({
       name: 'responsiveComponent',
-      title: 'Tamaño Responsivo del Componente',
+      title: 'Tamaño Responsivo del Componente (Usado por Banner1)',
       type: 'string',
       group: 'exterior',
     }),

@@ -8,7 +8,11 @@ import { type PTItemtype } from './PTextItemBanner';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 
-export default function Inner({ data }: { data: ComponentProps }) {
+export default function InnerBannerWithItems({
+  data,
+}: {
+  data: ComponentProps;
+}) {
   return (
     <div
       className={clsx(

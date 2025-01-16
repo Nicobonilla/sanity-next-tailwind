@@ -852,6 +852,23 @@
         },
         "optional": true
       },
+      "responsiveHeight": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "fit-max"
+            },
+            {
+              "type": "string",
+              "value": "h-[900px]"
+            }
+          ]
+        },
+        "optional": true
+      },
       "backgroundMode": {
         "type": "objectAttribute",
         "value": {
@@ -872,6 +889,10 @@
             {
               "type": "string",
               "value": "video"
+            },
+            {
+              "type": "string",
+              "value": "items"
             }
           ]
         },
@@ -1019,6 +1040,40 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "imageBackgroundType": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "fixed"
+            },
+            {
+              "type": "string",
+              "value": "dynamic"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "imageBackgroundLayer": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "layer1"
+            },
+            {
+              "type": "string",
+              "value": "layer2"
+            }
+          ]
         },
         "optional": true
       },
@@ -2651,6 +2706,23 @@
                 },
                 "optional": true
               },
+              "responsiveHeight": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "fit-max"
+                    },
+                    {
+                      "type": "string",
+                      "value": "h-[900px]"
+                    }
+                  ]
+                },
+                "optional": true
+              },
               "backgroundMode": {
                 "type": "objectAttribute",
                 "value": {
@@ -2671,6 +2743,10 @@
                     {
                       "type": "string",
                       "value": "video"
+                    },
+                    {
+                      "type": "string",
+                      "value": "items"
                     }
                   ]
                 },
@@ -2818,6 +2894,40 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "imageBackgroundType": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "fixed"
+                    },
+                    {
+                      "type": "string",
+                      "value": "dynamic"
+                    }
+                  ]
+                },
+                "optional": true
+              },
+              "imageBackgroundLayer": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "layer1"
+                    },
+                    {
+                      "type": "string",
+                      "value": "layer2"
+                    }
+                  ]
                 },
                 "optional": true
               },
@@ -4271,6 +4381,23 @@
                 },
                 "optional": true
               },
+              "responsiveHeight": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "fit-max"
+                    },
+                    {
+                      "type": "string",
+                      "value": "h-[900px]"
+                    }
+                  ]
+                },
+                "optional": true
+              },
               "backgroundMode": {
                 "type": "objectAttribute",
                 "value": {
@@ -4291,6 +4418,10 @@
                     {
                       "type": "string",
                       "value": "video"
+                    },
+                    {
+                      "type": "string",
+                      "value": "items"
                     }
                   ]
                 },
@@ -4438,6 +4569,40 @@
                       }
                     }
                   }
+                },
+                "optional": true
+              },
+              "imageBackgroundType": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "fixed"
+                    },
+                    {
+                      "type": "string",
+                      "value": "dynamic"
+                    }
+                  ]
+                },
+                "optional": true
+              },
+              "imageBackgroundLayer": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "layer1"
+                    },
+                    {
+                      "type": "string",
+                      "value": "layer2"
+                    }
+                  ]
                 },
                 "optional": true
               },

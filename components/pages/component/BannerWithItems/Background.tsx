@@ -7,6 +7,11 @@ import { useTheme } from '@/context/ThemeContext';
 import { CSSProperties, useEffect, useState, useMemo } from 'react';
 import { BackgroundProps, Color, Theme } from './types';
 import { getThemeStyle, defaultColor } from './utils';
+import Video from './Video';
+import Image from 'next/image';
+import Layer, { type LayerProps } from './Layer';
+import PTextHero from './PTextHero';
+import InnerBannerWithItems from './InnerBannerWithItems';
 
 export default function Background({ data, children }: BackgroundProps) {
   const { isDarkMode } = useTheme();
@@ -31,7 +36,7 @@ export default function Background({ data, children }: BackgroundProps) {
       };
     }
 
-    if (data.backgroundMode === 'colors') {
+    if (data.backgroundMode === 'colors' || data.backgroundMode === 'items') {
       const lightTheme: Theme = {
         color1: (data.colorBackground1 as Color) || defaultColor,
         color2: (data.colorBackground2 as Color) || defaultColor,
@@ -66,64 +71,53 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Get current style based on activeTheme
   const currentStyle = useMemo(() => {
-    if (data.backgroundMode === 'colors' && data.colorWithDarkMode) {
+    if (
+      data.backgroundMode === 'colors' ||
+      (data.backgroundMode === 'items' && data.colorWithDarkMode)
+    ) {
       return themeStyles[activeTheme];
     }
     return themeStyles.light;
   }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
+  console.log('responsiveHeight:', data.responsiveHeight);
   return (
     <div
-      className={clsx(
-        'relative w-full transition-colors duration-300',
-        data.backgroundMode === 'image' &&
-          'min-h-screen md:min-h-0 lg:max-h-fit',
-        data.backgroundMode === 'video' && 'h-[900px]'
-      )}
+      className={clsx('relative w-full transition-colors duration-300', {
+        'className="min-h-screen md:min-h-0 lg:max-h-fit':
+          data.responsiveHeight == 'fit-max',
+        'h-[900px]': data.responsiveHeight == 'h-900',
+      })}
     >
       {data.backgroundMode === 'video' && data.videoUrl && (
-        <div
-          className={clsx('absolute inset-0 z-0', currentStyle)} // Mantén currentStyle
-        >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
-          >
-            <source
-              src={data.videoUrl}
-              type={'video/' + (data.videoType || 'mp4')}
-            />
-          </video>
-          <div
-            className={clsx(
-              'absolute inset-0 z-10 transition-colors duration-300',
-              activeTheme === 'light' ? 'bg-white/80' : 'bg-black/80'
-            )}
-          />
-        </div>
+        <Video
+          videoUrl={data?.videoUrl}
+          videoType={data.videoType}
+          activeTheme={activeTheme}
+        />
       )}
-      {
-        <div
-          className={clsx(
-            'z-0 transition-all duration-300',
-            data.backgroundMode === 'image' && 'bg-cover bg-fixed bg-center'
-          )}
-          style={currentStyle}
-        >
-          {data.backgroundMode === 'image' && (
-            <div
-              className={clsx(
-                'absolute inset-0 z-10 transition-colors duration-300',
-                activeTheme === 'light' ? 'bg-white/80' : 'bg-black/80'
-              )}
-            />
-          )}
-          {children}
-        </div>
-      }
-      {children}
+      {data.imageBackgroundType == 'dynamic' && (
+        <Image
+          src={urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'}
+          alt="Hero image for the homepage"
+          className="inset-0 size-full object-cover object-top"
+          quality={100}
+          fill
+          priority
+        />
+      )}
+      {data.imageBackgroundType == 'fixed' ||
+        data.backgroundMode == 'colors' ||
+        (data.backgroundMode == 'items' && (
+          <div className={'absolute inset-0 z-10'} style={currentStyle}>
+            {' '}
+          </div>
+        ))}
+
+      {data.responsiveHeight == 'h-900' && <PTextHero data={data} />}
+      {data.responsiveHeight == 'fit-max' && children}
+      {data.imageBackgroundLayer && (
+        <Layer layer={data.imageBackgroundLayer} activeTheme={activeTheme} />
+      )}
     </div>
   );
 }
