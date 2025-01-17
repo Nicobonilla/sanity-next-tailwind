@@ -31,8 +31,6 @@ const NavbarContent = () => {
       <div
         className={`front-normal flex flex-row gap-8 pr-4 text-sm ${scrolling ? 'text-gray-500' : 'text-white'} `}
       >
-        <ThemeToggle />
-
         <button>
           <Link
             href={{
@@ -71,21 +69,10 @@ const NavbarContent = () => {
           <Contacto />
           <button className="p-2">
             <h1
-              className={`z-50 bg-gradient-to-r ${scrolling ? 'from-red-500' : 'from-white'} to-red-600 bg-clip-text px-5 font-semibold text-transparent`}
+              className={`z-50 bg-gradient-to-r ${scrolling ? 'from-red-500' : 'from-gray-600'} to-gray-700 bg-clip-text px-5 font-light text-transparent`}
             >
               Hablemos!
             </h1>
-          </button>
-          <button className="border-1 rounded-sm p-2">
-            <Link
-              href={{
-                pathname: '/portal-CLIENTES',
-              }}
-              passHref
-              className={`font-sm rounded-md px-2 py-1 transition-all duration-300 ease-in-out hover:text-red-600 ${scrolling ? 'text-gray-600' : 'border border-white text-white hover:bg-white'} `}
-            >
-              <span className="font-sm ml-2 font-normal">Iniciar Sesión</span>
-            </Link>
           </button>
         </div>
         <div

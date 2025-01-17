@@ -119,6 +119,11 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'withDarkTheme',
+      title: 'La web contempla Dark Theme?',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'notFoundImage',
       description:
         'This is the image that will show when an image is not found.',

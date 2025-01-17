@@ -15,34 +15,48 @@ export const useTheme = (): ThemeContextProps => {
   }
   return context;
 };
-
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+export const ThemeProvider = ({
+  withDarkMode,
+  children,
+}: {
+  withDarkMode: boolean;
+  children: React.ReactNode;
+}) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Cargar el tema desde localStorage al inicio
   useEffect(() => {
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-      setIsDarkMode(currentTheme === 'dark');
-      document.documentElement.classList.toggle(
-        'dark',
-        currentTheme === 'dark'
-      );
+    // Only handle theme if withDarkMode is true
+    if (withDarkMode) {
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme) {
+        setIsDarkMode(currentTheme === 'dark');
+        document.documentElement.classList.toggle(
+          'dark',
+          currentTheme === 'dark'
+        );
+      } else {
+        const prefersDark = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        ).matches;
+        setIsDarkMode(prefersDark);
+        document.documentElement.classList.toggle('dark', prefersDark);
+      }
     } else {
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      setIsDarkMode(prefersDark);
-      document.documentElement.classList.toggle('dark', prefersDark);
+      // If withDarkMode is false, force light theme
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
-  }, [isDarkMode]);
+  }, [withDarkMode]);
 
-  // Cambiar el tema y actualizar el DOM
   const toggleTheme = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark';
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark'); // Actualización inmediata
-    localStorage.setItem('theme', newTheme); // Persistir tema
+    // Only allow theme toggle if withDarkMode is true
+    if (withDarkMode) {
+      const newTheme = isDarkMode ? 'light' : 'dark';
+      setIsDarkMode(!isDarkMode);
+      document.documentElement.classList.toggle('dark', newTheme === 'dark');
+      localStorage.setItem('theme', newTheme);
+    }
   };
 
   return (

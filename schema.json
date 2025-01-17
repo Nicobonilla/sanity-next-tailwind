@@ -863,7 +863,7 @@
             },
             {
               "type": "string",
-              "value": "h-[900px]"
+              "value": "h-900"
             }
           ]
         },
@@ -2717,7 +2717,7 @@
                     },
                     {
                       "type": "string",
-                      "value": "h-[900px]"
+                      "value": "h-900"
                     }
                   ]
                 },
@@ -4392,7 +4392,7 @@
                     },
                     {
                       "type": "string",
-                      "value": "h-[900px]"
+                      "value": "h-900"
                     }
                   ]
                 },
@@ -5795,6 +5795,13 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "withDarkTheme": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },

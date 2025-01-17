@@ -6,12 +6,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
+import clsx from 'clsx';
 
-export default function SubsectionsFitWidth() {
+export default function SubsectionsOneColumn() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
   const { pagesLink } = useSanityContext();
   const { scrolling } = useScrollContext();
+
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -42,6 +44,7 @@ export default function SubsectionsFitWidth() {
 
   return (
     <nav className="hidden lg:block">
+      {/* MAIN NAV*/}
       <ul className="flex h-full items-center justify-center">
         {pagesLink?.map((link) => (
           <li
@@ -52,7 +55,10 @@ export default function SubsectionsFitWidth() {
           >
             <Link href={{ pathname: `/${link?.slug}` }} passHref>
               <span
-                className={`nav ${scrolling ? 'text-gray-600' : 'text-white'} inline-flex items-center justify-center uppercase`}
+                className={clsx(
+                  'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
+                  scrolling ? 'text-gray-600' : 'text-gray-500'
+                )}
               >
                 {link?.title}
               </span>
@@ -61,7 +67,7 @@ export default function SubsectionsFitWidth() {
           </li>
         ))}
       </ul>
-
+      {/* SUBSECTIONS */}
       {pagesLink?.map(
         (link) =>
           link?.subsections &&
@@ -69,49 +75,46 @@ export default function SubsectionsFitWidth() {
           activeLink === link.title && (
             <div
               key={link.title}
-              className="nav-bg-subsection absolute right-0 z-50 h-56 px-10 pb-5 lg:w-fit"
+              className="nav-bg-subsection absolute right-56 z-50 h-fit bg-black pb-10 lg:w-fit"
               onMouseEnter={() => handleMouseEnter(link.title || '')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="mx-auto w-fit max-w-screen-lg p-2">
-                <div className={`flex flex-row gap-8`}>
-                  <ul className="mt-2 flex flex-row flex-wrap gap-4">
-                    {groupedServices &&
-                      Object.keys(groupedServices).map((businessName) => {
-                        const servicesForBusiness =
-                          groupedServices[businessName];
-                        const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
-                        return (
-                          <>
-                            {business && (
-                              <li
-                                key={businessName}
-                                className="nav-subsection-desk block font-semibold"
-                              >
-                                <span>{business.title}</span>
-                                {servicesForBusiness.map((service, index) => (
-                                  <li key={service?.slug}>
-                                    <Link
-                                      href={{
-                                        pathname:
-                                          path.split('/')[1] == link.slug
-                                            ? service?.slug
-                                            : `${link?.slug}/${service?.slug}`,
-                                      }}
-                                      passHref
-                                      className="nav-subsection-desk block"
-                                    >
-                                      {service?.title}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </li>
-                            )}
-                          </>
-                        );
-                      })}
-                  </ul>
-                </div>
+              <div className="">
+                <ul className="mx-auto mt-1 flex w-[300px] flex-col">
+                  {groupedServices &&
+                    Object.keys(groupedServices).map((businessName) => {
+                      const servicesForBusiness = groupedServices[businessName];
+                      const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
+                      return (
+                        <li key={businessName} className="group relative">
+                          {' '}
+                          {/* Added relative positioning */}
+                          <div className="nav-subsection-desk flex flex-row items-center text-center text-sm font-light uppercase">
+                            <span className="w-full border-b-2 border-gray-200 py-2 text-center">
+                              {business?.title}
+                            </span>
+                            <ul className="absolute left-full top-0 hidden min-w-[200px] bg-black group-hover:block">
+                              {servicesForBusiness.map((service) => (
+                                <li key={service?.slug} className="py-2">
+                                  <Link
+                                    href={{
+                                      pathname:
+                                        path.split('/')[1] == link.slug
+                                          ? service?.slug
+                                          : `${link?.slug}/${service?.slug}`,
+                                    }}
+                                    className="nav-subsection-desk block text-white hover:text-red-400"
+                                  >
+                                    {service?.title}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                      );
+                    })}
+                </ul>
               </div>
             </div>
           )

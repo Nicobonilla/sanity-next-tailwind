@@ -3,13 +3,13 @@ import Icon from '@/components/shared/Icon';
 export default function Form() {
   function handlerClick() {}
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-700 md:flex-row md:justify-center">
-      <div className="relative max-w-md md:w-1/2">
-        <h2 className="text-xl font-bold text-red-600">
-          Asesoramiento Legal
+    <div className="form-h absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-700 md:flex-row md:justify-center">
+      <div className="relative z-10 max-w-md dark:text-slate-200 md:w-1/2">
+        <h2 className="text-xl font-bold text-red-600 dark:text-red-500">
+          Desarrollo de Software
         </h2>
         <h2 className="mb-4 text-3xl font-bold">
-          Abogado Sebastián Bonilla
+          Creamos alianzas para ser tu socio tecnológico
         </h2>
         <p className="">
           Nuestro objetivo es diseñar el servicio adecuado a tus necesidades,
@@ -89,6 +89,7 @@ export default function Form() {
           </button>
         </form>
       </div>
+      <div className="absolute inset-x-0 bottom-0 z-0 h-1/2 bg-red-500 md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-2/5"></div>
     </div>
   );
 }

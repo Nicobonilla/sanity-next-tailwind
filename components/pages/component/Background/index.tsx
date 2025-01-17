@@ -2,16 +2,14 @@
 
 import { urlForImage } from '@/sanity/lib/utils';
 import clsx from 'clsx';
-import { ComponentProps } from '@/components/pages/PageTemplate';
 import { useTheme } from '@/context/ThemeContext';
-import { CSSProperties, useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { BackgroundProps, Color, Theme } from './types';
 import { getThemeStyle, defaultColor } from './utils';
 import Video from './Video';
 import Image from 'next/image';
-import Layer, { type LayerProps } from './Layer';
+import Layer from './Layer';
 import PTextHero from './PTextHero';
-import InnerBannerWithItems from './InnerBannerWithItems';
 
 export default function Background({ data, children }: BackgroundProps) {
   const { isDarkMode } = useTheme();
@@ -25,17 +23,6 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Generate theme styles
   const themeStyles = useMemo(() => {
-    if (data.backgroundMode === 'image' && data.imageBackground) {
-      return {
-        light: {
-          backgroundImage: `url(${urlForImage(data.imageBackground)?.url()})`,
-        },
-        dark: {
-          backgroundImage: `url(${urlForImage(data.imageBackground)?.url()})`,
-        },
-      };
-    }
-
     if (data.backgroundMode === 'colors' || data.backgroundMode === 'items') {
       const lightTheme: Theme = {
         color1: (data.colorBackground1 as Color) || defaultColor,
@@ -71,15 +58,19 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Get current style based on activeTheme
   const currentStyle = useMemo(() => {
-    if (
-      data.backgroundMode === 'colors' ||
-      (data.backgroundMode === 'items' && data.colorWithDarkMode)
-    ) {
-      return themeStyles[activeTheme];
+    if (data.backgroundMode == 'colors' || data.backgroundMode == 'items') {
+      return data.colorWithDarkMode
+        ? themeStyles[activeTheme]
+        : themeStyles.light;
     }
     return themeStyles.light;
-  }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
-  console.log('responsiveHeight:', data.responsiveHeight);
+  }, [
+    activeTheme,
+    data.backgroundMode,
+    data.colorWithDarkMode,
+    data.imageBackgroundType,
+    themeStyles,
+  ]);
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {
@@ -88,10 +79,10 @@ export default function Background({ data, children }: BackgroundProps) {
         'h-[900px]': data.responsiveHeight == 'h-900',
       })}
     >
-      {data.backgroundMode === 'video' && data.videoUrl && (
+      {data.backgroundMode === 'video' && data.videoUrl && data?.videoType && (
         <Video
           videoUrl={data?.videoUrl}
-          videoType={data.videoType}
+          videoType={data?.videoType}
           activeTheme={activeTheme}
         />
       )}
@@ -105,16 +96,25 @@ export default function Background({ data, children }: BackgroundProps) {
           priority
         />
       )}
-      {data.imageBackgroundType == 'fixed' ||
-        data.backgroundMode == 'colors' ||
+      {data.backgroundMode == 'colors' ||
         (data.backgroundMode == 'items' && (
           <div className={'absolute inset-0 z-10'} style={currentStyle}>
             {' '}
           </div>
         ))}
+      {data.imageBackgroundType === 'fixed' && (
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-fixed bg-center"
+          style={{
+            backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || ''})`,
+          }}
+        />
+      )}
 
-      {data.responsiveHeight == 'h-900' && <PTextHero data={data} />}
-      {data.responsiveHeight == 'fit-max' && children}
+      {data.responsiveHeight == 'h-900' &&
+        data.typeComponentValue != 'heroForm' && <PTextHero data={data} />}
+      {data.responsiveHeight == 'fit-max' ||
+        (data.typeComponentValue == 'heroForm' && children)}
       {data.imageBackgroundLayer && (
         <Layer layer={data.imageBackgroundLayer} activeTheme={activeTheme} />
       )}

@@ -5,6 +5,7 @@ import {
   getComponentListFetch,
   getPagesNavFetch,
   getServicesNavFetch,
+  getSettingsFetch,
 } from '@/sanity/lib/fetch';
 import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
@@ -25,13 +26,14 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 // Async function to fetch data
 async function getData() {
   try {
-    const [pages, servicesList, componentList] = await Promise.all([
+    const [pages, servicesList, componentList, settings] = await Promise.all([
       getPagesNavFetch(),
       getServicesNavFetch(),
       getComponentListFetch(),
+      getSettingsFetch(),
     ]);
 
-    return { pages, servicesList, componentList };
+    return { pages, servicesList, componentList, settings };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw new Error('Failed to fetch necessary data for the application');
@@ -45,9 +47,9 @@ export default async function RootLayout({
 }) {
   try {
     // Fetching data for the layout (pages, services, and components)
-    const { pages, servicesList, componentList } = await getData();
+    const { pages, servicesList, componentList, settings } = await getData();
     // Error handling if no data is returned
-    if (!pages || !servicesList || !componentList) {
+    if (!pages || !servicesList || !componentList || !settings) {
       throw new Error('Essential data is missing');
     }
 
@@ -78,7 +80,7 @@ export default async function RootLayout({
             <SanityContextProvider
               initialData={initialData as SanityContextType}
             >
-              <ThemeProvider>
+              <ThemeProvider withDarkMode={settings.withDarkTheme || false}>
                 <Navbar />
                 <main className="grow flex-col">
                   {children}

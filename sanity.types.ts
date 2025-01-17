@@ -159,7 +159,7 @@ export type Banner = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: 'component';
   };
-  responsiveHeight?: 'fit-max' | 'h-[900px]';
+  responsiveHeight?: 'fit-max' | 'h-900';
   backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
   colorWithDarkMode?: boolean;
   directionDeg?: number;
@@ -430,7 +430,7 @@ export type Service = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    responsiveHeight?: 'fit-max' | 'h-[900px]';
+    responsiveHeight?: 'fit-max' | 'h-900';
     backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
     colorWithDarkMode?: boolean;
     directionDeg?: number;
@@ -672,7 +672,7 @@ export type Page = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: 'component';
     };
-    responsiveHeight?: 'fit-max' | 'h-[900px]';
+    responsiveHeight?: 'fit-max' | 'h-900';
     backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
     colorWithDarkMode?: boolean;
     directionDeg?: number;
@@ -859,6 +859,7 @@ export type Settings = {
     metadataBase?: string;
     _type: 'image';
   };
+  withDarkTheme?: boolean;
   notFoundImage?: {
     asset?: {
       _ref: string;
@@ -1278,6 +1279,7 @@ export type SettingsQueryResult = {
     metadataBase?: string;
     _type: 'image';
   };
+  withDarkTheme?: boolean;
   notFoundImage?: {
     asset?: {
       _ref: string;
@@ -1534,7 +1536,7 @@ export type GetPageDetailQueryResult = {
       | 'transparent'
       | 'video'
       | null;
-    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;
@@ -1717,7 +1719,7 @@ export type GetHomeDetailQueryResult = {
       | 'transparent'
       | 'video'
       | null;
-    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;
@@ -1930,7 +1932,7 @@ export type GetServiceDetailQueryResult = {
       | 'transparent'
       | 'video'
       | null;
-    responsiveHeight: 'fit-max' | 'h-[900px]' | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
     colorWithDarkMode: boolean | null;
     colorBackground1: Color | null;
     colorBackground2: Color | null;

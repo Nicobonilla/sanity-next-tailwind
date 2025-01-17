@@ -95,21 +95,24 @@ export default defineType({
       title: 'Color de Fondo 1',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'colorBackground2',
       title: 'Color de Fondo 2',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'colorBackground3',
       title: 'Color de Fondo 3',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'colorBackgroundDark1',
@@ -118,6 +121,7 @@ export default defineType({
       group: 'colors',
       hidden: ({ parent }) =>
         parent.backgroundMode !== 'colors' ||
+        parent.backgroundMode !== 'items' ||
         parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
@@ -127,6 +131,7 @@ export default defineType({
       group: 'colors',
       hidden: ({ parent }) =>
         parent.backgroundMode !== 'colors' ||
+        parent.backgroundMode !== 'items' ||
         parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
@@ -136,6 +141,7 @@ export default defineType({
       group: 'colors',
       hidden: ({ parent }) =>
         parent.backgroundMode !== 'colors' ||
+        parent.backgroundMode !== 'items' ||
         parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
     }),
     defineField({
@@ -143,21 +149,24 @@ export default defineType({
       title: 'Posicion Color de Fondo 1',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'colorBackground2Position',
       title: 'Posicion Color de Fondo 2',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'colorBackground3Position',
       title: 'Posicion Color de Fondo 3',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => parent.backgroundMode !== 'colors',
+      hidden: ({ parent }) =>
+        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
     }),
     defineField({
       name: 'imageBackground',

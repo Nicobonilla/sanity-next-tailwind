@@ -1,3 +1,5 @@
+import { type ComponentProps } from '@/components/pages/PageTemplate';
+
 export interface BackgroundProps {
   data: ComponentProps;
   children: React.ReactNode;

@@ -22,7 +22,7 @@ export default function Logo() {
         <div className="z-50 flex items-center justify-center font-bitter">
           <h1
             className={clsx(
-              'z-50 text-3xl font-extrabold drop-shadow-2xl',
+              'z-50 text-3xl font-thin drop-shadow-2xl',
               'lg:-translate-y-3 lg:text-7xl',
               !scrolling && 'text-4xl md:text-7xl',
               // Only apply white text when both conditions are true
@@ -31,7 +31,7 @@ export default function Logo() {
                 : 'bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent'
             )}
           >
-            ONIT
+            SBonilla
           </h1>
           {/* Mostrar el sufijo opcional `.cl` */}
           {false && (

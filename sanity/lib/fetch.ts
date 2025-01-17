@@ -11,6 +11,7 @@ import {
   getPageDetailQuery,
   getPagesNavQuery,
   getHomeDetailQuery,
+  settingsQuery,
 } from '@/sanity/lib/queries';
 import {
   GetComponentListQueryResult,
@@ -19,6 +20,7 @@ import {
   GetPageDetailQueryResult,
   GetPagesNavQueryResult,
   GetServicesNavQueryResult,
+  SettingsQueryResult,
   type GetServiceDetailQueryResult,
 } from '@/sanity.types';
 /**
@@ -72,6 +74,23 @@ export async function sanityFetch<const QueryString extends string>({
   });
 }
 
+/* SETTINGS */
+export async function getSettingsFetch(): Promise<SettingsQueryResult | null> {
+  const query = settingsQuery;
+  try {
+    const data = (await sanityFetch({
+      query,
+    })) as SettingsQueryResult | null;
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return null; // Si no hay datos, retornamos null
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
+  }
+}
+
 /* MAIN PAGES */
 export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {
   const query = getPagesNavQuery;
@@ -88,13 +107,14 @@ export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null>
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
 }
+
 export async function getHomeDetailFetch(): Promise<GetHomeDetailQueryResult | null> {
   const query = getHomeDetailQuery;
   try {
     const data = (await sanityFetch({
       query,
     })) as GetHomeDetailQueryResult | null;
-    if (!data || (Array.isArray(data) && data.length === 0)) {
+    if (!data) {
       return null; // Si no hay datos, retornamos null
     }
 

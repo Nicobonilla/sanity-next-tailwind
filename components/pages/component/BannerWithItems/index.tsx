@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { ComponentProps } from '@/components/pages/PageTemplate';
-import Background from './Background';
-  import InnerBannerWithItems from './InnerBannerWithItems';
+import Background from '../Background';
+import InnerBannerWithItems from './InnerBannerWithItems';
 
 // Componente principal del Banner con fondo condicional
 export default function BannerWithItems({ data }: { data: ComponentProps }) {

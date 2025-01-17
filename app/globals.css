@@ -84,7 +84,7 @@
 
 @layer components {
   .nav {
-    @apply font-robotomono hover:font-semibold;
+    @apply font-robotomono text-sm hover:font-semibold;
   }
 }
 
@@ -96,7 +96,7 @@
 
 @layer components {
   .nav-subsection-desk {
-    @apply font-montserrat text-sm font-light text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
+    @apply font-montserrat text-xs font-light text-gray-600 transition-all duration-300 hover:font-semibold hover:text-gray-400;
   }
 }
 
@@ -107,7 +107,7 @@
 }
 @layer components {
   .nav-bg-subsection {
-    @apply bg-gradient-to-r from-white via-gray-200 to-white dark:bg-gradient-to-b dark:from-bodydark dark:via-gray-950 dark:to-bodydark;
+    @apply bg-gradient-to-r from-white via-gray-100 to-white;
   }
 }
 

@@ -1,12 +1,13 @@
 'use client';
 import SubsectionsFullWidth from './SubsectionsFullWidth';
 import SubsectionsFitWidth from './SubsectionsFitWidth';
+import SubsectionsOneColumn from './SubsectionsOneColumn';
+import MainNav from './MainNav';
 
 export default function DeskNav() {
   return (
-    <>
-      {/* <Simple links={links} /> */}
-      <SubsectionsFitWidth />
-    </>
+    <nav className="hidden lg:block">
+      <MainNav />
+    </nav>
   );
 }

@@ -14,9 +14,9 @@ export function formatPages(
 
   // Process pages, formatting subsections for the "servicios" page
   const formattedPages = pagesList.map((page) =>
-    page.title.toLowerCase() === 'servicios'
+    page?.slug && page?.slug.toLowerCase() === 'services'
       ? { ...page, subsections: servicesList as Links[] }
-      : page
+      : { ...page }
   );
 
   // Filter out invalid pages and return sorted by orderRank
