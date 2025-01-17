@@ -37,7 +37,7 @@ const SubsectionsContainer = ({
             onMouseLeave={onMouseLeave2}
           >
             <div className="nav-subsection-desk bottom-0 flex flex-row items-center uppercase text-center">
-              <span className="w-full border-b py-2 border-gray-200">
+              <span className="w-full border-b py-4 border-gray-200">
                 {name}
               </span>
 
