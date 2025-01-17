@@ -7,7 +7,7 @@ import { BinaryDocumentIcon } from '@sanity/icons';
 
 const page = defineType({
   name: 'page',
-  title: 'Page',
+  title: 'Menú - Páginas Principales',
   type: 'document', // Tipo de documento
   icon: BinaryDocumentIcon,
   fields: [

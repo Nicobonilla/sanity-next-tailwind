@@ -5,7 +5,7 @@ import Background from '../Background';
 const HeroForm = ({ data }: { data: ComponentProps }) => {
   return (
     <Background data={data}>
-      <Form />
+      <Form data={data} />
     </Background>
   );
 };

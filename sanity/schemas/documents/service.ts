@@ -1,11 +1,10 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
-import unitBusiness from './unitBusiness';
 
 export default defineType({
   name: 'service',
-  title: 'Servicio',
+  title: 'Servicios',
   type: 'document',
   icon: DocumentsIcon,
   fields: [

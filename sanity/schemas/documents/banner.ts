@@ -5,6 +5,7 @@ const validIdItems = [
   { carousel: '0cfd5a3b-5c9e-4410-85c8-820e96ebec2d' },
   { iconList: '38c27cb0-402a-46bb-afb7-6aabf1c3e1d6' },
   { bannerList: '67f4dffb-23de-4cf6-b79a-d491dd67e234' },
+  { banner4Images: '25ec25b1-ee22-4d28-ab77-436614616723' },
 ].map((item) => Object.values(item)[0]);
 
 export default defineType({

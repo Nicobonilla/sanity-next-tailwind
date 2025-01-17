@@ -3,7 +3,7 @@ import { DocumentsIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'unitBusiness',
-  title: 'Unidades de Negocios',
+  title: 'Áreas de Práctica',
   type: 'document',
   icon: DocumentsIcon,
   fields: [

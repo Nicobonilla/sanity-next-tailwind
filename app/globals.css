@@ -107,7 +107,7 @@
 }
 @layer components {
   .nav-bg-subsection {
-    @apply bg-gradient-to-r from-white via-gray-100 to-white;
+    @apply hover:bg-gradient-to-r hover:from-white hover:via-gray-50 hover:to-white;
   }
 }
 

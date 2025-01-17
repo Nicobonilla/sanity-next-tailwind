@@ -75,7 +75,7 @@ export const pageStructure = (
     );
 
     return S.list()
-      .title('Admin Menu Principal - ONIT')
+      .title('Abogado Sebastian Bonilla')
       .items([
         ...singletonItems,
         S.divider(),

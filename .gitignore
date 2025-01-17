@@ -42,8 +42,7 @@ next-env.d.ts
 /app/(web)/posts
 /app/(web)/actions.ts
 /components/global/Navbar/others
-/public/icons-bank
-/public/videos
+/public
 /components/shared/Faq.tsx
 /components/shared/empty
 /components/Banner.tsx

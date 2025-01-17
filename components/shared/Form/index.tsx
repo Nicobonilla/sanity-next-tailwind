@@ -1,29 +1,35 @@
+import { ComponentProps } from '@/components/pages/PageTemplate';
 import Icon from '@/components/shared/Icon';
+import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
+import { useSanityContext } from '@/context/SanityContext';
 
-export default function Form() {
+export default function Form({ data }: { data: ComponentProps }) {
+  const { pagesLink } = useSanityContext();
+  const groupedServices = groupServicesByBusiness(pagesLink);
+
   function handlerClick() {}
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-700 md:flex-row md:justify-center">
+    <div className="absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-600 md:flex-row md:justify-center">
       <div className="relative max-w-md md:w-1/2">
-        <h2 className="text-xl font-bold text-red-600">
+        <h2 className="font-bitter text-xl font-semibold text-red-700">
           Asesoramiento Legal
         </h2>
-        <h2 className="mb-4 text-3xl font-bold">
+        <h2 className="mb-4 font-montserrat text-3xl font-bold">
           Abogado Sebastián Bonilla
         </h2>
-        <p className="">
-          Nuestro objetivo es diseñar el servicio adecuado a tus necesidades,
-          oportunidades y posibilidades. Con visión estratégica para mejorar los
-          resultados de tu empresa
+        <p className="font-bitter">
+          Somos expertos en derecho familiar y laboral. Analizamos a fondo cada
+          caso y te ofrecemos información clara y oportuna para que tomes las
+          mejores decisiones
         </p>
       </div>
 
       <div className="relative z-20 mt-4 w-full max-w-md text-slate-700 md:w-1/2">
         <form className="relative rounded-lg bg-white p-6 shadow-md">
-          <h3 className="mb-4 text-center text-xl font-semibold">
+          <h3 className="mb-4 text-center font-montserrat text-xl font-semibold">
             ¿Quieres Recibir Más Información?
           </h3>
-          <p className="mb-4 text-center text-gray-500">
+          <p className="mb-4 text-center font-bitter text-gray-500">
             Un ejecutivo se contactará contigo
           </p>
           <div className="text-gray-500">
@@ -73,11 +79,20 @@ export default function Form() {
               required
             >
               <option>Selecciona una Opción</option>
-              <option>Branding</option>
-              <option>Web</option>
-              <option>App</option>
-              <option>Sistema de Información</option>
-              <option>Automatización</option>
+              <select className="your-select-classes">
+                {Object.entries(groupedServices).map(([name, business]) => (
+                  <optgroup key={name} label={name}>
+                    {business.map((service, index) => (
+                      <option
+                        key={`${name}-${index}`}
+                        value={service?.title || 'null'}
+                      >
+                        {service?.title}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
             </select>
           </div>
 

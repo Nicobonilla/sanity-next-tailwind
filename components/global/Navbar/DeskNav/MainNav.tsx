@@ -1,9 +1,7 @@
-import { Links } from '@/types';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useState } from 'react';
 import SubsectionsContainer from './SubsectionsContainer';
-import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
 import { groupServicesByBusiness } from './utils';
@@ -29,7 +27,7 @@ const MainNav = () => {
           <>
             <li
               key={link?.title}
-              className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 2xl:px-8"
+              className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 hover:bg-white 2xl:px-8"
               onMouseEnter={() => onMouseEnter(link?.title || '')}
               onMouseLeave={onMouseLeave}
             >

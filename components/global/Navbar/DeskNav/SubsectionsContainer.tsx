@@ -27,29 +27,39 @@ const SubsectionsContainer = ({
   console.log('link: ', link);
   console.log('activeLink: ', activeLink);
   return (
-    <div className="absolute inset-0 left-0 top-full z-50">
-      <ul className="nav-bg-subsection mx-auto flex h-fit w-[280px] flex-col">
+    <div className="absolute inset-0 -left-20 top-full z-50">
+      <ul className="mx-auto flex h-fit w-[200px] flex-col bg-white xl:w-[280px]">
         {Object.entries(groupedServices).map(([name, business]) => (
           <li
             key={name}
-            className="group relative"
+            className="nav-bg-subsection group relative"
             onMouseEnter={() => onMouseEnter2(name || '')}
             onMouseLeave={onMouseLeave2}
           >
-            <div className="nav-subsection-desk bottom-0 flex flex-row items-center uppercase text-center">
-              <span className="w-full border-b py-4 border-gray-200">
-                {name}
-              </span>
+            <div className="nav-subsection-desk bottom-0 flex flex-row items-center text-center uppercase">
+              <Link
+                href={{
+                  pathname: `/${link?.slug}/${business[0]?.unitBusiness?.slug}`,
+                }}
+                className="size-full py-4"
+              >
+                <span className="w-full border-b border-gray-200 py-4">
+                  {name}
+                </span>
+              </Link>
 
               {business.length > 1 && activeLink2 == name && (
-                <ul className="nav-bg-subsection absolute left-full top-0 flex min-w-[300px] flex-col divide-y divide-gray-200 hover:bg-white">
+                <ul className="absolute left-full top-0 flex min-w-[250px] flex-col divide-y divide-gray-200">
                   {business.map((service, index) => (
-                    <li key={index} className="py-2">
+                    <li
+                      key={index}
+                      className="nav-bg-subsection size-full bg-white py-3"
+                    >
                       <Link
                         href={{
                           pathname: `/${link?.slug}/${service?.slug}`,
                         }}
-                        className="nav-subsection-desk"
+                        className="nav-subsection-desk size-full"
                       >
                         {service?.title}
                       </Link>
