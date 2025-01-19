@@ -27,7 +27,7 @@ export default function Form() {
       <div className="relative z-20 mt-4 w-full max-w-md text-slate-700 md:w-1/2">
         <form className="relative rounded-lg bg-white p-6 shadow-md">
           <h3 className="mb-4 text-center font-montserrat text-xl font-semibold">
-            ¿Quieres Recibir Más Información?
+            ¿Quieres Recibir más Información?
           </h3>
           <p className="mb-4 text-center font-bitter text-gray-500">
             Un ejecutivo se contactará contigo
