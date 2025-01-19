@@ -1,11 +1,30 @@
 import PageTemplate from '@/components/pages/PageTemplate';
-import { GetHomeDetailQueryResult } from '@/sanity.types';
-import { getHomeDetailFetch } from '@/sanity/lib/fetch';
+import { GetHomeDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+import { getHomeDetailFetch, getSettingsFetch } from '@/sanity/lib/fetch';
+
+import type { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const currentPage = await getData();
+  return {
+    title: currentPage?.settings?.title,
+    openGraph: {
+      title: currentPage?.settings?.title || '',
+      type: 'website',
+    },
+    other: {
+      'table-of-contents': JSON.stringify(
+        'currentPage?.home?.components?.tableOfContents'
+      ), // need to retrieve the content of components to generate the table of contents
+    },
+  };
+}
 
 async function getData() {
   try {
-    const home: GetHomeDetailQueryResult | null = await getHomeDetailFetch();
-    return home;
+    const [home, settings]: [GetHomeDetailQueryResult, SettingsQueryResult] =
+      await Promise.all([getHomeDetailFetch(), getSettingsFetch()]);
+    return { home, settings };
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;
@@ -13,15 +32,15 @@ async function getData() {
 }
 
 export default async function Page() {
-  const currentPage: GetHomeDetailQueryResult | undefined = await getData();
+  const currentPage = await getData();
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }
 
   return (
     <>
-      {currentPage?.components ? (
-        <PageTemplate dataPage={currentPage} />
+      {currentPage.home?.components ? (
+        <PageTemplate dataPage={currentPage.home} />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}

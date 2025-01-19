@@ -23,6 +23,7 @@ import type { Links } from '@/types';
 import DisableDraftMode from '@/components/global/DisableDraftMode';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { LoadingProvider } from '@/context/LoadingContext';
 // Async function to fetch data
 async function getData() {
   try {
@@ -81,18 +82,20 @@ export default async function RootLayout({
               initialData={initialData as SanityContextType}
             >
               <ThemeProvider withDarkMode={settings.withDarkTheme || false}>
-                <Navbar />
-                <main className="grow flex-col">
-                  {children}
-                  <SanityLive />
-                  {isEnabled && (
-                    <>
-                      <DisableDraftMode />
-                      <VisualEditing />
-                    </>
-                  )}
-                </main>
-                <Footer />
+                <LoadingProvider>
+                  <Navbar />
+                  <main className="grow flex-col">
+                    {children}
+                    <SanityLive />
+                    {isEnabled && (
+                      <>
+                        <DisableDraftMode />
+                        <VisualEditing />
+                      </>
+                    )}
+                  </main>
+                  <Footer />
+                </LoadingProvider>
               </ThemeProvider>
             </SanityContextProvider>
           </ErrorBoundary>

@@ -1,5 +1,5 @@
 import { ComponentProps } from '@/components/pages/PageTemplate';
-import Icon from '@/components/shared/Icon';
+import Icon from '@/components/global/Icons/LucideIcon';
 import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
 import { useSanityContext } from '@/context/SanityContext';
 

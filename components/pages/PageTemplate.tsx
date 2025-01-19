@@ -1,13 +1,16 @@
 'use client';
+
 import dynamic from 'next/dynamic';
-import { useSanityContext } from '@/context/SanityContext';
+import { useEffect, useState } from 'react';
+import { useLoadingContext } from '@/context/LoadingContext';
+import { Spinner } from '@/components/global/Spinner';
 import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
+import Background from './component/Background';
 
-import Default from './Default';
-
+// Definiciones de tipos
 type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
 type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
 
@@ -18,59 +21,86 @@ type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
 export type ComponentProps = ComponentPageProps | ComponentServiceProps;
 
-export type ItemsProps = NonNullable<ComponentProps>['items'];
-export type ItemProps = NonNullable<ItemsProps>[number];
+// Tipo para el componente dinámico
+type DynamicComponentType = React.ComponentType<{
+  data: ComponentProps;
+}>;
 
-// Componente de página
+// Tipo para los componentes cargados
+interface LoadedComponent {
+  data: ComponentProps;
+  Component: DynamicComponentType;
+}
+
 export default function PageTemplate({
   dataPage,
 }: {
   dataPage?: GetPageDetailQueryResult | GetServiceDetailQueryResult;
 }) {
-  // Dynamically load the component based on its name
-  const { componentsMap } = useSanityContext();
+  const { isLoading, setLoading, setDataPage } = useLoadingContext();
+  const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
+    []
+  );
 
-  const DynamicComponent = (name: string) =>
-    dynamic<{ data: ComponentProps }>(() => import(`./component/${name}`), {
-      loading: () => <div>Cargando...</div>,
-      ssr: false,
-    });
-  // If there are no components, show a message
-  if (!dataPage?.components) {
-    return <div>No components available</div>;
+  useEffect(() => {
+    if (dataPage) {
+      setDataPage(dataPage);
+
+      const loadComponents = async () => {
+        if (!dataPage?.components) return;
+
+        try {
+          const loaded = await Promise.all(
+            dataPage.components.map(async (component) => {
+              const componentName = component?.typeComponentValue
+                ? component.typeComponentValue.charAt(0).toUpperCase() +
+                  component.typeComponentValue.slice(1)
+                : 'Default';
+
+              const DynamicComponent = dynamic<{ data: ComponentProps }>(
+                () =>
+                  import(`./component/${componentName}`).catch(() => {
+                    console.error(`Failed to load component: ${componentName}`);
+                    return import('./component/Default'); // Fallback component
+                  }),
+                {
+                  ssr: true,
+                  loading: () => null,
+                }
+              );
+
+              return {
+                data: component,
+                Component: DynamicComponent,
+              } satisfies LoadedComponent;
+            })
+          );
+
+          setLoadedComponents(loaded);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error loading components:', error);
+          setLoading(false);
+        }
+      };
+
+      loadComponents();
+    }
+  }, [dataPage, setDataPage, setLoading]);
+
+  if (
+    isLoading ||
+    (dataPage?.components &&
+      loadedComponents.length < dataPage?.components?.length)
+  ) {
+    return <Spinner />;
   }
+
   return (
-    <>
-      {dataPage?.components &&
-        dataPage.components.map(
-          (
-            component: ComponentPageProps | ComponentServiceProps,
-            index: number
-          ) => {
-            // Get the component name from the typeComponentValue
-            const componentName = component?.typeComponentValue
-              ? component.typeComponentValue.charAt(0).toUpperCase() +
-                component.typeComponentValue.slice(1)
-              : 'Default';
-
-            if (!componentName) {
-              console.error('componentName is null or undefined');
-              return <Default key={index} />;
-            }
-
-            // Dynamically load the component
-            const DComponent = DynamicComponent(componentName);
-            if (DComponent == null || DComponent == undefined) {
-              console.error('DynamicComponent is null or undefined');
-              return <Default key={index} />;
-            }
-
-            // Render the dynamic component or an error message
-            return (
-              <DComponent key={index} data={component as ComponentProps} />
-            );
-          }
-        )}
-    </>
+    <div className="opacity-100 transition-opacity duration-300">
+      {loadedComponents.map(({ Component, data }, index) => (
+        <Component key={index} data={data} />
+      ))}
+    </div>
   );
 }

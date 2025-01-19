@@ -6,7 +6,7 @@ import {
   EnvelopeIcon,
   ClockIcon,
 } from '@heroicons/react/24/solid';
-import Logo from '@/components/shared/Logo';
+import Logo from '@/components/global/Logo';
 
 export default function WPlike() {
   return (
@@ -16,7 +16,7 @@ export default function WPlike() {
           <div className="my-auto flex flex-col md:flex-row">
             <div className="flex flex-col md:w-1/2">
               <div className="mt-10 flex items-center justify-center">
-                <Logo  />
+                <Logo />
               </div>
 
               <div className="mx-5 flex items-center py-5 text-center leading-relaxed text-white">

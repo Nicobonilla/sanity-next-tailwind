@@ -24,37 +24,35 @@ const MainNav = () => {
     <div>
       <ul className="flex h-full items-center justify-center">
         {pagesLink?.map((link) => (
-          <>
-            <li
-              key={link?.title}
-              className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 hover:bg-white 2xl:px-8"
-              onMouseEnter={() => onMouseEnter(link?.title || '')}
-              onMouseLeave={onMouseLeave}
-            >
-              <Link href={{ pathname: `/${link?.slug}` }} passHref>
-                <span
-                  className={clsx(
-                    'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
-                    scrolling ? 'text-gray-600' : 'text-gray-500'
-                  )}
-                >
-                  {link?.title}
-                </span>
-                <div className="absolute w-0 border-b-2 border-gray-200 transition-all duration-300 ease-in-out group-hover:w-4/5 group-hover:xl:w-[70%] group-hover:2xl:w-3/5" />
-              </Link>
-              {link?.subsections &&
-                link.subsections?.length > 0 &&
-                activeLink === link.title && (
-                  <SubsectionsContainer
-                    link={link}
-                    activeLink={activeLink}
-                    groupedServices={groupedServices}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                  />
+          <li
+            key={link?.title}
+            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 hover:bg-white 2xl:px-8"
+            onMouseEnter={() => onMouseEnter(link?.title || '')}
+            onMouseLeave={onMouseLeave}
+          >
+            <Link href={{ pathname: `/${link?.slug}` }} passHref>
+              <span
+                className={clsx(
+                  'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
+                  scrolling ? 'text-gray-600' : 'text-gray-500'
                 )}
-            </li>
-          </>
+              >
+                {link?.title}
+              </span>
+              <div className="absolute w-0 border-b-2 border-gray-200 transition-all duration-300 ease-in-out group-hover:w-4/5 group-hover:xl:w-[70%] group-hover:2xl:w-3/5" />
+            </Link>
+            {link?.subsections &&
+              link.subsections?.length > 0 &&
+              activeLink === link.title && (
+                <SubsectionsContainer
+                  link={link}
+                  activeLink={activeLink}
+                  groupedServices={groupedServices}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                />
+              )}
+          </li>
         ))}
       </ul>
     </div>

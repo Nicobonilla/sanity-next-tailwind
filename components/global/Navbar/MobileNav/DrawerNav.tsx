@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Logo from '@/components/shared/Logo';
-import Icon from '@/components/shared/Icon';
+import Logo from '@/components/global/Logo';
+import Icon from '@/components/global/Icons/LucideIcon';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';

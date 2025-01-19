@@ -4,7 +4,7 @@ import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-
 import Image from 'next/image';
 import { ItemProps } from '@/components/pages/PageTemplate';
 import PTItemBanner, { type PTItemtype } from './PTextItemBanner';
-import Iconfy from '../../../shared/Icons/Iconfy';
+import Iconfy from '../../../global/Icons/Iconfy';
 
 interface ItemBannerProps {
   item: ItemProps;

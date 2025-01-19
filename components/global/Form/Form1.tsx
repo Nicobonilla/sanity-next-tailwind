@@ -1,4 +1,4 @@
-import Icon from '@/components/shared/Icon';
+import Icon from '@/components/global/Icons/LucideIcon';
 
 export default function Form1() {
   function handlerClick() {}

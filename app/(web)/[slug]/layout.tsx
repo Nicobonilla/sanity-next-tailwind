@@ -1,4 +1,4 @@
-import Form from '@/components/shared/Form';
+import Form from '@/components/global/Form';
 
 export { metadata, viewport } from 'next-sanity/studio';
 
