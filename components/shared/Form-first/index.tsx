@@ -1,6 +1,6 @@
 import Icon from '@/components/shared/Icon';
 
-export default function Form() {
+export default function Form1() {
   function handlerClick() {}
   return (
     <div className="form-h absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-700 md:flex-row md:justify-center">

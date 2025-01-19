@@ -3,7 +3,7 @@ import Icon from '@/components/shared/Icon';
 import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
 import { useSanityContext } from '@/context/SanityContext';
 
-export default function Form({ data }: { data: ComponentProps }) {
+export default function Form() {
   const { pagesLink } = useSanityContext();
   const groupedServices = groupServicesByBusiness(pagesLink);
 
