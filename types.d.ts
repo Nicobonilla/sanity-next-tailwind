@@ -1,7 +1,6 @@
 import { Protab } from 'next-sanity';
 import { UrlObject } from 'url';
 
-import { ComponentProps } from '@/components/pages/PageTemplate';
 type Content = ComponentProps['content'];
 
 export type UniteBusiness = {

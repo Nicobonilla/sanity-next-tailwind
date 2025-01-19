@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from '@portabletext/react';
 import PTBanner, { type PTBannerType } from '../BannerWithItems/PTextBanner';
-import { ComponentProps } from '@/components/pages/PageTemplate';
+import { ComponentProps } from '@/components/pages/types';
 
 export default function Banner1({ data }: { data: ComponentProps }) {
   const {
@@ -23,7 +23,7 @@ export default function Banner1({ data }: { data: ComponentProps }) {
           invertLayoutMobile ? 'flex-col' : 'flex-col-reverse',
           'md:justify-between',
           invertLayoutDesk ? 'md:flex-row' : 'md:flex-row-reverse',
-          'lg:max-w-screen-xl',
+          'lg:max-w-screen-xl'
         )}
       >
         {/* Imagen */}

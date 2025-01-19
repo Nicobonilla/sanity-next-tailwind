@@ -1,7 +1,7 @@
 import React from 'react';
 import { PortableTextComponents } from 'next-sanity';
 
-import { ComponentProps } from '@/components/pages/PageTemplate';
+import { ComponentProps } from '@/components/pages/types';
 import clsx from 'clsx';
 import Background from '../Background';
 

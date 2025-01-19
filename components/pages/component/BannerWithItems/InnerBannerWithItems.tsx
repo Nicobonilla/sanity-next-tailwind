@@ -1,5 +1,5 @@
 import { PortableText } from 'next-sanity';
-import { ComponentProps } from '@/components/pages/PageTemplate';
+import { ComponentProps } from '@/components/pages/types';
 import clsx from 'clsx';
 import PTextBanner, { type PTBannerType } from './PTextBanner';
 import Image from 'next/image';

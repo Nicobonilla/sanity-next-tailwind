@@ -1,4 +1,4 @@
-import { ComponentProps } from '@/components/pages/PageTemplate';
+import { ComponentProps } from '@/components/pages/types';
 import Icon from '@/components/global/Icons/LucideIcon';
 import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
 import { useSanityContext } from '@/context/SanityContext';
