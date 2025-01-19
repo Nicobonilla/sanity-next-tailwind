@@ -64,13 +64,7 @@ export default function Background({ data, children }: BackgroundProps) {
         : themeStyles.light;
     }
     return themeStyles.light;
-  }, [
-    activeTheme,
-    data.backgroundMode,
-    data.colorWithDarkMode,
-    data.imageBackgroundType,
-    themeStyles,
-  ]);
+  }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {
@@ -116,7 +110,7 @@ export default function Background({ data, children }: BackgroundProps) {
       {data.responsiveHeight == 'fit-max' ||
         (data.typeComponentValue == 'heroForm' && children)}
       {data.imageBackgroundLayer && (
-        <Layer layer={data.imageBackgroundLayer} activeTheme={activeTheme} />
+        <Layer layer={data.imageBackgroundLayer} activeTheme={activeTheme} currentStyle={currentStyle} />
       )}
     </div>
   );

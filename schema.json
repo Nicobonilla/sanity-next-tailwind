@@ -1072,6 +1072,10 @@
             {
               "type": "string",
               "value": "layer2"
+            },
+            {
+              "type": "string",
+              "value": "layer3"
             }
           ]
         },
@@ -2926,6 +2930,10 @@
                     {
                       "type": "string",
                       "value": "layer2"
+                    },
+                    {
+                      "type": "string",
+                      "value": "layer3"
                     }
                   ]
                 },
@@ -4601,6 +4609,10 @@
                     {
                       "type": "string",
                       "value": "layer2"
+                    },
+                    {
+                      "type": "string",
+                      "value": "layer3"
                     }
                   ]
                 },

@@ -184,7 +184,7 @@ export type Banner = {
     _type: 'image';
   };
   imageBackgroundType?: 'fixed' | 'dynamic';
-  imageBackgroundLayer?: 'layer1' | 'layer2';
+  imageBackgroundLayer?: 'layer1' | 'layer2' | 'layer3';
   videoUrl?: string;
   videoType?: 'mp4' | 'webm';
   responsiveComponent?: string;
@@ -455,7 +455,7 @@ export type Service = {
       _type: 'image';
     };
     imageBackgroundType?: 'fixed' | 'dynamic';
-    imageBackgroundLayer?: 'layer1' | 'layer2';
+    imageBackgroundLayer?: 'layer1' | 'layer2' | 'layer3';
     videoUrl?: string;
     videoType?: 'mp4' | 'webm';
     responsiveComponent?: string;
@@ -697,7 +697,7 @@ export type Page = {
       _type: 'image';
     };
     imageBackgroundType?: 'fixed' | 'dynamic';
-    imageBackgroundLayer?: 'layer1' | 'layer2';
+    imageBackgroundLayer?: 'layer1' | 'layer2' | 'layer3';
     videoUrl?: string;
     videoType?: 'mp4' | 'webm';
     responsiveComponent?: string;
@@ -1560,7 +1560,7 @@ export type GetPageDetailQueryResult = {
       _type: 'image';
     } | null;
     imageBackgroundType: 'dynamic' | 'fixed' | null;
-    imageBackgroundLayer: 'layer1' | 'layer2' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | 'layer3' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;
@@ -1743,7 +1743,7 @@ export type GetHomeDetailQueryResult = {
       _type: 'image';
     } | null;
     imageBackgroundType: 'dynamic' | 'fixed' | null;
-    imageBackgroundLayer: 'layer1' | 'layer2' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | 'layer3' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;
@@ -1956,7 +1956,7 @@ export type GetServiceDetailQueryResult = {
       _type: 'image';
     } | null;
     imageBackgroundType: 'dynamic' | 'fixed' | null;
-    imageBackgroundLayer: 'layer1' | 'layer2' | null;
+    imageBackgroundLayer: 'layer1' | 'layer2' | 'layer3' | null;
     videoUrl: string | null;
     videoType: 'mp4' | 'webm' | null;
     responsiveComponent: string | null;

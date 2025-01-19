@@ -11,12 +11,10 @@ import { Highlight1 } from '../../../shared/Highlight1';
 export const PTextBanner: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="font-montserrat font-bold uppercase text-white">
-        {children}
-      </h1>
+      <h1 className="font-montserrat font-extrabold uppercase">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="mb-2 font-bitter text-3xl font-semibold uppercase">
+      <h2 className="mb-2 font-montserrat text-3xl font-bold uppercase drop-shadow-lg">
         {children}
       </h2>
     ),
@@ -34,12 +32,12 @@ export default function Highlight({ data }: { data: ComponentProps }) {
       <div
         className="z-0 h-full bg-cover bg-fixed bg-center"
         style={{
-          backgroundImage: `url(${urlForImage(data.image)?.url() || '/meeting.jpeg'})`,
+          backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'})`,
         }}
       >
         <div
           className={clsx(
-            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-white shadow-lg',
+            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-neutral-800 shadow-lg',
             'xs5: px-10',
             'lg:max-w-none'
           )}
@@ -47,7 +45,7 @@ export default function Highlight({ data }: { data: ComponentProps }) {
           <PortableText components={PTextBanner} value={data.content || []} />
         </div>
       </div>
-      <div className="absolute inset-0 z-10 size-full bg-red-600/65 dark:bg-red-950/80"></div>
+      <div className="absolute inset-0 z-10 size-full bg-white/65"></div>
     </div>
   );
 }

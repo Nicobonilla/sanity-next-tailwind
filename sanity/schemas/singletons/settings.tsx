@@ -5,25 +5,36 @@ import * as demo from '@/sanity/lib/demo';
 
 export default defineType({
   name: 'settings',
-  title: 'Settings',
+  title: 'Configuración General',
   type: 'document',
   icon: CogIcon,
+  groups: [
+    {
+      name: 'structure',
+      title: 'Estructura de la Página',
+      default: true,
+    },
+    {
+      name: 'seo',
+      title: 'SEO',
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
-      description: 'This field is the title of your blog.',
-      title: 'Title',
+      title: 'Título de la página',
       type: 'string',
       initialValue: demo.title,
       validation: (rule) => rule.required(),
+      group: 'structure',
     }),
     defineField({
-      name: 'description',
-      description:
-        'Used both for the <meta> description tag for SEO, and the blog subheader.',
+      name: 'description',  
+      description: 'Usado tanto para la descripción de <meta> tag para SEO.',
       title: 'Description',
       type: 'array',
       initialValue: demo.description,
+      group: 'seo',
       of: [
         defineArrayMember({
           type: 'block',
@@ -52,10 +63,10 @@ export default defineType({
     }),
     defineField({
       name: 'footer',
-      description:
-        'This is a block of text that will be displayed at the bottom of the page.',
-      title: 'Footer Info',
+      description: 'Este texto se mostrará al final de la página.',
+      title: 'Pie de página',
       type: 'array',
+      group: 'structure',
       of: [
         defineArrayMember({
           type: 'block',
@@ -82,7 +93,8 @@ export default defineType({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',
-      description: 'Displayed on social cards and search engine results.',
+      description:
+        'Imagen que se mostrará en tarjeta de redes sociales (cuando se comparte la página).',
       options: {
         hotspot: true,
         aiAssist: {
@@ -92,8 +104,8 @@ export default defineType({
       fields: [
         defineField({
           name: 'alt',
-          description: 'Important for accessibility and SEO.',
-          title: 'Alternative text',
+          description: 'Importante para accesabilidad y SEO.',
+          title: 'Texto alternativo',
           type: 'string',
           validation: (rule) => {
             return rule.custom((alt, context) => {
@@ -103,6 +115,7 @@ export default defineType({
               return true;
             });
           },
+          group: 'seo',
         }),
         defineField({
           name: 'metadataBase',
@@ -122,6 +135,7 @@ export default defineType({
       name: 'withDarkTheme',
       title: 'La web contempla Dark Theme?',
       type: 'boolean',
+      group: 'structure',
     }),
     defineField({
       name: 'notFoundImage',
@@ -129,6 +143,7 @@ export default defineType({
         'This is the image that will show when an image is not found.',
       title: 'Not Found Image',
       type: 'image',
+      group: 'structure',
     }),
   ],
   preview: {

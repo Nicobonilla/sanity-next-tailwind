@@ -30,12 +30,12 @@ function ServiceCard({
           components={{
             block: {
               normal: ({ children }) => (
-                <p className="mt-2 text-sm text-white/90 sm:text-base">
+                <p className="mt-2 font-bitter text-sm text-white/90 sm:text-base">
                   {children}
                 </p>
               ),
               h1: ({ children }) => (
-                <h3 className="text-xl font-bold text-white sm:text-2xl">
+                <h3 className="font-montserrat text-xl font-bold text-white sm:text-2xl">
                   {children}
                 </h3>
               ),
@@ -57,12 +57,12 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
             components={{
               block: {
                 h1: ({ children }) => (
-                  <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
+                  <h2 className="mb-4 font-montserrat text-3xl font-bold text-white sm:text-4xl">
                     {children}
                   </h2>
                 ),
                 normal: ({ children }) => (
-                  <p className="mx-auto text-center text-lg text-white/90">
+                  <p className="mx-auto text-center font-bitter text-lg text-white/90">
                     {children}
                   </p>
                 ),
@@ -71,7 +71,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:h-[700px] lg:w-[1000px] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3">
+        <div className="grid min-h-[800px] gap-4 md:grid-cols-2 lg:h-[700px] lg:w-[1000px] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3">
           {data.items?.map((service, index) => (
             <ServiceCard key={index} index={index} service={service} />
           ))}

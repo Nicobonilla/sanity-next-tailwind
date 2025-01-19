@@ -5,7 +5,6 @@
 import { definePlugin, type DocumentDefinition } from 'sanity';
 import { type StructureResolver } from 'sanity/structure';
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
-import { PlayIcon } from '@sanity/icons';
 
 export const singletonPlugin = definePlugin((types: string[]) => {
   return {

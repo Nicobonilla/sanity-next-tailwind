@@ -1,12 +1,15 @@
 import clsx from 'clsx';
+import { CSSProperties } from 'react';
 export type LayerProps = {
   layer: string;
   activeTheme: string;
+  currentStyle: CSSProperties;
 };
 
 export default function Layer({
   layer,
   activeTheme,
+  currentStyle,
 }: LayerProps): JSX.Element | undefined {
   switch (layer) {
     case 'layer2':
@@ -18,7 +21,11 @@ export default function Layer({
           <div className="layer layer3 z-40 bg-gray-100/40 dark:bg-black/40" />
         </div>
       );
-    default:
+    case 'layer3':
+      return (
+        <div className={'absolute inset-0 z-10'} style={currentStyle}></div>
+      );
+    case 'layer1':
       return (
         <div
           className={clsx(

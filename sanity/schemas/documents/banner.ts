@@ -201,6 +201,7 @@ export default defineType({
         list: [
           { title: 'Layer1', value: 'layer1' },
           { title: 'Layer2', value: 'layer2' },
+          { title: 'Layer3', value: 'layer3' },
         ],
       },
       group: 'exterior',

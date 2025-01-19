@@ -1,12 +1,11 @@
 import { PortableText } from 'next-sanity';
 import { ComponentProps } from '@/components/pages/PageTemplate';
-import { ItemProps } from '@/components/pages/PageTemplate';
-import ItemBanner from './ItemBanner';
 import clsx from 'clsx';
 import PTextBanner, { type PTBannerType } from './PTextBanner';
-import { type PTItemtype } from './PTextItemBanner';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
+import Items from './Items';
+import { PTItemtype } from './PTextItemBanner';
 
 export default function InnerBannerWithItems({
   data,
@@ -41,7 +40,7 @@ export default function InnerBannerWithItems({
 
       {/* Responsive Image */}
       <div
-        className={clsx('relative flex flex-col gap-6', {
+        className={clsx('relative flex flex-col gap-6 bg-red-500', {
           'lg:flex-row':
             data.imagePosition === 'right' || data.imagePosition === 'left',
         })}
@@ -59,16 +58,10 @@ export default function InnerBannerWithItems({
             'grid max-w-full grid-cols-1 gap-6 md:grid-cols-2'
           )}
         >
-          {data?.items?.map(
-            (item, index) =>
-              item && (
-                <ItemBanner
-                  key={index}
-                  item={item as ItemProps}
-                  PTextItem={data?.PTextItem as keyof PTItemtype}
-                />
-              )
-          )}
+          <Items
+            items={data.items}
+            PText={data.PTextItem as keyof PTItemtype}
+          />
         </div>
 
         {/* Image Section */}

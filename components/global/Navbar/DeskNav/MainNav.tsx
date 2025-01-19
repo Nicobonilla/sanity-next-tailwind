@@ -21,7 +21,7 @@ const MainNav = () => {
     setActiveLink(null);
   };
   return (
-    <>
+    <div>
       <ul className="flex h-full items-center justify-center">
         {pagesLink?.map((link) => (
           <>
@@ -57,7 +57,7 @@ const MainNav = () => {
           </>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 
