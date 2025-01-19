@@ -2,7 +2,7 @@ import React from 'react';
 import { PortableText } from 'next-sanity';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
 import Image from 'next/image';
-import { ItemProps } from '@/components/pages/PageTemplate';
+import { ItemProps } from '@/components/pages/types';
 import PTItemBanner, { type PTItemtype } from './PTextItemBanner';
 import Iconfy from '../../../global/Icons/Iconfy';
 

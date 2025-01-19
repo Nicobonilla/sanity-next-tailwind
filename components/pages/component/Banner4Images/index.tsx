@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { type ComponentProps } from '../../PageTemplate';
 import { PortableText } from 'next-sanity';
 import { urlForImage } from '@/sanity/lib/utils';
-import { type ItemProps } from '../../PageTemplate';
+import { type ItemProps } from '../../types';
 
 function ServiceCard({
   service,

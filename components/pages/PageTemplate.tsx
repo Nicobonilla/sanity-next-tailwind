@@ -9,28 +9,7 @@ import {
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
 import Background from './component/Background';
-
-// Definiciones de tipos
-type ComponentsPageProps = NonNullable<GetPageDetailQueryResult>['components'];
-type ComponentPageProps = NonNullable<ComponentsPageProps>[number];
-
-type ComponentsServiceProps =
-  NonNullable<GetServiceDetailQueryResult>['components'];
-type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
-
-export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
-export type ComponentProps = ComponentPageProps | ComponentServiceProps;
-
-// Tipo para el componente dinámico
-type DynamicComponentType = React.ComponentType<{
-  data: ComponentProps;
-}>;
-
-// Tipo para los componentes cargados
-interface LoadedComponent {
-  data: ComponentProps;
-  Component: DynamicComponentType;
-}
+import { ComponentProps, LoadedComponent } from './types';
 
 export default function PageTemplate({
   dataPage,

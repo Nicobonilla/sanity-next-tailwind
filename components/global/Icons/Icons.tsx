@@ -2,7 +2,7 @@ import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-
 import Iconfy from './Iconfy';
 import Image from 'next/image';
 import React from 'react';
-import type { ItemProps } from '@/components/pages/PageTemplate';
+import { type ItemProps } from '@/components/pages/types';
 
 export type IconProps = {
   svg?: string;
