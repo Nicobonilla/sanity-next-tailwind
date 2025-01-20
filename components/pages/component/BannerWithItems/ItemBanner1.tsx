@@ -5,6 +5,7 @@ import { ItemProps } from '@/components/types';
 import PTItemBanner, {
   type PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';
+import { IconsList } from '@/sanity.types';
 
 export default function ItemBanner1({
   item,
@@ -20,11 +21,10 @@ export default function ItemBanner1({
     ? PTItemBanner[PTextItem as keyof PTItemtype]
     : PTItemBanner.PT1;
 
-  const hasSvgIconList = item.svgIconList;
-  const hasSvgIcon = item.svgIcon;
-  const hasImage = item.image;
-  const hasContent = item.content;
-
+  const hasSvgIconList: IconsList = item.svgIconList;
+  const hasSvgIcon: string = item.svgIcon;
+  const hasImage: boolean = item.image;
+  
   return (
     <div className="hover:border-1 mb-10 flex h-full flex-col items-start rounded-3xl border-gray-300 text-center hover:cursor-pointer hover:shadow-lg xs4:h-72 md:mb-0">
       {/* Contenedor de íconos o imágenes */}
