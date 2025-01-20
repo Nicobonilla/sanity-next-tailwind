@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import Items from './Items';
 import { PTItemtype } from './PTextItemBanner';
+import ImageItem from './Image';
 
 export default function InnerBannerWithItems({
   data,
@@ -45,41 +46,15 @@ export default function InnerBannerWithItems({
             data.imagePosition === 'right' || data.imagePosition === 'left',
         })}
       >
-        {/* Items Section */}
-        <div
-          className={clsx(
-            'flex-1',
-            {
-              'lg:w-2/3':
-                data.imagePosition === 'right' || data.imagePosition === 'left',
-              'order-2':
-                data.imagePosition === 'top' || data.imagePosition === 'left',
-            },
-            'grid max-w-full grid-cols-1 gap-6 md:grid-cols-2'
-          )}
-        >
-          <Items
-            items={data.items}
-            PText={data.PTextItem as keyof PTItemtype}
-          />
-        </div>
-
-        {/* Image Section */}
-        {data.image && (
-          <div
-            className={clsx('relative z-50 h-96 w-full lg:h-auto', {
-              'lg:w-1/3':
-                data.imagePosition === 'right' || data.imagePosition === 'left',
-            })}
-          >
-            <Image
-              src={urlForImage(data.image)?.url()}
-              fill
-              alt="Banner Image"
-              className="overflow-hidden object-cover object-top lg:overflow-visible"
-            />
-          </div>
-        )}
+        <Items
+          items={data.items}
+          PText={data.PTextItem as keyof PTItemtype}
+          imagePosition={data.imagePosition}
+        />
+        <ImageItem
+          src={urlForImage(data.image)?.url()}
+          imagePosition={data.imagePosition}
+        />
       </div>
     </div>
   );
