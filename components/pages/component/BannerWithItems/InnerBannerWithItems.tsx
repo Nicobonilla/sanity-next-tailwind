@@ -2,7 +2,6 @@ import { PortableText } from 'next-sanity';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import PTextBanner, { type PTBannerType } from './PTextBanner';
-import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import Items from './Items';
 import { PTItemtype } from './PTextItemBanner';
@@ -39,7 +38,6 @@ export default function InnerBannerWithItems({
         </div>
       )}
 
-      {/* Responsive Image */}
       <div
         className={clsx('relative flex flex-col gap-6 bg-red-500', {
           'lg:flex-row':
