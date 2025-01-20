@@ -70,7 +70,11 @@ export async function sanityFetch<const QueryString extends string>({
     stega: actualStega,
     perspective: 'published',
     useCdn: true,
-    next: { revalidate: 40 }, // Revalida cada 10 minutos en producción
+    next: {
+      revalidate: parseInt(
+        process.env.NEXT_PUBLIC_SANITY_REVALIDATION_TIME || '604800'
+      ),
+    }, // Revalida cada 10 minutos en producción
   });
 }
 
