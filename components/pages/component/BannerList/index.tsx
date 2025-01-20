@@ -1,7 +1,7 @@
 import React from 'react';
-import { PortableTextComponents } from 'next-sanity';
+import { PortableTextComponents, PortableText } from 'next-sanity';
 
-import { ComponentProps } from '@/components/types';
+import { ComponentProps, ItemProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';
 
@@ -36,7 +36,6 @@ export const PTextItem: PortableTextComponents = {
     ),
   },
 };
-
 // Componente Inner: Renderiza el contenido y los elementos dentro del banner
 export default function BannerList({ data }: { data: ComponentProps }) {
   return (
@@ -61,39 +60,44 @@ export default function BannerList({ data }: { data: ComponentProps }) {
               'lg:h-[800px] lg:max-w-[1350px] lg:grid-cols-5'
             )}
           >
-            {data.content.map((line, indexItem) => {
-              return (
-                line?.children?.[0].text && (
-                  <div
-                    key={indexItem}
-                    className={clsx(
-                      'group relative h-20 cursor-pointer place-content-center overflow-hidden bg-white/70 p-2 dark:bg-black/70 sm:h-24'
-                    )}
-                  >
-                    {line?.children?.[0].text
-                      .split(':')
-                      .map((text, indexContent) => {
-                        return (
-                          <h1
-                            key={indexContent}
-                            className={clsx(
-                              'absolute w-full text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
-                              {
-                                'group-hover:translate-x-full group-hover:opacity-0':
-                                  indexContent === 0,
-                                'translate-x-[-100%] opacity-0 group-hover:translate-x-0 group-hover:opacity-100':
-                                  indexContent === 1,
-                              }
-                            )}
-                          >
-                            {text}
-                          </h1>
-                        );
-                      })}
-                  </div>
-                )
-              );
-            })}
+            {data.content.map(
+              (
+                line: ItemProps['content'][number] | null,
+                indexItem: number
+              ) => {
+                return (
+                  line?.children?.[0].text && (
+                    <div
+                      key={indexItem}
+                      className={clsx(
+                        'group relative h-20 cursor-pointer place-content-center overflow-hidden bg-white/70 p-2 dark:bg-black/70 sm:h-24'
+                      )}
+                    >
+                      {line?.children?.[0].text
+                        .split(':')
+                        .map((text: string, indexContent: number) => {
+                          return (
+                            <h1
+                              key={indexContent}
+                              className={clsx(
+                                'absolute w-full text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
+                                {
+                                  'group-hover:translate-x-full group-hover:opacity-0':
+                                    indexContent === 0,
+                                  'translate-x-[-100%] opacity-0 group-hover:translate-x-0 group-hover:opacity-100':
+                                    indexContent === 1,
+                                }
+                              )}
+                            >
+                              {text}
+                            </h1>
+                          );
+                        })}
+                    </div>
+                  )
+                );
+              }
+            )}
           </div>
         )}
       </div>
