@@ -1,9 +1,11 @@
 import {
   Inter,
   Roboto_Flex,
+  Roboto_Slab,
   Roboto_Mono,
   Crimson_Pro,
   Montserrat,
+  Bitter,
 } from 'next/font/google';
 
 const inter = Inter({
@@ -12,19 +14,25 @@ const inter = Inter({
   display: 'swap',
 });
 
-const robotoFlex = Roboto_Flex({
+const roboto_flex = Roboto_Flex({
   variable: '--font-roboto-flex',
   subsets: ['latin'],
   display: 'swap',
 });
 
-const robotoMono = Roboto_Mono({
+const roboto_slab = Roboto_Slab({
+  variable: '--font-roboto-slab',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const roboto_mono = Roboto_Mono({
   variable: '--font-roboto-mono',
   subsets: ['latin'],
   display: 'swap',
 });
 
-const crimsonPro = Crimson_Pro({
+const crimson_pro = Crimson_Pro({
   variable: '--font-crimson-pro',
   subsets: ['latin'],
   display: 'swap',
@@ -36,10 +44,18 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-const bitter = Montserrat({
+const bitter = Bitter({
   variable: '--font-bitter',
   subsets: ['latin'],
   display: 'swap',
 });
 
-export const fonts = { inter, robotoFlex, robotoMono, crimsonPro, montserrat, bitter };
+export const fonts = {
+  inter,
+  roboto_flex,
+  roboto_slab,
+  roboto_mono,
+  crimson_pro,
+  montserrat,
+  bitter,
+};

@@ -10,15 +10,17 @@ import clsx from 'clsx';
 export const PTextBanner: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="font-montserrat font-extrabold uppercase">{children}</h1>
+      <h1 className="font-crimson text-xl font-semibold uppercase text-red-700">
+        {children}
+      </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="mb-2 font-montserrat text-3xl font-bold uppercase drop-shadow-lg">
+      <h2 className="font-robotoslab mb-10 text-3xl font-light text-gray-700">
         {children}
       </h2>
     ),
     normal: ({ children }) => (
-      <p className="font-bitter text-base font-semibold uppercase">
+      <p className="font-robotoslab text-base font-light text-gray-900">
         {children}
       </p>
     ),
@@ -27,7 +29,7 @@ export const PTextBanner: PortableTextComponents = {
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   return (
-    <div className={'relative h-[400px] w-full lg:h-[200px]'}>
+    <div className={'relative h-[400px] w-full'}>
       <div
         className="z-0 h-full bg-cover bg-fixed bg-center"
         style={{

@@ -55,12 +55,12 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
             components={{
               block: {
                 h1: ({ children }) => (
-                  <h2 className="mb-4 font-montserrat text-3xl font-bold text-white sm:text-4xl">
+                  <h2 className="font-robotoslab mb-4 text-3xl uppercase text-white drop-shadow-sm sm:text-4xl">
                     {children}
                   </h2>
                 ),
                 normal: ({ children }) => (
-                  <p className="mx-auto text-center font-bitter text-lg text-white/90">
+                  <p className="mx-auto text-center text-lg text-white/90">
                     {children}
                   </p>
                 ),

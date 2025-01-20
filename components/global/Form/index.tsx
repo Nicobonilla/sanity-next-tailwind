@@ -11,16 +11,16 @@ export default function Form() {
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-600 md:flex-row md:justify-center">
       <div className="relative max-w-md md:w-1/2">
-        <h2 className="font-bitter text-xl font-semibold text-red-700">
-          Asesoramiento Legal
+        <h2 className="appercase font-bitter text-xl font-semibold text-red-700">
+          ABOGADOS EN SAN FELIPE
         </h2>
-        <h2 className="mb-4 font-montserrat text-3xl font-bold">
-          Abogado Sebastián Bonilla
+        <h2 className="font-robotoslab mb-4 text-3xl font-normal uppercase text-gray-700">
+          Sebastián Bonilla Marín
         </h2>
         <p className="font-bitter">
           Somos expertos en derecho familiar y laboral. Analizamos a fondo cada
-          caso y te ofrecemos información clara y oportuna para que tomes las
-          mejores decisiones
+          caso y te ofrecemos información clara y oportuna para que tomes buenas
+          decisiones.
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default function Form() {
             ¿Quieres Recibir más Información?
           </h3>
           <p className="mb-4 text-center font-bitter text-gray-500">
-            Un ejecutivo se contactará contigo
+            Nos contactaremos contigo para resolver tus dudas
           </p>
           <div className="text-gray-500">
             <div className="relative mt-4">
@@ -66,26 +66,23 @@ export default function Form() {
               />
             </div>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 text-sm">
             <label
               className="mb-1 block text-sm font-bold"
               htmlFor="servicio-informatico"
             >
-              ¿Qué Tipo de Proyecto estás por Emprender?
+              ¿Qué Tipo de Asesproa necesitas?
             </label>
-            {/* <select
-              id="desarrollo-informatico"
-              className="form-input pl-1"
-              required
-            >*/}
-            <option>Selecciona una Opción</option>
             <select className="your-select-classes">
+              <option>Selecciona una Opción</option>
               {Object.entries(groupedServices).map(([name, business]) => (
                 <optgroup key={name} label={name}>
                   {business.map((service, index) => (
                     <option
                       key={`${name}-${index}`}
                       value={service?.title || 'null'}
+                      className="cursor-pointer"
+                      onClick={handlerClick}
                     >
                       {service?.title}
                     </option>

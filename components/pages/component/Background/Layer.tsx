@@ -30,7 +30,7 @@ export default function Layer({
         <div
           className={clsx(
             'absolute inset-0 z-10 transition-colors duration-300',
-            activeTheme === 'light' ? 'bg-white/80' : 'bg-black/80'
+            activeTheme === 'light' ? 'bg-white/70' : 'bg-black/80'
           )}
         />
       );
