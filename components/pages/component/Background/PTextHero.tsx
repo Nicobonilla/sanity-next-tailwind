@@ -1,4 +1,4 @@
-import { ComponentProps } from '../../PageTemplate';
+import { ComponentProps } from '@/components/types';
 import PHeroImage from '@/components/pages/component/HeroImage/PTHeroImage';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 

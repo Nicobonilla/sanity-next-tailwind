@@ -5,7 +5,7 @@ type DynamicComponentType = React.ComponentType<{
 
 // Tipo para los componentes cargados
 export interface LoadedComponent {
-  data: ComponentProps;
+  dataComponents: ComponentProps;
   Component: DynamicComponentType;
 }
 

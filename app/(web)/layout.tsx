@@ -24,6 +24,8 @@ import DisableDraftMode from '@/components/global/DisableDraftMode';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { LoadingProvider } from '@/context/LoadingContext';
+import { Suspense } from 'react';
+import { Spinner } from '@/components/global/Spinner';
 // Async function to fetch data
 async function getData() {
   try {
@@ -78,26 +80,32 @@ export default async function RootLayout({
         <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
         <body className="flex min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
-            <SanityContextProvider
-              initialData={initialData as SanityContextType}
-            >
-              <ThemeProvider withDarkMode={settings.withDarkTheme || false}>
-                <LoadingProvider>
-                  <Navbar />
-                  <main className="grow flex-col">
-                    {children}
-                    <SanityLive />
-                    {isEnabled && (
-                      <>
-                        <DisableDraftMode />
-                        <VisualEditing />
-                      </>
-                    )}
-                  </main>
-                  <Footer />
-                </LoadingProvider>
-              </ThemeProvider>
-            </SanityContextProvider>
+            <Suspense fallback={<Spinner />}>
+              {initialData ? (
+                <SanityContextProvider
+                  initialData={initialData as SanityContextType}
+                >
+                  <ThemeProvider withDarkMode={settings.withDarkTheme || false}>
+                    <LoadingProvider>
+                      <Navbar />
+                      <main className="grow flex-col">
+                        {children}
+                        <SanityLive />
+                        {isEnabled && (
+                          <>
+                            <DisableDraftMode />
+                            <VisualEditing />
+                          </>
+                        )}
+                      </main>
+                      <Footer />
+                    </LoadingProvider>
+                  </ThemeProvider>
+                </SanityContextProvider>
+              ) : (
+                <Spinner />
+              )}
+            </Suspense>
           </ErrorBoundary>
         </body>
       </html>

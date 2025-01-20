@@ -3,7 +3,7 @@ import { PortableText, PortableTextComponents } from 'next-sanity';
 
 import { urlForImage } from '@/sanity/lib/utils';
 
-import { ComponentProps } from '@/components/pages/types';
+import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import { Highlight1 } from '../../../shared/Highlight1';
 

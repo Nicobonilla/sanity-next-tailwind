@@ -1,15 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
 import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
-import Background from './component/Background';
-import { ComponentProps, LoadedComponent } from './types';
+import { ComponentProps, LoadedComponent } from '@/components/types';
 
 export default function PageTemplate({
   dataPage,
@@ -20,7 +19,6 @@ export default function PageTemplate({
   const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
     []
   );
-
   useEffect(() => {
     if (dataPage) {
       setDataPage(dataPage);
@@ -42,19 +40,15 @@ export default function PageTemplate({
                     console.error(`Failed to load component: ${componentName}`);
                     return import('./component/Default'); // Fallback component
                   }),
-                {
-                  ssr: true,
-                  loading: () => null,
-                }
+                { suspense: true }
               );
 
               return {
-                data: component,
+                dataComponents: component,
                 Component: DynamicComponent,
               } satisfies LoadedComponent;
             })
           );
-
           setLoadedComponents(loaded);
           setLoading(false);
         } catch (error) {
@@ -67,19 +61,15 @@ export default function PageTemplate({
     }
   }, [dataPage, setDataPage, setLoading]);
 
-  if (
-    isLoading ||
-    (dataPage?.components &&
-      loadedComponents.length < dataPage?.components?.length)
-  ) {
+  if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <div className="opacity-100 transition-opacity duration-300">
-      {loadedComponents.map(({ Component, data }, index) => (
-        <Component key={index} data={data} />
-      ))}
+        {loadedComponents.map(({ Component, dataComponents }, index) => (
+          <Component key={index} data={dataComponents} />
+        ))}
     </div>
   );
 }

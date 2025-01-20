@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import { type ComponentProps } from '../../PageTemplate';
+import type { ComponentProps, ItemProps } from '@/components/types';
 import { PortableText } from 'next-sanity';
 import { urlForImage } from '@/sanity/lib/utils';
-import { type ItemProps } from '../../types';
 
 function ServiceCard({
   service,
@@ -11,7 +10,6 @@ function ServiceCard({
   service: ItemProps;
   index: number;
 }) {
-  console.log('key', index);
   console.log('service', service);
   return (
     <div
@@ -72,7 +70,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
         </div>
 
         <div className="grid min-h-[800px] gap-4 md:grid-cols-2 lg:h-[700px] lg:w-[1000px] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3">
-          {data.items?.map((service, index) => (
+          {data.items?.map((service: ItemProps, index: number) => (
             <ServiceCard key={index} index={index} service={service} />
           ))}
         </div>

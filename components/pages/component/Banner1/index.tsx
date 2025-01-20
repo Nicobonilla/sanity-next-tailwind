@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from '@portabletext/react';
 import PTBanner, { type PTBannerType } from '../BannerWithItems/PTextBanner';
-import { ComponentProps } from '@/components/pages/types';
+import { ComponentProps } from '@/components/types';
 
 export default function Banner1({ data }: { data: ComponentProps }) {
   const {

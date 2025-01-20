@@ -1,7 +1,7 @@
 import React from 'react';
 import { PortableText } from 'next-sanity';
 import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
-import { ItemProps } from '@/components/pages/types';
+import { ItemProps } from '@/components/types';
 import PTItemBanner, {
   type PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';

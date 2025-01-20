@@ -1,4 +1,4 @@
-import { ComponentProps } from '../../PageTemplate';
+import { ComponentProps } from '@/components/types';
 
 export default function HeroVideo({ data }: { data: ComponentProps }) {
   return (

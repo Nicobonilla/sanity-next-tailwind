@@ -1,5 +1,5 @@
 'use client';
-import { ComponentProps } from '@/components/pages/types';
+import { ComponentProps } from '@/components/types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import Image from 'next/image';

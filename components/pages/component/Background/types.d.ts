@@ -1,4 +1,4 @@
-import { type ComponentProps } from '@/components/pages/types';
+import { type ComponentProps } from '@/components/types';
 
 export interface BackgroundProps {
   data: ComponentProps;

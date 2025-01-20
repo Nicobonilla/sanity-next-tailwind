@@ -1,4 +1,4 @@
-import { ComponentProps } from '@/components/pages/types';
+import { ComponentProps } from '@/components/types';
 import Icon from '@/components/global/Icons/LucideIcon';
 import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
 import { useSanityContext } from '@/context/SanityContext';
@@ -73,27 +73,27 @@ export default function Form() {
             >
               ¿Qué Tipo de Proyecto estás por Emprender?
             </label>
-            <select
+            {/* <select
               id="desarrollo-informatico"
               className="form-input pl-1"
               required
-            >
-              <option>Selecciona una Opción</option>
-              <select className="your-select-classes">
-                {Object.entries(groupedServices).map(([name, business]) => (
-                  <optgroup key={name} label={name}>
-                    {business.map((service, index) => (
-                      <option
-                        key={`${name}-${index}`}
-                        value={service?.title || 'null'}
-                      >
-                        {service?.title}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
+            >*/}
+            <option>Selecciona una Opción</option>
+            <select className="your-select-classes">
+              {Object.entries(groupedServices).map(([name, business]) => (
+                <optgroup key={name} label={name}>
+                  {business.map((service, index) => (
+                    <option
+                      key={`${name}-${index}`}
+                      value={service?.title || 'null'}
+                    >
+                      {service?.title}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
             </select>
+            {/* </select>*/}
           </div>
 
           <button

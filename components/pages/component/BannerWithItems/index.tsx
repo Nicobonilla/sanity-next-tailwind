@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ComponentProps } from '@/components/pages/types';
+import { ComponentProps } from '@/components/types';
 import Background from '../Background';
 import InnerBannerWithItems from './InnerBannerWithItems';
 

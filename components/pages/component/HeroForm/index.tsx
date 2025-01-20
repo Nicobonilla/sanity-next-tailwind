@@ -1,5 +1,5 @@
 import Form from '@/components/global/Form';
-import { ComponentProps } from '../../PageTemplate';
+import { ComponentProps } from '@/components/types';
 import Background from '../Background';
 
 const HeroForm = ({ data }: { data: ComponentProps }) => {

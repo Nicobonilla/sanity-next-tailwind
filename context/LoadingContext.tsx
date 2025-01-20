@@ -35,7 +35,7 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
       // Agregamos un pequeño delay para asegurar que los componentes dinámicos se carguen
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 500);
+      }, 0);
       return () => clearTimeout(timer);
     }
   }, [dataPage]);
