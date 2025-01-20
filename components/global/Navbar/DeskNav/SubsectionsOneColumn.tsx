@@ -49,7 +49,7 @@ export default function SubsectionsOneColumn() {
         {pagesLink?.map((link) => (
           <li
             key={link?.title}
-            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 2xl:px-8"
+            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-0 2xl:px-6"
             onMouseEnter={() => handleMouseEnter(link?.title || '')}
             onMouseLeave={handleMouseLeave}
           >
@@ -75,47 +75,45 @@ export default function SubsectionsOneColumn() {
           activeLink === link.title && (
             <div
               key={link.title}
-              className="nav-bg-subsection absolute right-56 z-50 h-fit bg-black pb-10 lg:w-fit"
+              className="nav-bg-subsection absolute right-56 z-50 h-fit w-fit pb-10"
               onMouseEnter={() => handleMouseEnter(link.title || '')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="">
-                <ul className="mx-auto mt-1 flex w-[300px] flex-col">
-                  {groupedServices &&
-                    Object.keys(groupedServices).map((businessName) => {
-                      const servicesForBusiness = groupedServices[businessName];
-                      const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
-                      return (
-                        <li key={businessName} className="group relative">
-                          {' '}
-                          {/* Added relative positioning */}
-                          <div className="nav-subsection-desk flex flex-row items-center text-center text-sm font-light uppercase">
-                            <span className="w-full border-b-2 border-gray-200 py-2 text-center">
-                              {business?.title}
-                            </span>
-                            <ul className="absolute left-full top-0 hidden min-w-[200px] bg-black group-hover:block">
-                              {servicesForBusiness.map((service) => (
-                                <li key={service?.slug} className="py-2">
-                                  <Link
-                                    href={{
-                                      pathname:
-                                        path.split('/')[1] == link.slug
-                                          ? service?.slug
-                                          : `${link?.slug}/${service?.slug}`,
-                                    }}
-                                    className="nav-subsection-desk block text-white hover:text-red-400"
-                                  >
-                                    {service?.title}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </li>
-                      );
-                    })}
-                </ul>
-              </div>
+              <ul className="mx-auto mt-1 flex w-[350px] flex-col">
+                {groupedServices &&
+                  Object.keys(groupedServices).map((businessName) => {
+                    const servicesForBusiness = groupedServices[businessName];
+                    const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
+                    return (
+                      <li key={businessName} className="group relative">
+                        {' '}
+                        {/* Added relative positioning */}
+                        <div className="nav-subsection-desk flex flex-row items-center text-center text-sm font-light uppercase">
+                          <span className="w-full border-b-2 border-gray-200 py-2 text-center">
+                            {business?.title}
+                          </span>
+                          <ul className="absolute left-full top-0 hidden min-w-[200px] bg-black group-hover:block">
+                            {servicesForBusiness.map((service) => (
+                              <li key={service?.slug} className="py-2">
+                                <Link
+                                  href={{
+                                    pathname:
+                                      path.split('/')[1] == link.slug
+                                        ? service?.slug
+                                        : `${link?.slug}/${service?.slug}`,
+                                  }}
+                                  className="nav-subsection-desk block text-white hover:text-red-400"
+                                >
+                                  {service?.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </li>
+                    );
+                  })}
+              </ul>
             </div>
           )
       )}
