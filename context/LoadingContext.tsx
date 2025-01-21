@@ -5,38 +5,43 @@ import {
   useContext,
   useState,
   useEffect,
-  ReactNode,
+  type ReactNode,
+  useCallback,
 } from 'react';
-import {
+import type {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
 
+type PageData = GetPageDetailQueryResult | GetServiceDetailQueryResult | null;
+
 interface LoadingContextProps {
   isLoading: boolean;
-  setLoading: (value: boolean) => void;
-  setDataPage: (
-    data: GetPageDetailQueryResult | GetServiceDetailQueryResult | null
-  ) => void;
+  setLoading: (isLoading: boolean) => void;
+  setDataPage: (data: PageData) => void;
+  dataPage: PageData;
 }
 
 const LoadingContext = createContext<LoadingContextProps | undefined>(
   undefined
 );
 
-export const LoadingProvider = ({ children }: { children: ReactNode }) => {
+export function LoadingProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [dataPage, setDataPage] = useState<
-    GetPageDetailQueryResult | GetServiceDetailQueryResult | null
-  >(null);
+  const [dataPage, setDataPage] = useState<PageData>(null);
+
+  // Memoize setDataPage to prevent unnecessary re-renders
+  const handleSetDataPage = useCallback((data: PageData) => {
+    setDataPage(data);
+  }, []);
 
   useEffect(() => {
     if (dataPage) {
-      // Agregamos un pequeño delay para asegurar que los componentes dinámicos se carguen
-      const timer = setTimeout(() => {
+      // Use requestAnimationFrame for smoother transitions
+      const frame = requestAnimationFrame(() => {
         setIsLoading(false);
-      }, 0);
-      return () => clearTimeout(timer);
+      });
+      return () => cancelAnimationFrame(frame);
     }
   }, [dataPage]);
 
@@ -45,18 +50,47 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
       value={{
         isLoading,
         setLoading: setIsLoading,
-        setDataPage,
+        setDataPage: handleSetDataPage,
+        dataPage,
       }}
     >
       {children}
     </LoadingContext.Provider>
   );
-};
+}
 
-export const useLoadingContext = () => {
+/**
+ * Custom hook to access the loading context
+ * @throws {Error} If used outside of LoadingProvider
+ * @returns {LoadingContextProps} The loading context value
+ */
+export function useLoadingContext(): LoadingContextProps {
   const context = useContext(LoadingContext);
-  if (!context) {
+
+  if (context === undefined) {
     throw new Error('useLoadingContext must be used within a LoadingProvider');
   }
+
   return context;
-};
+}
+
+// Example usage of the loading context
+export function usePageLoading() {
+  const { isLoading, setLoading, setDataPage, dataPage } = useLoadingContext();
+
+  const startLoading = useCallback(() => {
+    setLoading(true);
+  }, [setLoading]);
+
+  const stopLoading = useCallback(() => {
+    setLoading(false);
+  }, [setLoading]);
+
+  return {
+    isLoading,
+    startLoading,
+    stopLoading,
+    setDataPage,
+    dataPage,
+  };
+}

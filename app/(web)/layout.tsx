@@ -11,21 +11,18 @@ import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
-import {
-  SanityContextProvider,
-  type SanityContextType,
-} from '@/context/SanityContext';
+import { type SanityContextType } from '@/context/SanityContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
 import { draftMode } from 'next/headers';
 import { fonts } from '@/components/global/fonts';
 import type { Links } from '@/types';
 import DisableDraftMode from '@/components/global/DisableDraftMode';
-import { ThemeProvider } from '@/context/ThemeContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { LoadingProvider } from '@/context/LoadingContext';
 import { Suspense } from 'react';
 import { Spinner } from '@/components/global/Spinner';
+import Providers from '@/context/Providers';
+
 // Async function to fetch data
 async function getData() {
   try {
@@ -49,20 +46,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   try {
-    // Fetching data for the layout (pages, services, and components)
     const { pages, servicesList, componentList, settings } = await getData();
-    // Error handling if no data is returned
     if (!pages || !servicesList || !componentList || !settings) {
       throw new Error('Essential data is missing');
     }
 
-    // Prepare the initial data for context
     const initialData: SanityContextType = {
       componentsMap: componentList,
       pagesLink: formatPages(pages, servicesList) as Links[],
     };
 
-    // Check if draft mode is enabled (for content editing features)
     const { isEnabled } = draftMode();
 
     return (
@@ -81,30 +74,23 @@ export default async function RootLayout({
         <body className="flex min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
-              {initialData ? (
-                <SanityContextProvider
-                  initialData={initialData as SanityContextType}
-                >
-                  <ThemeProvider withDarkMode={settings.withDarkTheme || false}>
-                    <LoadingProvider>
-                      <Navbar />
-                      <main className="grow flex-col">
-                        {children}
-                        <SanityLive />
-                        {isEnabled && (
-                          <>
-                            <DisableDraftMode />
-                            <VisualEditing />
-                          </>
-                        )}
-                      </main>
-                      <Footer />
-                    </LoadingProvider>
-                  </ThemeProvider>
-                </SanityContextProvider>
-              ) : (
-                <Spinner />
-              )}
+              <Providers
+                initialData={initialData}
+                withDarkMode={settings.withDarkTheme || false}
+              >
+                <Navbar />
+                <main className="grow flex-col">
+                  {children}
+                  <SanityLive />
+                  {isEnabled && (
+                    <>
+                      <DisableDraftMode />
+                      <VisualEditing />
+                    </>
+                  )}
+                </main>
+                <Footer />
+              </Providers>
             </Suspense>
           </ErrorBoundary>
         </body>
