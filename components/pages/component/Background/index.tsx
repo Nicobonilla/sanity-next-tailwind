@@ -68,9 +68,10 @@ export default function Background({ data, children }: BackgroundProps) {
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {
-        'className="min-h-screen md:min-h-0 lg:max-h-fit':
+        'min-h-screen md:min-h-0 lg:max-h-fit':
           data.responsiveHeight == 'fit-max',
         'h-[900px]': data.responsiveHeight == 'h-900',
+        'h-[350px]': data.typeComponentValue == 'heading',
       })}
     >
       {data.backgroundMode === 'video' && data.videoUrl && data?.videoType && (
@@ -80,22 +81,25 @@ export default function Background({ data, children }: BackgroundProps) {
           activeTheme={activeTheme}
         />
       )}
+
       {data.imageBackgroundType == 'dynamic' && (
         <Image
           src={urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'}
           alt="Hero image for the homepage"
-          className="inset-0 size-full object-cover object-top"
+          className="inset-0 size-full object-fill object-center"
           quality={100}
           fill
           priority
         />
       )}
+
       {data.backgroundMode == 'colors' ||
         (data.backgroundMode == 'items' && (
           <div className={'absolute inset-0 z-10'} style={currentStyle}>
             {' '}
           </div>
         ))}
+
       {data.imageBackgroundType === 'fixed' && (
         <div
           className="absolute inset-0 z-0 bg-cover bg-fixed bg-center"
@@ -107,10 +111,17 @@ export default function Background({ data, children }: BackgroundProps) {
 
       {data.responsiveHeight == 'h-900' &&
         data.typeComponentValue != 'heroForm' && <PTextHero data={data} />}
+
+      {/* LOGICA CHILDREN */}
       {data.responsiveHeight == 'fit-max' ||
         (data.typeComponentValue == 'heroForm' && children)}
+
       {data.imageBackgroundLayer && (
-        <Layer layer={data.imageBackgroundLayer} activeTheme={activeTheme} currentStyle={currentStyle} />
+        <Layer
+          layer={data.imageBackgroundLayer}
+          activeTheme={activeTheme}
+          currentStyle={currentStyle}
+        />
       )}
     </div>
   );

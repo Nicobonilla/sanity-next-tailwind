@@ -10,12 +10,10 @@ import {
   getComponentListQuery,
   getPageDetailQuery,
   getPagesNavQuery,
-  getHomeDetailQuery,
   settingsQuery,
 } from '@/sanity/lib/queries';
 import {
   GetComponentListQueryResult,
-  GetHomeDetailQueryResult,
   GetIconListQueryResult,
   GetPageDetailQueryResult,
   GetPagesNavQueryResult,
@@ -112,30 +110,13 @@ export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null>
   }
 }
 
-export async function getHomeDetailFetch(): Promise<GetHomeDetailQueryResult | null> {
-  const query = getHomeDetailQuery;
-  try {
-    const data = (await sanityFetch({
-      query,
-    })) as GetHomeDetailQueryResult | null;
-    if (!data) {
-      return null; // Si no hay datos, retornamos null
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error fetching banner:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
-  }
-}
-
 export async function getPageBySlugFetch(
   slug: string
 ): Promise<GetPageDetailQueryResult | null> {
   // Remove extra quotes if any
-  const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
   const query = getPageDetailQuery; // This should be a GROQ string
-  const params = { slug: sanitizedSlug }; // Pass the sanitized slug
+  const params = { slug: slug.replace(/"/g, '') }; // Pass the sanitized slug
+  console.log('params:', params);
   try {
     const data = (await sanityFetch({
       query,

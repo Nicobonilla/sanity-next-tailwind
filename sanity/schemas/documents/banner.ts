@@ -8,6 +8,9 @@ const validIdItems = [
   { banner4Images: '25ec25b1-ee22-4d28-ab77-436614616723' },
 ].map((item) => Object.values(item)[0]);
 
+const hiddenColors = (mode: string) =>
+  !['colors', 'items', 'image'].includes(mode);
+
 export default defineType({
   name: 'banner',
   title: 'Banner',
@@ -96,24 +99,21 @@ export default defineType({
       title: 'Color de Fondo 1',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'colorBackground2',
       title: 'Color de Fondo 2',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'colorBackground3',
       title: 'Color de Fondo 3',
       type: 'color',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' && parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'colorBackgroundDark1',
@@ -121,9 +121,8 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' ||
-        parent.backgroundMode !== 'items' ||
-        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorWithDarkMode === false,
     }),
     defineField({
       name: 'colorBackgroundDark2',
@@ -131,9 +130,8 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' ||
-        parent.backgroundMode !== 'items' ||
-        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorWithDarkMode === false,
     }),
     defineField({
       name: 'colorBackgroundDark3',
@@ -141,33 +139,29 @@ export default defineType({
       type: 'color',
       group: 'colors',
       hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' ||
-        parent.backgroundMode !== 'items' ||
-        parent.colorWithDarkMode === false, // Oculta si isDarkMode es false
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorWithDarkMode === false,
     }),
     defineField({
       name: 'colorBackground1Position',
       title: 'Posicion Color de Fondo 1',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'colorBackground2Position',
       title: 'Posicion Color de Fondo 2',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'colorBackground3Position',
       title: 'Posicion Color de Fondo 3',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) =>
-        parent.backgroundMode !== 'colors' || parent.backgroundMode !== 'items',
+      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
     }),
     defineField({
       name: 'imageBackground',

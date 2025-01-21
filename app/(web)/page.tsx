@@ -1,11 +1,11 @@
 import PageTemplate from '@/components/pages/PageTemplate';
-import { GetHomeDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
-import { getHomeDetailFetch, getSettingsFetch } from '@/sanity/lib/fetch';
+import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+import { getPageBySlugFetch, getSettingsFetch } from '@/sanity/lib/fetch';
 
 import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const currentPage = await getData();
+  const currentPage = await getData('inicio');
   return {
     title: currentPage?.settings?.title,
     openGraph: {
@@ -20,10 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function getData() {
+async function getData(slug: string) {
   try {
-    const [home, settings]: [GetHomeDetailQueryResult, SettingsQueryResult] =
-      await Promise.all([getHomeDetailFetch(), getSettingsFetch()]);
+    const [home, settings]: [GetPageDetailQueryResult, SettingsQueryResult] =
+      await Promise.all([getPageBySlugFetch(slug), getSettingsFetch()]);
     return { home, settings };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -32,7 +32,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  const currentPage = await getData();
+  const currentPage = await getData('inicio');
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }

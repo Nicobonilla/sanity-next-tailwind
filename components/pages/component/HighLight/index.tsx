@@ -29,16 +29,16 @@ export const PTextBanner: PortableTextComponents = {
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   return (
-    <div className={'relative h-[400px] w-full'}>
+    <div className={'relative h-fit w-full md:h-[400px]'}>
       <div
-        className="z-0 h-full bg-cover bg-fixed bg-center"
+        className="z-0 h-full bg-cover bg-fixed bg-center py-20"
         style={{
           backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'})`,
         }}
       >
         <div
           className={clsx(
-            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-neutral-800 shadow-lg',
+            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-neutral-800',
             'xs5: px-10',
             'lg:max-w-none'
           )}

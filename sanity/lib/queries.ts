@@ -77,6 +77,14 @@ const componentFields = /* groq */ `
 `;
 
 /* PAGES */
+const pageFields = /* groq */ `
+ "id": _id,
+  "title": title,
+  "slug": slug.current,
+  orderRank,
+  content,
+  components[isActive] { ${componentFields} }
+`;
 
 export const getPagesNavQuery = defineQuery(groq`
   *[_type == 'page'] | order(orderRank asc) {
@@ -93,28 +101,10 @@ export const getPagesNavQuery = defineQuery(groq`
 
 export const getPageDetailQuery = defineQuery(groq`
   *[_type == 'page' && slug.current == $slug][0] {
-  "id": _id,
-  "title": title,
-  "slug": slug.current,
-  orderRank,
-  content,
-  components[isActive] { ${componentFields} },
-  "isHome": isHome
-}`);
-
-export const getHomeDetailQuery = defineQuery(groq`
-  *[_type == 'page' && isHome == true][0] {
-  "id": _id,
-  "title": title,
-  "slug": slug.current,
-  orderRank,
-  content,
-  components[isActive] { ${componentFields} },
-  "isHome": isHome
+  ${pageFields}
 }`);
 
 /* SERVICES */
-
 export const getServicesNavQuery = defineQuery(
   groq`*[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {
     "id": coalesce(slug.current, null),
