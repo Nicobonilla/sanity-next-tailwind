@@ -8,7 +8,7 @@ import { resolveHref } from '../utils';
 import { component } from 'sanity/structure';
 
 const homeLocation = {
-  title: 'Home',
+  title: 'Inicio',
   href: '/',
 } satisfies DocumentLocation;
 

@@ -41,6 +41,22 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'color',
+      title: 'Color',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Rojo', value: 'bg-red-100 text-red-800' },
+          { title: 'Azul', value: 'bg-blue-100 text-blue-800' },
+          { title: 'Amarillo', value: 'bg-yellow-100 text-yellow-800' },
+          { title: 'Verde', value: 'bg-green-100 text-green-800' },
+          { title: 'Morado', value: 'bg-purple-100 text-purple-800' },
+          { title: 'Naranja', value: 'bg-orange-100 text-orange-800' },
+          { title: 'Gris', value: 'bg-gray-100 text-gray-800' },
+        ],
+      },
+    }),
+    defineField({
       name: 'description',
       title: 'Descripción',
       type: 'array',

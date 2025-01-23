@@ -1,7 +1,7 @@
 'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { GetServiceDetailQueryResult } from '@/sanity.types';
-import { getServiceBySlugFetch } from '@/sanity/lib/fetch';
+import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 
 async function getData(slug: string) {
   try {

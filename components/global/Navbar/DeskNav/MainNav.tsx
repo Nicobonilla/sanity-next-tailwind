@@ -5,6 +5,7 @@ import SubsectionsContainer from './SubsectionsContainer';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
 import { groupServicesByBusiness } from './utils';
+import { usePathname } from 'next/navigation';
 
 const MainNav = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
@@ -12,7 +13,11 @@ const MainNav = () => {
   console.log('pagesLink: ', pagesLink);
   const { scrolling } = useScrollContext();
   const groupedServices = groupServicesByBusiness(pagesLink);
+  const path = usePathname();
+
   console.log('groupedServices: ', groupedServices);
+  console.log('path: ', path);
+
   const onMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -34,7 +39,11 @@ const MainNav = () => {
               <span
                 className={clsx(
                   'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
-                  scrolling ? 'text-gray-600' : 'text-gray-500'
+                  scrolling
+                    ? 'text-gray-800'
+                    : path == '/blog'
+                      ? 'text-neutral-200'
+                      : 'text-neutral-800'
                 )}
               >
                 {link?.title}

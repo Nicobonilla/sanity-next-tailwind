@@ -1,16 +1,30 @@
-import { defineField, defineType } from 'sanity';
-import { DocumentsIcon } from '@sanity/icons';
+import { DocumentTextIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
+import { defineField, defineType } from 'sanity';
+
+import authorType from './author';
+
+/**
+ * This file is the schema definition for a post.
+ *
+ * Here you'll be able to edit the different fields that appear when you 
+ * create or edit a post in the studio.
+ * 
+ * Here you can see the different schema types that are available:
+
+  https://www.sanity.io/docs/schema-types
+
+ */
 
 export default defineType({
   name: 'post',
-  title: 'Blog',
+  title: 'Post',
+  icon: DocumentTextIcon,
   type: 'document',
-  icon: DocumentsIcon,
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -18,6 +32,7 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      description: 'A slug is required for the post to show up in the preview',
       options: {
         source: 'title',
         maxLength: 96,
@@ -26,28 +41,16 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'orderRank',
-      title: 'Position',
-      type: 'string',
-      hidden: true,
-    }),
-    defineField({
       name: 'content',
-      title: 'Escribe aquí tu post para el Blog',
+      title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image' }],
-    }),
-    defineField({
-      name: 'unitBusiness',
-      title: 'Unidad de Negocio',
-      type: 'reference',
-      to: [{ type: 'unitBusiness' }],
+      of: [{ type: 'block' }],
     }),
     defineField({
       name: 'resumen',
       title: 'Resumen',
       description:
-        'Texto para lista de Posts. (Si está vacio se mostrarán los 100 primeros caracteres del primer parrafo: estilo normal")',
+        'Este texto se muestra en la lista de posts, de lo contrario se mostrarán los 100 primeros caracteres',
       type: 'text',
     }),
     defineField({
@@ -80,22 +83,28 @@ export default defineType({
     }),
     defineField({
       name: 'date',
-      title: 'Fecha',
+      title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+    }),
+    defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{ type: authorType.name }],
     }),
   ],
   preview: {
     select: {
       title: 'title',
+      author: 'author.name',
       date: 'date',
-      uBusiness: 'unitBusiness.title',
       media: 'coverImage',
     },
-    prepare({ title, media, uBusiness, date }) {
+    prepare({ title, media, author, date }) {
       const subtitles = [
-        uBusiness && uBusiness,
-        date && `${format(parseISO(date), 'dd/MM/yy')}`,
+        author && `by ${author}`,
+        date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
       ].filter(Boolean);
 
       return { title, media, subtitle: subtitles.join(' ') };

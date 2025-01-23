@@ -2,9 +2,6 @@ import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import {
-  getComponentListFetch,
-  getPagesNavFetch,
-  getServicesNavFetch,
   getSettingsFetch,
 } from '@/sanity/lib/fetch';
 import { formatPages } from '@/components/pages/services/format';
@@ -22,6 +19,9 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { Suspense } from 'react';
 import { Spinner } from '@/components/global/Spinner';
 import Providers from '@/context/Providers';
+import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
+import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
+import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
 
 // Async function to fetch data
 async function getData() {

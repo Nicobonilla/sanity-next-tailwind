@@ -10,6 +10,7 @@ import Video from './Video';
 import Image from 'next/image';
 import Layer from './Layer';
 import PTextHero from './PTextHero';
+import PtextHeading from './PtextHeading';
 
 export default function Background({ data, children }: BackgroundProps) {
   const { isDarkMode } = useTheme();
@@ -23,7 +24,11 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Generate theme styles
   const themeStyles = useMemo(() => {
-    if (data.backgroundMode === 'colors' || data.backgroundMode === 'items') {
+    if (
+      data.backgroundMode === 'colors' ||
+      data.backgroundMode === 'items' ||
+      data.backgroundMode === 'image'
+    ) {
       const lightTheme: Theme = {
         color1: (data.colorBackground1 as Color) || defaultColor,
         color2: (data.colorBackground2 as Color) || defaultColor,
@@ -58,13 +63,19 @@ export default function Background({ data, children }: BackgroundProps) {
 
   // Get current style based on activeTheme
   const currentStyle = useMemo(() => {
-    if (data.backgroundMode == 'colors' || data.backgroundMode == 'items') {
+    if (
+      data.backgroundMode == 'colors' ||
+      data.backgroundMode == 'items' ||
+      data.backgroundMode == 'image'
+    ) {
       return data.colorWithDarkMode
         ? themeStyles[activeTheme]
         : themeStyles.light;
     }
     return themeStyles.light;
   }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
+
+  console.log('currentStyle:', currentStyle);
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {
@@ -86,7 +97,7 @@ export default function Background({ data, children }: BackgroundProps) {
         <Image
           src={urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'}
           alt="Hero image for the homepage"
-          className="inset-0 size-full object-fill object-center"
+          className="inset-0 z-10 size-full object-cover object-center"
           quality={100}
           fill
           priority
@@ -94,15 +105,14 @@ export default function Background({ data, children }: BackgroundProps) {
       )}
 
       {data.backgroundMode == 'colors' ||
-        (data.backgroundMode == 'items' && (
-          <div className={'absolute inset-0 z-10'} style={currentStyle}>
-            {' '}
-          </div>
+        data.backgroundMode == 'items' ||
+        (data.backgroundMode == 'image' && (
+          <div className={'absolute inset-0 z-20'} style={currentStyle}></div>
         ))}
 
       {data.imageBackgroundType === 'fixed' && (
         <div
-          className="absolute inset-0 z-0 bg-cover bg-fixed bg-center"
+          className="absolute inset-0 z-10 bg-cover bg-fixed bg-center"
           style={{
             backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || ''})`,
           }}
@@ -111,6 +121,7 @@ export default function Background({ data, children }: BackgroundProps) {
 
       {data.responsiveHeight == 'h-900' &&
         data.typeComponentValue != 'heroForm' && <PTextHero data={data} />}
+      {data.typeComponentValue == 'heading' && <PtextHeading data={data} />}
 
       {/* LOGICA CHILDREN */}
       {data.responsiveHeight == 'fit-max' ||

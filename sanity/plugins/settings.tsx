@@ -38,7 +38,7 @@ export const pageStructure = (
 ): StructureResolver => {
   return (S, context) => {
     const hiddenDocuments = ['post', 'author', 'item', 'banner'];
-    const orderableDocuments = ['page', 'service', 'unitBusiness'];
+    const orderableDocuments = ['page', 'post', 'service', 'unitBusiness'];
     // Crea los items de los singletons a partir de los typeDefs
     const singletonItems = typeDefArray.map((typeDef) => {
       return S.listItem()

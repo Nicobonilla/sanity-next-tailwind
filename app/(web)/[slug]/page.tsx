@@ -1,6 +1,7 @@
 import PageTemplate from '@/components/pages/PageTemplate';
 import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
-import { getPageBySlugFetch, getSettingsFetch } from '@/sanity/lib/fetch';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
+import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({

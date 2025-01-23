@@ -4,16 +4,28 @@ import {
   isUniqueTrueForField,
 } from '@/sanity/lib/utils';
 import { BinaryDocumentIcon } from '@sanity/icons';
+import { media } from 'sanity-plugin-media';
+import { sub } from 'date-fns';
 
 const page = defineType({
   name: 'page',
   title: 'Páginas Principales',
   type: 'document', // Tipo de documento
+  orderings: [
+    {
+      title: 'Estado',
+      name: 'activeStatus',
+      by: [
+        { field: 'isActive', direction: 'desc' },
+        { field: 'title', direction: 'asc' },
+      ],
+    },
+  ],
   icon: BinaryDocumentIcon,
   fields: [
     defineField({
-      name: 'title',
-      title: 'Nombre de la pagina',
+      name: 'name',
+      title: 'Título de cabecera de la pagina',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -33,6 +45,20 @@ const page = defineType({
       name: 'isActive',
       type: 'boolean',
       initialValue: false,
+    }),
+    defineField({
+      name: 'title',
+      title: 'Nombre de la pagina para el menu de navegacion',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'imageHeader',
+      title: 'Imagen de cabecera',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'isHome',
@@ -66,6 +92,25 @@ const page = defineType({
       of: [{ type: 'banner' }], // Para contenido enriquecido
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      isHome: 'isHome',
+      isActive: 'isActive',
+      media: 'imageHeader',
+    },
+    prepare({ title, isHome, isActive, media }) {
+      const subtitle = [
+        isHome ? '🏠 Home' : '',
+        isActive ? 'Activo' : 'Inactivo',
+      ];
+      return {
+        title,
+        subtitle: subtitle.join(' '),
+        media,
+      };
+    },
+  },
 });
 
 export default page;

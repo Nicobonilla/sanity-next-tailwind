@@ -147,21 +147,27 @@ export default defineType({
       title: 'Posicion Color de Fondo 1',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
+      hidden: ({ parent }) =>
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorBackground2 === false,
     }),
     defineField({
       name: 'colorBackground2Position',
       title: 'Posicion Color de Fondo 2',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
+      hidden: ({ parent }) =>
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorBackground2 === false,
     }),
     defineField({
       name: 'colorBackground3Position',
       title: 'Posicion Color de Fondo 3',
       type: 'number',
       group: 'colors',
-      hidden: ({ parent }) => hiddenColors(parent.backgroundMode),
+      hidden: ({ parent }) =>
+        hiddenColors(parent.backgroundMode) ||
+        parent.colorBackground3 === false,
     }),
     defineField({
       name: 'imageBackground',
@@ -196,6 +202,9 @@ export default defineType({
           { title: 'Layer1', value: 'layer1' },
           { title: 'Layer2', value: 'layer2' },
           { title: 'Layer3', value: 'layer3' },
+          { title: 'Layer4', value: 'layer4' },
+          { title: 'Layer5', value: 'layer5' },
+          { title: 'Layer6', value: 'layer6' },
         ],
       },
       group: 'exterior',
@@ -326,7 +335,7 @@ export default defineType({
 
       return {
         title: previewTitle,
-        subtitle: `${type} | ${active ? 'Activo' : 'Inactivo'}`,
+        subtitle: `${active ? 'Activo' : 'Inactivo'} | ${type}`,
       };
     },
   },

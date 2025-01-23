@@ -16,7 +16,7 @@ import { inlineSvgInput } from '@focus-reactive/sanity-plugin-inline-svg-input';
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
 import { IconManager } from 'sanity-plugin-icon-manager';
 import { media } from 'sanity-plugin-media';
-import {colorInput} from '@sanity/color-input'
+import { colorInput } from '@sanity/color-input';
 
 import author from '@/sanity/schemas/documents/author';
 import post from '@/sanity/schemas/documents/post';
