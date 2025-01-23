@@ -5,6 +5,7 @@ import {
 } from '@/sanity.types';
 import { useState } from 'react';
 import ItemPostList from './ItemPostList';
+import { OpenstackOriginal } from 'devicons-react';
 
 export default function Posts({
   posts,
@@ -68,8 +69,8 @@ export default function Posts({
       </div>
       <div className="grid gap-6">
         {filteredPosts.length > 0 ? (
-          filteredPosts.map((post, key) => (
-            <ItemPostList key={key} post={post} />
+          filteredPosts.map((post, index) => (
+            <ItemPostList key={index} post={post} />
           ))
         ) : (
           <div className="py-12 text-center text-gray-600 dark:text-gray-400">
