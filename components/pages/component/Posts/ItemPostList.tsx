@@ -6,16 +6,11 @@ import Link from 'next/link';
 
 export default function ItemPostList({
   post,
-  key,
 }: {
   post: GetPostListQueryResult[number];
-  key: number;
 }) {
   return (
-    <article
-      key={key}
-      className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-gray-800"
-    >
+    <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-gray-800">
       <div className="grid gap-4 md:grid-cols-[300px_1fr]">
         <div className="relative h-48 md:h-full">
           <Image

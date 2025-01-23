@@ -70,7 +70,9 @@ export default function Posts({
       <div className="grid gap-6">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post, index) => (
-            <ItemPostList key={index} post={post} />
+            <div key={index}>
+              <ItemPostList post={post} />
+            </div>
           ))
         ) : (
           <div className="py-12 text-center text-gray-600 dark:text-gray-400">
