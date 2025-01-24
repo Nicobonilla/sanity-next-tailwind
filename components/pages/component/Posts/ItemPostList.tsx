@@ -14,7 +14,13 @@ export default function ItemPostList({
       <div className="grid gap-4 md:grid-cols-[300px_1fr]">
         <div className="relative h-48 md:h-full">
           <Image
-            src={urlForImage(post.coverImage)?.url() || '/meeting.jpeg'}
+            src={
+              urlForImage(
+                post.components?.filter(
+                  (comp) => comp.typeComponentValue == 'heading'
+                )[0].imageBackground
+              )?.url() || '/meeting.jpeg'
+            }
             alt={post.title || ''}
             fill
             className="object-cover"

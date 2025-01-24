@@ -33,9 +33,39 @@ export default defineType({
     }),
     defineField({
       name: 'content',
-      title: 'Escribe aquí tu post para el Blog',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image' }],
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Quote', value: 'blockquote' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+          ],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                  },
+                ],
+              },
+            ],
+          },
+          lists: [{ title: 'Bullet', value: 'bullet' }],
+        },
+        {
+          type: 'image',
+        },
+      ],
     }),
     defineField({
       name: 'unitBusiness',
@@ -51,32 +81,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
-      },
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          description: 'Important for SEO and accessiblity.',
-          validation: (rule) => {
-            return rule.custom((alt, context) => {
-              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                return 'Required';
-              }
-              return true;
-            });
-          },
-        },
-      ],
-      validation: (rule) => rule.required(),
+      name: 'components',
+      title: 'Componentes',
+      type: 'array',
+      of: [{ type: 'banner'},
+      ], // Para contenido enriquecido
     }),
     defineField({
       name: 'date',
@@ -90,7 +99,7 @@ export default defineType({
       title: 'title',
       date: 'date',
       uBusiness: 'unitBusiness.title',
-      media: 'coverImage',
+      media: 'components.0.imageBackground',
     },
     prepare({ title, media, uBusiness, date }) {
       const subtitles = [

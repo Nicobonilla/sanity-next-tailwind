@@ -1,16 +1,12 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { Metadata } from 'next';
-import { TableOfContents } from '@/components/pages/services/TableOfContents';
-import { Breadcrumbs } from '@/components/pages/services/Breadcrumbs';
 import { GetPostDetailQueryResult } from '@/sanity.types';
-import { PTServices } from '@/components/pages/services/PTServices';
 import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
-
-interface TableOfContents {
-  id: string;
-  title: string;
-  level: number;
-}
+import { PTextPost } from '@/components/pages/component/Posts/PTextPost';
+import PageTemplate from '@/components/pages/PageTemplate';
+import { ComponentProps } from '@/components/types';
+import { TableOfContents } from '@/components/pages/component/Posts/TableOfContents';
+import { Breadcrumbs } from '@/components/pages/component/Posts/Breadcrumbs';
 
 export async function generateMetadata({
   params,
@@ -32,7 +28,9 @@ export async function generateMetadata({
 
 async function getData(slug: string) {
   try {
-    const post: GetPostDetailQueryResult = await getPostBySlugFetch(slug);
+    const post: GetPostDetailQueryResult | null = await getPostBySlugFetch({
+      slug,
+    });
     return post;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -41,43 +39,44 @@ async function getData(slug: string) {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const post: GetPostDetailQueryResult = await getData(params.slug);
-
+  const post = await getData(params.slug);
   if (!post) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
+    return <div>Servicio no encontrado.</div>;
   }
-
+  const breadcrumbsItems = [
+    { label: 'Inicio', href: '/', slug: 'home' },
+    { label: 'Blog', href: '/blog', slug: 'blog' },
+    {
+      label: post?.title || 'Sin título',
+      href: `/blog/${params.slug}`,
+      slug: params.slug,
+    },
+  ];
   return (
-    <div className="max-w-xl">
-      <article>
-        {/*<Breadcrumbs
-        servicios={{
-          label: post.title,
-          href: '/servicios',
-          slug: params.slug,
-        }}
-      /> */}
-        <h1 className="h2 mb-6">{post.title}</h1>
-
-        <div className="flex flex-col gap-14 md:flex-row">
-          {/* Main Content: Asegura que el contenido principal esté a la izquierda */}
-          <div className="order-2 md:order-1 md:w-3/4">
-            <div className="prose prose-sm max-w-none">
-              <PortableText
-                value={post.content || []}
-                components={PTServices}
-              />
+    <section>
+      {post?.components && <PageTemplate dataPage={post} />}
+      <div className="mx-auto mt-5 max-w-screen-xl">
+        <article>
+          <Breadcrumbs items={breadcrumbsItems} />
+          <div className="flex w-full flex-col gap-14 md:flex-row">
+            <div className="order-2 md:order-1 md:w-3/4">
+              <div className="prose prose-sm max-w-none">
+                <PortableText
+                  value={post.content || []}
+                  components={PTextPost}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
-          <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
-            <TableOfContents
-              items={post.tableOfContents ? post.tableOfContents : []}
-            />
-          </aside>
-        </div>
-      </article>
-    </div>
+            {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
+            <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
+              {post?.tableOfContents && (
+                <TableOfContents items={post?.tableOfContents || null} />
+              )}
+            </aside>
+          </div>
+        </article>
+      </div>
+    </section>
   );
 }

@@ -181,6 +181,7 @@ export type Banner = {
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: 'image';
   };
   imageBackgroundType?: 'fixed' | 'dynamic';
@@ -341,16 +342,8 @@ export type Post = {
           _type: 'span';
           _key: string;
         }>;
-        style?:
-          | 'normal'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'blockquote';
-        listItem?: 'bullet' | 'number';
+        style?: 'normal' | 'blockquote' | 'h2' | 'h3';
+        listItem?: 'bullet';
         markDefs?: Array<{
           href?: string;
           _type: 'link';
@@ -380,18 +373,150 @@ export type Post = {
     [internalGroqTypeReferenceTo]?: 'unitBusiness';
   };
   resumen?: string;
-  coverImage?: {
-    asset?: {
+  components?: Array<{
+    isActive?: boolean;
+    typeComponent?: {
       _ref: string;
       _type: 'reference';
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: 'component';
     };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  };
+    responsiveHeight?: 'fit-max' | 'h-900';
+    backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
+    colorWithDarkMode?: boolean;
+    directionDeg?: number;
+    colorBackground1?: Color;
+    colorBackground2?: Color;
+    colorBackground3?: Color;
+    colorBackgroundDark1?: Color;
+    colorBackgroundDark2?: Color;
+    colorBackgroundDark3?: Color;
+    colorBackground1Position?: number;
+    colorBackground2Position?: number;
+    colorBackground3Position?: number;
+    imageBackground?: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    };
+    imageBackgroundType?: 'fixed' | 'dynamic';
+    imageBackgroundLayer?:
+      | 'layer1'
+      | 'layer2'
+      | 'layer3'
+      | 'layer4'
+      | 'layer5'
+      | 'layer6';
+    videoUrl?: string;
+    videoType?: 'mp4' | 'webm';
+    responsiveComponent?: string;
+    invertLayoutMobile?: boolean;
+    invertLayoutDesk?: boolean;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: 'span';
+        _key: string;
+      }>;
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
+      listItem?: 'bullet' | 'number';
+      markDefs?: Array<{
+        href?: string;
+        _type: 'link';
+        _key: string;
+      }>;
+      level?: number;
+      _type: 'block';
+      _key: string;
+    }>;
+    PTextBanner?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    };
+    imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+    imageClass?: string;
+    items?: Array<{
+      isActive?: boolean;
+      image?: {
+        asset?: {
+          _ref: string;
+          _type: 'reference';
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: 'image';
+      };
+      alt?: string;
+      orderRank?: string;
+      icon?: IconManager;
+      svgIcon?: string;
+      svgIconList?: IconsList;
+      content?: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: 'span';
+              _key: string;
+            }>;
+            style?:
+              | 'normal'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'blockquote';
+            listItem?: 'bullet' | 'number';
+            markDefs?: Array<{
+              href?: string;
+              _type: 'link';
+              _key: string;
+            }>;
+            level?: number;
+            _type: 'block';
+            _key: string;
+          }
+        | {
+            asset?: {
+              _ref: string;
+              _type: 'reference';
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+            };
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+            _key: string;
+          }
+      >;
+      _type: 'item';
+      _key: string;
+    }>;
+    layoutItems?: string;
+    PTextItem?: string;
+    _type: 'banner';
+    _key: string;
+  }>;
   date?: string;
 };
 
@@ -481,6 +606,7 @@ export type Service = {
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: 'image';
     };
     imageBackgroundType?: 'fixed' | 'dynamic';
@@ -749,6 +875,7 @@ export type Page = {
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: 'image';
     };
     imageBackgroundType?: 'fixed' | 'dynamic';
@@ -1364,16 +1491,8 @@ export type HeroQueryResult = {
           _type: 'span';
           _key: string;
         }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
+        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
+        listItem?: 'bullet';
         markDefs?: Array<{
           href?: string;
           _type: 'link';
@@ -1401,18 +1520,7 @@ export type HeroQueryResult = {
   title: string | 'Untitled';
   slug: string | null;
   excerpt: null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  } | null;
+  coverImage: null;
   date: string;
   author: null;
 } | null;
@@ -1424,18 +1532,7 @@ export type MoreStoriesQueryResult = Array<{
   title: string | 'Untitled';
   slug: string | null;
   excerpt: null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  } | null;
+  coverImage: null;
   date: string;
   author: null;
 }>;
@@ -1450,16 +1547,8 @@ export type PostQueryResult = {
           _type: 'span';
           _key: string;
         }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
+        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
+        listItem?: 'bullet';
         markDefs?: Array<{
           href?: string;
           _type: 'link';
@@ -1487,18 +1576,7 @@ export type PostQueryResult = {
   title: string | 'Untitled';
   slug: string | null;
   excerpt: null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  } | null;
+  coverImage: null;
   date: string;
   author: null;
 } | null;
@@ -1648,6 +1726,7 @@ export type GetPageDetailQueryResult = {
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: 'image';
     } | null;
     imageBackgroundType: 'dynamic' | 'fixed' | null;
@@ -1731,7 +1810,7 @@ export type GetPageDetailQueryResult = {
 
 // Source: ./sanity/lib/queries/post.query.ts
 // Variable: getPostListQuery
-// Query: *[_type == 'post'] {       title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  coverImage,  alt,  date        }
+// Query: *[_type == 'post'] {        title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date        }
 export type GetPostListQueryResult = Array<{
   title: string | null;
   slug: Slug | null;
@@ -1749,24 +1828,153 @@ export type GetPostListQueryResult = Array<{
       | 'bg-red-100 text-red-800'
       | 'bg-yellow-100 text-yellow-800';
   };
+  components: Array<{
+    isActive: boolean | null;
+    typeComponentValue: string | null;
+    layoutBanner: null;
+    PTextBanner: string | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: 'span';
+        _key: string;
+      }>;
+      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+      listItem?: 'bullet' | 'number';
+      markDefs?: Array<{
+        href?: string;
+        _type: 'link';
+        _key: string;
+      }>;
+      level?: number;
+      _type: 'block';
+      _key: string;
+    }> | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    } | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
+    colorWithDarkMode: boolean | null;
+    colorBackground1: Color | null;
+    colorBackground2: Color | null;
+    colorBackground3: Color | null;
+    colorBackgroundDark1: Color | null;
+    colorBackgroundDark2: Color | null;
+    colorBackgroundDark3: Color | null;
+    colorBackground1Position: number | null;
+    colorBackground2Position: number | null;
+    colorBackground3Position: number | null;
+    directionDeg: number | null;
+    imageBackground: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer:
+      | 'layer1'
+      | 'layer2'
+      | 'layer3'
+      | 'layer4'
+      | 'layer5'
+      | 'layer6'
+      | null;
+    videoUrl: string | null;
+    videoType: 'mp4' | 'webm' | null;
+    responsiveComponent: string | null;
+    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    invertLayoutMobile: boolean | null;
+    invertLayoutDesk: boolean | null;
+    layoutItems: string | null;
+    PTextItem: string | null;
+    items: Array<{
+      isActive: boolean | null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: 'reference';
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: 'image';
+      } | null;
+      icon: IconManager | null;
+      svgIcon: string | null;
+      svgIconList: IconsList | null;
+      alt: string | null;
+      orderRank: string | null;
+      content: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: 'span';
+              _key: string;
+            }>;
+            style?:
+              | 'blockquote'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'normal';
+            listItem?: 'bullet' | 'number';
+            markDefs?: Array<{
+              href?: string;
+              _type: 'link';
+              _key: string;
+            }>;
+            level?: number;
+            _type: 'block';
+            _key: string;
+          }
+        | {
+            asset?: {
+              _ref: string;
+              _type: 'reference';
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+            };
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+            _key: string;
+          }
+      > | null;
+    }> | null;
+  }> | null;
   resumen: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  } | null;
-  alt: null;
   date: string | null;
 }>;
 // Variable: getPostListByUnitBusinessQuery
-// Query: *[_type == 'post' && unitBusiness->slug.current == $slug] {       title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  coverImage,  alt,  date        }
+// Query: *[_type == 'post' && unitBusiness->slug.current == $slug] {        title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date        }
 export type GetPostListByUnitBusinessQueryResult = Array<{
   title: string | null;
   slug: Slug | null;
@@ -1784,26 +1992,156 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
       | 'bg-red-100 text-red-800'
       | 'bg-yellow-100 text-yellow-800';
   };
+  components: Array<{
+    isActive: boolean | null;
+    typeComponentValue: string | null;
+    layoutBanner: null;
+    PTextBanner: string | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: 'span';
+        _key: string;
+      }>;
+      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+      listItem?: 'bullet' | 'number';
+      markDefs?: Array<{
+        href?: string;
+        _type: 'link';
+        _key: string;
+      }>;
+      level?: number;
+      _type: 'block';
+      _key: string;
+    }> | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    } | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
+    colorWithDarkMode: boolean | null;
+    colorBackground1: Color | null;
+    colorBackground2: Color | null;
+    colorBackground3: Color | null;
+    colorBackgroundDark1: Color | null;
+    colorBackgroundDark2: Color | null;
+    colorBackgroundDark3: Color | null;
+    colorBackground1Position: number | null;
+    colorBackground2Position: number | null;
+    colorBackground3Position: number | null;
+    directionDeg: number | null;
+    imageBackground: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer:
+      | 'layer1'
+      | 'layer2'
+      | 'layer3'
+      | 'layer4'
+      | 'layer5'
+      | 'layer6'
+      | null;
+    videoUrl: string | null;
+    videoType: 'mp4' | 'webm' | null;
+    responsiveComponent: string | null;
+    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    invertLayoutMobile: boolean | null;
+    invertLayoutDesk: boolean | null;
+    layoutItems: string | null;
+    PTextItem: string | null;
+    items: Array<{
+      isActive: boolean | null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: 'reference';
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: 'image';
+      } | null;
+      icon: IconManager | null;
+      svgIcon: string | null;
+      svgIconList: IconsList | null;
+      alt: string | null;
+      orderRank: string | null;
+      content: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: 'span';
+              _key: string;
+            }>;
+            style?:
+              | 'blockquote'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'normal';
+            listItem?: 'bullet' | 'number';
+            markDefs?: Array<{
+              href?: string;
+              _type: 'link';
+              _key: string;
+            }>;
+            level?: number;
+            _type: 'block';
+            _key: string;
+          }
+        | {
+            asset?: {
+              _ref: string;
+              _type: 'reference';
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+            };
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+            _key: string;
+          }
+      > | null;
+    }> | null;
+  }> | null;
   resumen: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: 'image';
-  } | null;
-  alt: null;
   date: string | null;
 }>;
 // Variable: getPostDetailQuery
-// Query: *[_type == 'post' && slug.current == $slug][0] {    title,  // Fetch the title of the service    "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },    content,  // Fetch the content of the service    'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings      _key,      style,        children[] {          text        }    },  }
+// Query: *[_type == 'post' && slug.current == $slug][0] {      title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  components[isActive] {   isActive,  "typeComponentValue": typeComponent->value,  layoutBanner,  PTextBanner,  content,  image,  backgroundMode,  responsiveHeight,  colorWithDarkMode,  colorBackground1,  colorBackground2,  colorBackground3,  colorBackgroundDark1,  colorBackgroundDark2,  colorBackgroundDark3,  colorBackground1Position,  colorBackground2Position,  colorBackground3Position,  directionDeg,  imageBackground,  imageBackgroundType,  imageBackgroundLayer,  videoUrl,  videoType,  responsiveComponent,  imagePosition,  invertLayoutMobile,  invertLayoutDesk,  layoutItems,  PTextItem,  items[isActive] {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    orderRank,    content  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date  ,    content,    "tableOfContents" : content[style in ['h2', 'h3']] {      _key,      style,      'text':children[0].text     }  }
 export type GetPostDetailQueryResult = {
   title: string | null;
+  slug: Slug | null;
   unitBusiness: {
     title: string | 'Sin t\xEDtulo';
     icon: '/default-icon.png' | 'menu' | 'user';
@@ -1818,6 +2156,150 @@ export type GetPostDetailQueryResult = {
       | 'bg-red-100 text-red-800'
       | 'bg-yellow-100 text-yellow-800';
   };
+  components: Array<{
+    isActive: boolean | null;
+    typeComponentValue: string | null;
+    layoutBanner: null;
+    PTextBanner: string | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: 'span';
+        _key: string;
+      }>;
+      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+      listItem?: 'bullet' | 'number';
+      markDefs?: Array<{
+        href?: string;
+        _type: 'link';
+        _key: string;
+      }>;
+      level?: number;
+      _type: 'block';
+      _key: string;
+    }> | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: 'image';
+    } | null;
+    backgroundMode:
+      | 'colors'
+      | 'image'
+      | 'items'
+      | 'transparent'
+      | 'video'
+      | null;
+    responsiveHeight: 'fit-max' | 'h-900' | null;
+    colorWithDarkMode: boolean | null;
+    colorBackground1: Color | null;
+    colorBackground2: Color | null;
+    colorBackground3: Color | null;
+    colorBackgroundDark1: Color | null;
+    colorBackgroundDark2: Color | null;
+    colorBackgroundDark3: Color | null;
+    colorBackground1Position: number | null;
+    colorBackground2Position: number | null;
+    colorBackground3Position: number | null;
+    directionDeg: number | null;
+    imageBackground: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    } | null;
+    imageBackgroundType: 'dynamic' | 'fixed' | null;
+    imageBackgroundLayer:
+      | 'layer1'
+      | 'layer2'
+      | 'layer3'
+      | 'layer4'
+      | 'layer5'
+      | 'layer6'
+      | null;
+    videoUrl: string | null;
+    videoType: 'mp4' | 'webm' | null;
+    responsiveComponent: string | null;
+    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    invertLayoutMobile: boolean | null;
+    invertLayoutDesk: boolean | null;
+    layoutItems: string | null;
+    PTextItem: string | null;
+    items: Array<{
+      isActive: boolean | null;
+      image: {
+        asset?: {
+          _ref: string;
+          _type: 'reference';
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: 'image';
+      } | null;
+      icon: IconManager | null;
+      svgIcon: string | null;
+      svgIconList: IconsList | null;
+      alt: string | null;
+      orderRank: string | null;
+      content: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: 'span';
+              _key: string;
+            }>;
+            style?:
+              | 'blockquote'
+              | 'h1'
+              | 'h2'
+              | 'h3'
+              | 'h4'
+              | 'h5'
+              | 'h6'
+              | 'normal';
+            listItem?: 'bullet' | 'number';
+            markDefs?: Array<{
+              href?: string;
+              _type: 'link';
+              _key: string;
+            }>;
+            level?: number;
+            _type: 'block';
+            _key: string;
+          }
+        | {
+            asset?: {
+              _ref: string;
+              _type: 'reference';
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+            };
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+            _key: string;
+          }
+      > | null;
+    }> | null;
+  }> | null;
+  resumen: string | null;
+  date: string | null;
   content: Array<
     | {
         children?: Array<{
@@ -1826,16 +2308,8 @@ export type GetPostDetailQueryResult = {
           _type: 'span';
           _key: string;
         }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
+        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
+        listItem?: 'bullet';
         markDefs?: Array<{
           href?: string;
           _type: 'link';
@@ -1860,19 +2334,8 @@ export type GetPostDetailQueryResult = {
   > | null;
   tableOfContents: Array<{
     _key: string;
-    style:
-      | 'blockquote'
-      | 'h1'
-      | 'h2'
-      | 'h3'
-      | 'h4'
-      | 'h5'
-      | 'h6'
-      | 'normal'
-      | null;
-    children: Array<{
-      text: string | null;
-    }> | null;
+    style: 'blockquote' | 'h2' | 'h3' | 'normal' | null;
+    text: string | null;
   }> | null;
 } | null;
 
@@ -2018,6 +2481,7 @@ export type GetServiceDetailQueryResult = {
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: 'image';
     } | null;
     imageBackgroundType: 'dynamic' | 'fixed' | null;
@@ -2130,9 +2594,9 @@ declare module '@sanity/client' {
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
     '\n    *[_type == \'page\' && isActive] | order(orderRank asc) {\n      "id": coalesce(_id, ""), \n      "name": coalesce(name, title),\n      title,\n      "slug": select(\n        isHome == true => "",\n        slug.current\n      ),\n      "orderRank": orderRank,\n      isHome,\n      isActive\n    }\n  ': GetPagesNavQueryResult;
     '\n    *[_type == \'page\' && slug.current == $slug][0] {\n    \n "id": _id,\n  name,\n "slug": slug.current,\n  isActive,\n  title,\n  imageHeader,\n  content,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n }\n\n  }': GetPageDetailQueryResult;
-    '\n    *[_type == \'post\'] {\n      \n title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  coverImage,\n  alt,\n  date\n  \n      }': GetPostListQueryResult;
-    '\n    *[_type == \'post\' && unitBusiness->slug.current == $slug] {\n      \n title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  coverImage,\n  alt,\n  date\n  \n      }': GetPostListByUnitBusinessQueryResult;
-    '*[_type == \'post\' && slug.current == $slug][0] {\n    title,  // Fetch the title of the service\n    \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    content,  // Fetch the content of the service\n    \'tableOfContents\': content[style in [\'h2\', \'h3\']] {  // Filter content for headings\n      _key,\n      style,  \n      children[] {  \n        text  \n      }\n    },\n  }': GetPostDetailQueryResult;
+    '\n    *[_type == \'post\'] {\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListQueryResult;
+    '\n    *[_type == \'post\' && unitBusiness->slug.current == $slug] {\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListByUnitBusinessQueryResult;
+    '\n  *[_type == \'post\' && slug.current == $slug][0] {\n    \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  ,\n    content,\n    "tableOfContents" : content[style in [\'h2\', \'h3\']] {\n      _key,\n      style,\n      \'text\':children[0].text \n    }\n  }\n': GetPostDetailQueryResult;
     '*[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n      "id": coalesce(slug.current, null),\n      "title": coalesce(title, null),\n      "slug": coalesce(slug.current, null),\n      \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n\n    }': GetServicesNavQueryResult;
     '*[_type == \'service\' && slug.current == $slug][0] {\n    title,  // Fetch the title of the service\n    \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    content,  // Fetch the content of the service\n    components[isActive] { \n  isActive,\n  "typeComponentValue": typeComponent->value,\n  layoutBanner,\n  PTextBanner,\n  content,\n  image,\n  backgroundMode,\n  responsiveHeight,\n  colorWithDarkMode,\n  colorBackground1,\n  colorBackground2,\n  colorBackground3,\n  colorBackgroundDark1,\n  colorBackgroundDark2,\n  colorBackgroundDark3,\n  colorBackground1Position,\n  colorBackground2Position,\n  colorBackground3Position,\n  directionDeg,\n  imageBackground,\n  imageBackgroundType,\n  imageBackgroundLayer,\n  videoUrl,\n  videoType,\n  responsiveComponent,\n  imagePosition,\n  invertLayoutMobile,\n  invertLayoutDesk,\n  layoutItems,\n  PTextItem,\n  items[isActive] {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    orderRank,\n    content\n  }\n }\n  }': GetServiceDetailQueryResult;
     '\n    *[_type == \'unitBusiness\'] {\n      title,\n      icon,\n      color,\n      "slug": slug.current\n  }': GetUnitBusinessListQueryResult;

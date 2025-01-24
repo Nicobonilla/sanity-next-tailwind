@@ -175,8 +175,28 @@ export default defineType({
       type: 'image',
       options: {
         hotspot: true,
+        aiAssist: {
+          imageDescriptionField: 'alt',
+        },
       },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for SEO and accessiblity.',
+          validation: (rule) => {
+            return rule.custom((alt, context) => {
+              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
+                return 'Required';
+              }
+              return true;
+            });
+          },
+        },
+      ],
       group: 'exterior',
+      validation: (rule) => rule.required(),
       hidden: ({ parent }) => parent.backgroundMode !== 'image',
     }),
     defineField({

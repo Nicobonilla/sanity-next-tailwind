@@ -26,7 +26,7 @@ export default function PtextHeading({ data }: { data: ComponentProps }) {
         className={clsx(
           'relative z-20 flex h-full flex-col justify-center px-4',
           'md:w-4/5 md:px-0',
-          'lg:translate-y-10'
+          'lg:h-2/3 lg:translate-y-10'
         )}
       >
         <PortableText

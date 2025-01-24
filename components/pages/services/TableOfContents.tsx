@@ -1,27 +1,14 @@
-interface TableOfContentsProps {
-  items: Array<{
-    _key: string;
-    style:
-      | 'blockquote'
-      | 'h1'
-      | 'h2'
-      | 'h3'
-      | 'h4'
-      | 'h5'
-      | 'h6'
-      | 'normal'
-      | null;
-    children: Array<{
-      text: string | null;
-    }> | null;
-  }> | null;
-}
+import { ComponentProps } from '@/components/types';
+import { GetPostDetailQueryResult } from '@/sanity.types';
 
-export const TableOfContents = ({ items }: TableOfContentsProps) => {
+export type TableOfComponentsProps =
+  NonNullable<GetPostDetailQueryResult>['tableOfContents'];
+
+export const TableOfContents = (items: TableOfComponentsProps) => {
   return (
     <nav>
       <h2 className="mb-4 border-l-4 border-red-500 pl-4 font-semibold">
-        Table of Contents
+        Table de Contenido
       </h2>
       <ul className="border-l-4 border-gray-200 pl-4">
         {items &&
@@ -36,7 +23,7 @@ export const TableOfContents = ({ items }: TableOfContentsProps) => {
                 aria-hidden="true"
                 tabIndex={-1}
               >
-                {item.children ? item.children[0].text : null}
+                {item?.text}
               </a>
             </li>
           ))}

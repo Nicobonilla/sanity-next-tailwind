@@ -1,17 +1,17 @@
 import { defineQuery, groq } from 'next-sanity';
 import { unitBusiness } from './unitBusiness.query';
+import { componentFields } from './component.query';
 
 /* BLOG - POST */
 export const post = /* groq */ `
- title,
+  title,
   slug,
   ${unitBusiness},
+  components[isActive] { ${componentFields} },
   "resumen": coalesce(
     resumen,
     array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")
   ),
-  coverImage,
-  alt,
   date
   `;
 
@@ -27,17 +27,14 @@ export const getPostListByUnitBusinessQuery = defineQuery(groq`
       }`);
 
 /* BLOG - DETALLE DE POST */
-export const getPostDetailQuery = defineQuery(
-  groq`*[_type == 'post' && slug.current == $slug][0] {
-    title,  // Fetch the title of the service
-    ${unitBusiness},
-    content,  // Fetch the content of the service
-    'tableOfContents': content[style in ['h2', 'h3']] {  // Filter content for headings
+export const getPostDetailQuery = defineQuery(groq`
+  *[_type == 'post' && slug.current == $slug][0] {
+    ${post},
+    content,
+    "tableOfContents" : content[style in ['h2', 'h3']] {
       _key,
-      style,  
-      children[] {  
-        text  
-      }
-    },
-  }`
-);
+      style,
+      'text':children[0].text 
+    }
+  }
+`);
