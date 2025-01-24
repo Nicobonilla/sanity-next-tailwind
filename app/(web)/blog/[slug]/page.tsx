@@ -1,10 +1,9 @@
-import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { PortableText } from '@portabletext/react';
 import { Metadata } from 'next';
 import { GetPostDetailQueryResult } from '@/sanity.types';
 import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { PTextPost } from '@/components/pages/component/Posts/PTextPost';
 import PageTemplate from '@/components/pages/PageTemplate';
-import { ComponentProps } from '@/components/types';
 import { TableOfContents } from '@/components/pages/component/Posts/TableOfContents';
 import { Breadcrumbs } from '@/components/pages/component/Posts/Breadcrumbs';
 

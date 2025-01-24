@@ -8,10 +8,8 @@ import { Metadata } from 'next';
 import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
 import Resources, { Resource } from '@/components/pages/component/Resources';
-import { PortableTextComponents } from 'next-sanity';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { unitBusiness } from '../../../sanity/lib/queries/unitBusiness.query';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -168,26 +166,6 @@ const resources: Resource[] = [
   },
 ];
 
-// Componente de PortableText con estilos personalizados
-export const PTextBanner: PortableTextComponents = {
-  block: {
-    h1: ({ children }) => (
-      <h1 className="font-crimson text-xl font-semibold uppercase text-red-700">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="mb-10 font-robotoslab text-3xl font-light text-gray-700">
-        {children}
-      </h2>
-    ),
-    normal: ({ children }) => (
-      <p className="font-robotoslab text-base font-light text-gray-900">
-        {children}
-      </p>
-    ),
-  },
-};
 export default async function Page() {
   const data = await getDataPage();
   if (!data) {
