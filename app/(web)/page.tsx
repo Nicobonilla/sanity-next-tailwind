@@ -1,12 +1,14 @@
+'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
-import {  getSettingsFetch } from '@/sanity/lib/fetch';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 
 import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const currentPage = await getData('inicio');
+  console.log('currentPage', currentPage);
   return {
     title: currentPage?.settings?.title,
     openGraph: {
@@ -34,6 +36,7 @@ async function getData(slug: string) {
 
 export default async function Page() {
   const currentPage = await getData('inicio');
+  console.log('currentPage', currentPage);
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }

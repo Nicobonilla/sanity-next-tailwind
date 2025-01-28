@@ -1,13 +1,7 @@
 import { ComponentProps } from '@/components/types';
-import PHeroImage from '@/components/pages/component/HeroImage/PTHeroImage';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
 
-// Definimos el tipo de PHeroImage para que TypeScript lo entienda
-type PHeroImageType = {
-  PT1: PortableTextComponents;
-  PT2: PortableTextComponents;
-};
 // Componente de PortableText con estilos personalizados
 export const PTextBanner: PortableTextComponents = {
   block: {

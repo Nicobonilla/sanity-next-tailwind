@@ -51,6 +51,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       slug: params.slug,
     },
   ];
+  console.log('post', post);
   return (
     <section>
       {post?.components && <PageTemplate dataPage={post} />}

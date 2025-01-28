@@ -1,12 +1,18 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list';
 
-export default defineType({
+const unitBusiness = defineType({
   name: 'unitBusiness',
   title: 'Áreas de Práctica',
   type: 'document',
   icon: DocumentsIcon,
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'unitBusiness' }),
     defineField({
       name: 'title',
       title: 'Título',
@@ -23,12 +29,6 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'orderRank',
-      title: 'Posición',
-      type: 'string',
-      hidden: true,
-    }),
-    defineField({
       name: 'icon',
       title: 'Icon',
       type: 'string',
@@ -36,7 +36,6 @@ export default defineType({
         list: [
           { title: 'User', value: 'user' },
           { title: 'Menu', value: 'menu' },
-          // Agrega más íconos según sea necesario
         ],
       },
     }),
@@ -60,19 +59,9 @@ export default defineType({
       name: 'description',
       title: 'Descripción',
       type: 'array',
-      of: [
-        { type: 'block' },
-        {
-          type: 'image',
-        },
-      ], // Para contenido enriquecido
+      of: [{ type: 'block' }, { type: 'image' }],
     }),
   ],
-  orderings: [
-    {
-      title: 'Posición',
-      name: 'positionAsc',
-      by: [{ field: 'orderRank', direction: 'asc' }],
-    },
-  ],
 });
+
+export default unitBusiness;

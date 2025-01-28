@@ -1,139 +1,39 @@
 'use client';
 
-import { urlForImage } from '@/sanity/lib/utils';
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeContext';
-import { useEffect, useState, useMemo } from 'react';
-import { BackgroundProps, Color, Theme } from './types';
-import { getThemeStyle, defaultColor } from './utils';
-import Video from './Video';
-import Image from 'next/image';
+import { useState } from 'react';
+import { BackgroundProps, useCurrentStyle } from './utils';
 import Layer from './Layer';
-import PTextHero from './PTextHero';
-import PtextHeading from './PtextHeading';
 
 export default function Background({ data, children }: BackgroundProps) {
   const { isDarkMode } = useTheme();
-  const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>('light');
+  const [activeTheme] = useState<'light' | 'dark'>('light');
+  const { bg, typeComponent } = data;
+  const responsiveHeight = bg?.responsiveHeight || '';
 
-  // Update activeTheme whenever isDarkMode changes
-  useEffect(() => {
-    setActiveTheme(isDarkMode ? 'dark' : 'light');
-    console.log('isDarkMode changed:', isDarkMode);
-  }, [isDarkMode]);
+  const currentStyle = useCurrentStyle(bg, isDarkMode);
 
-  // Generate theme styles
-  const themeStyles = useMemo(() => {
-    if (
-      data.backgroundMode === 'colors' ||
-      data.backgroundMode === 'items' ||
-      data.backgroundMode === 'image'
-    ) {
-      const lightTheme: Theme = {
-        color1: (data.colorBackground1 as Color) || defaultColor,
-        color2: (data.colorBackground2 as Color) || defaultColor,
-        color3: (data.colorBackground3 as Color) || defaultColor,
-      };
-
-      const darkTheme: Theme = {
-        color1: (data.colorBackgroundDark1 as Color) || defaultColor,
-        color2: (data.colorBackgroundDark2 as Color) || defaultColor,
-        color3: (data.colorBackgroundDark3 as Color) || defaultColor,
-      };
-      const positions = [
-        data.colorBackground1Position || 0,
-        data.colorBackground2Position || 100,
-        data.colorBackground3Position || 100,
-      ];
-
-      const lightThemeStyle = getThemeStyle(0, lightTheme, positions);
-      const darkThemeStyle = getThemeStyle(0, darkTheme, positions);
-
-      return {
-        light: lightThemeStyle,
-        dark: data.colorWithDarkMode ? darkThemeStyle : lightThemeStyle,
-      };
-    }
-
-    return {
-      light: { background: 'transparent' },
-      dark: { background: 'transparent' },
-    };
-  }, [data]);
-
-  // Get current style based on activeTheme
-  const currentStyle = useMemo(() => {
-    if (
-      data.backgroundMode == 'colors' ||
-      data.backgroundMode == 'items' ||
-      data.backgroundMode == 'image'
-    ) {
-      return data.colorWithDarkMode
-        ? themeStyles[activeTheme]
-        : themeStyles.light;
-    }
-    return themeStyles.light;
-  }, [activeTheme, data.backgroundMode, data.colorWithDarkMode, themeStyles]);
-
-  console.log('currentStyle:', currentStyle);
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {
-        'min-h-screen md:min-h-0 lg:max-h-fit':
-          data.responsiveHeight == 'fit-max',
-        'h-[900px]': data.responsiveHeight == 'h-900',
-        'h-[350px]': data.typeComponentValue == 'heading',
+        'min-h-screen md:min-h-0 lg:max-h-fit': responsiveHeight == 'fit-max',
+        'h-[900px]': responsiveHeight == 'h-900' || typeComponent == 'heroForm',
+        'h-[350px]': typeComponent == 'heading',
+        'h-fit md:h-[400px]': typeComponent == 'highLight',
       })}
     >
-      {data.backgroundMode === 'video' && data.videoUrl && data?.videoType && (
-        <Video
-          videoUrl={data?.videoUrl}
-          videoType={data?.videoType}
-          activeTheme={activeTheme}
-        />
-      )}
+      <div className={'absolute inset-0 z-20'} style={currentStyle}></div>
 
-      {data.imageBackgroundType == 'dynamic' && (
-        <Image
-          src={urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'}
-          alt="Hero image for the homepage"
-          className="inset-0 z-10 size-full object-cover object-center"
-          quality={100}
-          fill
-          priority
-        />
-      )}
-
-      {data.backgroundMode == 'colors' ||
-        data.backgroundMode == 'items' ||
-        (data.backgroundMode == 'image' && (
-          <div className={'absolute inset-0 z-20'} style={currentStyle}></div>
-        ))}
-
-      {data.imageBackgroundType === 'fixed' && (
-        <div
-          className="absolute inset-0 z-10 bg-cover bg-fixed bg-center"
-          style={{
-            backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || ''})`,
-          }}
-        />
-      )}
-
-      {data.responsiveHeight == 'h-900' &&
-        data.typeComponentValue != 'heroForm' && <PTextHero data={data} />}
-      {data.typeComponentValue == 'heading' && <PtextHeading data={data} />}
-
-      {/* LOGICA CHILDREN */}
-      {data.responsiveHeight == 'fit-max' ||
-        (data.typeComponentValue == 'heroForm' && children)}
-
-      {data.imageBackgroundLayer && (
+      {bg?.layer && (
         <Layer
-          layer={data.imageBackgroundLayer}
+          layer={bg?.layer}
           activeTheme={activeTheme}
           currentStyle={currentStyle}
         />
       )}
+
+      {children}
     </div>
   );
 }

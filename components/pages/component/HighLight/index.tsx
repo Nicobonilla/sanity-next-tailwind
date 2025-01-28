@@ -5,6 +5,8 @@ import { urlForImage } from '@/sanity/lib/utils';
 
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
+import Background from '../Background';
+import ImageBg from '../Background/ImageBg';
 
 // Componente de PortableText con estilos personalizados
 export const PTextBanner: PortableTextComponents = {
@@ -15,7 +17,7 @@ export const PTextBanner: PortableTextComponents = {
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="font-robotoslab mb-10 text-3xl font-light text-gray-700">
+      <h2 className="mb-10 font-robotoslab text-3xl font-light text-gray-700">
         {children}
       </h2>
     ),
@@ -28,25 +30,33 @@ export const PTextBanner: PortableTextComponents = {
 };
 
 export default function Highlight({ data }: { data: ComponentProps }) {
+  const dataBg = data?.backgroundValue || {};
+  const typeComponent = data?.typeComponentValue || '';
+  const height = dataBg?.responsiveHeight || '';
   return (
-    <div className={'relative h-fit w-full md:h-[400px]'}>
+    <Background
+      data={{
+        bg: dataBg,
+        typeComponent,
+      }}
+    >
+      <ImageBg
+        imgBg={data?.imageBackground}
+        imgBgType={dataBg?.imageBackgroundType}
+      />
+
       <div
-        className="z-0 h-full bg-cover bg-fixed bg-center py-20"
-        style={{
-          backgroundImage: `url(${urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'})`,
-        }}
+        className={clsx(
+          'relative inset-0 z-20 flex h-full flex-col justify-center py-20 text-center text-neutral-800',
+          'xs5: px-10',
+          'md:py-auto',
+          'lg:max-w-none'
+        )}
       >
-        <div
-          className={clsx(
-            'relative inset-0 z-20 my-auto flex h-full flex-col justify-center text-center text-neutral-800',
-            'xs5: px-10',
-            'lg:max-w-none'
-          )}
-        >
-          <PortableText components={PTextBanner} value={data.content || []} />
-        </div>
+        <PortableText components={PTextBanner} value={data.content || []} />
       </div>
+
       <div className="absolute inset-0 z-10 size-full bg-white/65"></div>
-    </div>
+    </Background>
   );
 }

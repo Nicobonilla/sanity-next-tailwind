@@ -172,6 +172,7 @@ export default async function Page() {
     return <div>Error fetching data</div>;
   }
   const { page, posts, unitBusiness }: PageData = data;
+  console.log('page blog', page);
   return (
     <section>
       {page?.components && <PageTemplate dataPage={page} />}

@@ -11,24 +11,23 @@ export const getPagesNavQuery = defineQuery(groq`
         isHome == true => "",
         slug.current
       ),
-      "orderRank": orderRank,
       isHome,
+      orderRank,
       isActive
     }
   `);
 
 const pageFields = /* groq */ `
- "id": _id,
-  name,
- "slug": slug.current,
-  isActive,
-  title,
-  imageHeader,
-  content,
-  components[isActive] { ${componentFields} }
+    "id": _id,
+    name,
+    "slug": slug.current,
+    isActive,
+    title,
+    content,
+    components[isActive] | order(orderRank) { ${componentFields} }
 `;
 
 export const getPageDetailQuery = defineQuery(groq`
     *[_type == 'page' && slug.current == $slug][0] {
     ${pageFields}
-  }`);
+    }`);

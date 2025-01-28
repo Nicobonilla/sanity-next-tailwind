@@ -37,8 +37,8 @@ export const pageStructure = (
   typeDefArray: DocumentDefinition[]
 ): StructureResolver => {
   return (S, context) => {
-    const hiddenDocuments = ['post', 'author', 'item', 'banner'];
-    const orderableDocuments = ['page', 'post', 'service', 'unitBusiness'];
+    const hiddenDocuments = ['post', 'author', 'item', 'banner', 'background'];
+    const orderableDocuments: string[] = ['page','post','service','unitBusiness', 'banner'];
     // Crea los items de los singletons a partir de los typeDefs
     const singletonItems = typeDefArray.map((typeDef) => {
       return S.listItem()
@@ -51,7 +51,7 @@ export const pageStructure = (
             .documentId(typeDef.name)
         );
     });
-
+    
     const orderableListItems = S.documentTypeListItems()
       .filter((listItem) => orderableDocuments.includes(listItem.getId() || ''))
       .map((listItem) =>
@@ -62,7 +62,7 @@ export const pageStructure = (
           context,
         })
       );
-
+      
     // Filtra los elementos de lista predeterminados excluyendo los singletons y los documentos ocultos
     const defaultListItems = S.documentTypeListItems().filter(
       (listItem) =>

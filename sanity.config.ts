@@ -18,9 +18,10 @@ import { IconManager } from 'sanity-plugin-icon-manager';
 import { media } from 'sanity-plugin-media';
 import { colorInput } from '@sanity/color-input';
 
+import settings from '@/sanity/schemas/singletons/settings';
+
 import author from '@/sanity/schemas/documents/author';
 import post from '@/sanity/schemas/documents/post';
-import settings from '@/sanity/schemas/singletons/settings';
 import service from './sanity/schemas/documents/service';
 import banner from './sanity/schemas/documents/banner';
 import unitBusiness from './sanity/schemas/documents/unitBusiness';
@@ -28,6 +29,9 @@ import page from './sanity/schemas/documents/page';
 import item from './sanity/schemas/documents/item';
 import component from './sanity/schemas/documents/component';
 import { IconsList, IconsListItem } from './sanity/schemas/documents/IconsList';
+import background from './sanity/schemas/documents/background';
+import layer from './sanity/schemas/documents/layer';
+import colorItem from './sanity/schemas/documents/colorItem';
 
 export default defineConfig({
   basePath: studioUrl,
@@ -38,16 +42,19 @@ export default defineConfig({
       // Singletons
       settings,
       // Documents
-      page,
-      service,
-      unitBusiness,
-      post,
       author,
+      background,
       banner,
-      item,
+      colorItem,
+      component,
       IconsList,
       IconsListItem,
-      component,
+      item,
+      layer,
+      page,
+      post,
+      service,
+      unitBusiness,
     ],
   },
   plugins: [
@@ -68,7 +75,6 @@ export default defineConfig({
     inlineSvgInput(),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
-
     presentationTool({
       resolve,
       previewUrl: {

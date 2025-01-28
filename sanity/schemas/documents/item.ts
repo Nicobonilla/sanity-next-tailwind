@@ -1,11 +1,17 @@
 import { defineType, defineField } from 'sanity';
 import { validateUniquePosition } from '@/sanity/lib/validations';
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list';
 
 const item = defineType({
   name: 'item',
   title: 'Item',
   type: 'document', // Tipo de documento
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'item' }),
     defineField({
       title: 'Activar',
       name: 'isActive',
@@ -24,12 +30,6 @@ const item = defineType({
       name: 'alt',
       title: 'Alt de la imagen',
       type: 'string',
-    }),
-    defineField({
-      name: 'orderRank',
-      title: 'Posición',
-      type: 'string',
-      hidden: true,
     }),
     defineField({
       type: 'icon.manager',

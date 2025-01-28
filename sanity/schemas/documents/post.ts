@@ -1,13 +1,19 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list';
 
-export default defineType({
+const post = defineType({
   name: 'post',
   title: 'Blog',
   type: 'document',
   icon: DocumentsIcon,
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'post' }),
     defineField({
       name: 'title',
       title: 'Título',
@@ -24,12 +30,6 @@ export default defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'orderRank',
-      title: 'Position',
-      type: 'string',
-      hidden: true,
     }),
     defineField({
       name: 'content',
@@ -84,8 +84,7 @@ export default defineType({
       name: 'components',
       title: 'Componentes',
       type: 'array',
-      of: [{ type: 'banner'},
-      ], // Para contenido enriquecido
+      of: [{ type: 'banner' }], // Para contenido enriquecido
     }),
     defineField({
       name: 'date',
@@ -99,7 +98,7 @@ export default defineType({
       title: 'title',
       date: 'date',
       uBusiness: 'unitBusiness.title',
-      media: 'components.0.imageBackground',
+      media: 'components.imageBackground',
     },
     prepare({ title, media, uBusiness, date }) {
       const subtitles = [
@@ -111,3 +110,5 @@ export default defineType({
     },
   },
 });
+
+export default post;

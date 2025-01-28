@@ -10,7 +10,6 @@ function ServiceCard({
   service: ItemProps;
   index: number;
 }) {
-  console.log('service', service);
   return (
     <div
       className={`group relative grid overflow-hidden rounded-lg hover:cursor-pointer lg:items-center lg:justify-center ${index == 0 ? 'lg:row-span-3' : ''}${index == 1 ? 'lg:row-span-2' : ''}${index == 2 ? 'lg:col-span-2' : ''}${index == 3 ? 'lg:row-span-2' : ''}`}
@@ -55,7 +54,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
             components={{
               block: {
                 h1: ({ children }) => (
-                  <h2 className="font-robotoslab mb-4 text-3xl uppercase text-white drop-shadow-sm sm:text-4xl">
+                  <h2 className="mb-4 font-robotoslab text-3xl uppercase text-white drop-shadow-sm sm:text-4xl">
                     {children}
                   </h2>
                 ),

@@ -1,4 +1,4 @@
-import { defineQuery, groq } from "next-sanity";
+import { defineQuery, groq } from 'next-sanity';
 
 export const unitBusiness = /* groq */ `
 "unitBusiness": {
@@ -10,9 +10,10 @@ export const unitBusiness = /* groq */ `
 `;
 
 export const getUnitBusinessListQuery = defineQuery(groq`
-    *[_type == 'unitBusiness'] {
+    *[_type == 'unitBusiness'] |  order(orderRank asc) {
       title,
       icon,
       color,
-      "slug": slug.current
+      "slug": slug.current,
+      orderRank
   }`);

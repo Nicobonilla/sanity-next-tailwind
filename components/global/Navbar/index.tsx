@@ -3,7 +3,6 @@ import React from 'react';
 import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/global/Logo';
-import ThemeToggle from './ThemeToggle';
 import { FaWhatsapp } from 'react-icons/fa';
 import { IoIosMail } from 'react-icons/io';
 import Link from 'next/link';

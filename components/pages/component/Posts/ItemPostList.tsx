@@ -9,18 +9,20 @@ export default function ItemPostList({
 }: {
   post: GetPostListQueryResult[number];
 }) {
+  console.log('post: ', post);
+  if (!post.components) return null;
+
+  const { imageBackground } =
+    post.components.find(
+      (component) => component.typeComponentValue === 'heading'
+    ) || {};
+
   return (
     <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-gray-800">
       <div className="grid gap-4 md:grid-cols-[300px_1fr]">
         <div className="relative h-48 md:h-full">
           <Image
-            src={
-              urlForImage(
-                post.components?.filter(
-                  (comp) => comp.typeComponentValue == 'heading'
-                )[0].imageBackground
-              )?.url() || '/meeting.jpeg'
-            }
+            src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
             alt={post.title || ''}
             fill
             className="object-cover"

@@ -9,12 +9,12 @@ export default function Form() {
 
   function handlerClick() {}
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center gap-10 overflow-hidden p-8 text-slate-600 md:flex-row md:justify-center">
+    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-10 overflow-hidden px-3 text-slate-600 md:flex-row">
       <div className="relative max-w-md md:w-1/2">
         <h2 className="appercase font-bitter text-xl font-semibold text-red-700">
           ABOGADOS EN SAN FELIPE
         </h2>
-        <h2 className="font-robotoslab mb-4 text-3xl font-normal uppercase text-gray-700">
+        <h2 className="mb-4 font-robotoslab text-3xl font-normal uppercase text-gray-700">
           Sebastián Bonilla Marín
         </h2>
         <p className="font-bitter">

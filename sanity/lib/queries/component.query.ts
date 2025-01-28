@@ -1,43 +1,51 @@
+const background = /* groq */ `
+  name,
+  backgroundMode,
+  imageBackgroundType,
+  colorWithDarkMode,
+  colorList,
+  "colors": colorList[]-> {
+    "lightColor": lightColor{
+      "rgb": rgb,
+      "alpha": alpha,
+      "hex": hex
+    },
+    "darkColor": darkColor{
+      "rgb": rgb,
+      "alpha": alpha,
+      "hex": hex
+    },
+    colorBackground1Position
+  },
+  directionDeg,
+  "layer" : backgroundLayer -> value,
+  responsiveHeight,
+  invertLayoutMobile,
+  invertLayoutDesk
+`;
 
 export const componentFields = /* groq */ `
   isActive,
+  typeComponent,
   "typeComponentValue": typeComponent->value,
-  layoutBanner,
-  PTextBanner,
-  content,
-  image,
-  backgroundMode,
-  responsiveHeight,
-  colorWithDarkMode,
-  colorBackground1,
-  colorBackground2,
-  colorBackground3,
-  colorBackgroundDark1,
-  colorBackgroundDark2,
-  colorBackgroundDark3,
-  colorBackground1Position,
-  colorBackground2Position,
-  colorBackground3Position,
-  directionDeg,
   imageBackground,
-  imageBackgroundType,
-  imageBackgroundLayer,
+  'backgroundValue': background-> { ${background}},
+  content,
+  PTextBanner,
+  imageContent,
+  imagePosition,
   videoUrl,
   videoType,
-  responsiveComponent,
-  imagePosition,
-  invertLayoutMobile,
-  invertLayoutDesk,
   layoutItems,
   PTextItem,
-  items[isActive] {
+  orderRank,
+  items[isActive == true]  | order(orderRank) {
     isActive,
     image,
     icon,
     svgIcon,
     svgIconList,
     alt,
-    orderRank,
     content
   }
 `;

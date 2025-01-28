@@ -1,8 +1,12 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list';
 
-export default defineType({
+const service = defineType({
   name: 'service',
   title: 'Servicios',
   type: 'document',
@@ -76,3 +80,5 @@ export default defineType({
     },
   },
 });
+
+export default service;

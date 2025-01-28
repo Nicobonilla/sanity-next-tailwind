@@ -1,28 +1,17 @@
 import { defineType, defineField } from 'sanity';
-import {
-  isUniqueAcrossAllDocuments,
-  isUniqueTrueForField,
-} from '@/sanity/lib/utils';
+import { isUniqueAcrossAllDocuments, isUniqueTrueForField } from '@/sanity/lib/utils';
 import { BinaryDocumentIcon } from '@sanity/icons';
-import { media } from 'sanity-plugin-media';
-import { sub } from 'date-fns';
+import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list';
+import PageBuilderInput from '@/sanity/PageBuilderInput';
 
 const page = defineType({
   name: 'page',
   title: 'Páginas Principales',
-  type: 'document', // Tipo de documento
-  orderings: [
-    {
-      title: 'Estado',
-      name: 'activeStatus',
-      by: [
-        { field: 'isActive', direction: 'desc' },
-        { field: 'title', direction: 'asc' },
-      ],
-    },
-  ],
+  type: 'document',
+  orderings: [orderRankOrdering],
   icon: BinaryDocumentIcon,
   fields: [
+    orderRankField({ type: 'page' }),
     defineField({
       name: 'name',
       title: 'Título de cabecera de la pagina',
@@ -53,14 +42,6 @@ const page = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'imageHeader',
-      title: 'Imagen de cabecera',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
       name: 'isHome',
       title: 'Página de inicio',
       type: 'boolean',
@@ -69,27 +50,22 @@ const page = defineType({
         rule.custom((isHome, context) => isUniqueTrueForField(isHome, context)),
     }),
     defineField({
-      name: 'orderRank',
-      title: 'Position',
-      type: 'string',
-      hidden: true,
-    }),
-    defineField({
       name: 'content',
       title: 'Contenido',
       type: 'array',
       of: [
         { type: 'block' },
-        {
-          type: 'image',
-        },
-      ], // Para contenido enriquecido
+        { type: 'image' },
+      ],
     }),
     defineField({
       name: 'components',
       title: 'Componentes',
       type: 'array',
-      of: [{ type: 'banner' }], // Para contenido enriquecido
+      of: [{ type: 'banner' }],
+      components: {
+        input: PageBuilderInput
+      }
     }),
   ],
   preview: {
@@ -97,9 +73,8 @@ const page = defineType({
       title: 'title',
       isHome: 'isHome',
       isActive: 'isActive',
-      media: 'imageHeader',
     },
-    prepare({ title, isHome, isActive, media }) {
+    prepare({ title, isHome, isActive }) {
       const subtitle = [
         isHome ? '🏠 Home' : '',
         isActive ? 'Activo' : 'Inactivo',
@@ -107,7 +82,6 @@ const page = defineType({
       return {
         title,
         subtitle: subtitle.join(' '),
-        media,
       };
     },
   },

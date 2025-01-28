@@ -11,6 +11,7 @@ export default function Layer({
   activeTheme,
   currentStyle,
 }: LayerProps): JSX.Element | undefined {
+  console.log('currentStyle', currentStyle);
   switch (layer) {
     case 'layer2':
       return (
@@ -23,16 +24,16 @@ export default function Layer({
       );
     case 'layer3':
       return (
-        <div className={'absolute inset-0 z-10'} style={currentStyle}></div>
+        <div className={'absolute inset-0 z-20'} style={currentStyle}></div>
       );
     case 'layer1':
       return (
         <div
           className={clsx(
-            'absolute inset-0 z-10 transition-colors duration-300',
+            'absolute inset-0 z-20 transition-colors duration-300',
             activeTheme === 'light' ? 'bg-white/70' : 'bg-black/80'
           )}
-        />
+        ></div>
       );
   }
 }

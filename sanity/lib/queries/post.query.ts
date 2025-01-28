@@ -7,7 +7,8 @@ export const post = /* groq */ `
   title,
   slug,
   ${unitBusiness},
-  components[isActive] { ${componentFields} },
+  orderRank,
+  components[isActive] | order(orderRank) { ${componentFields} },
   "resumen": coalesce(
     resumen,
     array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")
@@ -17,7 +18,7 @@ export const post = /* groq */ `
 
 /* BLOG - LISTA DE POSTS */
 export const getPostListQuery = defineQuery(groq`
-    *[_type == 'post'] {
+    *[_type == 'post'] | order(orderRank desc) {
       ${post}
       }`);
 

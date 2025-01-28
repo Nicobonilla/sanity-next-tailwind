@@ -1,6 +1,6 @@
 import { defineType, defineField } from 'sanity';
 
-const component = defineType({
+export default defineType({
   name: 'component',
   title: 'Componente',
   type: 'document', // Tipo de documento
@@ -17,5 +17,3 @@ const component = defineType({
     }),
   ],
 });
-
-export default component;
