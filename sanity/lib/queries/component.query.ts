@@ -28,6 +28,7 @@ export const componentFields = /* groq */ `
   isActive,
   typeComponent,
   "typeComponentValue": typeComponent->value,
+  variant,
   imageBackground,
   'backgroundValue': background-> { ${background}},
   content,

@@ -23,9 +23,6 @@ const SubsectionsContainer = ({
   const onMouseLeave2 = () => {
     setActiveLink2(null);
   };
-  console.log('groupedServices: ', groupedServices);
-  console.log('link: ', link);
-  console.log('activeLink: ', activeLink);
   return (
     <div className="absolute inset-0 -left-20 top-full z-50">
       <ul className="mx-auto flex h-fit w-[200px] flex-col bg-white xl:w-[280px]">

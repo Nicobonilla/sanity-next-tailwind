@@ -36,7 +36,7 @@ export default defineType({
     },
   ],
   fields: [
-    orderRankField({ type: 'banner' }), 
+    orderRankField({ type: 'banner' }),
     // Configuración General
     defineField({
       name: 'isActive',
@@ -51,6 +51,16 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'component' }],
       group: 'general',
+    }),
+    defineField({
+      name: 'variant',
+      title: 'Variante de Componente',
+      type: 'string',
+      group: 'general',
+      hidden: ({ parent }) => !parent?.typeComponent,
+      options: {
+        list: [{ title: 'Hero', value: 'hero' }],
+      },
     }),
     defineField({
       name: 'background',
@@ -170,4 +180,3 @@ export default defineType({
     },
   },
 });
-

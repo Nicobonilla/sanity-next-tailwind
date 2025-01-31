@@ -8,7 +8,6 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const currentPage = await getData('inicio');
-  console.log('currentPage', currentPage);
   return {
     title: currentPage?.settings?.title,
     openGraph: {

@@ -151,6 +151,7 @@
   }
 }
 
+/* CAROUSEL */
 .embla {
   max-width: 100%;
   margin: 0;
@@ -169,6 +170,16 @@
   .embla {
     --slide-size: 28%;
   }
+}
+
+/* CAROUSEL HERO*/
+
+.embla_hero {
+  max-width: 100%;
+  margin: 0;
+  --slide-height: 50rem;
+  --slide-spacing: 0rem;
+  --slide-size: 100%;
 }
 .embla__viewport {
   overflow: hidden;

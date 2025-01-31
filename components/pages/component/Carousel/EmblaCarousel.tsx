@@ -7,6 +7,9 @@ import { CarouselProps } from './types';
 import React, { useCallback } from 'react';
 import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
+import { ItemsProps } from '@/components/types';
+import SlideHero from './SlideHero';
+
 export default function EmblaCarousel({
   data,
   options,
@@ -73,22 +76,35 @@ export default function EmblaCarousel({
   };
 
   return (
-    <section className="embla">
+    <section className={data?.variant == 'hero' ? 'embla_hero' : 'embla'}>
       <div ref={emblaRef} className="embla__viewport">
         <div className={`embla__container`}>
-          {data?.items.map((slide: any, index: number) => (
+          {data?.items.map((slide: ItemsProps, index: number) => (
             <div
               key={index}
               className="embla__slide"
               onClick={() => handleClick(index)}
             >
-              <Slide
-                key={index}
-                slide={slide}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
-                isActive={getIsActive(index)}
-              />
+              {data?.variant == 'hero' ? (
+                <>
+                  <p>PEO</p>
+                  <SlideHero
+                    key={index}
+                    slide={slide}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                    isActive={getIsActive(index)}
+                  />
+                </>
+              ) : (
+                <Slide
+                  key={index}
+                  slide={slide}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                  isActive={getIsActive(index)}
+                />
+              )}
             </div>
           ))}
         </div>

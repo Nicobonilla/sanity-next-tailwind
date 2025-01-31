@@ -1,6 +1,9 @@
-import { GetPageDetailQueryResult, GetPagesNavQueryResult } from "@/sanity.types";
-import { sanityFetch } from "../fetch";
-import { getPageDetailQuery, getPagesNavQuery } from "../queries/page.query";
+import {
+  GetPageDetailQueryResult,
+  GetPagesNavQueryResult,
+} from '@/sanity.types';
+import { sanityFetch } from '../fetch';
+import { getPageDetailQuery, getPagesNavQuery } from '../queries/page.query';
 
 /* MAIN PAGES */
 export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null> {
@@ -25,7 +28,6 @@ export async function getPageBySlugFetch(
   // Remove extra quotes if any
   const query = getPageDetailQuery;
   const params = { slug: slug.replace(/"/g, '') }; // Pass the sanitized slug
-  console.log('params:', params);
   try {
     const data = (await sanityFetch({
       query,

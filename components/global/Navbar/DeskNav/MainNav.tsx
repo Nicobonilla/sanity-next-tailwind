@@ -15,7 +15,6 @@ const MainNav = () => {
   const groupedServices = groupServicesByBusiness(pagesLink);
   const path = usePathname();
 
-  console.log('groupedServices: ', groupedServices);
   console.log('path: ', path);
 
   const onMouseEnter = (slug: string) => {

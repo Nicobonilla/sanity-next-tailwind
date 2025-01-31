@@ -11,6 +11,7 @@ export type ItemProps = {
 // Props para el carrusel principal
 export type CarouselProps = {
   data?: {
+    variant: string;
     items: ItemProps[];
   };
   options: EmblaOptionsType;

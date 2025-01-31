@@ -723,6 +723,19 @@
                 },
                 "optional": true
               },
+              "variant": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "hero"
+                    }
+                  ]
+                },
+                "optional": true
+              },
               "background": {
                 "type": "objectAttribute",
                 "value": {
@@ -1929,6 +1942,19 @@
                     }
                   },
                   "dereferencesTo": "component"
+                },
+                "optional": true
+              },
+              "variant": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "hero"
+                    }
+                  ]
                 },
                 "optional": true
               },
@@ -3518,6 +3544,19 @@
                 },
                 "optional": true
               },
+              "variant": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "hero"
+                    }
+                  ]
+                },
+                "optional": true
+              },
               "background": {
                 "type": "objectAttribute",
                 "value": {
@@ -4961,6 +5000,19 @@
             }
           },
           "dereferencesTo": "component"
+        },
+        "optional": true
+      },
+      "variant": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "hero"
+            }
+          ]
         },
         "optional": true
       },
