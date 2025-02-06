@@ -46,16 +46,15 @@ export default function Highlight({ data }: { data: ComponentProps }) {
 
       <div
         className={clsx(
-          'relative inset-0 z-20 flex h-full flex-col justify-center py-20 text-center text-neutral-800',
-          'xs5: px-10',
-          'md:py-auto',
-          'lg:max-w-none'
+          'relative inset-0 z-20 flex flex-col items-center justify-center py-20 text-center text-neutral-800',
+          'xs5:px-10',
+          'md:py-auto md:mx-auto md:max-w-screen-lg'
         )}
       >
         <PortableText components={PTextBanner} value={data.content || []} />
       </div>
 
-      <div className="absolute inset-0 z-10 size-full bg-white/45"></div>
+      <div className="absolute inset-0 z-10 size-full bg-white/25"></div>
     </Background>
   );
 }

@@ -1,31 +1,64 @@
 import { ComponentProps } from '@/components/types';
 import PHeroImage from '@/components/pages/component/HeroImage/PTHeroImage';
 import { PortableText, PortableTextComponents } from 'next-sanity';
+import clsx from 'clsx';
 
-// Definimos el tipo de PHeroImage para que TypeScript lo entienda
-type PHeroImageType = {
-  PT1: PortableTextComponents;
-  PT2: PortableTextComponents;
+// Define PT1 and PT2 components
+const PT1: PortableTextComponents = {
+  block: {
+    h1: ({ children }) => (
+      <h2
+        className={clsx(
+          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+          'lg:text-3xl',
+          '2xl:text-3xl'
+        )}
+      >
+        {children}
+      </h2>
+    ),
+    normal: ({ children }) => (
+      <span
+        className={clsx(
+          'mt-3 font-crimson text-lg font-thin leading-5 text-white',
+          'md:mt-5 lg:text-2xl'
+        )}
+      >
+        {children}
+      </span>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => (
+      <span className="p3 drop-shadow-4xl font-extrabold text-red-700">
+        {children}
+      </span>
+    ),
+  },
 };
 
 export default function PTextHero({ data }: { data: ComponentProps }) {
-  const { PTextBanner, content } = data;
-  // Determinamos el componente a usar según el valor de PTextBanner
-  const selectedComponent =
-    PTextBanner && PHeroImage[PTextBanner as keyof PHeroImageType];
-
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="relative z-20 flex h-1/2 flex-col justify-center px-4 sm:-translate-y-20 md:w-4/5 md:px-0">
+    <div className="absolute inset-0 flex items-center justify-center text-center">
+      <div
+        className={clsx(
+          'relative z-20 flex h-fit flex-col items-center justify-center bg-black/70 px-4 py-8',
+          'md:w-4/5 md:max-w-screen-lg md:px-20'
+        )}
+      >
         <PortableText
-          value={content || []} // Renderiza el contenido si está disponible
-          components={selectedComponent || PHeroImage.PT1} // Usamos el componente adecuado, con valor por defecto
+          value={data.content || []} // Renderiza el contenido si está disponible
+          components={PT1} // Usamos el componente adecuado, con valor por defecto
         />
         <button
-          className="mt-5 max-w-[250px] rounded border-2 border-second-400 py-2 font-light text-white transition-all hover:bg-white/30 hover:font-bold"
+          className={clsx(
+            'text-md mt-3 min-w-[150px] max-w-[250px] rounded py-2 font-crimson font-light text-white underline transition-all',
+            'hover:bg-white/30 hover:font-semibold hover:no-underline',
+            'lg:text-lg'
+          )}
           aria-label="Seguir para más información"
         >
-          SEGUIR
+          Ver Más
         </button>
       </div>
     </div>

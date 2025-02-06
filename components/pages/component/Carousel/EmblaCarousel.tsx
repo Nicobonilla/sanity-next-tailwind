@@ -9,8 +9,8 @@ import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ItemProps, ItemsProps } from '@/components/types';
 import SlideHero from './SlideHero';
-import Background from '../Background/index';
 import { ColorList, useCurrentStyle } from '../Background/utils';
+import Fade from 'embla-carousel-fade';
 
 export default function EmblaCarousel({
   data,
@@ -19,10 +19,16 @@ export default function EmblaCarousel({
 }: CarouselProps) {
   const [hoveredItemIndex, setHoveredItemIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
   const [isMobile, setIsMobile] = useState(false);
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay(autoplayOptions),
-  ]);
+
+  const fadePlugin = data?.variant === 'hero' ? Fade() : undefined;
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    options,
+    [Autoplay(autoplayOptions), fadePlugin].filter(
+      (plugin): plugin is NonNullable<typeof plugin> => Boolean(plugin)
+    )
+  );
 
   // Sync with Embla's internal state
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
@@ -89,9 +95,11 @@ export default function EmblaCarousel({
             >
               {data?.variant == 'hero' ? (
                 <SlideHero
-                  key={index}
+                  key={`${index}-${activeIndex}`}
                   slide={slide}
                   layerStyle={data.backgroundValue.colors as ColorList}
+                  index={index} // Pasa el índice del slide actual
+                  activeIndex={activeIndex} // Pasa el índice activo del carrusel
                 />
               ) : (
                 <Slide
