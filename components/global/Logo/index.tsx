@@ -19,18 +19,17 @@ export default function Logo() {
         )}
 
         {/* Texto del Logo */}
-        <div className="z-50 flex items-center justify-center font-bitter">
-          <h1
+        <div className="z-50 flex flex-col items-center justify-center font-robotoslab">
+          <p
             className={clsx(
-              'z-50 -translate-y-5 text-3xl font-thin drop-shadow-2xl',
-              'lg:text-7xl',
-              !scrolling
-                ? 'text-4xl text-white md:text-7xl'
-                : 'bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent'
+              'z-50 text-3xl drop-shadow-2xl',
+              'lg:text-5xl',
+              'bg-gradient-to-r from-slate-950 via-slate-800 to-slate-700 bg-clip-text text-transparent'
             )}
           >
-            SBonilla
-          </h1>
+            BONILLA
+          </p>
+          <p className='-translate-y-1'>Abogados en San Felipe</p>
           {/* Mostrar el sufijo opcional `.cl` */}
           {false && (
             <span className="ml-1 text-lg font-semibold text-white">.cl</span>

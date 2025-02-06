@@ -4,7 +4,25 @@ export const defaultColor: Color = {
   rgb: { r: 255, g: 255, b: 255, a: 0 },
 };
 export interface BackgroundProps {
-  data: ComponentProps;
+  data: {
+    typeComponent:
+      | 'carousel'
+      | 'heading'
+      | 'heroForm'
+      | 'highLight'
+      | undefined;
+    variant: 'hero' | undefined;
+    responsiveHeight?: string;
+    imageBackground?: {
+      asset?: {
+        _ref: string;
+        _type: string;
+      };
+    };
+    layer: string;
+    colors: Color[];
+    imageBackgroundType: 'dynamic';
+  };
   children: React.ReactNode;
 }
 
@@ -87,8 +105,8 @@ const getThemeStyle = (
   }
 };
 
-type ColorList = ComponentProps['backgroundValue']['colors'];
-type ColorListItem2 = ComponentProps['backgroundValue']['colors'][number];
+export type ColorList = ComponentProps['backgroundValue']['colors'];
+type ColorListItem = ComponentProps['backgroundValue']['colors'][number];
 interface SanityColor {
   rgb: {
     r: number;
@@ -104,7 +122,7 @@ interface SanityColor {
     a: number;
   };
 }
-interface ColorListItem {
+interface ColorListItem2 {
   lightColor: SanityColor;
   darkColor: SanityColor | null;
   colorBackground1Position: number;

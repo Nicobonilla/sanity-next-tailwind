@@ -32,11 +32,10 @@ export const PTextBanner: PortableTextComponents = {
 export default function Highlight({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
   const typeComponent = data?.typeComponentValue || '';
-  const height = dataBg?.responsiveHeight || '';
   return (
     <Background
       data={{
-        bg: dataBg,
+        ...dataBg,
         typeComponent,
       }}
     >
@@ -56,7 +55,7 @@ export default function Highlight({ data }: { data: ComponentProps }) {
         <PortableText components={PTextBanner} value={data.content || []} />
       </div>
 
-      <div className="absolute inset-0 z-10 size-full bg-white/65"></div>
+      <div className="absolute inset-0 z-10 size-full bg-white/45"></div>
     </Background>
   );
 }

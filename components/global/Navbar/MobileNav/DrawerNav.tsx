@@ -58,11 +58,11 @@ export default function MobileNavDrawer() {
       <div className="relative flex h-full cursor-pointer">
         <div
           onClick={toggleMenu}
-          className="mr-4 flex items-center justify-center text-white"
+          className="mr-4 flex items-center justify-center text-green-600"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
         >
-          <div className={`${scrolling ? 'text-red-500' : 'text-white'}`}>
+          <div className={`${scrolling ? 'text-slate-800' : 'text-slate-900'}`}>
             {isMenuOpen ? <IoIosClose size={25} /> : <IoIosMenu size={25} />}
           </div>
         </div>

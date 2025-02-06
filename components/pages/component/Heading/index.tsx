@@ -14,8 +14,8 @@ export default function Heading({ data }: { data: ComponentProps }) {
   return (
     <Background
       data={{
-        bg: dataBg,
-        typeComponent,
+        ...dataBg,
+        typeComponent: 'heading',
       }}
     >
       <ImageBg
@@ -23,11 +23,7 @@ export default function Heading({ data }: { data: ComponentProps }) {
         imgBgType={dataBg?.imageBackgroundType}
       />
 
-      {height === 'h-900' && typeComponent !== 'heroForm' && (
-        <PTextHero data={data} />
-      )}
-
-      {typeComponent == 'heading' && <PtextHeading data={data} />}
+      <PtextHeading data={data} />
     </Background>
   );
 }

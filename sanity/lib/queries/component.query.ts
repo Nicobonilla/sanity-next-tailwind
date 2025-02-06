@@ -1,4 +1,4 @@
-const background = /* groq */ `
+const background = /* groq */ ` // used as template for background component in sanity
   name,
   backgroundMode,
   imageBackgroundType,
@@ -24,7 +24,7 @@ const background = /* groq */ `
   invertLayoutDesk
 `;
 
-export const componentFields = /* groq */ `
+export const componentFields = /* groq */ ` // used as template for component in sanity
   isActive,
   typeComponent,
   "typeComponentValue": typeComponent->value,

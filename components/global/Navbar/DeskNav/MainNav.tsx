@@ -41,7 +41,7 @@ const MainNav = () => {
                   scrolling
                     ? 'text-gray-800'
                     : path == '/blog'
-                      ? 'text-neutral-200'
+                      ? 'text-neutral-800'
                       : 'text-neutral-800'
                 )}
               >

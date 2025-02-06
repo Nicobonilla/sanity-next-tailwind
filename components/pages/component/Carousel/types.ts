@@ -1,4 +1,5 @@
 import { type EmblaOptionsType } from 'embla-carousel';
+import { ComponentProps } from '@/components/types';
 
 // Representa un ítem individual en el carrusel
 export type ItemProps = {
@@ -10,10 +11,7 @@ export type ItemProps = {
 
 // Props para el carrusel principal
 export type CarouselProps = {
-  data?: {
-    variant: string;
-    items: ItemProps[];
-  };
+  data?: ComponentProps;
   options: EmblaOptionsType;
   autoplayOptions?: {
     delay?: number;

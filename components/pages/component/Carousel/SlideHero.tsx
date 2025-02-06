@@ -1,11 +1,14 @@
-import Image from 'next/image';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-import { urlForImage } from '@/sanity/lib/utils';
-import clsx from 'clsx';
+import { PortableTextComponents } from 'next-sanity';
 import { ItemProps } from '@/components/types';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
 import PTextHero from '../Background/PTextHero';
+import { ColorList } from '../Background/utils';
+
+type SlideHeroProps = {
+  slide: ItemProps;
+  layerStyle: ColorList;
+};
 
 export const PText: PortableTextComponents = {
   block: {
@@ -17,25 +20,18 @@ export const PText: PortableTextComponents = {
     ),
   },
 };
-
-const SlideHero = ({ data }: ItemProps) => {
-  const dataBg = data?.backgroundValue || {};
-  const dataComponent = {
-    typeComponent: 'carousel',
-    variant: 'hero',
-  };
-  const height = dataBg?.responsiveHeight || '';
-
+const SlideHero = ({ slide, layerStyle }: SlideHeroProps) => {
   return (
     <Background
       data={{
-        dataBg: dataBg,
-        dataComponent,
+        ...slide,
+        typeComponent: 'carousel',
+        variant: 'hero',
+        colors: layerStyle,
       }}
     >
-      {' '}
-      <ImageBg imgBg={data?.image} imgBgType={'dynamic'} />
-      <PTextHero data={{ content: data?.content, PTextBanner: 'PT1' }} />
+      <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} />
+      <PTextHero data={{ content: slide?.content, PTextBanner: 'PT1' }} />
     </Background>
   );
 };

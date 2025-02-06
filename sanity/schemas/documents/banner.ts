@@ -165,17 +165,18 @@ export default defineType({
     select: {
       content: 'content',
       type: 'typeComponent.name',
+      variant: 'variant',
       active: 'isActive',
     },
-    prepare({ content, type, active }) {
+    prepare({ content, type, variant, active }) {
       const previewTitle =
         content && content[0] && content[0].children && content[0].children[0]
           ? content[0].children[0].text
-          : 'Sin título';
+          : '';
 
       return {
         title: previewTitle,
-        subtitle: `${active ? 'Activo' : 'Inactivo'} | ${type}`,
+        subtitle: `${active ? 'Activo' : 'Inactivo'} | ${type}${variant ? ` - ${variant}` : ''}`,
       };
     },
   },

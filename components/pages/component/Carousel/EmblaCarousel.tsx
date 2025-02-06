@@ -7,8 +7,10 @@ import { CarouselProps } from './types';
 import React, { useCallback } from 'react';
 import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ItemsProps } from '@/components/types';
+import { ItemProps, ItemsProps } from '@/components/types';
 import SlideHero from './SlideHero';
+import Background from '../Background/index';
+import { ColorList, useCurrentStyle } from '../Background/utils';
 
 export default function EmblaCarousel({
   data,
@@ -79,23 +81,18 @@ export default function EmblaCarousel({
     <section className={data?.variant == 'hero' ? 'embla_hero' : 'embla'}>
       <div ref={emblaRef} className="embla__viewport">
         <div className={`embla__container`}>
-          {data?.items.map((slide: ItemsProps, index: number) => (
+          {data?.items.map((slide: ItemProps, index: number) => (
             <div
               key={index}
               className="embla__slide"
               onClick={() => handleClick(index)}
             >
               {data?.variant == 'hero' ? (
-                <>
-                  <p>PEO</p>
-                  <SlideHero
-                    key={index}
-                    slide={slide}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                    isActive={getIsActive(index)}
-                  />
-                </>
+                <SlideHero
+                  key={index}
+                  slide={slide}
+                  layerStyle={data.backgroundValue.colors as ColorList}
+                />
               ) : (
                 <Slide
                   key={index}
