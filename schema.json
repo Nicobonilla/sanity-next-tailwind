@@ -955,10 +955,6 @@
                             {
                               "type": "string",
                               "value": "bullet"
-                            },
-                            {
-                              "type": "string",
-                              "value": "number"
                             }
                           ]
                         },
@@ -2177,10 +2173,6 @@
                             {
                               "type": "string",
                               "value": "bullet"
-                            },
-                            {
-                              "type": "string",
-                              "value": "number"
                             }
                           ]
                         },
@@ -3776,10 +3768,6 @@
                             {
                               "type": "string",
                               "value": "bullet"
-                            },
-                            {
-                              "type": "string",
-                              "value": "number"
                             }
                           ]
                         },
@@ -5235,10 +5223,6 @@
                     {
                       "type": "string",
                       "value": "bullet"
-                    },
-                    {
-                      "type": "string",
-                      "value": "number"
                     }
                   ]
                 },

@@ -161,7 +161,7 @@ export type Service = {
         _key: string;
       }>;
       style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -341,7 +341,7 @@ export type Post = {
         _key: string;
       }>;
       style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -586,7 +586,7 @@ export type Page = {
         _key: string;
       }>;
       style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -817,7 +817,7 @@ export type Banner = {
       _key: string;
     }>;
     style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-    listItem?: 'bullet' | 'number';
+    listItem?: 'bullet';
     markDefs?: Array<{
       href?: string;
       _type: 'link';
@@ -1706,7 +1706,7 @@ export type GetPageDetailQueryResult = {
         _key: string;
       }>;
       style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -1886,7 +1886,7 @@ export type GetPostListQueryResult = Array<{
         _key: string;
       }>;
       style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -2066,7 +2066,7 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
         _key: string;
       }>;
       style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -2246,7 +2246,7 @@ export type GetPostDetailQueryResult = {
         _key: string;
       }>;
       style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';
@@ -2524,7 +2524,7 @@ export type GetServiceDetailQueryResult = {
         _key: string;
       }>;
       style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet' | 'number';
+      listItem?: 'bullet';
       markDefs?: Array<{
         href?: string;
         _type: 'link';

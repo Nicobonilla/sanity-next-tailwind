@@ -19,18 +19,19 @@ export default function Logo() {
         )}
 
         {/* Texto del Logo */}
-        <div className="z-50 flex flex-col items-center justify-center font-robotoslab">
+        <div className="font-fira z-50 flex flex-col items-center justify-center">
+          
           <p
             className={clsx(
               'z-50 text-3xl drop-shadow-2xl',
               'lg:text-5xl',
-              'bg-gradient-to-r from-slate-950 via-slate-800 to-slate-700 bg-clip-text text-transparent'
+              'bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent'
             )}
           >
             BONILLA
           </p>
-          <p className='-translate-y-1'>Abogados en San Felipe</p>
-          {/* Mostrar el sufijo opcional `.cl` */}
+          <p className="-translate-y-1">Asesoramiento Legal</p>
+          {/*Mostrar el sufijo opcional `.cl` */}
           {false && (
             <span className="ml-1 text-lg font-semibold text-white">.cl</span>
           )}

@@ -30,24 +30,30 @@ const MainNav = () => {
         {pagesLink?.map((link) => (
           <li
             key={link?.title}
-            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 hover:bg-white 2xl:px-8"
+            className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 py-4 hover:bg-white 2xl:px-8"
             onMouseEnter={() => onMouseEnter(link?.title || '')}
             onMouseLeave={onMouseLeave}
           >
             <Link href={{ pathname: `/${link?.slug}` }} passHref>
               <span
                 className={clsx(
-                  'nav inline-flex items-center justify-center uppercase drop-shadow-xl',
-                  scrolling
-                    ? 'text-gray-800'
-                    : path == '/blog'
-                      ? 'text-neutral-800'
-                      : 'text-neutral-800'
+                  'nav inline-flex items-center justify-center uppercase text-neutral-800 drop-shadow-xl',
+                  {
+                    'w-full text-red-900':
+                      path !== '/' && path === `/${link?.slug}`,
+                  }
                 )}
               >
                 {link?.title}
               </span>
-              <div className="absolute w-0 border-b-2 border-gray-200 transition-all duration-300 ease-in-out group-hover:w-4/5 group-hover:xl:w-[70%] group-hover:2xl:w-3/5" />
+              <div
+                className={clsx(
+                  'relative w-0 border-b-2 border-gray-200 transition-all duration-300 ease-in-out group-hover:w-full',
+                  {
+                    'w-full': path !== '/' && path === `/${link?.slug}`,
+                  }
+                )}
+              />
             </Link>
             {link?.subsections &&
               link.subsections?.length > 0 &&

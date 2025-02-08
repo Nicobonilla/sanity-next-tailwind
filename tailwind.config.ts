@@ -21,6 +21,7 @@ const config: Config = {
         crimson: ['var(--font-crimson-pro)', 'serif'],
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
         bitter: ['var(--font-bitter)', 'sans-serif'],
+        fira: ['var(--font-fira-sans)', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',

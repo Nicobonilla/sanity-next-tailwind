@@ -6,6 +6,7 @@ import {
   Crimson_Pro,
   Montserrat,
   Bitter,
+  Fira_Sans,
 } from 'next/font/google';
 
 const inter = Inter({
@@ -50,6 +51,13 @@ const bitter = Bitter({
   display: 'swap',
 });
 
+const fira_sans = Fira_Sans({
+  variable: '--font-fira-sans',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
+
 export const fonts = {
   inter,
   roboto_flex,
@@ -58,4 +66,5 @@ export const fonts = {
   crimson_pro,
   montserrat,
   bitter,
+  fira_sans,
 };
