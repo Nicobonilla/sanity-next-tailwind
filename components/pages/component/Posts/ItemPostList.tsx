@@ -9,7 +9,7 @@ export default function ItemPostList({
 }: {
   post: GetPostListQueryResult[number];
 }) {
-  console.log('post: ', post);
+  //console.log('post: ', post);
   if (!post.components) return null;
 
   const { imageBackground } =
@@ -18,40 +18,39 @@ export default function ItemPostList({
     ) || {};
 
   return (
-    <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-gray-800">
-      <div className="grid gap-4 md:grid-cols-[300px_1fr]">
-        <div className="relative h-48 md:h-full">
-          <Image
-            src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
-            alt={post.title || ''}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="flex flex-col gap-4 p-6">
-          <div>
-            <span
-              className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
-              }`}
-            >
-              {post.unitBusiness?.title}
-            </span>
+    <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
+      <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
+        <div className="grid gap-4 md:grid-cols-[300px_1fr]">
+          <div className="relative h-48 overflow-hidden md:h-full">
+            <Image
+              src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
+              alt={post.title || ''}
+              fill
+              className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+            />
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            <Link
-              href={{ pathname: `/blog/${post.slug?.current}` }}
-              className="hover:underline"
-            >
+          <div className="flex flex-col gap-4 p-6">
+            <div>
+              <span
+                className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
+                  post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                }`}
+              >
+                {post.unitBusiness?.title}
+              </span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-700 group-hover:underline">
               {post.title}
-            </Link>
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">{post.resumen}</p>
-          <time className="text-sm text-gray-500 dark:text-gray-400">
-            {format(new Date(post.date || ''), 'MMMM d, yyyy')}
-          </time>
+            </h3>
+            <p className="font-robotoslab font-light text-gray-900">
+              {post.resumen}
+            </p>
+            <time className="text-sm text-gray-500 dark:text-gray-400">
+              {format(new Date(post.date || ''), 'MMMM d, yyyy')}
+            </time>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 }

@@ -34,9 +34,9 @@ export async function sanityFetch<const QueryString extends string>({
     (actualPerspective === 'previewDrafts' ||
       process.env.VERCEL_ENV === 'preview');
 
-  console.log('Actual Stega (Visual Editing):', actualStega);
+  //console.log('Actual Stega (Visual Editing):', actualStega);
   if (actualPerspective === 'previewDrafts') {
-    console.log("Fetching in draft mode with perspective 'previewDrafts'");
+    //console.log("Fetching in draft mode with perspective 'previewDrafts'");
 
     // Reemplazamos client.fetch por liveFetch
     const result = await liveFetch({
@@ -48,7 +48,7 @@ export async function sanityFetch<const QueryString extends string>({
     return result.data;
   }
 
-  console.log("Fetching in production mode with perspective 'published'");
+  //console.log("Fetching in production mode with perspective 'published'");
   return client.fetch(query, params, {
     stega: actualStega,
     perspective: 'published',

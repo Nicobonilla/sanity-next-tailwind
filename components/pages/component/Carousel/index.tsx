@@ -11,7 +11,7 @@ export default function Carousel({ data }: CarouselProps) {
     stopOnMouseEnter: true,
     watchDrag: true,
   };
-  console.log('data: ', data  );
+  //console.log('data: ', data  );
   const options: EmblaOptionsType = {
     align: 'start',
     loop: true,

@@ -13,17 +13,6 @@ type SlideHeroProps = {
   activeIndex: number; // Índice activo del carrusel
 };
 
-export const PText: PortableTextComponents = {
-  block: {
-    h1: ({ children }) => (
-      <h2 className="mb-2 text-2xl font-bold text-white">{children}</h2>
-    ),
-    normal: ({ children }) => (
-      <p className="mb-4 text-sm opacity-90">{children}</p>
-    ),
-  },
-};
-
 const SlideHero = ({
   slide,
   layerStyle,
@@ -54,7 +43,7 @@ const SlideHero = ({
         <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} />
       </motion.div>
 
-      <PTextHero data={{ content: slide?.content, PTextBanner: 'PT1' }} />
+      <PTextHero data={{ content: slide?.content }} />
     </Background>
   );
 };

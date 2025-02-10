@@ -10,12 +10,12 @@ import { usePathname } from 'next/navigation';
 const MainNav = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { pagesLink } = useSanityContext();
-  console.log('pagesLink: ', pagesLink);
   const { scrolling } = useScrollContext();
   const groupedServices = groupServicesByBusiness(pagesLink);
   const path = usePathname();
 
-  console.log('path: ', path);
+  //console.log('pagesLink: ', pagesLink);
+  //console.log('path: ', path);
 
   const onMouseEnter = (slug: string) => {
     setActiveLink(slug);

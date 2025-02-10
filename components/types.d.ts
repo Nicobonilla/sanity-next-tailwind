@@ -17,6 +17,10 @@ type ComponentsServiceProps =
   NonNullable<GetServiceDetailQueryResult>['components'];
 type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 
+export type ComponentWithBannerPosts = ComponentProps & {
+  bannerPostsItems?: GetPostListQueryResult | null;
+};
+
 export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
 export type ComponentProps = ComponentPageProps | ComponentServiceProps;
 

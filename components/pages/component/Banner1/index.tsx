@@ -7,7 +7,7 @@ import { ComponentProps } from '@/components/types';
 
 export default function Banner1({ data }: { data: ComponentProps }) {
   const { content, imageContent, invertLayoutMobile, invertLayoutDesk } = data;
-  console.log('data: ', data);
+  //console.log('data: ', data);
   if (data) {
     return (
       <div

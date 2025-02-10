@@ -4,7 +4,7 @@ import Background from '@/components/pages/component/Background';
 import ImageBg from '../Background/ImageBg';
 
 const HeroForm = ({ data }: { data: ComponentProps }) => {
-  console.log('data.backgroundValue: ', data.backgroundValue);
+  //console.log('data.backgroundValue: ', data.backgroundValue);
   const dataBg = data?.backgroundValue || {};
   return (
     <Background

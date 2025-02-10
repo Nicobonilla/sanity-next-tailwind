@@ -1,8 +1,14 @@
 'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
-import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+import { ComponentWithBannerPosts } from '@/components/types';
+import {
+  GetPageDetailQueryResult,
+  GetPostListQueryResult,
+  SettingsQueryResult,
+} from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
+import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 
 import type { Metadata } from 'next';
 
@@ -24,18 +30,34 @@ export async function generateMetadata(): Promise<Metadata> {
 
 async function getData(slug: string) {
   try {
-    const [home, settings]: [GetPageDetailQueryResult, SettingsQueryResult] =
-      await Promise.all([getPageBySlugFetch(slug), getSettingsFetch()]);
-    return { home, settings };
+    const [home, posts, settings]: [
+      GetPageDetailQueryResult,
+      GetPostListQueryResult | null,
+      SettingsQueryResult,
+    ] = await Promise.all([
+      getPageBySlugFetch(slug),
+      getPostListFetch(),
+      getSettingsFetch(),
+    ]);
+    return { home, posts, settings };
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;
   }
 }
 
+
 export default async function Page() {
   const currentPage = await getData('inicio');
-  console.log('currentPage', currentPage);
+
+  // add posts brief to Banner Posts
+  currentPage?.home?.components?.map((component) => {
+    if (component.typeComponentValue === 'bannerPosts') {
+      (component as ComponentWithBannerPosts).bannerPostsItems =
+        currentPage?.posts;
+    }
+  });
+
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }

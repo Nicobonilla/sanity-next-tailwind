@@ -5,7 +5,6 @@ import {
 } from '@/sanity.types';
 import { useState } from 'react';
 import ItemPostList from './ItemPostList';
-import { OpenstackOriginal } from 'devicons-react';
 
 export default function Posts({
   posts,
@@ -32,8 +31,8 @@ export default function Posts({
     posts.some((post) => post.unitBusiness?.slug === tag.slug)
   );
 
-  console.log('filteredUnitBusiness: ', filteredUnitBusiness);
-  console.log('unitBusiness: ', unitBusiness);
+  //console.log('filteredUnitBusiness: ', filteredUnitBusiness);
+  //console.log('unitBusiness: ', unitBusiness);
   return (
     <main>
       <div className="mb-8 flex flex-wrap gap-2">

@@ -11,7 +11,7 @@ export default function Layer({
   activeTheme,
   currentStyle,
 }: LayerProps): JSX.Element | undefined {
-  console.log('currentStyle', currentStyle);
+  //console.log('currentStyle', currentStyle);
   switch (layer) {
     case 'layer2':
       return (
