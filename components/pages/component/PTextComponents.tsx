@@ -44,12 +44,8 @@ export const PTextBannerDark1: PortableTextComponents = {
       </h2>
     ),
     h3: ({ children }) => (
-      <h3
-        className={clsx(
-          'mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm',
-          'lg:text-3xl 2xl:text-3xl'
-        )}
-      >
+      <h3 className={clsx("mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm",
+      'lg:text-3xl 2xl:text-3xl')}>
         {children}
       </h3>
     ),

@@ -16,15 +16,21 @@ export default function InnerBannerWithItems({
   return (
     <div
       className={clsx(
-        'relative z-20 mx-auto h-fit px-3 pt-16 lg:max-w-screen-xl lg:pb-16'
+        'relative z-20 mx-auto h-fit px-3 py-32',
+        'lg:max-w-screen-xl'
       )}
     >
       {/* Title and Premise Section */}
 
       {data.content && (
-        <div className="mb-10 grid grid-cols-1 text-center md:grid-cols-2 md:gap-6 lg:px-10">
+        <div
+          className={clsx(
+            'mx-auto mb-10 grid max-w-[540px] grid-cols-1 items-center text-center',
+            'md:mx-0 md:max-w-none md:grid-cols-2'
+          )}
+        >
           {/* Columna 1: h2 y h3 */}
-          <div className="flex flex-col md:text-left">
+          <div className="flex flex-col md:text-left lg:max-w-[500px]">
             <PortableText
               value={data.content || []}
               components={PTextBannerDark2}
@@ -41,25 +47,23 @@ export default function InnerBannerWithItems({
         </div>
       )}
 
-      <div className={clsx('relative flex flex-col gap-6')}>
-        <div className="grid gap-6">
-          {data.bannerPostsItems.length > 0 ? (
-            data.bannerPostsItems.map(
-              (
-                post: ComponentWithBannerPosts['bannerPostsItems'],
-                index: number
-              ) => (
-                <div key={index}>
-                  <ItemPostList post={post} />
-                </div>
-              )
+      <div className="grid gap-6">
+        {data.bannerPostsItems.length > 0 ? (
+          data.bannerPostsItems.map(
+            (
+              post: ComponentWithBannerPosts['bannerPostsItems'],
+              index: number
+            ) => (
+              <div key={index}>
+                <ItemPostList post={post} />
+              </div>
             )
-          ) : (
-            <div className="py-12 text-center text-gray-600 dark:text-gray-400">
-              No se encontraron posts para esta categoría.
-            </div>
-          )}
-        </div>
+          )
+        ) : (
+          <div className="py-12 text-center text-gray-600 dark:text-gray-400">
+            No se encontraron posts para esta categoría.
+          </div>
+        )}
       </div>
     </div>
   );
