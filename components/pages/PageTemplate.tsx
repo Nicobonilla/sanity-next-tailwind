@@ -6,6 +6,7 @@ import { useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
 import {
   GetPageDetailQueryResult,
+  GetPostDetailQueryResult,
   GetServiceDetailQueryResult,
   GetUnitBusinessDetailQueryResult,
 } from '@/sanity.types';
@@ -17,7 +18,8 @@ export default function PageTemplate({
   dataPage?:
     | GetPageDetailQueryResult
     | GetServiceDetailQueryResult
-    | GetUnitBusinessDetailQueryResult;
+    | GetUnitBusinessDetailQueryResult
+    | GetPostDetailQueryResult;
 }) {
   const { isLoading, setLoading, setDataPage } = useLoadingContext();
   const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
