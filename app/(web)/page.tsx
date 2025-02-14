@@ -67,7 +67,9 @@ export default async function Page() {
   return (
     <>
       {currentPage.home?.components ? (
-        <PageTemplate dataPage={currentPage.home} />
+        <PageTemplate
+          dataPage={currentPage?.home as GetPageDetailQueryResult}
+        />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}

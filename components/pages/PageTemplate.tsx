@@ -2,25 +2,11 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import { useLoadingContext } from '@/context/LoadingContext';
+import { PageData, useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
-import {
-  GetPageDetailQueryResult,
-  GetPostDetailQueryResult,
-  GetServiceDetailQueryResult,
-  GetUnitBusinessDetailQueryResult,
-} from '@/sanity.types';
 import { ComponentProps, LoadedComponent } from '@/components/types';
 
-export default function PageTemplate({
-  dataPage,
-}: {
-  dataPage?:
-    | GetPageDetailQueryResult
-    | GetServiceDetailQueryResult
-    | GetUnitBusinessDetailQueryResult
-    | GetPostDetailQueryResult;
-}) {
+export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
   const { isLoading, setLoading, setDataPage } = useLoadingContext();
   const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
     []

@@ -10,10 +10,17 @@ import {
 } from 'react';
 import type {
   GetPageDetailQueryResult,
+  GetPostDetailQueryResult,
   GetServiceDetailQueryResult,
+  GetUnitBusinessDetailQueryResult,
 } from '@/sanity.types';
 
-type PageData = GetPageDetailQueryResult | GetServiceDetailQueryResult | null;
+export type PageData =
+  | GetPageDetailQueryResult
+  | GetServiceDetailQueryResult
+  | GetPostDetailQueryResult
+  | GetUnitBusinessDetailQueryResult
+  | null;
 
 interface LoadingContextProps {
   isLoading: boolean;
