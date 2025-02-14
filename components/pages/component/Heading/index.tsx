@@ -8,8 +8,6 @@ import ImageBg from '../Background/ImageBg';
 
 export default function Heading({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
-  const typeComponent = data?.typeComponentValue || '';
-  const height = dataBg?.responsiveHeight || '';
 
   return (
     <Background
@@ -18,10 +16,7 @@ export default function Heading({ data }: { data: ComponentProps }) {
         typeComponent: 'heading',
       }}
     >
-      <ImageBg
-        imgBg={data?.imageBackground}
-        imgBgType={dataBg?.imageBackgroundType}
-      />
+      <ImageBg imgBg={data?.imageBackground} imgBgType={'dynamic'} />
 
       <PtextHeading data={data} />
     </Background>

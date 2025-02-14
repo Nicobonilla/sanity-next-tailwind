@@ -15,8 +15,10 @@ export const getServicesNavQuery = defineQuery(
 export const getServiceDetailQuery = defineQuery(
   groq`*[_type == 'service' && slug.current == $slug][0] {
     title,  // Fetch the title of the service
-    ${unitBusiness},
+    iconfyIcon,
+    resumen,
     content,  // Fetch the content of the service
+    ${unitBusiness},
     components[isActive] { ${componentFields} }
   }`
 );

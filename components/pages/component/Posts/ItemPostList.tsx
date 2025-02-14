@@ -3,6 +3,7 @@ import { urlForImage } from '@/sanity/lib/utils';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function ItemPostList({
   post,
@@ -10,8 +11,9 @@ export default function ItemPostList({
   post: GetPostListQueryResult[number];
 }) {
   //console.log('post: ', post);
+  const path = usePathname();
   if (!post.components) return null;
-
+  console.log('path: ', path);
   const { imageBackground } =
     post.components.find(
       (component) => component.typeComponentValue === 'heading'
@@ -30,15 +32,18 @@ export default function ItemPostList({
             />
           </div>
           <div className="flex flex-col gap-4 p-6">
-            <div>
-              <span
-                className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                  post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
-                }`}
-              >
-                {post.unitBusiness?.title}
-              </span>
-            </div>
+            {path == '/blog' ||
+              (path == '/' && (
+                <div>
+                  <span
+                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
+                      post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    {post.unitBusiness?.title}
+                  </span>
+                </div>
+              ))}
             <h3 className="text-xl font-semibold text-gray-700 group-hover:underline">
               {post.title}
             </h3>

@@ -1,3 +1,5 @@
+import { GetServiceDetailQueryResult } from '@/sanity.types';
+
 // Tipo para el componente dinámico
 type DynamicComponentType = React.ComponentType<{
   data: ComponentProps;
@@ -19,6 +21,10 @@ type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 
 export type ComponentWithBannerPosts = ComponentProps & {
   bannerPostsItems?: GetPostListQueryResult | null;
+};
+
+export type ComponentWithServices = ComponentProps & {
+  services?: GetServiceDetailQueryResult['services'] | null;
 };
 
 export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;

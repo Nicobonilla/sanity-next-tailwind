@@ -1,19 +1,23 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
 import {
   GetPageDetailQueryResult,
   GetServiceDetailQueryResult,
+  GetUnitBusinessDetailQueryResult,
 } from '@/sanity.types';
 import { ComponentProps, LoadedComponent } from '@/components/types';
 
 export default function PageTemplate({
   dataPage,
 }: {
-  dataPage?: GetPageDetailQueryResult | GetServiceDetailQueryResult;
+  dataPage?:
+    | GetPageDetailQueryResult
+    | GetServiceDetailQueryResult
+    | GetUnitBusinessDetailQueryResult;
 }) {
   const { isLoading, setLoading, setDataPage } = useLoadingContext();
   const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
@@ -67,9 +71,9 @@ export default function PageTemplate({
 
   return (
     <div className="opacity-100 transition-opacity duration-300">
-        {loadedComponents.map(({ Component, dataComponents }, index) => (
-          <Component key={index} data={dataComponents} />
-        ))}
+      {loadedComponents.map(({ Component, dataComponents }, index) => (
+        <Component key={index} data={dataComponents} />
+      ))}
     </div>
   );
 }

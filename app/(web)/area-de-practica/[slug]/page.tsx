@@ -1,0 +1,63 @@
+'use server';
+import PageTemplate from '@/components/pages/PageTemplate';
+import {
+  ComponentWithBannerPosts,
+  ComponentWithServices,
+} from '@/components/types';
+import {
+  GetPostListByUnitBusinessQueryResult,
+  GetUnitBusinessDetailQueryResult,
+} from '@/sanity.types';
+import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
+import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
+import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+
+async function getData(slug: string) {
+  try {
+    const [unitBusiness, posts]: [
+      GetUnitBusinessDetailQueryResult,
+      GetPostListByUnitBusinessQueryResult | null,
+    ] = await Promise.all([
+      getUnitBusinessBySlugFetch(slug),
+      getPostListByUnitBusinessFetch(slug),
+    ]);
+    console.log('unitBusiness', unitBusiness);
+    console.log('posts', posts);
+
+    return { unitBusiness, posts };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return null;
+  }
+}
+
+export default async function Page({ params }: { params: { slug: string } }) {
+  const unitBusinessPage = await getData(params.slug);
+  console.log('unitBusinessPage', unitBusinessPage);
+  // add posts brief to Banner Posts
+  unitBusinessPage?.unitBusiness?.components?.map((component) => {
+    if (
+      component.typeComponentValue === 'carousel' &&
+      component?.variant == 'post'
+    ) {
+      (component as ComponentWithBannerPosts).bannerPostsItems =
+        unitBusinessPage?.posts;
+    } else if (component.typeComponentValue === 'bannerServices') {
+      (component as ComponentWithServices).services =
+        unitBusinessPage?.unitBusiness?.services;
+    }
+  });
+
+  if (!unitBusinessPage) {
+    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
+  }
+  return (
+    <>
+      {unitBusinessPage?.unitBusiness?.components ? (
+        <PageTemplate dataPage={unitBusinessPage.unitBusiness} />
+      ) : (
+        <div>Servicio no encontrado.</div>
+      )}
+    </>
+  );
+}

@@ -32,9 +32,8 @@ export async function getServiceBySlugFetch(
   slug: string
 ): Promise<GetServiceDetailQueryResult | null> {
   // Remove extra quotes if any
-  const sanitizedSlug = slug.replace(/"/g, ''); // This ensures the slug has no quotes
   const query = getServiceDetailQuery; // This should be a GROQ string
-  const params = { slug: sanitizedSlug }; // Pass the sanitized slug
+  const params = { slug: slug.replace(/"/g, '') }; // Pass the sanitized slug
 
   try {
     const service = (await sanityFetch({
@@ -47,12 +46,7 @@ export async function getServiceBySlugFetch(
       return null; // Si no hay servicio, retornamos null
     }
 
-    return {
-      title: service.title || null, // Asegúrate de que title no sea undefined
-      content: service.content || null, // Asegúrate de que content no sea undefined
-      unitBusiness: service.unitBusiness || null, // Asegúrate de que unitBusiness no sea undefined
-      components: service.components || null, // Asegúrate de que components no sea undefined
-    };
+    return service;
   } catch (error) {
     console.error('Error fetching service by slug:', error);
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad

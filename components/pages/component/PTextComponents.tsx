@@ -36,6 +36,21 @@ export const PTextBannerDark: PortableTextComponents = {
   },
 };
 
+export const PTextBannerServiceCard: PortableTextComponents = {
+  block: {
+    h2: ({ children }) => (
+      <h2 className="font-fira text-2xl font-medium uppercase text-neutral-600 drop-shadow-lg md:w-1/3 md:text-4xl">
+        {children}
+      </h2>
+    ),
+    normal: ({ children }) => (
+      <p className="mx-auto text-center text-base font-medium text-neutral-700/90 md:w-2/3 md:text-right">
+        {children}
+      </p>
+    ),
+  },
+};
+
 export const PTextBannerDark1: PortableTextComponents = {
   block: {
     h2: ({ children }) => (
@@ -44,8 +59,12 @@ export const PTextBannerDark1: PortableTextComponents = {
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className={clsx("mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm",
-      'lg:text-3xl 2xl:text-3xl')}>
+      <h3
+        className={clsx(
+          'mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm',
+          'lg:text-3xl 2xl:text-3xl'
+        )}
+      >
         {children}
       </h3>
     ),

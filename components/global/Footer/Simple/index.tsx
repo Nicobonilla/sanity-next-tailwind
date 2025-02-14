@@ -5,7 +5,7 @@ export default function WPlike() {
     <div className="mt-10 bg-bodydark p-10 text-white">
       <div className="container mx-auto flex flex-col justify-between md:flex-row md:items-center">
         {/* Logo y descripción */}
-        <div className="flex flex-col md:mx-10 md:flex-row lg:w-1/2">
+        <div className="flex flex-col md:flex-row lg:w-1/2">
           <div className="flex justify-start md:mr-4">
             <Logo />
           </div>

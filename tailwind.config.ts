@@ -29,6 +29,8 @@ const config: Config = {
         bodydark: 'rgba(28,31,42,1.0)',
         menuColor2: 'rgba(48,54,73,1.0)',
         primary: 'rgba(178, 34, 34, 1)',
+        lavanda1: 'rgba(229, 212, 250, 1)',
+        lavanda2: 'rgba(199, 180, 245, 1)',
         second: colors.red, //green-600
       },
       lineHeight: {

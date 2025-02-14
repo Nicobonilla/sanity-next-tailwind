@@ -10,8 +10,9 @@ export interface BackgroundProps {
       | 'heading'
       | 'heroForm'
       | 'highLight'
+      | 'bannerServices'
       | undefined;
-    variant: 'hero' | undefined;
+    variant: 'hero' | 'post' | undefined;
     responsiveHeight?: string;
     imageBackground?: {
       asset?: {

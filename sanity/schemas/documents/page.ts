@@ -63,9 +63,6 @@ const page = defineType({
       title: 'Componentes',
       type: 'array',
       of: [{ type: 'banner' }],
-      components: {
-        input: PageBuilderInput
-      }
     }),
   ],
   preview: {

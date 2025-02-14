@@ -15,7 +15,6 @@ export default defineType({
   name: 'banner',
   title: 'Banner',
   type: 'document',
-  orderings: [orderRankOrdering],
   groups: [
     {
       name: 'general',
@@ -36,8 +35,6 @@ export default defineType({
     },
   ],
   fields: [
-    orderRankField({ type: 'banner' }),
-    // Configuración General
     defineField({
       name: 'isActive',
       title: 'Activar',
@@ -57,9 +54,11 @@ export default defineType({
       title: 'Variante de Componente',
       type: 'string',
       group: 'general',
-      hidden: ({ parent }) => !parent?.typeComponent,
       options: {
-        list: [{ title: 'Hero', value: 'hero' }],
+        list: [
+          { title: 'Hero', value: 'hero' },
+          { title: 'Post', value: 'post' },
+        ],
       },
     }),
     defineField({

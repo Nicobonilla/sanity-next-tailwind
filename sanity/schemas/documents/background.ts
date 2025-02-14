@@ -81,8 +81,7 @@ export default defineType({
     }),
     defineField({
       name: 'backgroundLayer',
-      title:
-        'Elige una capa para usar sobre el componente con la imagen de fondo',
+      title: 'Capa/Layer de Fondo',
       type: 'reference',
       to: [{ type: 'layer' }],
       group: 'colors',

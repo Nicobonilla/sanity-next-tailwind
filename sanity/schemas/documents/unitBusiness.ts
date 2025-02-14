@@ -5,7 +5,7 @@ import {
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
 
-const unitBusiness = defineType({
+export default defineType({
   name: 'unitBusiness',
   title: 'Áreas de Práctica',
   type: 'document',
@@ -61,7 +61,22 @@ const unitBusiness = defineType({
       type: 'array',
       of: [{ type: 'block' }, { type: 'image' }],
     }),
+    defineField({
+      name: 'services',
+      title: 'Servicios',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'service' } }],
+    }),
+    defineField({
+      name: 'components',
+      title: 'Componentes',
+      type: 'array',
+      of: [{ type: 'banner' }],
+    }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+  },
 });
-
-export default unitBusiness;

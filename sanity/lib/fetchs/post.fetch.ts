@@ -1,7 +1,7 @@
 import {
   GetPostListByUnitBusinessQueryResult,
   GetPostListQueryResult,
-  GetPostDetailQueryResult
+  GetPostDetailQueryResult,
 } from '@/sanity.types';
 import {
   getPostDetailQuery,
@@ -27,11 +27,9 @@ export async function getPostListFetch(): Promise<GetPostListQueryResult | null>
   }
 }
 
-export async function getPostListByUnitBusinessFetch({
-  slug,
-}: {
-  slug: string;
-}): Promise<GetPostListByUnitBusinessQueryResult | null> {
+export async function getPostListByUnitBusinessFetch(
+  slug: string
+): Promise<GetPostListByUnitBusinessQueryResult | null> {
   // Remove extra quotes if any
   const sanitizedSlug = slug.replace(/"/g, '');
   const query = getPostListByUnitBusinessQuery;

@@ -11,6 +11,12 @@ import { ItemProps, ItemsProps } from '@/components/types';
 import SlideHero from './SlideHero';
 import { ColorList, useCurrentStyle } from '../Background/utils';
 import Fade from 'embla-carousel-fade';
+import SlidePost from './SlidePost'; // Importa el nuevo SlidePost
+import {
+  GetPostListByUnitBusinessQueryResult,
+  GetPostListQueryResult,
+} from '@/sanity.types';
+import clsx from 'clsx';
 
 export default function EmblaCarousel({
   data,
@@ -19,7 +25,6 @@ export default function EmblaCarousel({
 }: CarouselProps) {
   const [hoveredItemIndex, setHoveredItemIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
   const [isMobile, setIsMobile] = useState(false);
 
   const fadePlugin = data?.variant === 'hero' ? Fade() : undefined;
@@ -84,24 +89,60 @@ export default function EmblaCarousel({
   };
 
   return (
-    <section className={data?.variant == 'hero' ? 'embla_hero' : 'embla'}>
+    <section
+      className={clsx({
+        embla_hero: data?.variant == 'hero',
+        'embla_post m-auto h-fit max-w-screen-xl items-center justify-center px-4':
+          data?.variant == 'post',
+
+        embla: data?.variant != 'post' && data?.variant != 'hero',
+      })}
+    >
       <div ref={emblaRef} className="embla__viewport">
         <div className={`embla__container`}>
-          {data?.items.map((slide: ItemProps, index: number) => (
-            <div
-              key={index}
-              className="embla__slide"
-              onClick={() => handleClick(index)}
-            >
-              {data?.variant == 'hero' ? (
+          {data?.variant == 'post' &&
+            data?.bannerPostsItems?.map(
+              (
+                slide:
+                  | GetPostListQueryResult[number]
+                  | GetPostListByUnitBusinessQueryResult[number],
+                index: number
+              ) => (
+                <div
+                  key={index}
+                  className="embla__slide"
+                  onClick={() => handleClick(index)}
+                >
+                  <SlidePost key={index} post={slide} />
+                </div>
+              )
+            )}
+
+          {data?.variant == 'hero' &&
+            data?.items?.map((slide: ItemProps, index: number) => (
+              <div
+                key={index}
+                className="embla__slide"
+                onClick={() => handleClick(index)}
+              >
                 <SlideHero
                   key={`${index}-${activeIndex}`}
-                  slide={slide}
+                  slide={slide as ItemProps}
                   layerStyle={data.backgroundValue.colors as ColorList}
-                  index={index} // Pasa el índice del slide actual
-                  activeIndex={activeIndex} // Pasa el índice activo del carrusel
+                  index={index}
+                  activeIndex={activeIndex}
                 />
-              ) : (
+              </div>
+            ))}
+
+          {data?.variant != 'hero' &&
+            data?.variant != 'post' &&
+            data?.items?.map((slide: ItemProps, index: number) => (
+              <div
+                key={index}
+                className="embla__slide"
+                onClick={() => handleClick(index)}
+              >
                 <Slide
                   key={index}
                   slide={slide}
@@ -109,9 +150,8 @@ export default function EmblaCarousel({
                   onMouseLeave={handleMouseLeave}
                   isActive={getIsActive(index)}
                 />
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
         </div>
       </div>
     </section>

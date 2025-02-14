@@ -1,6 +1,7 @@
 import { Links } from '@/types';
 import { useState } from 'react';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 interface SubsectionsContainerProps {
   link: Links;
@@ -16,6 +17,8 @@ const SubsectionsContainer = ({
   groupedServices,
 }: SubsectionsContainerProps) => {
   const [activeLink2, setActiveLink2] = useState<string | null>(null);
+  const [activeLink3, setActiveLink3] = useState<string | null>(null);
+
   const onMouseEnter2 = (slug: string) => {
     setActiveLink2(slug);
   };
@@ -23,48 +26,78 @@ const SubsectionsContainer = ({
   const onMouseLeave2 = () => {
     setActiveLink2(null);
   };
+
+  const onMouseEnter3 = (slug: string) => {
+    setActiveLink3(slug);
+  };
+
+  const onMouseLeave3 = () => {
+    setActiveLink3(null);
+  };
   return (
     <div className="absolute inset-0 -left-20 top-full z-50">
-      <ul className="mx-auto flex h-fit w-[200px] flex-col bg-white xl:w-[280px]">
+      <ul className="flex h-fit w-[200px] flex-col bg-white xl:w-[280px]">
         {Object.entries(groupedServices).map(([name, business]) => (
           <li
             key={name}
-            className="nav-bg-subsection group relative"
+            className={clsx(
+              'relative inset-0 bottom-0 flex flex-row items-center justify-center uppercase',
+              'hover:bg-gradient-to-r hover:from-white hover:via-gray-100 hover:to-white',
+              'transition-transform duration-300'
+            )}
             onMouseEnter={() => onMouseEnter2(name || '')}
             onMouseLeave={onMouseLeave2}
           >
-            <div className="nav-subsection-desk bottom-0 flex flex-row items-center text-center uppercase">
-              <Link
-                href={{
-                  pathname: `/${link?.slug}/${business[0]?.unitBusiness?.slug}`,
-                }}
-                className="size-full py-4"
-              >
-                <span className="w-full border-b border-gray-200 py-4">
-                  {name}
-                </span>
-              </Link>
-
-              {business.length > 1 && activeLink2 == name && (
-                <ul className="absolute left-full top-0 flex min-w-[250px] flex-col divide-y divide-gray-200">
-                  {business.map((service, index) => (
-                    <li
-                      key={index}
-                      className="nav-bg-subsection size-full bg-white py-3"
-                    >
-                      <Link
-                        href={{
-                          pathname: `/${link?.slug}/${service?.slug}`,
-                        }}
-                        className="nav-subsection-desk size-full"
-                      >
-                        {service?.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+            <Link
+              href={{
+                pathname: `/area-de-practica/${business[0]?.unitBusiness?.slug}`,
+              }}
+              passHref
+              className={clsx(
+                'flex py-3 text-center font-robotomono text-sm uppercase',
+                'border-b border-gray-200',
+                activeLink2 == name
+                  ? 'font-normal text-neutral-800'
+                  : 'font-light text-neutral-900'
               )}
-            </div>
+            >
+              {name}
+            </Link>
+            {business.length > 1 && activeLink2 == name && (
+              <ul className="absolute left-full top-0 flex min-w-[250px] flex-col">
+                {business.map((service, index) => (
+                  <li
+                    key={index}
+                    className={clsx(
+                      'relative inset-0 bottom-0 flex flex-row items-center justify-center bg-white uppercase',
+                      'hover:bg-gradient-to-r hover:from-white hover:via-gray-100 hover:to-white',
+                      'hover:font-bold hover:text-neutral-800',
+                      'transition-transform duration-300'
+                    )}
+                    onMouseEnter={() => onMouseEnter3(service?.title || '')}
+                    onMouseLeave={onMouseLeave3}
+                  >
+                    <Link
+                      href={{
+                        pathname: `/${link?.slug}/${service?.slug}`,
+                      }}
+                      passHref
+                      className={clsx(
+                        'flex py-3 text-center font-montserrat text-xs uppercase',
+                        'border-b border-gray-200',
+                        activeLink3 == service?.title
+                          ? 'font-normal text-neutral-800'
+                          : 'font-light text-neutral-900',
+
+                        'font-light text-neutral-900 transition-all duration-300'
+                      )}
+                    >
+                      {service?.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>

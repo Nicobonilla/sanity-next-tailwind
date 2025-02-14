@@ -3,6 +3,8 @@
 import { CarouselProps } from './types';
 import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
+import clsx from 'clsx';
+import Background from '../Background';
 
 export default function Carousel({ data }: CarouselProps) {
   const autoplayOptions = {
@@ -18,10 +20,26 @@ export default function Carousel({ data }: CarouselProps) {
     dragFree: false,
   };
   return (
-    <EmblaCarousel
-      data={data}
-      options={options}
-      autoplayOptions={autoplayOptions}
-    />
+    <>
+      {data.typeComponent == 'carousel' && data.variant == 'post' ? (
+        <Background
+          data={{ ...data, typeComponent: 'carousel', variant: 'post' }}
+        >
+          <div className="flex h-full w-full items-center justify-center">
+            <EmblaCarousel
+              data={data}
+              options={options}
+              autoplayOptions={autoplayOptions}
+            />
+          </div>
+        </Background>
+      ) : (
+        <EmblaCarousel
+          data={data}
+          options={options}
+          autoplayOptions={autoplayOptions}
+        />
+      )}
+    </>
   );
 }

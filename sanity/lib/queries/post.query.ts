@@ -8,7 +8,7 @@ export const post = /* groq */ `
   slug,
   ${unitBusiness},
   orderRank,
-  components[isActive] | order(orderRank) { ${componentFields} },
+  components[isActive] | order(orderRank asc) { ${componentFields} },
   "resumen": coalesce(
     resumen,
     array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")
@@ -23,7 +23,7 @@ export const getPostListQuery = defineQuery(groq`
       }`);
 
 export const getPostListByUnitBusinessQuery = defineQuery(groq`
-    *[_type == 'post' && unitBusiness->slug.current == $slug] {
+    *[_type == 'post' && unitBusiness->slug.current == $slug ] | order(orderRank desc){
       ${post}
       }`);
 

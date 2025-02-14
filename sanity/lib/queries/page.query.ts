@@ -24,7 +24,7 @@ const pageFields = /* groq */ `
     isActive,
     title,
     content,
-    components[isActive] | order(orderRank) { ${componentFields} }
+    components[isActive]  { ${componentFields} }
 `;
 
 export const getPageDetailQuery = defineQuery(groq`

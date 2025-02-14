@@ -12,18 +12,10 @@ import Contacto from './Contacto';
 const NavbarContent = () => {
   const { scrolling } = useScrollContext();
 
-  const colorScroll = {
-    gradient:
-      'bg-gradient-to-r from-red-500 from-10% via-red-600 via-85% to-transparent to-100%',
-    gradient2:
-      'via-85 bg-gradient-to-br from-red-500 from-10% via-red-600 to-transparent to-100%',
-    white: 'bg-white/90',
-  };
-  const colorBg = scrolling ? colorScroll.white : 'transparent';
   return (
     <div
-      className={`${
-        scrolling ? 'fixed h-24 bg-white/80' : 'h-28 bg-white'
+      className={` ${
+        scrolling ? 'fixed h-16 bg-white/90' : 'h-20 bg-white'
       } inset-x-0 top-0 z-50 transition-all duration-300 ease-in-out`}
     >
       <div className="z-50 hidden w-full justify-end px-4">
@@ -41,13 +33,13 @@ const NavbarContent = () => {
 
       {/* Main navbar container */}
       <div
-        className={`mx-auto flex max-w-screen-2xl h-full items-center justify-between transition-all duration-1000 ease-in-out md:px-4 ${
+        className={`mx-auto flex h-full max-w-screen-2xl items-center justify-between transition-all duration-1000 ease-in-out md:px-4 lg:items-end ${
           scrolling && 'lg:-translate-y-1'
         }`}
       >
         {/* Logo section */}
         <div
-          className={`z-20 flex items-center p-2 transition-all duration-700 ease-in-out ${scrolling && 'scale-95'}`}
+          className={`z-20 ml-2 flex justify-center transition-all duration-700 ease-in-out ${scrolling ? 'scale-95 pb-1' : 'pb-2'}`}
         >
           <Logo />
         </div>
@@ -59,7 +51,9 @@ const NavbarContent = () => {
         </div>
 
         {/* Desktop nav */}
-        <DeskNav />
+        <div className="flex place-content-end items-end justify-end">
+          <DeskNav />
+        </div>
       </div>
     </div>
   );

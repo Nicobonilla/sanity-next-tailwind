@@ -6,12 +6,14 @@ import {
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
 
-const service = defineType({
+export default defineType({
   name: 'service',
   title: 'Servicios',
   type: 'document',
+  orderings: [orderRankOrdering],
   icon: DocumentsIcon,
   fields: [
+    orderRankField({ type: 'service' }),
     defineField({
       name: 'title',
       title: 'Título',
@@ -25,12 +27,6 @@ const service = defineType({
       initialValue: false,
     }),
     defineField({
-      title: 'Posición',
-      name: 'orderRank',
-      type: 'string',
-      hidden: true,
-    }),
-    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -40,6 +36,16 @@ const service = defineType({
         isUnique: isUniqueAcrossAllDocuments,
       },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      type: 'icon.manager',
+      name: 'iconfyIcon',
+      title: 'Icon Manager',
+    }),
+    defineField({
+      name: 'resumen',
+      title: 'Resumen',
+      type: 'text',
     }),
     defineField({
       name: 'content',
@@ -71,14 +77,14 @@ const service = defineType({
       title: 'title',
       active: 'isActive',
       unitBusiness: 'unitBusiness.title',
+      icon: 'iconftyIcon.icon',
     },
-    prepare({ title, active, unitBusiness }) {
+    prepare({ title, active, unitBusiness, icon }) {
       return {
         title: `${title} | ${active ? 'Activo' : 'Inactivo'}`,
         subtitle: `${unitBusiness}`,
+        media: icon,
       };
     },
   },
 });
-
-export default service;

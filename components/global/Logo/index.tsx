@@ -10,7 +10,7 @@ export default function Logo() {
   const { isDarkMode } = useTheme();
   return (
     <Link href={'/'}>
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-fit w-[210px] items-center justify-center">
         {/* Logo SVG opcional, puedes cambiar `false` a `true` si deseas mostrarlo */}
         {false && (
           <div className="relative size-12 md:size-14">
@@ -19,18 +19,19 @@ export default function Logo() {
         )}
 
         {/* Texto del Logo */}
-        <div className="font-fira z-50 flex flex-col items-center justify-center">
-          
-          <p
+        <div className="z-50 flex flex-col text-center">
+          <div
             className={clsx(
-              'z-50 text-3xl drop-shadow-2xl',
-              'lg:text-5xl',
-              'bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent'
+              'z-50 flex-row font-crimson drop-shadow-2xl',
+              'lg:text-4xl',
+              'bg-gradient-to-r from-neutral-900 via-neutral-900 to-neutral-700 bg-clip-text'
             )}
           >
-            BONILLA
+            <span className="text-2xl font-thin">SEBASTÍAN BONILLA</span>
+          </div>
+          <p className="-translate-y-1 font-robotoslab text-xs uppercase">
+            Asesoría Legal y Jurídica
           </p>
-          <p className="-translate-y-1">Asesoramiento Legal</p>
           {/*Mostrar el sufijo opcional `.cl` */}
           {false && (
             <span className="ml-1 text-lg font-semibold text-white">.cl</span>

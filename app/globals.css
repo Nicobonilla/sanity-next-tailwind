@@ -151,7 +151,7 @@
   }
 }
 
-/* CAROUSEL */
+/* CAROUSEL DEFAULT */
 .embla {
   max-width: 100%;
   margin: 0;
@@ -172,6 +172,24 @@
   }
 }
 
+/* CAROUSEL POST */
+.embla_post {
+  --slide-size: 90%;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+@media (min-width: 600px) {
+  .embla_post {
+    --slide-size: 46%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .embla_post {
+    --slide-size: 32%;
+  }
+}
 /* CAROUSEL HERO*/
 
 .embla_hero {
@@ -183,6 +201,8 @@
 }
 .embla__viewport {
   overflow: hidden;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .embla__container {
   display: flex;

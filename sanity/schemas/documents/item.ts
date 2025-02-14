@@ -5,7 +5,7 @@ import {
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
 
-const item = defineType({
+export default  defineType({
   name: 'item',
   title: 'Item',
   type: 'document', // Tipo de documento
@@ -79,5 +79,3 @@ const item = defineType({
     },
   },
 });
-
-export default item;

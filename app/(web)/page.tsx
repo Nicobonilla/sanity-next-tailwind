@@ -46,13 +46,15 @@ async function getData(slug: string) {
   }
 }
 
-
 export default async function Page() {
   const currentPage = await getData('inicio');
 
   // add posts brief to Banner Posts
   currentPage?.home?.components?.map((component) => {
-    if (component.typeComponentValue === 'bannerPosts') {
+    if (
+      component.typeComponentValue === 'carousel' &&
+      component.variant === 'post'
+    ) {
       (component as ComponentWithBannerPosts).bannerPostsItems =
         currentPage?.posts;
     }

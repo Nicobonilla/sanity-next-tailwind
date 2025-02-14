@@ -39,8 +39,7 @@ export const componentFields = /* groq */ ` // used as template for component in
   videoType,
   layoutItems,
   PTextItem,
-  orderRank,
-  items[isActive == true]  | order(orderRank) {
+  items[isActive == true]  | order(orderRank asc) {
     isActive,
     image,
     icon,
