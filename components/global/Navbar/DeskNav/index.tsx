@@ -6,7 +6,7 @@ import MainNav from './MainNav';
 
 export default function DeskNav() {
   return (
-    <nav className="hidden lg:block">
+    <nav className="">
       <MainNav />
     </nav>
   );

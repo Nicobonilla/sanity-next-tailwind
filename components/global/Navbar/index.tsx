@@ -33,9 +33,7 @@ const NavbarContent = () => {
 
       {/* Main navbar container */}
       <div
-        className={`mx-auto flex h-full max-w-screen-2xl items-center justify-between transition-all duration-1000 ease-in-out md:px-4 lg:items-end ${
-          scrolling && 'lg:-translate-y-1'
-        }`}
+        className={`mx-auto flex h-full max-w-screen-xl items-center justify-between transition-all duration-1000 ease-in-out md:px-4 lg:items-end`}
       >
         {/* Logo section */}
         <div
@@ -51,7 +49,7 @@ const NavbarContent = () => {
         </div>
 
         {/* Desktop nav */}
-        <div className="flex place-content-end items-end justify-end">
+        <div className="hidden place-content-end lg:block">
           <DeskNav />
         </div>
       </div>

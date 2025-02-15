@@ -78,7 +78,7 @@
 
 @layer components {
   .p3 {
-    @apply font-montserrat text-base font-normal text-slate-700 dark:text-gray-200 lg:font-medium;
+    @apply text-justify font-bitter text-base font-normal text-slate-700 dark:text-gray-200 lg:font-medium;
   }
 }
 

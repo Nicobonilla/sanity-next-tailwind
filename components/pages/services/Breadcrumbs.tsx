@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface ItemBC {
   label: string;
   href: string;
@@ -10,13 +12,17 @@ export interface BreadcrumbsProps {
 
 export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <nav className="mb-6 text-sm text-gray-500">
+    <nav className="ml-2 mb-2 mt-6 text-sm text-gray-500">
       <ul className="flex space-x-2">
         {items.map((item, index) => (
           <li key={index}>
-            <a href={item.href} className="hover:underline">
-              {item.label}
-            </a>
+            {index === items.length - 1 ? (
+              <span>{item.label}</span>
+            ) : (
+              <Link href={{ pathname: item.href }} className="hover:underline">
+                {item.label}
+              </Link>
+            )}
             {index < items.length - 1 && <span> / </span>}
           </li>
         ))}

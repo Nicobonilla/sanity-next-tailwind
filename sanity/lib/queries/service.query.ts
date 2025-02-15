@@ -18,6 +18,11 @@ export const getServiceDetailQuery = defineQuery(
     iconfyIcon,
     resumen,
     content,  // Fetch the content of the service
+    "tableOfContents" : content[style in ['h2']] {
+      _key,
+      style,
+      'text':children[0].text 
+    },
     ${unitBusiness},
     components[isActive] { ${componentFields} }
   }`

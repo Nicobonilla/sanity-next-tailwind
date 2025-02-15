@@ -13,7 +13,7 @@ export default function ItemServiceBanner({
 
   return (
     <Link
-      href={{ pathname: `/service/${slug}` }}
+      href={{ pathname: `/services/${slug}` }}
       passHref
       className="size-full p-2 sm:p-4"
     >

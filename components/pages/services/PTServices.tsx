@@ -20,7 +20,7 @@ export const PTServices: PortableTextComponents = {
         {children}
       </h3>
     ),
-    normal: ({ children }) => <span className="p3">{children}</span>,
+    normal: ({ children }) => <p className="p3">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 p-4 pl-4 dark:border-red-700 dark:bg-slate-800">
         <span className="pr-3 text-5xl text-red-500">“</span>

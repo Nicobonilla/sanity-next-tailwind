@@ -3,19 +3,18 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SubsectionsContainer from './SubsectionsContainer';
 import { useSanityContext } from '@/context/SanityContext';
-import { useScrollContext } from '@/context/ScrollContext';
 import { groupServicesByBusiness } from './utils';
 import { usePathname } from 'next/navigation';
 
 const MainNav = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { pagesLink } = useSanityContext();
-  const { scrolling } = useScrollContext();
   const groupedServices = groupServicesByBusiness(pagesLink);
   const path = usePathname();
 
-  //console.log('pagesLink: ', pagesLink);
-  //console.log('path: ', path);
+  console.log('pagesLink: ', pagesLink);
+  console.log('path: ', path);
+  console.log("path.split('/')[1]", path.split('/')[1]);
 
   const onMouseEnter = (slug: string) => {
     setActiveLink(slug);
@@ -35,10 +34,12 @@ const MainNav = () => {
               {
                 'hover:bg-neutral-950 hover:text-white':
                   link?.title != 'Contacto',
-                'ml-4 rounded-sm bg-blue-900/70 hover:bg-blue-900/80':
+                'ml-4 h-8 rounded-sm bg-blue-900/70 hover:bg-blue-900/80':
                   link?.title == 'Contacto',
                 'bg-neutral-950 text-white':
-                  path !== '/' && path === `/${link?.slug}`,
+                  path !== '/' &&
+                  (path === `/${link?.slug}` ||
+                    path.split('/')[1] === `${link?.slug}`),
               }
             )}
             onMouseEnter={() => onMouseEnter(link?.title || '')}
@@ -48,12 +49,14 @@ const MainNav = () => {
               href={{ pathname: `/${link?.slug}` }}
               passHref
               className={clsx(
-                'inline-flex truncate p-3 text-center font-robotomono text-sm uppercase text-neutral-800 drop-shadow-xl 2xl:px-8',
+                'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
                 {
                   'group-hover:text-white': link?.title != 'Contacto',
                   'text-white':
                     link?.title == 'Contacto' ||
-                    (path !== '/' && path === `/${link?.slug}`),
+                    (path !== '/' &&
+                      (path === `/${link?.slug}` ||
+                        path.split('/')[1] === `${link?.slug}`)),
                 }
               )}
             >
@@ -64,7 +67,6 @@ const MainNav = () => {
               activeLink === link.title && (
                 <SubsectionsContainer
                   link={link}
-                  activeLink={activeLink}
                   groupedServices={groupedServices}
                   onMouseEnter={onMouseEnter}
                   onMouseLeave={onMouseLeave}

@@ -5,7 +5,6 @@ import clsx from 'clsx';
 
 interface SubsectionsContainerProps {
   link: Links;
-  activeLink: string | null;
   groupedServices: Record<string, Links[]>;
   onMouseEnter: (slug: string) => void;
   onMouseLeave: () => void;
@@ -13,7 +12,6 @@ interface SubsectionsContainerProps {
 
 const SubsectionsContainer = ({
   link,
-  activeLink,
   groupedServices,
 }: SubsectionsContainerProps) => {
   const [activeLink2, setActiveLink2] = useState<string | null>(null);
@@ -36,12 +34,12 @@ const SubsectionsContainer = ({
   };
   return (
     <div className="absolute inset-0 -left-20 top-full z-50">
-      <ul className="flex h-fit w-[200px] flex-col bg-white xl:w-[280px]">
+      <ul className="flex h-fit w-[200px] flex-col bg-white xl:w-[250px]">
         {Object.entries(groupedServices).map(([name, business]) => (
           <li
             key={name}
             className={clsx(
-              'relative inset-0 bottom-0 flex flex-row items-center justify-center uppercase',
+              'relative inset-0 flex flex-row items-center justify-center uppercase',
               'hover:bg-gradient-to-r hover:from-white hover:via-gray-100 hover:to-white',
               'transition-transform duration-300'
             )}
@@ -54,7 +52,7 @@ const SubsectionsContainer = ({
               }}
               passHref
               className={clsx(
-                'flex py-3 text-center font-robotomono text-sm uppercase',
+                'flex scale-95 py-3 text-center font-fira text-sm uppercase',
                 'border-b border-gray-200',
                 activeLink2 == name
                   ? 'font-normal text-neutral-800'
@@ -64,12 +62,12 @@ const SubsectionsContainer = ({
               {name}
             </Link>
             {business.length > 1 && activeLink2 == name && (
-              <ul className="absolute left-full top-0 flex min-w-[250px] flex-col">
+              <ul className="absolute left-full top-0 flex min-w-[250px] max-w-[320px] flex-col">
                 {business.map((service, index) => (
                   <li
                     key={index}
                     className={clsx(
-                      'relative inset-0 bottom-0 flex flex-row items-center justify-center bg-white uppercase',
+                      'relative inset-0 flex flex-row items-center justify-center bg-white uppercase',
                       'hover:bg-gradient-to-r hover:from-white hover:via-gray-100 hover:to-white',
                       'hover:font-bold hover:text-neutral-800',
                       'transition-transform duration-300'
@@ -83,13 +81,12 @@ const SubsectionsContainer = ({
                       }}
                       passHref
                       className={clsx(
-                        'flex py-3 text-center font-montserrat text-xs uppercase',
+                        'flex py-3 text-center font-fira text-xs uppercase text-neutral-900',
                         'border-b border-gray-200',
                         activeLink3 == service?.title
-                          ? 'font-normal text-neutral-800'
-                          : 'font-light text-neutral-900',
-
-                        'font-light text-neutral-900 transition-all duration-300'
+                          ? 'font-normal'
+                          : 'font-light',
+                        'transition-colors duration-300 ease-in-out'
                       )}
                     >
                       {service?.title}
