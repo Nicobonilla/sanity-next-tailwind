@@ -19,7 +19,6 @@ async function getData(slug: string) {
     return null;
   }
 }
-
 export default async function Page({ params }: { params: { slug: string } }) {
   const service: GetServiceDetailQueryResult | undefined = await getData(
     params.slug
@@ -27,28 +26,27 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!service) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores
   }
+  const breadcrumbsItems = [
+    { label: 'Inicio', href: '/', slug: 'home' }, // Level 1: Root
+    {
+      label: service.unitBusiness.title,
+      href: '/service',
+      slug: 'services',
+    }, // Level 2: Section
+    {
+      label: service?.title || '',
+      href: '/service',
+      slug: params.slug,
+    }, // Level 3: Current page
+  ];
   return (
-    <div>
+    <section>
       <div className={'mx-auto max-w-screen-xl'}>
         <article>
           {service?.components && (
             <PageTemplate dataPage={service as GetServiceDetailQueryResult} />
           )}
-          <Breadcrumbs
-            items={[
-              { label: 'Inicio', href: '/', slug: 'home' }, // Level 1: Root
-              {
-                label: service.unitBusiness.title,
-                href: '/service',
-                slug: 'services',
-              }, // Level 2: Section
-              {
-                label: service?.title || '',
-                href: '/service',
-                slug: params.slug,
-              }, // Level 3: Current page
-            ]}
-          />
+          <Breadcrumbs items={breadcrumbsItems} />
           <h1 className="h2 mb-6 ml-2">{service.title}</h1>
 
           <div className="mx-2 flex flex-col gap-14 md:flex-row">
@@ -69,6 +67,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
         </article>
       </div>
-    </div>
+    </section>
   );
 }

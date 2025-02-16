@@ -6,25 +6,24 @@ interface ItemBC {
   slug: string;
 }
 
-export const Breadcrumbs = ({ items }: { items: ItemBC[] }) => {
+export interface BreadcrumbsProps {
+  items: ItemBC[];
+}
+
+export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <nav className="z-50 mx-5 mb-6 text-sm text-gray-500">
-      <ul className="flex space-x-1">
+    <nav className="mb-2 ml-2 mt-6 text-sm text-gray-500">
+      <ul className="flex space-x-2">
         {items.map((item, index) => (
-          <li key={item.slug} className="flex items-center">
-            <Link
-              href={{ pathname: item.href }}
-              className={`cursor-pointer overflow-hidden hover:text-blue-900 hover:underline ${
-                index === items.length - 1 ? 'truncate-label' : ''
-              }`}
-            >
-              {index === items.length - 1 ? (
-                <span className="truncate-label">{item.label}</span>
-              ) : (
-                item.label
-              )}
-            </Link>
-            {index < items.length - 1 && <span className="px-1">/</span>}
+          <li key={index}>
+            {index === items.length - 1 ? (
+              <span>{item.label}</span>
+            ) : (
+              <Link href={{ pathname: item.href }} className="hover:underline">
+                {item.label}
+              </Link>
+            )}
+            {index < items.length - 1 && <span> / </span>}
           </li>
         ))}
       </ul>
