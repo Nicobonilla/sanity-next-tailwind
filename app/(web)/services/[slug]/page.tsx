@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     { label: 'Inicio', href: '/', slug: 'home' }, // Level 1: Root
     {
       label: service.unitBusiness.title,
-      href: '/service',
+      href: `/${service.unitBusiness.slug}`,
       slug: 'services',
     }, // Level 2: Section
     {

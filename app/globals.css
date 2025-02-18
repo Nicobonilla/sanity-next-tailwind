@@ -84,7 +84,7 @@
 
 @layer components {
   .nav {
-    @apply font-robotomono text-sm hover:font-semibold;
+    @apply font-robotomono text-xl text-gray-200 hover:font-semibold hover:text-white;
   }
 }
 

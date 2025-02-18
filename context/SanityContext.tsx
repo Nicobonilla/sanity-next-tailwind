@@ -1,11 +1,16 @@
 'use client';
-import { Links } from '@/types';
 import { createContext, useContext, ReactNode } from 'react';
+import {
+  GetPagesNavQueryResult,
+  GetUnitBusinessListQueryResult,
+} from '@/sanity.types';
+import { Links } from '@/types';
 
 // Define the expected structure of the context data
 export type SanityContextType = {
-  componentsMap: Record<string, string | null>[]; 
-  pagesLink: Links[]; // Ensure this type matches with your expected structure
+  componentsMap: Record<string, string | null>[];
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
 };
 
 // Create context with a default value (it can be undefined or an empty object)

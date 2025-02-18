@@ -5,14 +5,14 @@ import SubsectionsContainer from './SubsectionsContainer';
 import { useSanityContext } from '@/context/SanityContext';
 import { groupServicesByBusiness } from './utils';
 import { usePathname } from 'next/navigation';
+import { GetPagesNavQueryResult } from '@/sanity.types';
+import SubsectionsContainerSimple from './SubsectionsContainerSimple';
 
 const MainNav = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  const { pagesLink } = useSanityContext();
-  const groupedServices = groupServicesByBusiness(pagesLink);
+  const { pages, unitBusinessList } = useSanityContext();
   const path = usePathname();
 
-  console.log('pagesLink: ', pagesLink);
   console.log('path: ', path);
   console.log("path.split('/')[1]", path.split('/')[1]);
 
@@ -23,10 +23,11 @@ const MainNav = () => {
   const onMouseLeave = () => {
     setActiveLink(null);
   };
+
   return (
     <div>
       <ul className="flex h-full items-end justify-center">
-        {pagesLink?.map((link) => (
+        {(pages as GetPagesNavQueryResult)?.map((link) => (
           <li
             key={link?.title}
             className={clsx(
@@ -39,35 +40,56 @@ const MainNav = () => {
                 'bg-neutral-950 text-white':
                   path !== '/' &&
                   (path === `/${link?.slug}` ||
-                    path.split('/')[1] === `${link?.slug}`),
+                    path.split('/')[1] === activeLink),
               }
             )}
-            onMouseEnter={() => onMouseEnter(link?.title || '')}
+            onMouseEnter={() => onMouseEnter(link?.slug || '')}
             onMouseLeave={onMouseLeave}
           >
-            <Link
-              href={{ pathname: `/${link?.slug}` }}
-              passHref
-              className={clsx(
-                'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
-                {
-                  'group-hover:text-white': link?.title != 'Contacto',
-                  'text-white':
-                    link?.title == 'Contacto' ||
-                    (path !== '/' &&
-                      (path === `/${link?.slug}` ||
-                        path.split('/')[1] === `${link?.slug}`)),
-                }
-              )}
-            >
-              {link?.title}
-            </Link>
-            {link?.subsections &&
-              link.subsections?.length > 0 &&
-              activeLink === link.title && (
-                <SubsectionsContainer
-                  link={link}
-                  groupedServices={groupedServices}
+            {link?.slug === 'services' ? (
+              <span
+                className={clsx(
+                  'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
+                  {
+                    'group-hover:text-white': link?.title != 'Contacto',
+                    'bg-neutral-950 text-white':
+                      (path !== '/' &&
+                        activeLink === 'services' &&
+                        path === `/${link?.slug}`) ||
+                      path === `/area-de-practica/derecho-familiar` ||
+                      path === `/area-de-practica/derecho-imobiliario`,
+                  }
+                )}
+                onMouseEnter={() => onMouseEnter(link?.slug || '')}
+                onMouseLeave={onMouseLeave}
+              >
+                {link?.title}
+              </span>
+            ) : (
+              <Link
+                href={{ pathname: `/${link?.slug}` }}
+                passHref
+                className={clsx(
+                  'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
+                  {
+                    'group-hover:text-white': link?.title != 'Contacto',
+                    'text-white':
+                      link?.title == 'Contacto' ||
+                      (path !== '/' &&
+                        (path === `/${link?.slug}` ||
+                          path.split('/')[1] === `${link?.slug}`)),
+                  }
+                )}
+              >
+                {link?.title}
+              </Link>
+            )}
+            {link?.slug === 'services' &&
+              (activeLink == link?.slug ||
+                activeLink == 'derecho-familiar' ||
+                activeLink == 'derecho-inmobiliario') && (
+                <SubsectionsContainerSimple
+                  unitBusinessList={unitBusinessList}
                   onMouseEnter={onMouseEnter}
                   onMouseLeave={onMouseLeave}
                 />

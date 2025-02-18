@@ -23,7 +23,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
                 {item.label}
               </Link>
             )}
-            {index < items.length - 1 && <span> / </span>}
+            {index < items.length - 2 && <span> / </span>}
           </li>
         ))}
       </ul>

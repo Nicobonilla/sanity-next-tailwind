@@ -10,7 +10,7 @@ import { useScrollContext } from '@/context/ScrollContext';
 import { IoIosMenu, IoIosClose } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 
-export default function MobileNavDrawer() {
+export default function MobileNavDrawer2() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // Change from array to single string to track only one open section
   const [expandedSection, setExpandedSection] = useState<string>('');
@@ -113,6 +113,24 @@ export default function MobileNavDrawer() {
                             />
                           </button>
                         </div>
+
+                        {expandedSection === business.title && (
+                          <ul className="pl-4 py-1">
+                            {business.services?.map((service) => (
+                              <li key={service.slug}>
+                                <Link
+                                  href={{
+                                    pathname: `/services/${service.slug}`,
+                                  }}
+                                  className="nav block text-sm text-gray-200"
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {service.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     ))
                   ) : (

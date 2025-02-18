@@ -1,12 +1,14 @@
 import {
   GetPagesNavQueryResult,
   GetServicesNavQueryResult,
+  GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
 import type { Links } from '@/types';
 
 export function formatPages(
   pagesList: GetPagesNavQueryResult,
-  servicesList: GetServicesNavQueryResult
+  servicesList: GetServicesNavQueryResult,
+  ub: GetUnitBusinessListQueryResult
 ): Links[] {
   // Type guard to check if a page is valid Links (i.e., not null and has orderRank)
   const isValidLink = (page: any): page is Links =>

@@ -2,10 +2,10 @@ import { ComponentProps } from '@/components/types';
 import Icon from '@/components/global/Icons/LucideIcon';
 import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/utils';
 import { useSanityContext } from '@/context/SanityContext';
+import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
 export default function Form() {
-  const { pagesLink } = useSanityContext();
-  const groupedServices = groupServicesByBusiness(pagesLink);
+  const { unitBusinessList } = useSanityContext();
 
   function handlerClick() {}
   return (
@@ -75,20 +75,25 @@ export default function Form() {
             </label>
             <select className="your-select-classes">
               <option>Selecciona una Opción</option>
-              {Object.entries(groupedServices).map(([name, business]) => (
-                <optgroup key={name} label={name}>
-                  {business.map((service, index) => (
-                    <option
-                      key={`${name}-${index}`}
-                      value={service?.title || 'null'}
-                      className="cursor-pointer"
-                      onClick={handlerClick}
-                    >
-                      {service?.title}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
+              {unitBusinessList.map(
+                (
+                  unitBusiness: GetUnitBusinessListQueryResult[number],
+                  index
+                ) => (
+                  <optgroup key={index} label={unitBusiness?.title || ''}>
+                    {unitBusiness?.services?.map((service) => (
+                      <option
+                        key={`${service.slug}`}
+                        value={service?.title || 'null'}
+                        className="cursor-pointer"
+                        onClick={handlerClick}
+                      >
+                        {service?.title}
+                      </option>
+                    ))}
+                  </optgroup>
+                )
+              )}
             </select>
             {/* </select>*/}
           </div>

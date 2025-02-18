@@ -1,9 +1,7 @@
 import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
-import {
-  getSettingsFetch,
-} from '@/sanity/lib/fetch';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { formatPages } from '@/components/pages/services/format';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import { GoogleTagManager } from '@next/third-parties/google';
@@ -22,18 +20,21 @@ import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
 import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
+import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 
 // Async function to fetch data
 async function getData() {
   try {
-    const [pages, servicesList, componentList, settings] = await Promise.all([
-      getPagesNavFetch(),
-      getServicesNavFetch(),
-      getComponentListFetch(),
-      getSettingsFetch(),
-    ]);
+    const [pages, servicesList, componentsMap, unitBusinessList, settings] =
+      await Promise.all([
+        getPagesNavFetch(),
+        getServicesNavFetch(),
+        getComponentListFetch(),
+        getUnitBusinessListFetch(),
+        getSettingsFetch(),
+      ]);
 
-    return { pages, servicesList, componentList, settings };
+    return { pages, servicesList, componentsMap, unitBusinessList, settings };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw new Error('Failed to fetch necessary data for the application');
@@ -46,14 +47,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   try {
-    const { pages, servicesList, componentList, settings } = await getData();
-    if (!pages || !servicesList || !componentList || !settings) {
+    const { pages, servicesList, componentsMap, unitBusinessList, settings } =
+      await getData();
+    if (
+      !pages ||
+      !servicesList ||
+      !componentsMap ||
+      !unitBusinessList ||
+      !settings
+    ) {
       throw new Error('Essential data is missing');
     }
 
     const initialData: SanityContextType = {
-      componentsMap: componentList,
-      pagesLink: formatPages(pages, servicesList) as Links[],
+      componentsMap,
+      pages,
+      unitBusinessList,
+
     };
 
     const { isEnabled } = draftMode();

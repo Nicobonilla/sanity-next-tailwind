@@ -14,8 +14,11 @@ export const getUnitBusinessListQuery = defineQuery(groq`
     *[_type == 'unitBusiness'] |  order(orderRank asc) {
       title,
       "slug": slug.current,
-      icon,
       color,
+      "services" : services[] -> {
+        title,
+        "slug": slug.current,
+      },  
       orderRank,
   }`);
 
@@ -27,16 +30,15 @@ const ubFields = /* groq */ `
   color,
   description,
   "services" : services[] -> {
-  title,
-  "slug": slug.current,
-  iconfyIcon,
-  resumen,
-  },
+    title,
+    "slug": slug.current,
+    iconfyIcon,
+    resumen,
+    },
   components[isActive] { ${componentFields} }
 `;
 
 export const getUnitBusinessDetailQuery = defineQuery(groq`
     *[_type == 'unitBusiness' && slug.current == $slug][0] {
       ${ubFields}
-
     }`);

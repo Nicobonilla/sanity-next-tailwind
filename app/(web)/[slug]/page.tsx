@@ -40,11 +40,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!data) {
     return <div>Página no encontrada.</div>;
   }
-  const { page }: { page: GetPageDetailQueryResult } = data;
+  const { page } = data;
 
   if (!page) {
     return <div>Pagina no encontrado.</div>; // Manejo básico de errores
   }
+  
   return (
     <>
       {page?.components ? (

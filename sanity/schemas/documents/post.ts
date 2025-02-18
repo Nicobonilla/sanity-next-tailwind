@@ -60,7 +60,10 @@ export default defineType({
               },
             ],
           },
-          lists: [{ title: 'Bullet', value: 'bullet' }],
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+          ],
         },
         {
           type: 'image',
