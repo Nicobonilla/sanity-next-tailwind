@@ -1,7 +1,7 @@
 'use client';
-import DrawerNAv from './DrawerNav';
+import DrawerNav from './DrawerNav';
 
 export default function MobileNav({}) {
-  return <DrawerNAv  />;
+  return <DrawerNav />;
 }
 MobileNav;

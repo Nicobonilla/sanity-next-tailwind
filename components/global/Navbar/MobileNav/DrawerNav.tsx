@@ -6,31 +6,17 @@ import Link from 'next/link';
 import Logo from '@/components/global/Logo';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
-import { useScrollContext } from '@/context/ScrollContext';
 import { IoIosMenu, IoIosClose } from 'react-icons/io';
-import { RiArrowDownSLine } from 'react-icons/ri';
+import clsx from 'clsx';
 
-export default function MobileNavDrawer() {
+export default function DrawerNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Change from array to single string to track only one open section
-  const [expandedSection, setExpandedSection] = useState<string>('');
   const path = usePathname();
   const { pages, unitBusinessList } = useSanityContext();
-  const { scrolling } = useScrollContext();
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsMenuOpen((prev) => !prev);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const toggleSection = (title: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    // If clicking the same section, close it. If clicking a different section, open it
-    setExpandedSection((prev) => (prev === title ? '' : title));
   };
 
   useEffect(() => {
@@ -42,9 +28,9 @@ export default function MobileNavDrawer() {
 
     if (isMenuOpen) {
       window.addEventListener('click', closeMenuOnClickOutside);
-      document.body.style.overflow = 'hidden'; // Disable scroll
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = ''; // Re-enable scroll
+      document.body.style.overflow = '';
     }
 
     return () => {
@@ -72,60 +58,52 @@ export default function MobileNavDrawer() {
         />
 
         <div
-          className={`fixed right-0 top-0 z-50 h-screen items-center justify-center bg-neutral-950 shadow-lg transition-all duration-500 ease-in-out ${
-            isMenuOpen
-              ? 'w-full  translate-x-0 sm:w-3/4'
-              : 'w-0 translate-x-full'
+          className={`fixed right-0 top-0 z-50 h-screen bg-neutral-950 shadow-lg transition-all duration-500 ease-in-out ${
+            isMenuOpen ? 'w-4/5 translate-x-0 sm:w-3/4' : 'w-0 translate-x-full'
           }`}
         >
-          <nav className="p-6">
-            {isMenuOpen && (
-              <div className="z-20 mx-auto mb-10 flex h-24 scale-125 items-center justify-center text-white">
-                <Logo />
-              </div>
-            )}
-            <ul className="min-w-[300px] items-center uppercase">
-              {pages.map((page) => (
-                <li key={page.slug} className="">
-                  {page.slug === 'services' ? (
-                    unitBusinessList?.map((business) => (
-                      <div key={business.slug}>
-                        <div className="nav">
-                          <Link
-                            href={`/area-de-practica/${business.slug}`}
-                            className="nav text-gray-300"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            {business.title}
-                          </Link>
-                          <button
-                            onClick={(e) =>
-                              toggleSection(business?.title || '', e)
-                            }
-                            className="text-gray-200"
-                          >
-                            <RiArrowDownSLine
-                              className={`transform transition-transform duration-500 ${
-                                expandedSection === business.title
-                                  ? 'rotate-180'
-                                  : ''
-                              }`}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
+          <nav className="max-h-screen overflow-y-auto p-6">
+            <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">
+              {isMenuOpen && <Logo />}
+            </div>
+            <ul className="min-w-[300px] items-center space-y-1 uppercase text-white">
+              {pages.map((page) =>
+                page.slug === 'services' ? (
+                  // For services, map through business units
+                  unitBusinessList?.map((business) => (
+                    <li key={business.slug} className="nav hover:bg-gray-900">
+                      <Link
+                        href={`/area-de-practica/${business.slug}`}
+                        onClick={() => setIsMenuOpen(false)}
+                        className={clsx(
+                          'block px-4 py-2 text-lg font-medium transition-colors hover:text-red-500',
+                          path === `/area-de-practica/${business.slug}` &&
+                            'text-red-500'
+                        )}
+                      >
+                        {business.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  // For other pages, just show the page title once
+                  <li
+                    key={page.slug}
+                    className="nav py-1 transition-colors hover:bg-gray-900"
+                  >
                     <Link
                       href={`/${page.slug}`}
-                      className="nav"
                       onClick={() => setIsMenuOpen(false)}
+                      className={clsx(
+                        'block px-4 py-2 text-lg font-medium transition-colors hover:text-red-500',
+                        path === `/${page.slug}` && 'text-red-500'
+                      )}
                     >
                       {page.title}
                     </Link>
-                  )}
-                </li>
-              ))}
+                  </li>
+                )
+              )}
             </ul>
           </nav>
         </div>
