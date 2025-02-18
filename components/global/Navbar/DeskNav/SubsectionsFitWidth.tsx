@@ -1,5 +1,5 @@
 'use client';
-
+/*
 import { useState } from 'react';
 import { Links } from '@/types';
 import Link from 'next/link';
@@ -7,13 +7,14 @@ import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
 import { useScrollContext } from '@/context/ScrollContext';
 import clsx from 'clsx';
+import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
-export default function SubsectionsFitWidth() {
+ export default function SubsectionsFitWidth() {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const path = usePathname();
-  const { pagesLink } = useSanityContext();
+  const { pages, unitBusinessList } = useSanityContext();
   const { scrolling } = useScrollContext();
-
+  return null}
   const handleMouseEnter = (slug: string) => {
     setActiveLink(slug);
   };
@@ -22,30 +23,10 @@ export default function SubsectionsFitWidth() {
     setActiveLink(null);
   };
   // Agrupar servicios por unidad de negocio
-  const groupedServices = pagesLink.reduce(
-    (acc, service) => {
-      if (service?.subsections) {
-        service.subsections.forEach((subsection) => {
-          if (subsection?.unitBusiness) {
-            const { title } = subsection.unitBusiness; // Asumiendo que unitBusiness tiene un título
-            if (title) {
-              if (!acc[title]) {
-                acc[title] = [];
-              }
-              acc[title].push(subsection); // Agrupamos las subsecciones bajo su unidad de negocio
-            }
-          }
-        });
-      }
-      return acc;
-    },
-    {} as Record<string, Links[]>
-  );
-
   return (
     <nav className="hidden lg:block">
       <ul className="flex h-full items-center justify-center">
-        {pagesLink?.map((link) => (
+        {pages?.map((link) => (
           <li
             key={link?.title}
             className="group relative my-auto flex h-full cursor-pointer items-center justify-center px-4 2xl:px-8"
@@ -67,60 +48,57 @@ export default function SubsectionsFitWidth() {
         ))}
       </ul>
 
-      {pagesLink?.map(
-        (link) =>
-          link?.subsections &&
-          link.subsections?.length > 0 &&
-          activeLink === link.title && (
-            <div
-              key={link.title}
-              className="nav-bg-subsection absolute right-0 z-50 h-56 px-10 pb-5 lg:w-fit"
-              onMouseEnter={() => handleMouseEnter(link.title || '')}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className="mx-auto w-fit max-w-screen-lg p-2">
-                <div className={`flex flex-row gap-8`}>
-                  <ul className="mt-1 flex flex-row gap-4">
-                    {groupedServices &&
-                      Object.keys(groupedServices).map((businessName) => {
-                        const servicesForBusiness =
-                          groupedServices[businessName];
-                        const business = servicesForBusiness[0]?.unitBusiness; // Obtener información de negocio del primer servicio
+      {false &&
+        unitBusinessList?.map(
+          (business) =>
+            activeLink === business.title && (
+              <div
+                key={business.title}
+                className="nav-bg-subsection absolute right-0 z-50 h-56 px-10 pb-5 lg:w-fit"
+                onMouseEnter={() => handleMouseEnter(business.title || '')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <div className="mx-auto w-fit max-w-screen-lg p-2">
+                  <div className={`flex flex-row gap-8`}>
+                    <ul className="mt-1 flex flex-row gap-4">
+                      {business?.services?.map((services) => {
                         return (
                           <>
                             {business && (
-                              <ul
-                                key={businessName}
-                                className="nav-subsection-desk flex flex-col font-semibold"
-                              >
-                                <li>{business.title}</li>
-                                {servicesForBusiness.map((service, index) => (
-                                  <li key={service?.slug}>
-                                    <Link
-                                      href={{
-                                        pathname:
-                                          path.split('/')[1] == link.slug
-                                            ? service?.slug
-                                            : `${link?.slug}/${service?.slug}`,
-                                      }}
-                                      passHref
-                                      className="nav-subsection-desk block"
-                                    >
-                                      {service?.title}
-                                    </Link>
-                                  </li>
-                                ))}
+                              
+                                {services?.map(
+                                  (
+                                    service: GetUnitBusinessListQueryResult[number]['services'],
+                                    index: number
+                                  ) => (
+                                    <li key={service?.slug}>
+                                      <Link
+                                        href={{
+                                          pathname:
+                                            path.split('/')[1] == link.slug
+                                              ? service?.slug
+                                              : `${link?.slug}/${service?.slug}`,
+                                        }}
+                                        passHref
+                                        className="nav-subsection-desk block"
+                                      >
+                                        {service?.title}
+                                      </Link>
+                                    </li>
+                                  )
+                                )}
                               </ul>
                             )}
                           </>
                         );
                       })}
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-      )}
+            )
+        )}
     </nav>
   );
 }
+*/

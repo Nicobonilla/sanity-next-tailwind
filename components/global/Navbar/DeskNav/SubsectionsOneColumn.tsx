@@ -1,5 +1,5 @@
 'use client';
-
+/*
 import { useState } from 'react';
 import { Links } from '@/types';
 import Link from 'next/link';
@@ -44,7 +44,6 @@ export default function SubsectionsOneColumn() {
 
   return (
     <nav className="hidden lg:block">
-      {/* MAIN NAV*/}
       <ul className="flex h-full items-center justify-center">
         {pagesLink?.map((link) => (
           <li
@@ -67,7 +66,6 @@ export default function SubsectionsOneColumn() {
           </li>
         ))}
       </ul>
-      {/* SUBSECTIONS */}
       {pagesLink?.map(
         (link) =>
           link?.subsections &&
@@ -87,7 +85,6 @@ export default function SubsectionsOneColumn() {
                     return (
                       <li key={businessName} className="group relative">
                         {' '}
-                        {/* Added relative positioning */}
                         <div className="nav-subsection-desk flex flex-row items-center text-center text-sm font-light uppercase">
                           <span className="w-full border-b-2 border-gray-200 py-2 text-center">
                             {business?.title}
@@ -120,3 +117,4 @@ export default function SubsectionsOneColumn() {
     </nav>
   );
 }
+*/

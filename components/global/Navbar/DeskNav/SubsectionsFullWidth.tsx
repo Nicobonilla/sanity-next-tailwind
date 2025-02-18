@@ -1,5 +1,5 @@
 'use client';
-
+/*
 import { useState } from 'react';
 import { Links } from '@/types';
 import Link from 'next/link';
@@ -119,3 +119,4 @@ export default function SubsectionsFullWidth() {
     </nav>
   );
 }
+*/
