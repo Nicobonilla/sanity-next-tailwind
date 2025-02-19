@@ -42,6 +42,7 @@ next-env.d.ts
 /app/(web)/posts
 /app/(web)/actions.ts
 /components/global/Navbar/others
+/components/global/Form/Form2.tsx
 /public
 /components/shared/Faq.tsx
 /components/shared/empty
