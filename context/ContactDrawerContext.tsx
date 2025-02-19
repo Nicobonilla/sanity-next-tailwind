@@ -12,7 +12,7 @@ interface ContactDrawerContextType {
   isOpen: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
-  toggleDrawer: () => void;
+  toggleDrawerForm: () => void;
 }
 
 const ContactDrawerContext = createContext<
@@ -32,7 +32,7 @@ export function ContactDrawerProvider({ children }: { children: ReactNode }) {
     document.body.style.overflow = '';
   }, []);
 
-  const toggleDrawer = useCallback(() => {
+  const toggleDrawerForm = useCallback(() => {
     setIsOpen((prev) => {
       const newState = !prev;
       document.body.style.overflow = newState ? 'hidden' : '';
@@ -46,7 +46,7 @@ export function ContactDrawerProvider({ children }: { children: ReactNode }) {
         isOpen,
         openDrawer,
         closeDrawer,
-        toggleDrawer,
+        toggleDrawerForm,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ const MainNav = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const { pages, unitBusinessList } = useSanityContext();
   const path = usePathname();
-  const { toggleDrawer } = useContactDrawer();
+  const { toggleDrawerForm } = useContactDrawer();
 
   const onMouseEnter = (slug: string) => {
     setActiveLink(slug);
@@ -30,7 +30,7 @@ const MainNav = () => {
             activeLink={activeLink}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            toggleDrawer={toggleDrawer}
+            toggleDrawerForm={toggleDrawerForm}
             unitBusinessList={unitBusinessList}
           />
         ))}

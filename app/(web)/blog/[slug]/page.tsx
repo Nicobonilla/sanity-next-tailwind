@@ -4,8 +4,8 @@ import { GetPostDetailQueryResult } from '@/sanity.types';
 import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { PTextPost } from '@/components/pages/component/Posts/PTextPost';
 import PageTemplate from '@/components/pages/PageTemplate';
-import { TableOfContents } from '@/components/pages/component/Posts/TableOfContents';
 import { Breadcrumbs } from '@/components/pages/component/Breadcrumbs';
+import { TableOfContents } from '@/components/pages/component/TableOfContents';
 
 export async function generateMetadata({
   params,
@@ -43,24 +43,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Servicio no encontrado.</div>;
   }
   const breadcrumbsItems = [
-    { label: 'Inicio', href: '/', slug: 'home' },
-    { label: 'Blogs', href: '/blog', slug: 'blog' },
-    {
-      label: post?.title || '',
-      href: `/blog/${params.slug}`,
-      slug: params.slug,
-    },
+    { label: 'Inicio', slug: 'home' },
+    { label: 'Blogs', slug: 'blog' },
   ];
-  //console.log('post', post);
+
   return (
     <section>
       {post?.components && <PageTemplate dataPage={post} />}
       <div className="mx-auto max-w-screen-xl">
         <article>
           <Breadcrumbs items={breadcrumbsItems} />
-          <h1 className="h2 mb-6 ml-2">{post.title}</h1>
+          <h1 className="h2 mb-2 ml-2 lg:mb-6">{post.title}</h1>
 
-          <div className="mx-2 flex w-full flex-col gap-14 md:flex-row">
+          <div className="relative mx-2 flex w-full flex-col gap-2 md:flex-row">
+            <div className="sticky left-0 top-16 z-40 w-full md:hidden">
+              {post?.tableOfContents && (
+                <TableOfContents items={post?.tableOfContents || null} />
+              )}
+            </div>
+
             <div className="order-2 md:order-1 md:w-3/4">
               <div className="prose prose-sm max-w-none">
                 <PortableText
@@ -70,8 +71,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               </div>
             </div>
 
-            {/* Sidebar: Table of Contents - Ponemos el aside a la derecha en pantallas medianas o más grandes */}
-            <aside className="order-1 md:sticky md:top-24 md:order-2 md:max-h-fit md:w-1/4 md:self-start">
+            <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4">
               {post?.tableOfContents && (
                 <TableOfContents items={post?.tableOfContents || null} />
               )}

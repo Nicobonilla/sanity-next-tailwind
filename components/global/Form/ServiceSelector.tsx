@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
+import { IoIosArrowDown, IoIosArrowDropleft } from 'react-icons/io';
 
 interface ServiceSelectorProps {
   unitBusinessList: GetUnitBusinessListQueryResult;
@@ -52,7 +53,13 @@ export default function ServiceSelector({
                 onClick={() => toggleCategory(index)}
               >
                 {unitBusiness?.title || ''}
-                {serviceCategory === index ? '<' : '>'}
+                <div
+                  className={`inline-block transition-transform duration-300 ${
+                    serviceCategory === index ? '-rotate-90' : 'rotate-0'
+                  }`}
+                >
+                  <IoIosArrowDown size={20} />
+                </div>
               </div>
 
               {/* Lista de servicios dentro de la categoría */}

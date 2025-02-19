@@ -31,7 +31,7 @@ export default function ItemPostList({
               className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
             />
           </div>
-          <div className="flex flex-col gap-4 p-6">
+          <div className="flex flex-col gap-4 p-4">
             {path == '/blog' ||
               (path == '/' && (
                 <div>
@@ -44,15 +44,24 @@ export default function ItemPostList({
                   </span>
                 </div>
               ))}
-            <h3 className="text-xl font-semibold text-gray-700 group-hover:underline">
+            <h3 className="text-lg font-semibold text-gray-700 group-hover:underline">
               {post.title}
             </h3>
-            <p className="font-robotoslab font-light text-gray-900">
+            <p className="font-robotoslab text-sm font-light text-gray-900">
               {post.resumen}
             </p>
-            <time className="text-sm text-gray-500 dark:text-gray-400">
-              {format(new Date(post.date || ''), 'MMMM d, yyyy')}
-            </time>
+            <div>
+              <span
+                className={`mr-2 inline-block rounded-full px-3 py-1 text-sm font-medium ${
+                  post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                }`}
+              >
+                {post.unitBusiness?.title}
+              </span>
+              <time className="text-sm text-gray-500 dark:text-gray-400">
+                {format(new Date(post.date || ''), 'MMMM d, yyyy')}
+              </time>
+            </div>
           </div>
         </div>
       </article>

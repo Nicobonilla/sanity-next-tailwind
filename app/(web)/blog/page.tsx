@@ -178,7 +178,7 @@ export default async function Page() {
       {page?.components && <PageTemplate dataPage={page} />}
 
       <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8 md:px-6 lg:py-12">
+        <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 lg:py-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
             <div>
               <Posts posts={posts || []} unitBusiness={unitBusiness || []} />

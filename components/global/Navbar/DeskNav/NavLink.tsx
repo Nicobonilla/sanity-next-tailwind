@@ -11,7 +11,7 @@ interface NavPageProps {
   activeLink: string | null;
   onMouseEnter: (slug: string) => void;
   onMouseLeave: () => void;
-  toggleDrawer?: () => void;
+  toggleDrawerForm?: () => void;
 }
 
 export default function NavLink({
@@ -20,13 +20,12 @@ export default function NavLink({
   activeLink,
   onMouseEnter,
   onMouseLeave,
-  toggleDrawer,
+  toggleDrawerForm,
 }: NavPageProps) {
-
   const handleClick = (e: MouseEvent) => {
-    if (link.slug === 'contacto' && toggleDrawer) {
+    if (link.slug === 'contacto' && toggleDrawerForm) {
       e.preventDefault();
-      toggleDrawer();
+      toggleDrawerForm();
     }
   };
 

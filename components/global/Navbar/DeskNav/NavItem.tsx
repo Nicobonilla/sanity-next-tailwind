@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import SubsectionsContainerSimple from './variants/SubsectionsContainerSimple';
+import SubsectionsContainerSimple from './SubsectionsContainerSimple';
 import NavLink from './NavLink';
 
 interface NavItemProps {
@@ -12,7 +12,7 @@ interface NavItemProps {
   activeLink: string | null;
   onMouseEnter: (slug: string) => void;
   onMouseLeave: () => void;
-  toggleDrawer?: () => void;
+  toggleDrawerForm?: () => void;
   unitBusinessList: any[];
 }
 
@@ -22,12 +22,12 @@ export default function NavItem({
   activeLink,
   onMouseEnter,
   onMouseLeave,
-  toggleDrawer,
+  toggleDrawerForm,
   unitBusinessList,
 }: NavItemProps) {
   const isContact = link.slug === 'contacto';
   const isServices = link.slug === 'services';
-  
+
   return (
     <li
       key={link.title}
@@ -35,7 +35,7 @@ export default function NavItem({
         'group relative my-auto flex size-full cursor-pointer items-center justify-center',
         {
           'hover:bg-neutral-950 hover:text-white': !isContact,
-          'ml-4 h-8 rounded-sm bg-blue-900/70 hover:bg-blue-950/80': isContact,
+          'ml-4 h-8 rounded-sm bg-blue-900/90 hover:bg-blue-950': isContact,
           'bg-neutral-950 text-white':
             path !== '/' && !isContact && path === `/${link.slug}`,
         }
@@ -49,7 +49,7 @@ export default function NavItem({
         activeLink={activeLink}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        toggleDrawer={toggleDrawer}
+        toggleDrawerForm={toggleDrawerForm}
       />
       {isServices &&
         (activeLink === link.slug ||
