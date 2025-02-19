@@ -1,6 +1,5 @@
 import { ComponentProps } from '@/components/types';
 import Icon from '@/components/global/Icons/LucideIcon';
-import { groupServicesByBusiness } from '@/components/global/Navbar/DeskNav/variants/utils';
 import { useSanityContext } from '@/context/SanityContext';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
