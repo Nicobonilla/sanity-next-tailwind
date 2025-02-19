@@ -175,13 +175,30 @@
 /* CAROUSEL POST */
 .embla_post {
   --slide-size: 90%;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   .embla_post {
-    --slide-size: 46%;
+    --slide-size: 70%;
+  }
+}
+@media (min-width: 650px) {
+  .embla_post {
+    --slide-size: 60%;
+  }
+}
+
+@media (min-width: 750px) {
+  .embla_post {
+    --slide-size: 48%;
+  }
+}
+
+@media (min-width: 850px) {
+  .embla_post {
+    --slide-size: 38%;
   }
 }
 

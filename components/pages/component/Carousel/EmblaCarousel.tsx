@@ -17,6 +17,7 @@ import {
   GetPostListQueryResult,
 } from '@/sanity.types';
 import clsx from 'clsx';
+import { PortableText, PortableTextComponents } from 'next-sanity';
 
 export default function EmblaCarousel({
   data,
@@ -98,6 +99,31 @@ export default function EmblaCarousel({
         embla: data?.variant != 'post' && data?.variant != 'hero',
       })}
     >
+      {data.variant == 'post' && (
+        <div className="relative flex h-full flex-col">
+          <div className="relative flex size-full items-center justify-start">
+            <PortableText
+              value={data.content || []}
+              components={
+                {
+                  block: {
+                    h2: ({ children }) => (
+                      <h2
+                        className={clsx(
+                          'mb-4 text-left font-robotoslab text-2xl font-semibold text-neutral-700 drop-shadow-sm',
+                          'lg:text-3xl 2xl:text-3xl'
+                        )}
+                      >
+                        {children}
+                      </h2>
+                    ),
+                  },
+                } as PortableTextComponents
+              }
+            />
+          </div>
+        </div>
+      )}
       <div ref={emblaRef} className="embla__viewport">
         <div className={`embla__container`}>
           {data?.variant == 'post' &&

@@ -1,11 +1,9 @@
 import type { ComponentProps, ItemProps } from '@/components/types';
-import { PortableText } from 'next-sanity';
+import { PortableText, PortableTextComponents } from 'next-sanity';
 import Card from './Card';
-import { PTextBannerLight } from '../PTextComponents';
 import clsx from 'clsx';
 
 export default function Banner4Images({ data }: { data: ComponentProps }) {
-  //bg-[#002B4E]
   return (
     <section
       className={clsx(
@@ -17,7 +15,27 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
         <div className="mb-12 text-center">
           <PortableText
             value={data.content || []}
-            components={PTextBannerLight}
+            components={
+              {
+                block: {
+                  h2: ({ children }) => (
+                    <h2
+                      className={clsx(
+                        'mb-4 font-robotoslab text-2xl font-light uppercase text-white drop-shadow-sm',
+                        'lg:text-3xl 2xl:text-3xl'
+                      )}
+                    >
+                      {children}
+                    </h2>
+                  ),
+                  normal: ({ children }) => (
+                    <p className="mx-auto text-center font-crimson text-lg font-light text-white/90">
+                      {children}
+                    </p>
+                  ),
+                },
+              } as PortableTextComponents
+            }
           />
         </div>
 

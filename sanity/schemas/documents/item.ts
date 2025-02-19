@@ -59,6 +59,11 @@ export default  defineType({
         },
       ], // Para contenido enriquecido
     }),
+    defineField({
+      name: 'ctaLinkItem',
+      title: 'Link Item',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {

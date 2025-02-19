@@ -21,6 +21,8 @@ import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
 import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import WhatsappSticky from '@/components/global/WhatsappSticky';
+import Form from '@/components/global/Form';
 
 // Async function to fetch data
 async function getData() {
@@ -63,7 +65,6 @@ export default async function RootLayout({
       componentsMap,
       pages,
       unitBusinessList,
-
     };
 
     const { isEnabled } = draftMode();
@@ -91,6 +92,9 @@ export default async function RootLayout({
                 <Navbar />
                 <main className="grow flex-col">
                   {children}
+                  <Form />
+
+                  <WhatsappSticky />
                   <SanityLive />
                   {isEnabled && (
                     <>

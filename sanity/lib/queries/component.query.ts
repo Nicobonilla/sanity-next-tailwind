@@ -32,6 +32,7 @@ export const componentFields = /* groq */ ` // used as template for component in
   imageBackground,
   'backgroundValue': background-> { ${background}},
   content,
+  ctaLinkBanner,
   PTextBanner,
   imageContent,
   imagePosition,
@@ -46,6 +47,7 @@ export const componentFields = /* groq */ ` // used as template for component in
     svgIcon,
     svgIconList,
     alt,
-    content
+    content,
+    ctaLinkItem,
   }
 `;

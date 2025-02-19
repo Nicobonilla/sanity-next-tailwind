@@ -1046,6 +1046,13 @@
                 },
                 "optional": true
               },
+              "ctaLinkBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "imageContent": {
                 "type": "objectAttribute",
                 "value": {
@@ -1524,6 +1531,13 @@
                               }
                             ]
                           }
+                        },
+                        "optional": true
+                      },
+                      "ctaLinkItem": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "string"
                         },
                         "optional": true
                       },
@@ -2265,6 +2279,13 @@
                 },
                 "optional": true
               },
+              "ctaLinkBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "imageContent": {
                 "type": "objectAttribute",
                 "value": {
@@ -2743,6 +2764,13 @@
                               }
                             ]
                           }
+                        },
+                        "optional": true
+                      },
+                      "ctaLinkItem": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "string"
                         },
                         "optional": true
                       },
@@ -3568,6 +3596,13 @@
                 },
                 "optional": true
               },
+              "ctaLinkBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "imageContent": {
                 "type": "objectAttribute",
                 "value": {
@@ -4046,6 +4081,13 @@
                               }
                             ]
                           }
+                        },
+                        "optional": true
+                      },
+                      "ctaLinkItem": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "string"
                         },
                         "optional": true
                       },
@@ -4787,6 +4829,13 @@
                 },
                 "optional": true
               },
+              "ctaLinkBanner": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "imageContent": {
                 "type": "objectAttribute",
                 "value": {
@@ -5268,6 +5317,13 @@
                         },
                         "optional": true
                       },
+                      "ctaLinkItem": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "string"
+                        },
+                        "optional": true
+                      },
                       "_type": {
                         "type": "objectAttribute",
                         "value": {
@@ -5721,6 +5777,13 @@
               }
             ]
           }
+        },
+        "optional": true
+      },
+      "ctaLinkItem": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       }
@@ -6239,6 +6302,13 @@
         },
         "optional": true
       },
+      "ctaLinkBanner": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "imageContent": {
         "type": "objectAttribute",
         "value": {
@@ -6703,6 +6773,13 @@
                       }
                     ]
                   }
+                },
+                "optional": true
+              },
+              "ctaLinkItem": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               },

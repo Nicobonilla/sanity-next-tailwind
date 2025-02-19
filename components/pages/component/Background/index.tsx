@@ -24,7 +24,7 @@ export default function Background({ data, children }: BackgroundProps) {
         'h-fit md:h-[400px]': typeComponent == 'highLight',
         'h-[50svh] items-center justify-center':
           typeComponent == 'carousel' && variant == 'hero',
-        'flex h-fit items-center justify-center':
+        'flex h-fit items-center justify-center bg-red-500':
           data.typeComponent == 'carousel' && variant == 'post',
       })}
     >

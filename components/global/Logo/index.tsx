@@ -1,15 +1,11 @@
 'use client';
-import { useScrollContext } from '@/context/ScrollContext';
-import { useTheme } from '@/context/ThemeContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Logo() {
-  const { scrolling } = useScrollContext();
-  const { isDarkMode } = useTheme();
   return (
-    <Link href={'/'}>
+    <Link href={{ pathname: '/' }}>
       <div className="flex h-fit w-[210px] items-center justify-center">
         {/* Logo SVG opcional, puedes cambiar `false` a `true` si deseas mostrarlo */}
         {false && (

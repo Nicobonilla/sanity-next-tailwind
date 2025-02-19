@@ -43,7 +43,9 @@ const SlideHero = ({
         <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} />
       </motion.div>
 
-      <PTextHero data={{ content: slide?.content }} />
+      <PTextHero
+        data={{ content: slide?.content, ctaLinkItem: slide?.ctaLinkItem }}
+      />
     </Background>
   );
 };

@@ -25,13 +25,11 @@ export default function Carousel({ data }: CarouselProps) {
         <Background
           data={{ ...data, typeComponent: 'carousel', variant: 'post' }}
         >
-          <div className="flex h-full w-full items-center justify-center">
-            <EmblaCarousel
-              data={data}
-              options={options}
-              autoplayOptions={autoplayOptions}
-            />
-          </div>
+          <EmblaCarousel
+            data={data}
+            options={options}
+            autoplayOptions={autoplayOptions}
+          />
         </Background>
       ) : (
         <EmblaCarousel

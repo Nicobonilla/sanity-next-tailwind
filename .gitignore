@@ -46,7 +46,7 @@ next-env.d.ts
 /components/shared/Faq.tsx
 /components/shared/empty
 /components/Banner.tsx
-/components/global/Navbar/DeskNav/SubsectionsFullWidth1.tsx
+/components/global/Navbar/DeskNav/variants
 /components/shared/Card/BasicImageCard
 /cli
 /components/pages/component/Banner1Factored

@@ -40,7 +40,7 @@ export default function DrawerNav() {
   }, [isMenuOpen]);
 
   return (
-    <div className="right-0 flex h-full grow-0 lg:hidden">
+    <div className="right-0 z-50 flex h-full grow-0 lg:hidden">
       <div className="relative flex h-full cursor-pointer">
         <button
           onClick={toggleMenu}
@@ -66,19 +66,22 @@ export default function DrawerNav() {
             <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">
               {isMenuOpen && <Logo />}
             </div>
-            <ul className="min-w-[300px] items-center space-y-1 uppercase text-white">
+            <ul className="min-w-[250px] items-center uppercase text-white">
               {pages.map((page) =>
                 page.slug === 'services' ? (
                   // For services, map through business units
                   unitBusinessList?.map((business) => (
-                    <li key={business.slug} className="nav hover:bg-gray-900">
+                    <li
+                      key={business.slug}
+                      className="nav h-8 hover:bg-gray-900"
+                    >
                       <Link
                         href={`/area-de-practica/${business.slug}`}
                         onClick={() => setIsMenuOpen(false)}
                         className={clsx(
-                          'block px-4 py-2 text-lg font-medium transition-colors hover:text-red-500',
+                          'block px-4 font-bitter text-base font-medium transition-all duration-300 hover:text-lg hover:text-red-500',
                           path === `/area-de-practica/${business.slug}` &&
-                            'text-red-500'
+                            'bg-gray-900 text-lg text-red-500'
                         )}
                       >
                         {business.title}
@@ -89,14 +92,15 @@ export default function DrawerNav() {
                   // For other pages, just show the page title once
                   <li
                     key={page.slug}
-                    className="nav py-1 transition-colors hover:bg-gray-900"
+                    className="nav h-8 transition-all hover:bg-gray-900"
                   >
                     <Link
                       href={`/${page.slug}`}
                       onClick={() => setIsMenuOpen(false)}
                       className={clsx(
-                        'block px-4 py-2 text-lg font-medium transition-colors hover:text-red-500',
-                        path === `/${page.slug}` && 'text-red-500'
+                        'block px-4 font-bitter text-base font-medium transition-all hover:text-lg hover:text-red-500',
+                        path === `/${page.slug}` &&
+                          'bg-gray-900 text-lg text-red-500'
                       )}
                     >
                       {page.title}

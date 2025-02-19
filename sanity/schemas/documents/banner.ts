@@ -112,6 +112,12 @@ export default defineType({
       hidden: ({ parent }) => parent?.content,
     }),
     defineField({
+      name: 'ctaLinkBanner',
+      title: 'Link Banner',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
       name: 'imageContent',
       title: 'Imagen adicional para el contenido',
       type: 'image',

@@ -26,7 +26,7 @@ export default function SlidePost({
         href={{ pathname: `/blog/${post.slug?.current}` }}
         className="group"
       >
-        <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
+        <article className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
           <div className="grid">
             <div className="relative h-48 overflow-hidden">
               <Image
@@ -36,7 +36,7 @@ export default function SlidePost({
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
               />
             </div>
-            <div className="flex flex-col gap-4 p-6">
+            <div className="flex flex-col gap-2 p-6">
               {path === '/blog' ? (
                 <div>
                   <span
@@ -48,23 +48,36 @@ export default function SlidePost({
                   </span>
                 </div>
               ) : null}
-              <h3 className="font-semibold text-gray-700 group-hover:underline lg:text-lg xl:text-xl">
-                {post.title}
-              </h3>
-              <p className="font-fira text-sm font-light text-gray-900 xl:text-base">
-                {post.resumen}
-              </p>
+
+              <div className="flex min-h-12 items-center lg:min-h-14">
+                <h3 className="font-semibold text-gray-700 group-hover:underline lg:text-lg">
+                  {post.title}
+                </h3>
+              </div>
+
+              <div className="flex min-h-20 items-center">
+                <p className="text-justify font-fira text-sm font-light text-gray-900">
+                  {post?.resumen && post?.resumen?.length > 195
+                    ? post.resumen.slice(0, 150) + '...'
+                    : post.resumen}
+                </p>
+              </div>
+
               <div className={clsx({ 'flex flex-row gap-2': path == '/' })}>
                 {path == '/' && (
                   <span
                     className={`inline-block text-sm font-medium ${
                       false ? post.unitBusiness?.color : 'text-gray-800'
                     }`}
+                    style={{ whiteSpace: 'nowrap' }} // Evita el ajuste de línea
                   >
                     {post.unitBusiness?.title}
                   </span>
                 )}
-                <time className="text-sm text-gray-500 dark:text-gray-400">
+                <time
+                  className="text-sm text-gray-500 dark:text-gray-400"
+                  style={{ whiteSpace: 'nowrap' }} // Evita el ajuste de línea
+                >
                   {format(new Date(post.date || ''), 'MMMM d, yyyy')}
                 </time>
               </div>

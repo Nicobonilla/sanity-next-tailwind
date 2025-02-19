@@ -3,7 +3,7 @@ import { PortableTextComponents } from 'next-sanity';
 
 export const PTextBannerLight: PortableTextComponents = {
   block: {
-    h1: ({ children }) => (
+    h2: ({ children }) => (
       <h2
         className={clsx(
           'mb-4 font-robotoslab text-2xl font-light uppercase text-white drop-shadow-sm',
