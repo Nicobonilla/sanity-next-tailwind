@@ -11,16 +11,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const currentPage = await getData(params.slug);
   return {
-    title: currentPage?.settings?.title,
-    openGraph: {
-      title: currentPage?.settings?.title || '',
-      type: 'website',
-    },
-    other: {
-      'table-of-contents': JSON.stringify(
-        'currentPage?.home?.components?.tableOfContents'
-      ), // need to retrieve the content of components to generate the table of contents
-    },
+    title: currentPage?.page?.title,
   };
 }
 
@@ -45,7 +36,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!page) {
     return <div>Pagina no encontrado.</div>; // Manejo básico de errores
   }
-  
+
   return (
     <>
       {page?.components ? (

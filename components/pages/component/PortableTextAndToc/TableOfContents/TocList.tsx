@@ -1,7 +1,7 @@
-import { GetPostDetailQueryResult } from '@/sanity.types';
+import { TableOfComponentsProps } from './index';
 
 interface TocListProps {
-  items: NonNullable<GetPostDetailQueryResult>['tableOfContents'];
+  items: TableOfComponentsProps | null;
   isExpanded: boolean;
   toggleExpanded: () => void;
 }

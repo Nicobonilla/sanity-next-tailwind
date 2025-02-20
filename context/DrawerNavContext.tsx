@@ -8,18 +8,18 @@ import {
   type ReactNode,
 } from 'react';
 
-interface ContactDrawerContextType {
+interface DrawerNavContextType {
   isOpen: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
-  toggleDrawerForm: () => void;
+  toggleDrawerNav: () => void;
 }
 
-const ContactDrawerContext = createContext<
-  ContactDrawerContextType | undefined
->(undefined);
+const DrawerNavContext = createContext<DrawerNavContextType | undefined>(
+  undefined
+);
 
-export function ContactDrawerProvider({ children }: { children: ReactNode }) {
+export function DrawerNavProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openDrawer = useCallback(() => {
@@ -32,7 +32,7 @@ export function ContactDrawerProvider({ children }: { children: ReactNode }) {
     document.body.style.overflow = '';
   }, []);
 
-  const toggleDrawerForm = useCallback(() => {
+  const toggleDrawerNav = useCallback(() => {
     setIsOpen((prev) => {
       const newState = !prev;
       document.body.style.overflow = newState ? 'hidden' : '';
@@ -41,25 +41,23 @@ export function ContactDrawerProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ContactDrawerContext.Provider
+    <DrawerNavContext.Provider
       value={{
         isOpen,
         openDrawer,
         closeDrawer,
-        toggleDrawerForm,
+        toggleDrawerNav,
       }}
     >
       {children}
-    </ContactDrawerContext.Provider>
+    </DrawerNavContext.Provider>
   );
 }
 
-export function useContactDrawerContext() {
-  const context = useContext(ContactDrawerContext);
+export function useDrawerNavContext() {
+  const context = useContext(DrawerNavContext);
   if (context === undefined) {
-    throw new Error(
-      'useContactDrawerContext must be used within a ContactDrawerProvider'
-    );
+    throw new Error('useDrawerNav must be used within a DrawerNavProvider');
   }
   return context;
 }

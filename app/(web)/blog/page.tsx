@@ -44,6 +44,7 @@ async function getDataPage() {
     return null;
   }
 }
+
 const resources: Resource[] = [
   {
     title: 'Poder Judicial Chile',

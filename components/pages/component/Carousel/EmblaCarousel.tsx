@@ -93,7 +93,7 @@ export default function EmblaCarousel({
     <section
       className={clsx({
         embla_hero: data?.variant == 'hero',
-        'embla_post m-auto h-fit max-w-screen-xl items-center justify-center px-4':
+        'embla_post mx-auto h-fit max-w-screen-xl items-center justify-center px-4':
           data?.variant == 'post',
 
         embla: data?.variant != 'post' && data?.variant != 'hero',

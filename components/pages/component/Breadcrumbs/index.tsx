@@ -18,7 +18,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
             <Link href={`/${item.slug}`} className="hover:underline">
               {item.label}
             </Link>
-            {index < items.length - 1 && <span className="mx-2">/</span>}
+            {index < items.length && <span className="mx-2">/</span>}
           </li>
         ))}
       </ul>

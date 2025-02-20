@@ -22,6 +22,7 @@ export default function NavLink({
   onMouseLeave,
   toggleDrawerForm,
 }: NavPageProps) {
+  
   const handleClick = (e: MouseEvent) => {
     if (link.slug === 'contacto' && toggleDrawerForm) {
       e.preventDefault();

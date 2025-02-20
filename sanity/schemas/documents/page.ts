@@ -1,7 +1,13 @@
 import { defineType, defineField } from 'sanity';
-import { isUniqueAcrossAllDocuments, isUniqueTrueForField } from '@/sanity/lib/utils';
+import {
+  isUniqueAcrossAllDocuments,
+  isUniqueTrueForField,
+} from '@/sanity/lib/utils';
 import { BinaryDocumentIcon } from '@sanity/icons';
-import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list';
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list';
 import PageBuilderInput from '@/sanity/PageBuilderInput';
 
 const page = defineType({
@@ -42,6 +48,11 @@ const page = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'resumen',
+      title: 'Breve descripcion de  la pagina',
+      type: 'string',
+    }),
+    defineField({
       name: 'isHome',
       title: 'Página de inicio',
       type: 'boolean',
@@ -53,10 +64,7 @@ const page = defineType({
       name: 'content',
       title: 'Contenido',
       type: 'array',
-      of: [
-        { type: 'block' },
-        { type: 'image' },
-      ],
+      of: [{ type: 'block' }, { type: 'image' }],
     }),
     defineField({
       name: 'components',

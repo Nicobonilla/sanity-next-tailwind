@@ -10,6 +10,7 @@ import ImageItem from './Image';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 import { PTextBannerServiceCard } from '../PTextComponents';
 import Image from 'next/image';
+import { Breadcrumbs } from '../Breadcrumbs';
 // Componente principal del Banner con fondo condicional
 export default function BannerServices({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};

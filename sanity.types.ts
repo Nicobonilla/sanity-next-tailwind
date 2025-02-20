@@ -650,6 +650,7 @@ export type Page = {
   slug?: Slug;
   isActive?: boolean;
   title?: string;
+  resumen?: string;
   isHome?: boolean;
   content?: Array<
     | {
@@ -1127,24 +1128,9 @@ export type Settings = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: 'span';
-      _key: string;
-    }>;
-    style?: 'normal';
-    listItem?: never;
-    markDefs?: Array<{
-      href?: string;
-      _type: 'link';
-      _key: string;
-    }>;
-    level?: number;
-    _type: 'block';
-    _key: string;
-  }>;
+  templateTitle?: string;
+  logo?: string;
+  slogan?: string;
   footer?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1163,6 +1149,9 @@ export type Settings = {
     _type: 'block';
     _key: string;
   }>;
+  withDarkTheme?: boolean;
+  metaBaseWebsite?: string;
+  description?: string;
   ogImage?: {
     asset?: {
       _ref: string;
@@ -1176,8 +1165,18 @@ export type Settings = {
     metadataBase?: string;
     _type: 'image';
   };
-  withDarkTheme?: boolean;
-  notFoundImage?: {
+  imageNotFoundImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  imageNotFoundPage?: {
     asset?: {
       _ref: string;
       _type: 'reference';
@@ -1550,24 +1549,9 @@ export type SettingsQueryResult = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: 'span';
-      _key: string;
-    }>;
-    style?: 'normal';
-    listItem?: never;
-    markDefs?: Array<{
-      href?: string;
-      _type: 'link';
-      _key: string;
-    }>;
-    level?: number;
-    _type: 'block';
-    _key: string;
-  }>;
+  templateTitle?: string;
+  logo?: string;
+  slogan?: string;
   footer?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1586,6 +1570,9 @@ export type SettingsQueryResult = {
     _type: 'block';
     _key: string;
   }>;
+  withDarkTheme?: boolean;
+  metaBaseWebsite?: string;
+  description?: string;
   ogImage?: {
     asset?: {
       _ref: string;
@@ -1599,8 +1586,18 @@ export type SettingsQueryResult = {
     metadataBase?: string;
     _type: 'image';
   };
-  withDarkTheme?: boolean;
-  notFoundImage?: {
+  imageNotFoundImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  imageNotFoundPage?: {
     asset?: {
       _ref: string;
       _type: 'reference';

@@ -37,7 +37,7 @@ export default function NavItem({
           'hover:bg-neutral-950 hover:text-white': !isContact,
           'ml-4 h-8 rounded-sm bg-blue-900/90 hover:bg-blue-950': isContact,
           'bg-neutral-950 text-white':
-            path !== '/' && !isContact && path === `/${link.slug}`,
+            path !== '/'  && path === `/${link.slug}`,
         }
       )}
       onMouseEnter={() => onMouseEnter(link.slug || '')}

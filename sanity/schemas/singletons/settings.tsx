@@ -18,48 +18,42 @@ export default defineType({
       name: 'seo',
       title: 'SEO',
     },
+    {
+      name: 'images',
+      title: 'Imagenes',
+    },
   ],
   fields: [
+    // Structura
     defineField({
       name: 'title',
-      title: 'Título de la página',
+      title: 'Título de la página de inicio',
+      description:
+        'Este título se mostrará en la barra de título del navegador.',
       type: 'string',
       initialValue: demo.title,
       validation: (rule) => rule.required(),
       group: 'structure',
     }),
     defineField({
-      name: 'description',  
-      description: 'Usado tanto para la descripción de <meta> tag para SEO.',
-      title: 'Description',
-      type: 'array',
-      initialValue: demo.description,
-      group: 'seo',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          options: {},
-          styles: [],
-          lists: [],
-          marks: {
-            decorators: [],
-            annotations: [
-              defineField({
-                type: 'object',
-                name: 'link',
-                fields: [
-                  {
-                    type: 'string',
-                    name: 'href',
-                    title: 'URL',
-                    validation: (rule) => rule.required(),
-                  },
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+      name: 'templateTitle',
+      title: 'Platilla de título',
+      description:
+        'Este título se mostrará en todas la barra de título del navegador.',
+      type: 'string',
+      group: 'structure',
+    }),
+    defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'string',
+      group: 'structure',
+    }),
+    defineField({
+      name: 'slogan',
+      title: 'Slogan',
+      type: 'string',
+      group: 'structure',
     }),
     defineField({
       name: 'footer',
@@ -67,39 +61,36 @@ export default defineType({
       title: 'Pie de página',
       type: 'array',
       group: 'structure',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          marks: {
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  {
-                    name: 'href',
-                    type: 'url',
-                    title: 'Url',
-                  },
-                ],
-              },
-            ],
-          },
-        }),
-      ],
+      of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: 'withDarkTheme',
+      title: 'La web contempla Dark Theme?',
+      type: 'boolean',
+      group: 'structure',
+    }),
+    // SEO
+    defineField({
+      name: 'metaBaseWebsite',
+      title: 'Base URL de la web',
+      type: 'string',
+      group: 'seo',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Breve descripción de la página. ',
+      type: 'string',
+      group: 'seo',
     }),
     defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',
+      group: 'seo',
       description:
         'Imagen que se mostrará en tarjeta de redes sociales (cuando se comparte la página).',
       options: {
         hotspot: true,
-        aiAssist: {
-          imageDescriptionField: 'alt',
-        },
       },
       fields: [
         defineField({
@@ -119,6 +110,7 @@ export default defineType({
         }),
         defineField({
           name: 'metadataBase',
+          title: 'Metadata Base',
           type: 'url',
           description: (
             <a
@@ -131,19 +123,18 @@ export default defineType({
         }),
       ],
     }),
+    // IMAGES
     defineField({
-      name: 'withDarkTheme',
-      title: 'La web contempla Dark Theme?',
-      type: 'boolean',
-      group: 'structure',
+      name: 'imageNotFoundImage',
+      title: 'Not Found Image Image',
+      type: 'image',
+      group: 'images',
     }),
     defineField({
-      name: 'notFoundImage',
-      description:
-        'This is the image that will show when an image is not found.',
-      title: 'Not Found Image',
+      name: 'imageNotFoundPage',
+      title: 'Not Found Page Image',
       type: 'image',
-      group: 'structure',
+      group: 'images',
     }),
   ],
   preview: {

@@ -1,4 +1,3 @@
-import { ComponentProps } from '@/components/types';
 import Icon from '@/components/global/Icons/LucideIcon';
 import { useSanityContext } from '@/context/SanityContext';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';

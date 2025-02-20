@@ -1,12 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { GetPostDetailQueryResult } from '@/sanity.types';
+import {
+  GetPostDetailQueryResult,
+  GetServiceDetailQueryResult,
+} from '@/sanity.types';
 import { TocHeader } from './TocHeader';
 import { TocList } from './TocList';
 
-type TableOfComponentsProps =
-  NonNullable<GetPostDetailQueryResult>['tableOfContents'];
+export type TableOfComponentsProps =
+  | NonNullable<GetPostDetailQueryResult>['tableOfContents']
+  | NonNullable<GetServiceDetailQueryResult>['tableOfContents'];
 
 export const TableOfContents = ({
   items,

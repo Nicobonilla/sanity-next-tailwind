@@ -7,6 +7,7 @@ import {
 import { ThemeProvider } from '@/context/ThemeContext';
 import { LoadingProvider } from '@/context/LoadingContext';
 import { ContactDrawerProvider } from './ContactDrawerContext';
+import { DrawerNavProvider } from './DrawerNavContext';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -23,7 +24,9 @@ export default function Providers({
     <SanityContextProvider initialData={initialData}>
       <ThemeProvider withDarkMode={withDarkMode}>
         <LoadingProvider>
-          <ContactDrawerProvider>{children}</ContactDrawerProvider>
+          <ContactDrawerProvider>
+            <DrawerNavProvider>{children}</DrawerNavProvider>
+          </ContactDrawerProvider>
         </LoadingProvider>
       </ThemeProvider>
     </SanityContextProvider>

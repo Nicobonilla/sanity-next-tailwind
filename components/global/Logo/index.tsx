@@ -1,9 +1,15 @@
 'use client';
+import { useSanityContext } from '@/context/SanityContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Logo() {
+  const { settings } = useSanityContext();
+  if (!settings) {
+    return null;
+  }
+  const { logo, slogan } = settings;
   return (
     <Link href={{ pathname: '/' }}>
       <div className="flex h-fit w-[210px] items-center justify-center">
@@ -18,15 +24,20 @@ export default function Logo() {
         <div className="z-50 flex flex-col text-center">
           <div
             className={clsx(
-              'z-50 flex-row font-crimson drop-shadow-2xl',
-              'lg:text-4xl',
+              'z-50 flex font-crimson uppercase drop-shadow-xl gap-1',
               'bg-gradient-to-r from-neutral-900 via-neutral-900 to-neutral-700 bg-clip-text'
             )}
           >
-            <span className="text-2xl font-thin">SEBASTÍAN BONILLA</span>
+            {logo?.split(' ').map((word, i) => (
+              <span key={i}>
+                <span className="text-2xl xl:text-3xl">{word[0]}</span>
+                <span className="text-xl xl:text-2xl">{word.slice(1)}</span>
+                {i < logo.split(' ').length - 1 ? ' ' : ''}
+              </span>
+            ))}
           </div>
-          <p className="-translate-y-1 font-robotoslab text-xs uppercase">
-            Asesoría Legal y Jurídica
+          <p className="-translate-y-1 font-robotoslab text-xs uppercase xl:text-sm">
+            {slogan}
           </p>
           {/*Mostrar el sufijo opcional `.cl` */}
           {false && (

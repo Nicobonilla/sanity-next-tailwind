@@ -1,59 +1,56 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSanityContext } from '@/context/SanityContext';
-import { useContactDrawer } from '@/context/ContactDrawerContext';
 import MenuButton from './MenuButton';
 import Overlay from './Overlay';
+import { useDrawerNavContext } from '@/context/DrawerNavContext';
 import DrawerContent from './DrawerContent';
+import clsx from 'clsx';
 
 export default function DrawerNav() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const path = usePathname();
   const { pages, unitBusinessList } = useSanityContext();
-  const { toggleDrawerForm } = useContactDrawer();
+  const { isOpen, closeDrawer, toggleDrawerNav } = useDrawerNavContext();
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-  const toggleMenu = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsMenuOpen((prev) => !prev);
-  };
-
-  const closeMenu = () => setIsMenuOpen(false);
-
+  // Handle click outside
   useEffect(() => {
-    const closeMenuOnClickOutside = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.mobile-nav-drawer')) {
-        closeMenu();
+    const handleClickOutside = (e: MouseEvent) => {
+      // Don't close if clicking inside drawer or on menu button
+      if (
+        drawerRef.current?.contains(e.target as Node) ||
+        (e.target as HTMLElement).closest('.menu-button')
+      ) {
+        return;
       }
+      closeDrawer();
     };
 
-    if (isMenuOpen) {
-      window.addEventListener('click', closeMenuOnClickOutside);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      window.removeEventListener('click', closeMenuOnClickOutside);
-      document.body.style.overflow = '';
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMenuOpen]);
+  }, [isOpen, closeDrawer]);
 
   return (
     <div className="right-0 z-50 flex h-full grow-0 lg:hidden">
-      <div className="relative flex h-full cursor-pointer">
-        <MenuButton isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
-        <Overlay isMenuOpen={isMenuOpen} closeMenu={closeMenu} />
-        <DrawerContent
-          isMenuOpen={isMenuOpen}
-          pages={pages}
-          unitBusinessList={unitBusinessList}
-          path={path}
-          toggleDrawerForm={toggleDrawerForm}
-          closeMenu={closeMenu}
-        />
+      <div className={clsx('relative flex h-full')}>
+        <MenuButton isMenuOpen={isOpen} toggleMenu={toggleDrawerNav} />
+        <Overlay isMenuOpen={isOpen} />
+        <div ref={drawerRef}>
+          <DrawerContent
+            isMenuOpen={isOpen}
+            pages={pages}
+            unitBusinessList={unitBusinessList}
+            path={path}
+            closeMenu={closeDrawer}
+          />
+        </div>
       </div>
     </div>
   );

@@ -4,42 +4,23 @@ import { ComponentWithBannerPosts } from '@/components/types';
 import {
   GetPageDetailQueryResult,
   GetPostListQueryResult,
-  SettingsQueryResult,
 } from '@/sanity.types';
-import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
-
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const currentPage = await getData('inicio');
   return {
-    title: currentPage?.settings?.title,
-    openGraph: {
-      title: currentPage?.settings?.title || '',
-      type: 'website',
-    },
-    other: {
-      'table-of-contents': JSON.stringify(
-        'currentPage?.home?.components?.tableOfContents'
-      ), // need to retrieve the content of components to generate the table of contents
-    },
+    title: 'Bonilla | Abogados San Felipe',
   };
 }
-
 async function getData(slug: string) {
   try {
-    const [home, posts, settings]: [
-      GetPageDetailQueryResult,
+    const [home, posts]: [
+      GetPageDetailQueryResult | null,
       GetPostListQueryResult | null,
-      SettingsQueryResult,
-    ] = await Promise.all([
-      getPageBySlugFetch(slug),
-      getPostListFetch(),
-      getSettingsFetch(),
-    ]);
-    return { home, posts, settings };
+    ] = await Promise.all([getPageBySlugFetch(slug), getPostListFetch()]);
+    return { home, posts };
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;

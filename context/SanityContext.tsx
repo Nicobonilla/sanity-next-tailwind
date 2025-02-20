@@ -3,14 +3,15 @@ import { createContext, useContext, ReactNode } from 'react';
 import {
   GetPagesNavQueryResult,
   GetUnitBusinessListQueryResult,
+  SettingsQueryResult,
 } from '@/sanity.types';
-import { Links } from '@/types';
 
 // Define the expected structure of the context data
 export type SanityContextType = {
-  componentsMap: Record<string, string | null>[];
   pages: GetPagesNavQueryResult;
+  componentsMap: Record<string, string | null>[];
   unitBusinessList: GetUnitBusinessListQueryResult;
+  settings: SettingsQueryResult;
 };
 
 // Create context with a default value (it can be undefined or an empty object)
