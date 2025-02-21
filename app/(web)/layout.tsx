@@ -21,6 +21,7 @@ import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch
 import WhatsappSticky from '@/components/global/WhatsappSticky';
 import Form from '@/components/global/Form';
 import { Metadata } from 'next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
@@ -137,6 +138,7 @@ export default async function RootLayout({
                 <Navbar />
                 <main className="grow flex-col">
                   {children}
+                  <SpeedInsights />
                   <Form />
 
                   <WhatsappSticky />
