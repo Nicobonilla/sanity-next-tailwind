@@ -1,10 +1,18 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { PageData, useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
 import { ComponentProps, LoadedComponent } from '@/components/types';
+
+const MemoizedComponent = memo(
+  ({ Component, dataComponents }: LoadedComponent) => (
+    <Component data={dataComponents} />
+  )
+);
+
+MemoizedComponent.displayName = 'MemoizedComponent';
 
 export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
   const { isLoading, setLoading, setDataPage } = useLoadingContext();
@@ -60,7 +68,11 @@ export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
   return (
     <div className="opacity-100 transition-opacity duration-300">
       {loadedComponents.map(({ Component, dataComponents }, index) => (
-        <Component key={index} data={dataComponents} />
+        <MemoizedComponent
+          key={index}
+          Component={Component}
+          dataComponents={dataComponents}
+        />
       ))}
     </div>
   );
