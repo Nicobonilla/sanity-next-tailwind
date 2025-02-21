@@ -1,4 +1,5 @@
 import PageTemplate from '@/components/pages/PageTemplate';
+import { ComponentsProps } from '@/components/types';
 import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
@@ -40,7 +41,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       {page?.components ? (
-        <PageTemplate dataPage={page} />
+        <PageTemplate components={page.components as ComponentsProps} />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}

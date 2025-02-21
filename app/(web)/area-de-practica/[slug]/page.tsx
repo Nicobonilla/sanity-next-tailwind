@@ -1,6 +1,7 @@
 'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
 import {
+  ComponentsProps,
   ComponentWithBannerPosts,
   ComponentWithServices,
 } from '@/components/types';
@@ -67,7 +68,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       {unitBusinessPage?.unitBusiness?.components ? (
-        <PageTemplate dataPage={unitBusinessPage.unitBusiness} />
+        <PageTemplate
+          components={
+            unitBusinessPage.unitBusiness.components as ComponentsProps
+          }
+        />
       ) : (
         <div>Servicio no encontrado.</div>
       )}

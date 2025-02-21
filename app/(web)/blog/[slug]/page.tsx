@@ -3,6 +3,7 @@ import { GetPostDetailQueryResult } from '@/sanity.types';
 import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
+import { ComponentsProps } from '@/components/types';
 
 export async function generateMetadata({
   params,
@@ -15,9 +16,6 @@ export async function generateMetadata({
     openGraph: {
       title: post?.title || '',
       type: 'article',
-    },
-    other: {
-      'table-of-contents': JSON.stringify(post?.tableOfContents),
     },
   };
 }
@@ -46,7 +44,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <section>
-      {post?.components && <PageTemplate dataPage={post} />}
+      {post?.components && (
+        <PageTemplate components={post.components as ComponentsProps} />
+      )}
       <PortableTextAndToc article={post} breadcrumbsItems={breadcrumbsItems} />
     </section>
   );

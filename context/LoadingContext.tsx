@@ -1,5 +1,6 @@
 'use client';
 
+import { ComponentsProps } from '@/components/types';
 import {
   createContext,
   useContext,
@@ -8,25 +9,12 @@ import {
   type ReactNode,
   useCallback,
 } from 'react';
-import type {
-  GetPageDetailQueryResult,
-  GetPostDetailQueryResult,
-  GetServiceDetailQueryResult,
-  GetUnitBusinessDetailQueryResult,
-} from '@/sanity.types';
-
-export type PageData =
-  | GetPageDetailQueryResult
-  | GetServiceDetailQueryResult
-  | GetPostDetailQueryResult
-  | GetUnitBusinessDetailQueryResult
-  | null;
 
 interface LoadingContextProps {
   isLoading: boolean;
   setLoading: (isLoading: boolean) => void;
-  setDataPage: (data: PageData) => void;
-  dataPage: PageData;
+  setComponents: (data: ComponentsProps) => void;
+  components: ComponentsProps | null;
 }
 
 const LoadingContext = createContext<LoadingContextProps | undefined>(
@@ -34,31 +22,34 @@ const LoadingContext = createContext<LoadingContextProps | undefined>(
 );
 
 export function LoadingProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [dataPage, setDataPage] = useState<PageData>(null);
+  const [isLoading, setIsLoading] = useState(false); // Change initial state to false
+  const [components, setComponents] = useState<ComponentsProps>(null);
 
-  // Memoize setDataPage to prevent unnecessary re-renders
-  const handleSetDataPage = useCallback((data: PageData) => {
-    setDataPage(data);
+  const handleSetComponents = useCallback((data: ComponentsProps) => {
+    if (data) {
+      // Only trigger loading if we're actually loading new components
+      setIsLoading(true);
+      setComponents(data);
+    }
   }, []);
 
   useEffect(() => {
-    if (dataPage) {
-      // Use requestAnimationFrame for smoother transitions
-      const frame = requestAnimationFrame(() => {
+    if (components) {
+      // Add a small delay to ensure smooth transitions
+      const timer = setTimeout(() => {
         setIsLoading(false);
-      });
-      return () => cancelAnimationFrame(frame);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [dataPage]);
+  }, [components]);
 
   return (
     <LoadingContext.Provider
       value={{
         isLoading,
         setLoading: setIsLoading,
-        setDataPage: handleSetDataPage,
-        dataPage,
+        setComponents: handleSetComponents,
+        components,
       }}
     >
       {children}
@@ -83,7 +74,8 @@ export function useLoadingContext(): LoadingContextProps {
 
 // Example usage of the loading context
 export function usePageLoading() {
-  const { isLoading, setLoading, setDataPage, dataPage } = useLoadingContext();
+  const { isLoading, setLoading, setComponents, components } =
+    useLoadingContext();
 
   const startLoading = useCallback(() => {
     setLoading(true);
@@ -97,7 +89,7 @@ export function usePageLoading() {
     isLoading,
     startLoading,
     stopLoading,
-    setDataPage,
-    dataPage,
+    setComponents,
+    components,
   };
 }

@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Bonilla | Abogados San Felipe',
+    title: 'Sebastián Bonilla | Abogados',
   };
 }
 async function getData(slug: string) {
@@ -27,19 +27,28 @@ async function getData(slug: string) {
   }
 }
 
-export default async function Page() {
+export type ModifiedComponent = ComponentWithBannerPosts & {
+  bannerPostsItems?: GetPostListQueryResult | null;
+};
+
+export default async function Page(){
   const currentPage = await getData('inicio');
 
-  // add posts brief to Banner Posts
-  currentPage?.home?.components?.map((component) => {
-    if (
-      component.typeComponentValue === 'carousel' &&
-      component.variant === 'post'
-    ) {
-      (component as ComponentWithBannerPosts).bannerPostsItems =
-        currentPage?.posts;
+  // Crear una copia de los componentes para evitar mutaciones directas
+  const componentsAndPosts:ModifiedComponent = currentPage?.home?.components?.map(
+    (component) => {
+      if (
+        component.typeComponentValue === 'carousel' &&
+        component.variant === 'post'
+      ) {
+        return {
+          ...component,
+          bannerPostsItems: currentPage?.posts,
+        };
+      }
+      return component;
     }
-  });
+  );
 
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
@@ -47,10 +56,8 @@ export default async function Page() {
 
   return (
     <>
-      {currentPage.home?.components ? (
-        <PageTemplate
-          dataPage={currentPage?.home as GetPageDetailQueryResult}
-        />
+      {componentsAndPosts ? (
+        <PageTemplate components={componentsAndPosts as ModifiedComponent } />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}

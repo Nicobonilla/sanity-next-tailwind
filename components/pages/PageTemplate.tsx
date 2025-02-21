@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { memo, useEffect, useState } from 'react';
-import { PageData, useLoadingContext } from '@/context/LoadingContext';
+import { useLoadingContext } from '@/context/LoadingContext';
 import { Spinner } from '@/components/global/Spinner';
 import { ComponentProps, LoadedComponent } from '@/components/types';
 
@@ -14,21 +14,26 @@ const MemoizedComponent = memo(
 
 MemoizedComponent.displayName = 'MemoizedComponent';
 
-export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
-  const { isLoading, setLoading, setDataPage } = useLoadingContext();
+export default function PageTemplate({
+  components,
+}: {
+  components?: ComponentProps;
+}) {
+  const { isLoading, setLoading, setComponents } = useLoadingContext();
   const [loadedComponents, setLoadedComponents] = useState<LoadedComponent[]>(
     []
   );
+
   useEffect(() => {
-    if (dataPage) {
-      setDataPage(dataPage);
+    if (components) {
+      setComponents(components);
 
       const loadComponents = async () => {
-        if (!dataPage?.components) return;
+        if (!components) return;
 
         try {
           const loaded = await Promise.all(
-            dataPage.components.map(async (component) => {
+            components.map((component: ComponentProps[number]) => {
               const componentName = component?.typeComponentValue
                 ? component.typeComponentValue.charAt(0).toUpperCase() +
                   component.typeComponentValue.slice(1)
@@ -40,7 +45,7 @@ export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
                     console.error(`Failed to load component: ${componentName}`);
                     return import('./component/Default'); // Fallback component
                   }),
-                { suspense: true }
+                { suspense: false }
               );
 
               return {
@@ -59,7 +64,7 @@ export default function PageTemplate({ dataPage }: { dataPage?: PageData }) {
 
       loadComponents();
     }
-  }, [dataPage, setDataPage, setLoading]);
+  }, [components, setComponents, setLoading]);
 
   if (isLoading) {
     return <Spinner />;

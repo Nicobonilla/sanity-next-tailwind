@@ -10,6 +10,7 @@ import Posts from '@/components/pages/component/Posts';
 import Resources, { Resource } from '@/components/pages/component/Resources';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import { ComponentsProps } from '@/components/types';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -172,7 +173,9 @@ export default async function Page() {
   //console.log('page blog', page);
   return (
     <section>
-      {page?.components && <PageTemplate dataPage={page} />}
+      {page?.components && (
+        <PageTemplate components={page.components as ComponentsProps} />
+      )}
 
       <div className="min-h-screen bg-gray-50">
         <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 lg:py-12">

@@ -4,6 +4,7 @@ import { GetServiceDetailQueryResult } from '@/sanity.types';
 import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { Metadata } from 'next';
+import { ComponentProps } from '@/components/types';
 
 export async function generateMetadata({
   params,
@@ -26,13 +27,13 @@ export async function generateMetadata({
 async function getData(slug: string): Promise<GetServiceDetailQueryResult> {
   try {
     const service = await getServiceBySlugFetch(slug);
-
     return service;
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;
   }
 }
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const service = await getData(params.slug);
   if (!service) {
@@ -49,7 +50,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <section>
       <div className={'mx-auto max-w-screen-xl'}>
         {service?.components && (
-          <PageTemplate dataPage={service as GetServiceDetailQueryResult} />
+          <PageTemplate components={service.components as ComponentProps} />
         )}
         <PortableTextAndToc
           article={service}

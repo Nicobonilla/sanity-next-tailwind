@@ -17,7 +17,7 @@ export const TableOfContents = ({
 }: {
   items: TableOfComponentsProps;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   const toggleExpanded = () => setIsExpanded(!isExpanded);
