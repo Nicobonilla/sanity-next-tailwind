@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
       }`
     ), // URL base
     title: {
-      template: '%s | ' + settings?.templateTitle,
+      template: '%s ' + settings?.templateTitle,
       default: settings?.templateTitle || '',
     },
     generator: 'Next.js',

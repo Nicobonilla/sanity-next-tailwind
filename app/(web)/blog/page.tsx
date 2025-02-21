@@ -20,10 +20,6 @@ type PageData = {
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Información Sobre Procedimientos Legales',
-    openGraph: {
-      title: 'Información Sobre Procedimientos Legales',
-      type: 'website',
-    },
   };
 }
 

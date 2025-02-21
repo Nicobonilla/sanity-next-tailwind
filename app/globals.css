@@ -121,7 +121,7 @@
   }
 
   .nav-container-active {
-    @apply flex items-center justify-start text-lg text-white transition-all duration-300;
+    @apply items-center justify-start text-lg text-white transition-all duration-300;
   }
   /* CAROUSEL DEFAULT */
   .embla {

@@ -55,9 +55,9 @@ export async function sanityFetch<const QueryString extends string>({
     useCdn: true,
     next: {
       revalidate: parseInt(
-        process.env.NEXT_PUBLIC_SANITY_REVALIDATION_TIME || '604800'
+        process.env.NEXT_PUBLIC_SANITY_REVALIDATION_TIME || '43200'
       ),
-    }, // Revalida cada 10 minutos en producción
+    },
   });
 }
 

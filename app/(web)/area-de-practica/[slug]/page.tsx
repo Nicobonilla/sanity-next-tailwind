@@ -9,8 +9,21 @@ import {
   GetUnitBusinessDetailQueryResult,
 } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const data = await getData(params.slug);
+  if (!data) return { title: 'Servicio no encontrado' };
+  const { unitBusiness } = data;
+  return {
+    title: unitBusiness?.title,
+  };
+}
 
 async function getData(slug: string) {
   try {

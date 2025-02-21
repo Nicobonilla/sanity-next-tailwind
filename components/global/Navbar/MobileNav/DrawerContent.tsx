@@ -43,6 +43,7 @@ export default function DrawerContent({
                       closeMenu();
                     }}
                     className={clsx(
+                      'flex size-full',
                       path === `/area-de-practica/${business.slug}` &&
                         'nav-container-active'
                     )}
@@ -59,7 +60,7 @@ export default function DrawerContent({
                     toggleDrawerForm();
                     closeMenu();
                   }}
-                  className="nav-container-active size-full text-base hover:text-lg"
+                  className="nav-container-active flex size-full text-base hover:text-lg"
                 >
                   {page.title}
                 </button>
@@ -73,6 +74,7 @@ export default function DrawerContent({
                     closeMenu();
                   }}
                   className={clsx(
+                    'flex size-full',
                     path === `/${page.slug}` && 'nav-container-active'
                   )}
                 >
