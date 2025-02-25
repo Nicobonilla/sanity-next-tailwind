@@ -17,7 +17,7 @@ export default function SlidePost({
 
   const { imageBackground } =
     post.components.find(
-      (component) => component.typeComponentValue === 'heading'
+      (component) => component.typeComponentValue === 'Heading'
     ) || {};
 
   return (

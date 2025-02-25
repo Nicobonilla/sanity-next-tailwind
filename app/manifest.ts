@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
+  if (process.env.NODE_ENV === 'development') {
+    return {};
+  }
   return {
     name: 'Bufete de Abogados San Felipe',
     short_name: 'Abogados San Felipe',

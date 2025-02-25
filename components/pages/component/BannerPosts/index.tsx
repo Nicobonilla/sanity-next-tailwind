@@ -10,7 +10,7 @@ export default function BannerPosts({
 }: {
   data: ComponentWithBannerPosts;
 }) {
-  console.log('data', data);
+  console.log('data posts', data);
   return (
     <Background data={data}>
       <InnerBannerWithItems data={data} />

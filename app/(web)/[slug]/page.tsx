@@ -39,12 +39,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <>
+    <section>
       {page?.components ? (
         <PageTemplate components={page.components as ComponentsProps} />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}
-    </>
+    </section>
   );
 }

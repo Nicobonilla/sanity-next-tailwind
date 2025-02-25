@@ -5,7 +5,7 @@ import { token } from './token';
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  useCdn: true,
+  useCdn: false,
   apiVersion: 'vX', // Target the experimental API version
   stega: { studioUrl: '/studio' },
 });

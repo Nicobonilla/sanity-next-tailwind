@@ -51,12 +51,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   // add posts brief to Banner Posts
   unitBusinessPage?.unitBusiness?.components?.map((component) => {
     if (
-      component.typeComponentValue === 'carousel' &&
+      component.typeComponentValue === 'Carousel' &&
       component?.variant == 'post'
     ) {
       (component as ComponentWithBannerPosts).bannerPostsItems =
         unitBusinessPage?.posts;
-    } else if (component.typeComponentValue === 'bannerServices') {
+    } else if (component.typeComponentValue === 'BannerServices') {
       (component as ComponentWithServices).services =
         unitBusinessPage?.unitBusiness?.services;
     }
@@ -66,7 +66,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores
   }
   return (
-    <>
+    <section>
       {unitBusinessPage?.unitBusiness?.components ? (
         <PageTemplate
           components={
@@ -76,6 +76,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
       ) : (
         <div>Servicio no encontrado.</div>
       )}
-    </>
+    </section>
   );
 }

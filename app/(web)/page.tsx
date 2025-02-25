@@ -1,4 +1,6 @@
 'use server';
+import Posts from '@/components/pages/component/Posts';
+import Resources from '@/components/pages/component/Resources';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentWithBannerPosts } from '@/components/types';
 import {
@@ -8,7 +10,11 @@ import {
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { Metadata } from 'next';
-
+import { pages } from 'next/dist/build/templates/app-page';
+type PageData = {
+  home: GetPageDetailQueryResult | null;
+  posts: GetPostListQueryResult | null;
+};
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Sebastián Bonilla | Abogados',
@@ -31,36 +37,36 @@ export type ModifiedComponent = ComponentWithBannerPosts & {
   bannerPostsItems?: GetPostListQueryResult | null;
 };
 
-export default async function Page(){
+export default async function Page() {
   const currentPage = await getData('inicio');
-
+  if (!currentPage) {
+    return <div>Error al cargar la página.</div>;
+  }
   // Crear una copia de los componentes para evitar mutaciones directas
-  const componentsAndPosts:ModifiedComponent = currentPage?.home?.components?.map(
+  const { home, posts }: PageData = currentPage;
+
+  const componentsAndPosts: ModifiedComponent = home?.components?.map(
     (component) => {
       if (
-        component.typeComponentValue === 'carousel' &&
+        component.typeComponentValue === 'Carousel' &&
         component.variant === 'post'
       ) {
         return {
           ...component,
-          bannerPostsItems: currentPage?.posts,
+          bannerPostsItems: posts,
         };
       }
       return component;
     }
   );
 
-  if (!currentPage) {
-    return <div>Error al cargar la página.</div>;
-  }
-
   return (
-    <>
-      {componentsAndPosts ? (
-        <PageTemplate components={componentsAndPosts as ModifiedComponent } />
-      ) : (
-        <div>No se encontraron componentes para esta página.</div>
-      )}
-    </>
+    <section>
+      <div className="min-h-screen bg-gray-50">
+        {componentsAndPosts && (
+          <PageTemplate components={componentsAndPosts as ModifiedComponent} />
+        )}
+      </div>
+    </section>
   );
 }

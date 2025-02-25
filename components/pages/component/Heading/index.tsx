@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ComponentProps } from '@/components/types';
 import Background from '../Background';
-import PTextHero from '../Background/PTextHero';
 import PtextHeading from '../Background/PtextHeading';
 import ImageBg from '../Background/ImageBg';
 
