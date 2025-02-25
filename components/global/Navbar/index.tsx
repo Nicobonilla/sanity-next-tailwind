@@ -35,7 +35,7 @@ const NavbarContent = () => {
 
       {/* Main navbar container */}
       <div
-        className={`mx-auto flex h-full max-w-screen-xl items-center justify-between transition-all duration-1000 ease-in-out md:px-4 lg:items-end`}
+        className={`mx-auto flex h-full max-w-screen-xl items-center justify-between transition-all duration-300 ease-in-out md:px-4 lg:items-end`}
       >
         {/* Logo section */}
         <div

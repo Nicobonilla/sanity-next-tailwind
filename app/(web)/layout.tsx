@@ -129,8 +129,13 @@ export default async function RootLayout({
           <DarkModeScript />
         </head>
         {/* Uncomment for Google Tag Manager if needed */}
-        {/* <GTMGlobals />
-        <GoogleTagManager gtmId={process.env.GTM || ''} /> */}
+        {process.env.NODE_ENV === 'production' && (
+          <div>
+            <GTMGlobals gtmId={process.env.GTM || ''} />
+            <GoogleTagManager gtmId={process.env.GTM || ''} />
+          </div>
+        )}
+
         <body className="flex min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>

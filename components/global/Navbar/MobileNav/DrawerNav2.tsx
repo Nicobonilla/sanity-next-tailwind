@@ -72,9 +72,9 @@ export default function MobileNavDrawer2() {
         />
 
         <div
-          className={`fixed right-0 top-0 z-50 h-screen items-center justify-center bg-neutral-950 shadow-lg transition-all duration-500 ease-in-out ${
+          className={`fixed right-0 top-0 z-50 h-screen items-center justify-center bg-neutral-950 shadow-lg transition-all duration-300 ease-in-out ${
             isMenuOpen
-              ? 'w-full  translate-x-0 sm:w-3/4'
+              ? 'w-full translate-x-0 sm:w-3/4'
               : 'w-0 translate-x-full'
           }`}
         >
@@ -105,7 +105,7 @@ export default function MobileNavDrawer2() {
                             className="text-gray-200"
                           >
                             <RiArrowDownSLine
-                              className={`transform transition-transform duration-500 ${
+                              className={`transform transition-transform duration-300 ${
                                 expandedSection === business.title
                                   ? 'rotate-180'
                                   : ''
@@ -115,7 +115,7 @@ export default function MobileNavDrawer2() {
                         </div>
 
                         {expandedSection === business.title && (
-                          <ul className="pl-4 py-1">
+                          <ul className="py-1 pl-4">
                             {business.services?.map((service) => (
                               <li key={service.slug}>
                                 <Link

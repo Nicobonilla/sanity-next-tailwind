@@ -7,7 +7,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
   return (
     <section
       className={clsx(
-        'w-full bg-gradient-to-br from-bodydark to-blue-900 py-12',
+        'w-full bg-gradient-to-br from-blue-950 to-blue-800 py-12',
         'md:py-16 lg:items-center lg:justify-center lg:py-20'
       )}
     >

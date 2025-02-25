@@ -80,7 +80,7 @@ export default function BannerList({ data }: { data: ComponentProps }) {
                             <h1
                               key={indexContent}
                               className={clsx(
-                                'absolute w-full text-center font-extrabold leading-5 transition-transform duration-500 ease-in-out',
+                                'absolute w-full text-center font-extrabold leading-5 transition-transform duration-300 ease-in-out',
                                 {
                                   'group-hover:translate-x-full group-hover:opacity-0':
                                     indexContent === 0,

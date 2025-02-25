@@ -42,7 +42,7 @@ export default function Form() {
 
       {/* Cajón de contacto */}
       <div
-        className={`contact-drawer fixed right-0 top-0 z-50 h-screen bg-black shadow-lg transition-all duration-500 ease-in-out ${
+        className={`contact-drawer fixed right-0 top-0 z-50 h-screen bg-black shadow-lg transition-all duration-300 ease-in-out ${
           isOpen ? 'w-full translate-x-0 sm:w-[480px]' : 'w-0 translate-x-full'
         }`}
       >

@@ -9,7 +9,7 @@ import {
   trackPageView,
 } from './gtm';
 
-const GTMGlobals: React.FC = () => {
+export default function GTMGlobals(gtmId: { gtmId: string }) {
   useEffect(() => {
     // Inicializa Google Tag Manager
     if (process.env.NEXT_PUBLIC_GTM_ID) {
@@ -68,6 +68,4 @@ const GTMGlobals: React.FC = () => {
   }, []);
 
   return null; // Este componente no necesita renderizar nada en el DOM
-};
-
-export default GTMGlobals;
+}
