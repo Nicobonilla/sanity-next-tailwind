@@ -49,9 +49,4 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Opcional: Configuración para deshabilitar el body parser predeterminado de Next.js
-export const config = {
-  api: {
-    bodyParser: false, // Necesario para parseBody de next-sanity/webhook
-  },
-};
+export const dynamic = 'force-dynamic';
