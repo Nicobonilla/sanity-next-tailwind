@@ -13,7 +13,6 @@ type Article = {
   serviceCategory: string;
   message: string;
 };
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
@@ -42,16 +41,19 @@ export async function POST(request: NextRequest) {
   );
 
   try {
-    await resend.emails.send({
+    const response = await resend.emails.send({
       from: process.env.SENDER_EMAIL || '',
       to: process.env.CLIENT_EMAIL || '',
       subject: `SBA-cliente: ${name} Servicio: ${serviceCategory}`,
       text: 'hola',
     });
 
-    return NextResponse.json({ status: 200 });
+    // Imprimir la respuesta de la API para obtener más detalles
+    console.log('Correo enviado con éxito:', response);
+
+    return NextResponse.json({ status: 200, response });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ status: 500 });
+    console.error('Error al enviar correo:', error);
+    return NextResponse.json({ status: 500, error: error });
   }
 }
