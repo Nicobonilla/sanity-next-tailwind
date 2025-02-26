@@ -2,18 +2,20 @@
 
 import { useState } from 'react';
 import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
-import { IoIosArrowDown, IoIosArrowDropleft } from 'react-icons/io';
+import { IoIosArrowDown } from 'react-icons/io';
 
 interface ServiceSelectorProps {
   unitBusinessList: GetUnitBusinessListQueryResult;
   selectedService: string | null;
-  setSelectedService: (service: string | null) => void;
+  handleFormChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
 export default function ServiceSelector({
   unitBusinessList,
   selectedService,
-  setSelectedService,
+  handleFormChange,
 }: ServiceSelectorProps) {
   const [mainCategory, setMainCategory] = useState<'main' | null>('main');
   const [serviceCategory, setServiceCategory] = useState<number | null>(null);
@@ -22,10 +24,29 @@ export default function ServiceSelector({
     setServiceCategory(serviceCategory === index ? null : index);
   };
 
-  const handleServiceClick = (serviceTitle: string) => {
-    setSelectedService(serviceTitle);
-    setMainCategory(null); // Cierra la categoría principal al seleccionar un servicio
-    setServiceCategory(null); // Cierra las categorías de servicios al seleccionar un servicio
+  const handleServiceClick = (
+    mainCategory: string,
+    serviceCategory: string
+  ) => {
+    // Create synthetic events to use handleFormChange
+    const mainEvent = {
+      target: {
+        name: 'mainCategory',
+        value: mainCategory,
+      },
+    } as React.ChangeEvent<HTMLInputElement>;
+
+    const serviceEvent = {
+      target: {
+        name: 'serviceCategory',
+        value: serviceCategory,
+      },
+    } as React.ChangeEvent<HTMLInputElement>;
+
+    handleFormChange(mainEvent);
+    handleFormChange(serviceEvent);
+    setMainCategory(null);
+    setServiceCategory(null);
   };
 
   return (
@@ -33,49 +54,58 @@ export default function ServiceSelector({
       <label className="mb-2 block text-sm font-bold">
         ¿Qué Tipo de Asesoría necesitas?
       </label>
-
-      {/* Botón de selección */}
-      <div
-        className="w-full cursor-pointer rounded bg-menuColor2 px-4 py-2 text-center"
+      <button
+        className="w-full cursor-pointer rounded bg-menuColor2 px-4 py-2 text-center hover:bg-menuColor2/90 focus:outline-none focus:ring-2 focus:ring-menuColor2"
         onClick={() => setMainCategory(mainCategory === 'main' ? null : 'main')}
+        aria-expanded={mainCategory === 'main'}
+        aria-controls="service-categories"
+        type="button"
       >
         {selectedService || 'Selecciona una Opción'}
-      </div>
+      </button>
 
-      {/* Acordeón de categorías */}
       {mainCategory === 'main' && (
-        <div className="mt-2 rounded bg-[#1a201f] shadow-lg">
-          {unitBusinessList.map((unitBusiness, index) => (
+        <div
+          id="service-categories"
+          className="mt-2 rounded bg-[#1a201f] shadow-lg"
+        >
+          {unitBusinessList?.map((unitBusiness, index) => (
             <div key={unitBusiness.slug}>
-              {/* Categoría (Unit Business Title) */}
-              <div
-                className="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-menuColor2"
+              <button
+                className="flex w-full items-center justify-between px-4 py-2 hover:bg-menuColor2 focus:outline-none focus:ring-2 focus:ring-menuColor2"
                 onClick={() => toggleCategory(index)}
+                aria-expanded={serviceCategory === index}
+                aria-controls={`services-${index}`}
+                type="button"
               >
-                {unitBusiness?.title || ''}
+                <span>{unitBusiness?.title || 'Untitled Category'}</span>
                 <div
-                  className={`inline-block transition-transform duration-300 ${
-                    serviceCategory === index ? '-rotate-90' : 'rotate-0'
-                  }`}
+                  className={`inline-block transition-transform duration-300 ${serviceCategory === index ? '-rotate-90' : 'rotate-0'}`}
                 >
                   <IoIosArrowDown size={20} />
                 </div>
-              </div>
+              </button>
 
-              {/* Lista de servicios dentro de la categoría */}
               {serviceCategory === index && (
-                <div className="ml-4 border-l border-gray-600">
+                <div
+                  id={`services-${index}`}
+                  className="ml-4 border-l border-gray-600"
+                >
                   {unitBusiness?.services?.map((service) => (
-                    <div
+                    <button
                       key={service.slug}
-                      className="cursor-pointer px-4 py-2 hover:bg-menuColor2"
+                      className="w-full px-4 py-2 text-left hover:bg-menuColor2 focus:outline-none focus:ring-2 focus:ring-menuColor2"
                       onClick={(e) => {
-                        e.stopPropagation(); // Detiene la propagación del evento
-                        handleServiceClick(service?.title || '');
+                        e.stopPropagation();
+                        handleServiceClick(
+                          service?.title || '',
+                          unitBusiness?.title || ''
+                        );
                       }}
+                      type="button"
                     >
-                      {service?.title}
-                    </div>
+                      {service?.title || 'Untitled Service'}
+                    </button>
                   ))}
                 </div>
               )}

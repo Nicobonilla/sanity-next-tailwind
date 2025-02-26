@@ -3,7 +3,7 @@ import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
 import { type SanityContextType } from '@/context/SanityContext';
 import { SanityLive } from '@/sanity/lib/live';
