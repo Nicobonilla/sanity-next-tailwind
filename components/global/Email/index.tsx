@@ -27,14 +27,14 @@ export default function Email(props: EmailProps) {
   return (
     <Html lang="es">
       <h1>Detalle de Información</h1>
-      <p>Nombre: {name}</p>
-      <p>RUT: {rut}</p>
-      <p>Celular: {phone}</p>
-      <p>Comuna: {comuna}</p>
-      <p>Email: {email}</p>
-      <p>Área: {mainCategory}</p>
-      <p>Servicio: {serviceCategory}</p>
-      <p>Comentario: {message}</p>
+      <p><strong>Nombre:</strong> {name}</p>
+      <p><strong>RUT:</strong> {rut}</p>
+      <p><strong>Celular:</strong> {phone}</p>
+      <p><strong>Comuna:</strong> {comuna}</p>
+      <p><strong>Email:</strong> {email}</p>
+      <p><strong>Área:</strong> {mainCategory}</p>
+      <p><strong>Servicio:</strong> {serviceCategory}</p>
+      <p><strong>Comentario:</strong> {message}</p>
     </Html>
   );
 }
