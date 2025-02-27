@@ -2,6 +2,7 @@ import { ComponentProps } from '@/components/types';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 // Define PT1 and PT2 components
 const PT1: PortableTextComponents = {
@@ -38,7 +39,9 @@ const PT1: PortableTextComponents = {
 };
 
 export default function PTextHero({ data }: { data: ComponentProps }) {
-  console.log('data', data);
+  const handleButtonClick = () => {
+    trackButtonClick(data.ctaLinkItem, 'Ver Más'); // Usa el `buttonId` proporcionado
+  };
   return (
     <div className="absolute inset-0 flex items-center justify-center text-center">
       <div
@@ -53,6 +56,7 @@ export default function PTextHero({ data }: { data: ComponentProps }) {
         />
         <Link href={{ pathname: data.ctaLinkItem }} passHref>
           <button
+            onClick={handleButtonClick}
             className={clsx(
               'text-md mt-3 min-w-[150px] max-w-[250px] rounded py-2 font-crimson font-light text-white underline transition-all',
               'hover:bg-white/30 hover:font-semibold hover:no-underline', // Efectos al hacer hover

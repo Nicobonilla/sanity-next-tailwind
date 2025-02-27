@@ -52,16 +52,13 @@ export async function POST(request: NextRequest) {
     });
 
     // Imprimir la respuesta de la API para obtener más detalles
-    console.log('Correo enviado con éxito:', response);
 
     return NextResponse.json({ status: 200, response });
   } catch (error) {
     // Comprobación de tipo para asegurarse de que 'error' es un objeto de tipo 'Error'
     if (error instanceof Error) {
-      console.error('Error al enviar correo:', error.message);
       return NextResponse.json({ status: 500, error: error.message });
     } else {
-      console.error('Error desconocido al enviar correo:', error);
       return NextResponse.json({ status: 500, error: 'Error desconocido' });
     }
   }

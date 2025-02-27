@@ -1,27 +1,20 @@
 'use client';
 
 export const sendGTMEvent = (eventData: Record<string, any>) => {
+  if (!window.dataLayer) {
+    console.error(
+      'dataLayer no está definido. Asegúrate de que GTM está correctamente cargado.'
+    );
+    return;
+  }
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(eventData);
-};
 
-export const initializeGTM = (gtmId: string) => {
-  if (!window.dataLayer) {
-    window.dataLayer = [];
-  }
-  window.dataLayer.push({
-    'gtm.start': new Date().getTime(),
-    event: 'gtm.js',
-  });
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
-  document.head.appendChild(script);
+  // Depuración: ver qué datos se envían
+  console.log('Evento enviado a GTM:', eventData);
 };
 
 // Funciones de eventos
-
 export const trackButtonClick = (buttonId: string, buttonText: string) => {
   sendGTMEvent({
     event: 'buttonClick',
@@ -82,7 +75,10 @@ export const trackPinch = (scale: number) => {
   });
 };
 
-export const trackPushNotificationClick = (notificationTitle: string, notificationData: any) => {
+export const trackPushNotificationClick = (
+  notificationTitle: string,
+  notificationData: any
+) => {
   sendGTMEvent({
     event: 'pushNotificationClick',
     notificationTitle,
@@ -90,7 +86,10 @@ export const trackPushNotificationClick = (notificationTitle: string, notificati
   });
 };
 
-export const trackGeolocationEnabled = (latitude: number, longitude: number) => {
+export const trackGeolocationEnabled = (
+  latitude: number,
+  longitude: number
+) => {
   sendGTMEvent({
     event: 'geolocationEnabled',
     latitude,
@@ -98,21 +97,18 @@ export const trackGeolocationEnabled = (latitude: number, longitude: number) => 
   });
 };
 
-export const trackJavaScriptError = (errorMessage: string, source: string, line: number, column: number) => {
+export const trackJavaScriptError = (
+  errorMessage: string,
+  source: string,
+  line: number,
+  column: number
+) => {
   sendGTMEvent({
     event: 'javascriptError',
     errorMessage,
     source,
     line,
     column,
-  });
-};
-
-export const trackPurchase = (transactionId: string, transactionTotal: string) => {
-  sendGTMEvent({
-    event: 'purchase',
-    transactionId,
-    transactionTotal,
   });
 };
 

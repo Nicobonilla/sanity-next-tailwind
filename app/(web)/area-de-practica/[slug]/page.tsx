@@ -35,19 +35,17 @@ async function getData(slug: string) {
       getUnitBusinessBySlugFetch(slug),
       getPostListByUnitBusinessFetch(slug),
     ]);
-    console.log('unitBusiness', unitBusiness);
-    console.log('posts', posts);
+    //console.log('unitBusiness', unitBusiness);
+    //console.log('posts', posts);
 
     return { unitBusiness, posts };
   } catch (error) {
-    console.error('Error fetching data:', error);
     return null;
   }
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const unitBusinessPage = await getData(params.slug);
-  console.log('unitBusinessPage', unitBusinessPage);
   // add posts brief to Banner Posts
   unitBusinessPage?.unitBusiness?.components?.map((component) => {
     if (

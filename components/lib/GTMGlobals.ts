@@ -2,30 +2,48 @@
 import React, { useEffect } from 'react';
 import { GoogleTagManager } from '@next/third-parties/google';
 import {
+  trackPageView,
   trackScrollDepth,
   trackTimeOnPage,
   trackExitIntent,
   trackJavaScriptError,
-  trackPageView,
-} from './gtm';
+} from './GTMTrackers'; // Importa las funciones de eventos
+import useExitIntent from '@/hooks/useExitIntent';
 
-export default function GTMGlobals(gtmId: { gtmId: string }) {
+export default function GTMGlobals() {
+  useExitIntent(trackExitIntent);
   useEffect(() => {
     // Inicializa Google Tag Manager
     if (process.env.NEXT_PUBLIC_GTM_ID) {
       GoogleTagManager({ gtmId: process.env.NEXT_PUBLIC_GTM_ID });
+
+      // Asegúrate de que window.dataLayer esté inicializado
+      window.dataLayer = window.dataLayer || [];
+
+      // Envía el evento de inicialización
+      window.dataLayer.push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js',
+      });
     }
 
-    // Rastrea vistas de página
+    // Rastrea la vista de página inicial
     trackPageView(window.location.pathname);
 
     // Inicialización de eventos globales
+    let scrollTimeout: number | undefined;
+
     const handleScroll = () => {
-      const scrollDepth = Math.round(
-        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
-          100
-      );
-      trackScrollDepth(scrollDepth);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      scrollTimeout = window.setTimeout(() => {
+        const scrollDepth = Math.round(
+          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+            100
+        );
+        trackScrollDepth(scrollDepth);
+      }, 100); // Debouncing de 100ms
     };
 
     const startTime = new Date();
@@ -58,14 +76,18 @@ export default function GTMGlobals(gtmId: { gtmId: string }) {
     window.addEventListener('mouseout', handleExitIntent);
     window.addEventListener('error', handleError);
 
-    // Cleanup listeners on component unmount
+    // Limpieza de listeners al desmontar el componente
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('mouseout', handleExitIntent);
       window.removeEventListener('error', handleError);
+
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
     };
   }, []);
 
-  return null; // Este componente no necesita renderizar nada en el DOM
+  return null;
 }

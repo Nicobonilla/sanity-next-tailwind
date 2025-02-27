@@ -3,7 +3,7 @@ import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
-import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from '@/components/lib/GTMGlobals';
 import { type SanityContextType } from '@/context/SanityContext';
 import { SanityLive } from '@/sanity/lib/live';
@@ -128,13 +128,12 @@ export default async function RootLayout({
         <head>
           <DarkModeScript />
         </head>
-        {/* Uncomment for Google Tag Manager if needed */}
-        {process.env.NODE_ENV === 'production' && (
-          <div>
-            <GTMGlobals gtmId={process.env.GTM || ''} />
-            <GoogleTagManager gtmId={process.env.GTM || ''} />
-          </div>
-        )}
+        <GTMGlobals gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+        <GoogleTagManager
+          gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''}
+          auth={process.env.NEXT_PUBLIC_GTM_AUTH || ''}
+          preview={process.env.NEXT_PUBLIC_GTM_PREVIEW || ''}
+        />
 
         <body className="flex min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>

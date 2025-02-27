@@ -81,7 +81,7 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    console.log('Form data:', formData);
+    //console.log('Form data:', formData);
     try {
       const success = await sendEmail(formData);
       if (success) {

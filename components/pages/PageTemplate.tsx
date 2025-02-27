@@ -52,8 +52,6 @@ export default function PageTemplate({
   }, [components, setComponents, setLoading]);
 
   if (isLoading) return <Spinner />;
-  console.log('loadedComponents', loadedComponents);
-  console.log('components', components);
   return (
     <div className="opacity-100 transition-opacity duration-300">
       {loadedComponents.map((props: LoadedComponent, index: number) => (

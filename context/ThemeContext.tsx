@@ -26,7 +26,6 @@ export const ThemeProvider = ({
 
   useEffect(() => {
     // Only handle theme if withDarkMode is true
-    console.log('withDarkMode', withDarkMode);
     if (withDarkMode) {
       const currentTheme = localStorage.getItem('theme');
       if (currentTheme) {
