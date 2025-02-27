@@ -128,7 +128,7 @@ export default async function RootLayout({
         <head>
           <DarkModeScript />
         </head>
-        <GTMGlobals gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+        <GTMGlobals  />
         <GoogleTagManager
           gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''}
           auth={process.env.NEXT_PUBLIC_GTM_AUTH || ''}
