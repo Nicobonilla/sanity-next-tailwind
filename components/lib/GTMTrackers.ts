@@ -15,11 +15,18 @@ export const sendGTMEvent = (eventData: Record<string, any>) => {
 };
 
 // Funciones de eventos
-export const trackButtonClick = (buttonId: string, buttonText: string) => {
+export const trackButtonClick = (buttonId: string, buttonText: string) => { // DONE
   sendGTMEvent({
-    event: 'buttonClick',
+    event: 'button_click',
     buttonId,
     buttonText,
+  });
+};
+
+export const trackScrollDepth = (scrollDepth: string) => {
+  sendGTMEvent({
+    event: 'scroll_depth',
+    scrollDepth,
   });
 };
 
@@ -32,7 +39,7 @@ export const trackSwipe = (direction: number) => {
 
 export const trackFormSubmit = (formId: string, formAction: string) => {
   sendGTMEvent({
-    event: 'formSubmit',
+    event: 'form_submit',
     formId,
     formAction,
   });
@@ -40,7 +47,7 @@ export const trackFormSubmit = (formId: string, formAction: string) => {
 
 export const trackFormFieldClick = (fieldId: string, fieldType: string) => {
   sendGTMEvent({
-    event: 'formFieldClick',
+    event: 'form_field_click',
     fieldId,
     fieldType,
   });
@@ -48,22 +55,17 @@ export const trackFormFieldClick = (fieldId: string, fieldType: string) => {
 
 export const trackNavClick = (navText: string, navHref: string) => {
   sendGTMEvent({
-    event: 'navClick',
+    event: 'nav_click',
     navText,
     navHref,
   });
 };
 
-export const trackScrollDepth = (scrollDepth: number) => {
-  sendGTMEvent({
-    event: 'scrollDepth',
-    scrollDepth,
-  });
-};
+
 
 export const trackTimeOnPage = (timeSpent: number) => {
   sendGTMEvent({
-    event: 'timeOnPage',
+    event: 'time_on_page',
     timeSpent,
   });
 };
@@ -80,7 +82,7 @@ export const trackPushNotificationClick = (
   notificationData: any
 ) => {
   sendGTMEvent({
-    event: 'pushNotificationClick',
+    event: 'push_notification_click',
     notificationTitle,
     notificationData,
   });
@@ -91,20 +93,20 @@ export const trackGeolocationEnabled = (
   longitude: number
 ) => {
   sendGTMEvent({
-    event: 'geolocationEnabled',
+    event: 'geolocation_enabled',
     latitude,
     longitude,
   });
 };
 
-export const trackJavaScriptError = (
+export const trackJavascriptError = (
   errorMessage: string,
   source: string,
   line: number,
   column: number
 ) => {
   sendGTMEvent({
-    event: 'javascriptError',
+    event: 'javascript_error',
     errorMessage,
     source,
     line,
@@ -114,32 +116,32 @@ export const trackJavaScriptError = (
 
 export const trackExitIntent = () => {
   sendGTMEvent({
-    event: 'exitIntent',
+    event: 'exit_intent',
   });
 };
 
 // Función para rastrear vistas de página
 export const trackPageView = (pagePath: string) => {
   sendGTMEvent({
-    event: 'pageView',
+    event: 'page_view',
     pagePath,
   });
 };
 
 // Lista de nombres de eventos
 export const GTMEvents = {
-  BUTTON_CLICK: 'buttonClick',
-  SWIPE: 'swipe',
-  FORM_SUBMIT: 'formSubmit',
-  FORM_FIELD_CLICK: 'formFieldClick',
-  NAV_CLICK: 'navClick',
-  SCROLL_DEPTH: 'scrollDepth',
-  TIME_ON_PAGE: 'timeOnPage',
-  PINCH: 'pinch',
-  PUSH_NOTIFICATION_CLICK: 'pushNotificationClick',
-  GEOLOCATION_ENABLED: 'geolocationEnabled',
-  JAVASCRIPT_ERROR: 'javascriptError',
-  PURCHASE: 'purchase',
-  EXIT_INTENT: 'exitIntent',
-  PAGE_VIEW: 'pageView',
+  buttonClick: 'button_click',
+  swipe: 'swipe',
+  formSubmit: 'form_submit',
+  formFieldClick: 'form_field_click',
+  navClick: 'nav_click',
+  scrollDepth: 'scroll_depth',
+  timeOnPage: 'time_on_page',
+  pinch: 'pinch',
+  pushNotificationClick: 'push_notification_click',
+  geolocationEnabled: 'geolocation_enabled',
+  javascriptError: 'javascript_error',
+  purchase: 'purchase',
+  exitIntent: 'exit_intent',
+  pageView: 'page_view',
 };

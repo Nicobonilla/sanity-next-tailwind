@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import {
@@ -6,46 +7,44 @@ import {
   trackScrollDepth,
   trackTimeOnPage,
   trackExitIntent,
-  trackJavaScriptError,
 } from './GTMTrackers';
-import useExitIntent from '@/hooks/useExitIntent';
 import { usePathname } from 'next/navigation';
 
 export default function GTMGlobals() {
-  useExitIntent(trackExitIntent);
   const effectRan = useRef(false);
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
-  /** 🚀 1. Inicialización de GTM y eventos globales */
+  // Efecto global que se ejecuta solo una vez
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      console.log('GTMGlobals montado');
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js',
-      });
-    }
+    if (typeof window === 'undefined') return;
 
-    // Evitar doble ejecución en strict mode
-    if (effectRan.current) return;
-    effectRan.current = true;
-    trackPageView(window.location.pathname);
-
-    let scrollTimeout: number | undefined;
+    console.log('GTMGlobals montado - Inicialización única');
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'gtm.start': new Date().getTime(),
+      event: 'gtm.js',
+    });
 
     const handleScroll = debounce(() => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
+      const scrollPosition = window.scrollY;
+      const documentHeight = document.body.scrollHeight - window.innerHeight;
+
+      // Calcular la profundidad del desplazamiento en porcentajes
+      const scrollPercentage = Math.round(
+        (scrollPosition / documentHeight) * 100
+      );
+
+      // Enviar eventos de scroll en 25%, 50%, 75% y 100%
+      if (scrollPercentage >= 25 && scrollPercentage < 50) {
+        trackScrollDepth('scroll_25');
+      } else if (scrollPercentage >= 50 && scrollPercentage < 75) {
+        trackScrollDepth('scroll_50');
+      } else if (scrollPercentage >= 75 && scrollPercentage < 100) {
+        trackScrollDepth('scroll_75');
+      } else if (scrollPercentage === 100) {
+        trackScrollDepth('scroll_100');
       }
-      scrollTimeout = window.setTimeout(() => {
-        const scrollDepth = Math.round(
-          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
-            100
-        );
-        trackScrollDepth(scrollDepth);
-      }, 200);
-    });
+    }, 200);
 
     const startTime = new Date();
     const handleBeforeUnload = () => {
@@ -62,47 +61,26 @@ export default function GTMGlobals() {
       }
     };
 
-    const handleError = (event: ErrorEvent) => {
-      trackJavaScriptError(
-        event.message,
-        event.filename,
-        event.lineno,
-        event.colno
-      );
-    };
-
-    // Añadir listeners
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('beforeunload', handleBeforeUnload);
     window.addEventListener('mouseout', handleExitIntent);
-    window.addEventListener('error', handleError);
-    window.onerror = (message, source, lineno, colno, error) => {
-      trackJavaScriptError(
-        String(message),
-        String(source),
-        lineno || 0,
-        colno || 0
-      );
-    };
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('mouseout', handleExitIntent);
-      window.removeEventListener('error', handleError);
-
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
     };
-  }, []);
+  }, []); // Sin dependencias, se ejecuta solo al montar
 
-  /** 🚀 2. Detectar cambios de ruta con `usePathname` */
+  // Efecto para rastrear cambios de ruta
   useEffect(() => {
-    if (pathname) {
-      console.log(`Cambio de ruta detectado: ${pathname}`);
-      trackPageView(pathname);
+    if (typeof window === 'undefined' || !pathname) return;
+
+    if (!effectRan.current) {
+      effectRan.current = true; // Evita doble ejecución inicial
     }
+    console.log(`Cambio de ruta detectado: ${pathname}`);
+    trackPageView(pathname);
   }, [pathname]);
 
   return null;
