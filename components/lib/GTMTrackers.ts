@@ -1,7 +1,7 @@
 'use client';
 
 export const sendGTMEvent = (eventData: Record<string, any>) => {
-  if (!window.dataLayer) {
+  if (typeof window === 'undefined' || !window.dataLayer) {
     console.error(
       'dataLayer no está definido. Asegúrate de que GTM está correctamente cargado.'
     );

@@ -41,6 +41,7 @@ const PT1: PortableTextComponents = {
 export default function PTextHero({ data }: { data: ComponentProps }) {
   const handleButtonClick = () => {
     trackButtonClick(data.ctaLinkItem, 'Ver Más'); // Usa el `buttonId` proporcionado
+    console.log('Button clicked:', data.ctaLinkItem);
   };
   return (
     <div className="absolute inset-0 flex items-center justify-center text-center">

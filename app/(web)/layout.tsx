@@ -128,9 +128,7 @@ export default async function RootLayout({
         <head>
           <DarkModeScript />
         </head>
-        {process.env.NEXT_PUBLIC_GTM_ID && (
-          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-        )}
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
         <GTMGlobals />
 
         <body className="flex min-h-screen min-w-[320px] flex-col">

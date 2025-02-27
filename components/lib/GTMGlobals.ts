@@ -1,21 +1,25 @@
 'use client';
-import React, { useEffect } from 'react';
-import { GoogleTagManager } from '@next/third-parties/google';
+import React, { useEffect, useRef } from 'react';
+import debounce from 'lodash.debounce';
 import {
   trackPageView,
   trackScrollDepth,
   trackTimeOnPage,
   trackExitIntent,
   trackJavaScriptError,
-} from './GTMTrackers'; // Importa las funciones de eventos
+} from './GTMTrackers';
 import useExitIntent from '@/hooks/useExitIntent';
+import { usePathname } from 'next/navigation';
 
 export default function GTMGlobals() {
   useExitIntent(trackExitIntent);
+  const effectRan = useRef(false);
+  const pathname = usePathname(); 
+
+  /** 🚀 1. Inicialización de GTM y eventos globales */
   useEffect(() => {
-    // Inicializa Google Tag Manager
     if (typeof window !== 'undefined') {
-      // Solo enviamos eventos si GTM ya está cargado
+      console.log('GTMGlobals montado');
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         'gtm.start': new Date().getTime(),
@@ -23,13 +27,14 @@ export default function GTMGlobals() {
       });
     }
 
-    // Rastrea la vista de página inicial
+    // Evitar doble ejecución en strict mode
+    if (effectRan.current) return;
+    effectRan.current = true;
     trackPageView(window.location.pathname);
 
-    // Inicialización de eventos globales
     let scrollTimeout: number | undefined;
 
-    const handleScroll = () => {
+    const handleScroll = debounce(() => {
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
       }
@@ -39,15 +44,15 @@ export default function GTMGlobals() {
             100
         );
         trackScrollDepth(scrollDepth);
-      }, 100); // Debouncing de 100ms
-    };
+      }, 200);
+    });
 
     const startTime = new Date();
     const handleBeforeUnload = () => {
       const endTime = new Date();
       const timeSpent = Math.round(
         (endTime.getTime() - startTime.getTime()) / 1000
-      ); // en segundos
+      );
       trackTimeOnPage(timeSpent);
     };
 
@@ -71,8 +76,15 @@ export default function GTMGlobals() {
     window.addEventListener('beforeunload', handleBeforeUnload);
     window.addEventListener('mouseout', handleExitIntent);
     window.addEventListener('error', handleError);
+    window.onerror = (message, source, lineno, colno, error) => {
+      trackJavaScriptError(
+        String(message),
+        String(source),
+        lineno || 0,
+        colno || 0
+      );
+    };
 
-    // Limpieza de listeners al desmontar el componente
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -84,6 +96,14 @@ export default function GTMGlobals() {
       }
     };
   }, []);
+
+  /** 🚀 2. Detectar cambios de ruta con `usePathname` */
+  useEffect(() => {
+    if (pathname) {
+      console.log(`Cambio de ruta detectado: ${pathname}`);
+      trackPageView(pathname);
+    }
+  }, [pathname]);
 
   return null;
 }
