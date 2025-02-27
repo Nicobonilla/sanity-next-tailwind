@@ -8,6 +8,7 @@ import {
   useScrollContext,
 } from '@/context/ScrollContext';
 import Contacto from './Contacto';
+import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 const NavbarContent = () => {
   const { scrolling } = useScrollContext();
@@ -41,7 +42,10 @@ const NavbarContent = () => {
         <div
           className={`z-20 ml-2 flex h-full items-center justify-center transition-all duration-700 ease-in-out ${scrolling ? 'scale-95' : 'scale-115 translate-y-1'}`}
         >
-          <div className="my-auto h-fit">
+          <div
+            className="my-auto h-fit"
+            onClick={() => trackButtonClick('logo', 'navbar')}
+          >
             <Logo />
           </div>
         </div>

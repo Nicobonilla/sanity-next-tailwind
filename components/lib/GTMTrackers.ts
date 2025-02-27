@@ -15,11 +15,12 @@ export const sendGTMEvent = (eventData: Record<string, any>) => {
 };
 
 // Funciones de eventos
-export const trackButtonClick = (buttonId: string, buttonText: string) => { // DONE
+export const trackButtonClick = (buttonId: string, component: string) => {
+  // DONE
   sendGTMEvent({
     event: 'button_click',
     buttonId,
-    buttonText,
+    component,
   });
 };
 
@@ -30,18 +31,17 @@ export const trackScrollDepth = (scrollDepth: string) => {
   });
 };
 
+export const trackFormSubmit = (field: string) => {
+  sendGTMEvent({
+    event: 'form_submit',
+    field,
+  });
+};
+
 export const trackSwipe = (direction: number) => {
   sendGTMEvent({
     event: 'swipe',
     direction,
-  });
-};
-
-export const trackFormSubmit = (formId: string, formAction: string) => {
-  sendGTMEvent({
-    event: 'form_submit',
-    formId,
-    formAction,
   });
 };
 
@@ -60,8 +60,6 @@ export const trackNavClick = (navText: string, navHref: string) => {
     navHref,
   });
 };
-
-
 
 export const trackTimeOnPage = (timeSpent: number) => {
   sendGTMEvent({

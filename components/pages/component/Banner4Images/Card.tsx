@@ -1,3 +1,4 @@
+import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import { ItemProps } from '@/components/types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
@@ -15,7 +16,10 @@ export default function Card({
     <div
       className={`group relative grid overflow-hidden rounded-lg hover:cursor-pointer lg:items-center lg:justify-center ${index == 0 ? 'lg:row-span-3' : ''}${index == 1 ? 'lg:row-span-2' : ''}${index == 2 ? 'lg:col-span-2' : ''}${index == 3 ? 'lg:row-span-2' : ''}`}
     >
-      <Link href={{ pathname: service?.ctaLinkItem }}>
+      <Link
+        href={{ pathname: service?.ctaLinkItem }}
+        onClick={() => trackButtonClick(service?.ctaLinkItem, '4ImageBanner')}
+      >
         <Image
           src={urlForImage(service.image)?.url() || '/meeting.jpeg'}
           alt={'title'}

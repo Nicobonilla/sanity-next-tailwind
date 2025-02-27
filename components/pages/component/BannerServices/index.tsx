@@ -3,15 +3,13 @@ import clsx from 'clsx';
 import { PortableText } from 'next-sanity';
 
 import Background from '../Background';
-import { ComponentProps, ComponentServiceProps } from '@/components/types';
-import PTextBanner, { type PTBannerType } from './PTextBanner';
+import { ComponentProps } from '@/components/types';
+import PTextBanner from './PTextBanner';
 import { urlForImage } from '@/sanity/lib/utils';
-import ImageItem from './Image';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 import { PTextBannerServiceCard } from '../PTextComponents';
 import Image from 'next/image';
-import { Breadcrumbs } from '../Breadcrumbs';
-// Componente principal del Banner con fondo condicional
+
 export default function BannerServices({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
   return (
@@ -61,11 +59,18 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
           </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 flex h-1/2 items-start">
-        <div className="relative z-0 h-full w-full">
-          <Image src="/vec5.png" alt="vec1" fill className="object-cover" />
+      {false && (
+        <div className="absolute inset-x-0 bottom-0 flex h-1/2 items-start">
+          <div className="relative z-0 h-full w-full">
+            <Image
+              src={urlForImage(data.imageBackground)?.url()}
+              alt="vec1"
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="absolute inset-0 z-10 bg-white/70"></div>
     </Background>
   );

@@ -9,6 +9,7 @@ import { useSanityContext } from '@/context/SanityContext';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { useRouter } from 'next/navigation';
 import ServiceSelector from './ServiceSelector';
+import { trackFormSubmit } from '@/components/lib/GTMTrackers';
 
 type TForm = {
   name: string;
@@ -81,6 +82,7 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+    trackFormSubmit('submited');
     //console.log('Form data:', formData);
     try {
       const success = await sendEmail(formData);
@@ -270,6 +272,7 @@ function InputField({
         placeholder={placeholder}
         onChange={onChange}
         required
+        onClick={() => trackFormSubmit(name)}
         className="w-full rounded bg-[#1a201f] py-2 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-menuColor2"
       />
     </div>
@@ -303,6 +306,7 @@ function TextAreaField({
         className="w-full rounded bg-[#1a201f] px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-menuColor2"
         placeholder={placeholder}
         onChange={onChange}
+        onClick={() => trackFormSubmit(name)}
       />
     </div>
   );
@@ -316,6 +320,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
         type="submit"
         disabled={isLoading}
         className="rounded bg-[#6C5CE7] px-8 py-3 font-medium text-white transition-colors hover:bg-[#5849c4] focus:outline-none focus:ring-2 focus:ring-menuColor2 disabled:opacity-50"
+        onClick={() => trackFormSubmit('submit')}
       >
         {isLoading ? (
           <span className="flex items-center gap-2">

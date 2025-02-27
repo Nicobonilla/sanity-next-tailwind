@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import {
   trackPageView,
@@ -12,11 +12,8 @@ import { usePathname } from 'next/navigation';
 export default function GTMGlobals() {
   const effectRan = useRef(false);
   const pathname = usePathname();
-  const [lastScrollPercentage, setLastScrollPercentage] = useState<
-    number | null
-  >(null);
+  const reachedDepths = useRef(new Set());
 
-  // Efecto global que se ejecuta solo una vez
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -30,29 +27,24 @@ export default function GTMGlobals() {
     const handleScroll = debounce(() => {
       const scrollPosition = window.scrollY;
       const documentHeight = document.body.scrollHeight - window.innerHeight;
-
-      // Calcular la profundidad del desplazamiento en porcentajes
       const scrollPercentage = Math.round(
         (scrollPosition / documentHeight) * 100
       );
 
-      // Enviar eventos de scroll en 25%, 50%, 75% y 100% solo si el porcentaje cambia
-      if (scrollPercentage !== lastScrollPercentage) {
-        setLastScrollPercentage(scrollPercentage);
-        if (scrollPercentage >= 25 && scrollPercentage < 50) {
-          trackScrollDepth('scroll_25');
-        } else if (scrollPercentage >= 50 && scrollPercentage < 75) {
-          trackScrollDepth('scroll_50');
-        } else if (scrollPercentage >= 75 && scrollPercentage < 100) {
-          trackScrollDepth('scroll_75');
-        } else if (scrollPercentage === 100) {
-          trackScrollDepth('scroll_100');
+      const thresholds = [50, 80];
+      thresholds.forEach((threshold) => {
+        if (
+          scrollPercentage >= threshold &&
+          !reachedDepths.current.has(threshold)
+        ) {
+          trackScrollDepth(threshold.toString());
+          reachedDepths.current.add(threshold);
         }
-      }
-    }, 1000); // Ajusta el debounce a un valor mayor si es necesario
+      });
+    }, 1000);
 
     const startTime = new Date();
-    const handleBeforeUnload = () => {
+    const handleBeforeUnload = (event: Event) => {
       const endTime = new Date();
       const timeSpent = Math.round(
         (endTime.getTime() - startTime.getTime()) / 1000
@@ -75,14 +67,13 @@ export default function GTMGlobals() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('mouseout', handleExitIntent);
     };
-  }, [lastScrollPercentage]); // Dependencia en lastScrollPercentage
+  }, []);
 
-  // Efecto para rastrear cambios de ruta
   useEffect(() => {
     if (typeof window === 'undefined' || !pathname) return;
 
     if (!effectRan.current) {
-      effectRan.current = true; // Evita doble ejecución inicial
+      effectRan.current = true;
     }
     console.log(`Cambio de ruta detectado: ${pathname}`);
     trackPageView(pathname);
