@@ -14,13 +14,9 @@ export default function GTMGlobals() {
   useExitIntent(trackExitIntent);
   useEffect(() => {
     // Inicializa Google Tag Manager
-    if (process.env.NEXT_PUBLIC_GTM_ID) {
-      GoogleTagManager({ gtmId: process.env.NEXT_PUBLIC_GTM_ID });
-
-      // Asegúrate de que window.dataLayer esté inicializado
+    if (typeof window !== 'undefined') {
+      // Solo enviamos eventos si GTM ya está cargado
       window.dataLayer = window.dataLayer || [];
-
-      // Envía el evento de inicialización
       window.dataLayer.push({
         'gtm.start': new Date().getTime(),
         event: 'gtm.js',
