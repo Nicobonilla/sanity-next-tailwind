@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import {
   trackPageView,
@@ -13,6 +11,9 @@ import { usePathname } from 'next/navigation';
 export default function GTMGlobals() {
   const effectRan = useRef(false);
   const pathname = usePathname();
+  const [lastScrollPercentage, setLastScrollPercentage] = useState<
+    number | null
+  >(null);
 
   // Efecto global que se ejecuta solo una vez
   useEffect(() => {
@@ -34,17 +35,20 @@ export default function GTMGlobals() {
         (scrollPosition / documentHeight) * 100
       );
 
-      // Enviar eventos de scroll en 25%, 50%, 75% y 100%
-      if (scrollPercentage >= 25 && scrollPercentage < 50) {
-        trackScrollDepth('scroll_25');
-      } else if (scrollPercentage >= 50 && scrollPercentage < 75) {
-        trackScrollDepth('scroll_50');
-      } else if (scrollPercentage >= 75 && scrollPercentage < 100) {
-        trackScrollDepth('scroll_75');
-      } else if (scrollPercentage === 100) {
-        trackScrollDepth('scroll_100');
+      // Enviar eventos de scroll en 25%, 50%, 75% y 100% solo si el porcentaje cambia
+      if (scrollPercentage !== lastScrollPercentage) {
+        setLastScrollPercentage(scrollPercentage);
+        if (scrollPercentage >= 25 && scrollPercentage < 50) {
+          trackScrollDepth('scroll_25');
+        } else if (scrollPercentage >= 50 && scrollPercentage < 75) {
+          trackScrollDepth('scroll_50');
+        } else if (scrollPercentage >= 75 && scrollPercentage < 100) {
+          trackScrollDepth('scroll_75');
+        } else if (scrollPercentage === 100) {
+          trackScrollDepth('scroll_100');
+        }
       }
-    }, 200);
+    }, 1000); // Ajusta el debounce a un valor mayor si es necesario
 
     const startTime = new Date();
     const handleBeforeUnload = () => {
@@ -70,7 +74,7 @@ export default function GTMGlobals() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('mouseout', handleExitIntent);
     };
-  }, []); // Sin dependencias, se ejecuta solo al montar
+  }, [lastScrollPercentage]); // Dependencia en lastScrollPercentage
 
   // Efecto para rastrear cambios de ruta
   useEffect(() => {
