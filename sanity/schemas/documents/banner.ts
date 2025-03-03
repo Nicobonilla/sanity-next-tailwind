@@ -165,6 +165,13 @@ export default defineType({
       hidden: ({ parent }) =>
         !validIdItems.includes(parent?.typeComponent?._ref),
     }),
+    defineField({
+      name: 'resources',
+      title: 'Recursos',
+      type: 'array',
+      of: [{ type: 'resourceItem' }],
+      group: 'items',
+    }),
   ],
   preview: {
     select: {

@@ -7,10 +7,10 @@ import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { Metadata } from 'next';
 import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
-import Resources, { Resource } from '@/components/pages/component/Resources';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { ComponentsProps } from '@/components/types';
+import { ComponentProps, ComponentsProps } from '@/components/types';
+import Resources from '@/components/pages/component/Resources';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -42,128 +42,6 @@ async function getDataPage() {
   }
 }
 
-const resources: Resource[] = [
-  {
-    title: 'Poder Judicial Chile',
-    url: 'https://www.pjud.cl',
-    description:
-      'Sitio oficial del Poder Judicial de Chile, con acceso a información de causas y trámites.',
-  },
-  {
-    title: 'Conservador de Bienes Raíces de San Felipe',
-    url: 'http://www.conservadorsanfelipe.cl',
-    description:
-      'Consulta y gestión de inscripciones y certificaciones relacionadas con bienes raíces.',
-  },
-  {
-    title: 'Registro Civil e Identificación',
-    url: 'https://www.registrocivil.cl',
-    description:
-      'Trámites de inscripción, certificados de nacimiento, matrimonio, defunción y cédulas de identidad.',
-  },
-  {
-    title: 'Ministerio de Vivienda y Urbanismo (MINVU)',
-    url: 'https://www.minvu.gob.cl',
-    description:
-      'Programas y servicios relacionados con viviendas sociales y subsidios habitacionales.',
-  },
-  {
-    title: 'Servicio de Impuestos Internos (SII)',
-    url: 'https://www.sii.cl',
-    description:
-      'Consulta de avalúos fiscales, trámites relacionados con propiedades y gestión de impuestos.',
-  },
-  {
-    title: 'Fiscalía Regional de Valparaíso',
-    url: 'https://www.fiscaliadechile.cl',
-    description:
-      'Información sobre denuncias y procesos judiciales relacionados con delitos en la región.',
-  },
-  {
-    title: 'Oficina de Protección de Derechos de la Infancia (OPD)',
-    url: 'https://www.sename.cl',
-    description:
-      'Servicios y apoyo en casos de vulneración de derechos de niños y adolescentes.',
-  },
-  {
-    title: 'Clave Única',
-    url: 'https://www.claveunica.gob.cl',
-    description:
-      'Portal oficial para gestionar trámites digitales en instituciones del Estado, incluyendo acceso al Poder Judicial.',
-  },
-  {
-    title: 'Boletín Comercial (Dicom)',
-    url: 'https://www.equifax.cl',
-    description:
-      'Consulta de antecedentes financieros y comerciales en el Boletín Comercial, conocido como Dicom.',
-  },
-  {
-    title: 'Superintendencia de Insolvencia y Reemprendimiento',
-    url: 'https://www.superir.gob.cl',
-    description:
-      'Información y servicios relacionados con deudas, renegociación y liquidación para personas y empresas.',
-  },
-  {
-    title: 'Defensoría Laboral de San Felipe',
-    url: 'https://www.cajvalparaiso.cl',
-    description:
-      'Asesoría jurídica gratuita en materia laboral ofrecida por la Corporación de Asistencia Judicial de la región de Valparaíso.',
-  },
-  {
-    title: 'Municipalidad de San Felipe',
-    url: 'https://www.munisanfelipe.cl',
-    description:
-      'Portal oficial del municipio con acceso a información sobre servicios locales y trámites comunitarios.',
-  },
-  {
-    title: 'Instituto de Previsión Social (IPS)',
-    url: 'https://www.chileatiende.gob.cl',
-    description:
-      'Trámites y consultas sobre pensiones, beneficios sociales y subsidios familiares.',
-  },
-  {
-    title: 'Notarías Públicas en San Felipe',
-    url: 'https://www.notarios.cl',
-    description:
-      'Información y ubicación de notarías en San Felipe para trámites legales y certificaciones.',
-  },
-  {
-    title: 'Servicio Nacional de la Mujer y la Equidad de Género (SERNAMEG)',
-    url: 'https://www.sernameg.gob.cl',
-    description:
-      'Asesorías y apoyo en casos de violencia intrafamiliar y derechos de las mujeres.',
-  },
-  {
-    title: 'Dirección del Trabajo (DT)',
-    url: 'https://www.dt.gob.cl',
-    description:
-      'Consultas y reclamos relacionados con derechos laborales y seguridad en el trabajo.',
-  },
-  {
-    title: 'Superintendencia de Pensiones',
-    url: 'https://www.spensiones.cl',
-    description: 'Información sobre AFP, pensiones y beneficios previsionales.',
-  },
-  {
-    title: 'Fundación Pro Bono Chile',
-    url: 'https://www.probono.cl',
-    description:
-      'Acceso a asesoría legal gratuita para personas de escasos recursos.',
-  },
-  {
-    title: 'Cámara de Comercio de San Felipe',
-    url: 'https://www.ccsf.cl',
-    description:
-      'Asesoría y orientación para emprendedores y negocios locales en San Felipe.',
-  },
-  {
-    title: 'Biblioteca del Congreso Nacional (BCN)',
-    url: 'https://www.bcn.cl',
-    description:
-      'Acceso a legislación, estudios y recursos legales para ciudadanos y profesionales.',
-  },
-];
-
 export default async function Page() {
   const data = await getDataPage();
   if (!data) {
@@ -173,8 +51,8 @@ export default async function Page() {
   //console.log('page blog', page);
   return (
     <section>
-      {page?.components && (
-        <PageTemplate components={page.components as ComponentsProps} />
+      {page?.components?.[0] && (
+        <PageTemplate components={[page.components?.[0]] as ComponentsProps} />
       )}
 
       <div className="min-h-screen bg-gray-50">
@@ -183,17 +61,9 @@ export default async function Page() {
             <div>
               <Posts posts={posts || []} unitBusiness={unitBusiness || []} />
             </div>
-            {/* Sidebar */}
-            <aside className="space-y-6">
-              <div className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800">
-                <div className="p-6">
-                  <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                    Instituciones de Chile
-                  </h2>
-                  <Resources resources={resources} />
-                </div>
-              </div>
-            </aside>
+            {page?.components?.[1] && (
+              <Resources data={page?.components?.[1] as ComponentProps} />
+            )}
           </div>
         </div>
       </div>

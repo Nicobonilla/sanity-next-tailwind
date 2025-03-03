@@ -1,43 +1,45 @@
+import { ComponentProps } from '@/components/types';
+import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
-
-export interface Resource {
-  title: string;
-  url: string;
-  description: string;
-}
-
-export default function Resources({ resources }: { resources: Resource[] }) {
+export default function Resources({ data }: ComponentProps) {
   return (
-    <div className="space-y-4">
-      {resources &&
-        resources.slice(0, 10).map((resource) => (
-          <div key={resource.title} className="space-y-1">
-            <Link
-              href={{ pathname: resource.url }}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-2 font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-            >
-              {resource.title}
-              <svg
-                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {resource.description}
-            </p>
+    <aside className="space-y-6">
+      <div className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800">
+        <div className="p-6">
+          <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+            {data?.PTextBanner && data?.PTextBanner}
+          </h2>
+          <div className="space-y-4">
+            {data?.resources &&
+              data?.resources.map(
+                (
+                  resource: ComponentProps['resources'][number],
+                  index: number
+                ) => (
+                  <div key={index} className="space-y-1">
+                    <Link
+                      href={{ pathname: resource.url }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-2 text-pretty font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <span className="max-w-[calc(100%-1.5rem)] flex-1">
+                        {resource.title}
+                      </span>
+                      <ExternalLinkIcon
+                        className="size-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                    <p className="text-justify text-sm text-gray-600 dark:text-gray-400">
+                      {resource.description}
+                    </p>
+                  </div>
+                )
+              )}
           </div>
-        ))}
-    </div>
+        </div>
+      </div>
+    </aside>
   );
 }

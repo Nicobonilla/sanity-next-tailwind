@@ -32,6 +32,7 @@ import { IconsList, IconsListItem } from './sanity/schemas/documents/IconsList';
 import background from './sanity/schemas/documents/background';
 import layer from './sanity/schemas/documents/layer';
 import colorItem from './sanity/schemas/documents/colorItem';
+import resourceItem from './sanity/schemas/documents/resourceItem';
 
 export default defineConfig({
   basePath: studioUrl,
@@ -55,6 +56,7 @@ export default defineConfig({
       post,
       service,
       unitBusiness,
+      resourceItem,
     ],
   },
   plugins: [
