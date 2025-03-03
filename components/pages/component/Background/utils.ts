@@ -12,7 +12,7 @@ export interface BackgroundProps {
       | 'highLight'
       | 'bannerServices'
       | undefined;
-    variant: 'hero' | 'post' | undefined;
+    variant?: 'hero' | 'post' | undefined;
     responsiveHeight?: string;
     imageBackground?: {
       asset?: {
@@ -20,11 +20,11 @@ export interface BackgroundProps {
         _type: string;
       };
     };
-    layer: string;
-    colors: Color[];
-    imageBackgroundType: 'dynamic';
+    layer?: string;
+    colors?: Color[];
+    imageBackgroundType?: 'dynamic';
   };
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface Color {

@@ -27,7 +27,7 @@ export const PTextPost: PortableTextComponents = {
   },
   marks: {
     strong: ({ children }) => (
-      <span className="p3 font-bold text-red-500">{children}</span>
+      <span className="p3 font-semibold text-red-600">{children}</span>
     ),
     link: ({ value, children }) => (
       <a

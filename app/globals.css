@@ -205,3 +205,7 @@
     padding-left: var(--slide-spacing);
   }
 }
+
+.force-relative {
+  position: relative !important;
+}

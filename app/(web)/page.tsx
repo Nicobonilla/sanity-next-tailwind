@@ -1,6 +1,4 @@
 'use server';
-import Posts from '@/components/pages/component/Posts';
-import Resources from '@/components/pages/component/Resources';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentWithBannerPosts } from '@/components/types';
 import {
@@ -10,7 +8,6 @@ import {
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { Metadata } from 'next';
-import { pages } from 'next/dist/build/templates/app-page';
 type PageData = {
   home: GetPageDetailQueryResult | null;
   posts: GetPostListQueryResult | null;

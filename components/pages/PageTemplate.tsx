@@ -1,49 +1,45 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { memo, useEffect, useState, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useLoadingContext } from '@/context/LoadingContext';
+import getComponentSkeleton from '@/components/pages/skeletons/utils/getComponentSkeleton';
 import { Spinner } from '@/components/global/Spinner';
-import {
-  ComponentProps,
-  ComponentsProps,
-  LoadedComponent,
-} from '@/components/types';
+import { ComponentProps, ComponentsProps } from '@/components/types';
 
-// Move dynamic imports outside component
-const getDynamicComponent = (componentType: string) =>
+// Types
+interface LoadedComponent {
+  Component: React.ComponentType<{ data: ComponentProps }>;
+  data: ComponentProps;
+}
+
+// Functions
+const getDynamicComponent = (type: string, variant?: string) =>
   dynamic<{ data: ComponentProps }>(
     () =>
-      import(`./component/${componentType || 'Default'}`).catch(
-        () => import('./component/Default')
+      import(`@/components/pages/component/${type}`).catch(
+        () => import('@/components/pages/component/Default')
       ),
-    { ssr: false, loading: () => <Spinner /> }
+    {
+      ssr: false,
+      loading: () => {
+        const Skeleton = getComponentSkeleton(type, variant);
+        return <Skeleton />;
+      },
+    }
   );
 
-const MemoizedComponent = memo(
-  ({ Component, dataComponents }: LoadedComponent) => (
-    <Component data={dataComponents} />
-  )
-);
-
+// Memoized Component
+const MemoizedComponent = memo(({ Component, data }: LoadedComponent) => (
+  <Component data={data} />
+));
 MemoizedComponent.displayName = 'MemoizedComponent';
 
-export default function PageTemplate({
-  components,
-}: {
-  components?: ComponentsProps;
-}) {
+// Main Component
+const PageTemplate = ({ components }: { components?: ComponentsProps }) => {
   const { isLoading, setLoading, setComponents } = useLoadingContext();
 
-  const loadedComponents = useMemo(
-    () =>
-      components?.map((component: ComponentProps) => ({
-        dataComponents: component,
-        Component: getDynamicComponent(component.typeComponentValue),
-      })) || [],
-    [components]
-  );
-
+  // Effect to handle loading state and components
   useEffect(() => {
     if (components) {
       setComponents(components);
@@ -51,14 +47,40 @@ export default function PageTemplate({
     }
   }, [components, setComponents, setLoading]);
 
-  if (isLoading) return <Spinner />;
+  // Memoized loaded components
+  const loadedComponents = useMemo(
+    () =>
+      components?.map((component: ComponentProps) => ({
+        data: component,
+        Component: getDynamicComponent(
+          component.typeComponentValue,
+          component.variant
+        ),
+      })) || [],
+    [components]
+  );
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Main render
   return (
     <div className="opacity-100 transition-opacity duration-300">
       {loadedComponents.map((props: LoadedComponent, index: number) => (
-        <MemoizedComponent key={`component-${index}`} {...props} />
+        <MemoizedComponent
+          key={`component-${index}-${props.data.typeComponentValue}`}
+          {...props}
+        />
       ))}
     </div>
   );
-}
+};
 
+export default PageTemplate;
 export const revalidate = 10000;

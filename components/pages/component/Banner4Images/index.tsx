@@ -11,7 +11,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
         'md:py-16 lg:items-center lg:justify-center lg:py-20'
       )}
     >
-      <div className="mx-auto h-fit px-4 lg:w-fit">
+      <div className="mx-auto h-fit max-w-screen-lg px-4 lg:w-fit">
         <div className="mb-12 text-center">
           <PortableText
             value={data.content || []}
@@ -42,7 +42,7 @@ export default function Banner4Images({ data }: { data: ComponentProps }) {
         <div
           className={clsx(
             'grid min-h-[800px] gap-4',
-            'md:grid-cols-2 lg:h-[700px] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3'
+            'sm:grid-cols-2 lg:h-[700px] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3'
           )}
         >
           {data.items?.map((service: ItemProps, index: number) => (

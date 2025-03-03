@@ -1,16 +1,10 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-
-import { urlForImage } from '@/sanity/lib/utils';
-
+import { PortableText } from 'next-sanity';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
 import { PTextBannerDark1 } from '../PTextComponents';
-
-// Componente de PortableText con estilos personalizados
-
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
@@ -34,7 +28,10 @@ export default function Highlight({ data }: { data: ComponentProps }) {
           'md:py-auto md:mx-auto md:max-w-screen-lg'
         )}
       >
-        <PortableText components={PTextBannerDark1} value={data.content || []} />
+        <PortableText
+          components={PTextBannerDark1}
+          value={data.content || []}
+        />
       </div>
 
       <div className="absolute inset-0 z-10 size-full bg-white/25"></div>

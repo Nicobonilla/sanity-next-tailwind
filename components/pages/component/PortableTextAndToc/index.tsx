@@ -32,7 +32,7 @@ export default function PortableTextAndTOC({
             )}
           </div>
 
-          <div className="order-2 md:order-1 md:w-3/4">
+          <div className="order-2 md:order-1 md:w-3/4 mx-2 mb-10">
             <div className="prose prose-sm max-w-none">
               <PortableText
                 value={article?.content || []}
