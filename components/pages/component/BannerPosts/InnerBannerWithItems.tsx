@@ -1,12 +1,12 @@
 import { PortableText } from 'next-sanity';
 import { ComponentWithBannerPosts } from '@/components/types';
 import clsx from 'clsx';
-import ItemPostList from '../Posts/ItemPostList';
 import {
   PTextBannerDark1,
   PTextBannerDark2,
   PTextBannerDark3,
 } from '../PTextComponents';
+import ItemPostList from '../Posts/ItemPostList';
 
 export default function InnerBannerWithItems({
   data,
@@ -54,7 +54,7 @@ export default function InnerBannerWithItems({
             index: number
           ) => (
             <div key={index}>
-              <ItemPostList post={post} />
+              <ItemPostList post={post} index={index} />
             </div>
           )
         )}
