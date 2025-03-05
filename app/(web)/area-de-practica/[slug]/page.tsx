@@ -11,6 +11,7 @@ import {
 } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import { urlForImage } from '@/sanity/lib/utils';
 import { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -23,6 +24,11 @@ export async function generateMetadata({
   const { unitBusiness } = data;
   return {
     title: unitBusiness?.title,
+    openGraph: {
+      title: unitBusiness?.title || '',
+      type: 'article',
+      images: urlForImage(unitBusiness?.components?.[0]?.imageBackground).url(),
+    },
   };
 }
 

@@ -22,6 +22,7 @@ import Form from '@/components/global/Form';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleTagManager } from '@next/third-parties/google';
+import { urlForImage } from '@/sanity/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
@@ -67,10 +68,11 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     icons: {
-      icon: '/icon.png', // Ruta al ícono generado
+      icon: '../icon.tsx', // Ruta al ícono generado
     },
     openGraph: {
       title: settings?.title || '',
+      images: urlForImage(settings?.ogImage).url(),
       type: 'website',
     },
   };

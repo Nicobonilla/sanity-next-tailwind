@@ -11,6 +11,7 @@ import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { ComponentProps, ComponentsProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
+import { urlForImage } from '@/sanity/lib/utils';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -19,8 +20,20 @@ type PageData = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
+  const data = await getDataPage();
+  if (!data) {
+    return {
+      title: 'Información Sobre Procedimientos Legales',
+    };
+  }
+  const { page } = data;
   return {
     title: 'Información Sobre Procedimientos Legales',
+    openGraph: {
+      title: page?.title || '',
+      type: 'article',
+      images: urlForImage(page?.components?.[0]?.imageBackground).url(),
+    },
   };
 }
 
