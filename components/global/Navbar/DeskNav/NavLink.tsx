@@ -36,10 +36,11 @@ export default function NavLink({
       {link.slug === 'services' || link.slug === 'contacto' ? (
         <button
           className={clsx(
-            'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
+            'truncate rounded-md px-8 text-center font-montserrat text-sm uppercase text-neutral-800 drop-shadow-2xl',
             {
-              'group-hover:text-white': link.slug !== 'contacto',
-              'contact-drawer text-white': link.slug === 'contacto',
+              'py-3 group-hover:text-white': link.slug !== 'contacto',
+              'contact-drawer bg-indigo-700 py-2 text-white hover:bg-indigo-600':
+                link.slug === 'contacto',
               'bg-neutral-950 text-white':
                 (path !== '/' &&
                   activeLink === 'services' &&
@@ -59,7 +60,7 @@ export default function NavLink({
           href={{ pathname: `/${link.slug || ''}` }} // Usar valor por defecto si slug es null
           passHref
           className={clsx(
-            'truncate px-8 py-3 text-center font-fira text-sm uppercase text-neutral-800 drop-shadow-2xl',
+            'truncate px-8 py-3 text-center font-montserrat text-sm uppercase text-neutral-800 drop-shadow-2xl',
             {
               'group-hover:text-white': link.slug !== 'contacto',
               'bg-neutral-900 text-white':

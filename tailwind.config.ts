@@ -32,6 +32,8 @@ const config: Config = {
         lavanda1: 'rgba(229, 212, 250, 1)',
         lavanda2: 'rgba(199, 180, 245, 1)',
         second: colors.red, //green-600
+        verde: 'rgba(17, 122, 101, 1)',
+        dorado: 'rgba(212, 175, 55, 1)'
       },
       lineHeight: {
         'extra-tight': '1px',

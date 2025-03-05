@@ -23,7 +23,7 @@ export default function Card({
       <Link
         href={{ pathname: service?.ctaLinkItem }}
         onClick={() => trackButtonClick(service?.ctaLinkItem, '4ImageBanner')}
-        className="relative flex h-full w-full"
+        className="relative flex size-full"
       >
         <Image
           src={urlForImage(service.image)?.url() || '/meeting.jpeg'}

@@ -5,22 +5,21 @@ import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { Metadata } from 'next';
 import { ComponentProps } from '@/components/types';
+import { urlForImage } from '@/sanity/lib/utils';
+import { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const service = await getData(params?.slug);
-  if (!service) {
-    return {
-      title: 'Error',
-      description: 'Error al cargar los datos.',
-    };
-  }
+  const service: GetServiceDetailQueryResult = await getData(params.slug);
   return {
     title: service?.title,
     description: service?.resumen,
+    openGraph: {
+      images: urlForImage(service?.components?.[0]?.imageBackground).url(),
+    },
   };
 }
 
@@ -39,6 +38,35 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!service) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores
   }
+
+  const jsonLd: WithContext<Service> = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service?.title || 'Abogados San Felipe',
+    description: service.resumen || 'Derecho Familiar e Inmobiliario',
+    serviceType: 'Asesoría Legal y Jurídica',
+    provider: {
+      '@type': 'Organization',
+      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'San Felipe',
+        addressRegion: 'Valparaíso',
+        postalCode: '2170000',
+        addressCountry: 'CL',
+      },
+      telephone: '+56 9 3359 6955',
+      email: 'contacto@abogadossanfelipe.cl',
+      url: 'https://www.abogadossanfelipe.cl',
+    },
+    areaServed: 'San Felipe, Chile',
+    offers: {
+      '@type': 'Offer',
+      price: 'Consultar',
+      priceCurrency: 'CLP',
+    },
+  };
+
   const breadcrumbsItems = [
     { label: 'Inicio', href: '/', slug: 'home' }, // Level 1: Root
     {
@@ -48,7 +76,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   ];
   return (
     <section>
-      <div className={'mx-auto max-w-screen-xl'}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className={'mx-auto'}>
         {service?.components && (
           <PageTemplate components={service.components as ComponentProps} />
         )}

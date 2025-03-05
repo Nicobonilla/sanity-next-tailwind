@@ -131,7 +131,7 @@ export default async function RootLayout({
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
         <GTMGlobals />
 
-        <body className="flex min-h-screen min-w-[320px] flex-col">
+        <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
               <Providers initialData={initialData} withDarkMode={false}>

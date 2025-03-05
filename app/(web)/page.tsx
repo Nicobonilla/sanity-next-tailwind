@@ -8,6 +8,8 @@ import {
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { Metadata } from 'next';
+import { Service, WithContext } from 'schema-dts';
+
 type PageData = {
   home: GetPageDetailQueryResult | null;
   posts: GetPostListQueryResult | null;
@@ -36,6 +38,34 @@ export type ModifiedComponent = ComponentWithBannerPosts & {
 
 export default async function Page() {
   const currentPage = await getData('inicio');
+
+  const jsonLd: WithContext<Service> = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Abogados San Felipe - Sebastián Bonilla Marín',
+    description: 'Derecho Familiar e Inmobiliario',
+    serviceType: 'Asesoría Legal y Jurídica',
+    provider: {
+      '@type': 'Organization',
+      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'San Felipe',
+        addressRegion: 'Valparaíso',
+        postalCode: '2170000',
+        addressCountry: 'CL',
+      },
+      telephone: '+56 9 3359 6955',
+      email: 'contacto@abogadossanfelipe.cl',
+      url: 'https://www.abogadossanfelipe.cl',
+    },
+    areaServed: 'San Felipe, Chile',
+    offers: {
+      '@type': 'Offer',
+      price: 'Consultar',
+      priceCurrency: 'CLP',
+    },
+  };
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }
@@ -59,11 +89,13 @@ export default async function Page() {
 
   return (
     <section>
-      <div className="min-h-screen bg-gray-50">
-        {componentsAndPosts && (
-          <PageTemplate components={componentsAndPosts as ModifiedComponent} />
-        )}
-      </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {componentsAndPosts && (
+        <PageTemplate components={componentsAndPosts as ModifiedComponent} />
+      )}
     </section>
   );
 }

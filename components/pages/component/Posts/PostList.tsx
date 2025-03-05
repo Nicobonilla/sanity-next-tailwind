@@ -11,7 +11,7 @@ export default function PostList({ posts }: PostListProps) {
       {posts.length > 0 ? (
         posts.map((post, index) => (
           <div key={index}>
-            <ItemPostList post={post} />
+            <ItemPostList post={post} index={index} />
           </div>
         ))
       ) : (

@@ -55,8 +55,8 @@ export default function PTextHero({ data }: { data: ComponentProps }) {
           <button
             onClick={() => trackButtonClick(data.ctaLinkItem, 'CarouselHero')}
             className={clsx(
-              'text-md mt-3 min-w-[150px] max-w-[250px] rounded py-2 font-crimson font-light text-white underline transition-all',
-              'hover:bg-white/30 hover:font-semibold hover:no-underline', // Efectos al hacer hover
+              'text-md mt-3 min-w-[150px] max-w-[250px] rounded bg-indigo-700 py-2 font-crimson font-light text-white transition-all',
+              'hover:bg-indigo-600 hover:font-bold', // Efectos al hacer hover
               'lg:text-lg' // Responsive design para pantallas grandes
             )}
             aria-label="Seguir para más información" // Mejora la accesibilidad

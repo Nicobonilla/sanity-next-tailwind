@@ -55,16 +55,14 @@ export default async function Page() {
         <PageTemplate components={[page.components?.[0]] as ComponentsProps} />
       )}
 
-      <div className="min-h-screen bg-gray-50">
-        <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 lg:py-12">
-          <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-            <div>
-              <Posts posts={posts || []} unitBusiness={unitBusiness || []} />
-            </div>
-            {page?.components?.[1] && (
-              <Resources data={page?.components?.[1] as ComponentProps} />
-            )}
+      <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 lg:py-12">
+        <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+          <div>
+            <Posts posts={posts || []} unitBusiness={unitBusiness || []} />
           </div>
+          {page?.components?.[1] && (
+            <Resources data={page?.components?.[1] as ComponentProps} />
+          )}
         </div>
       </div>
     </section>

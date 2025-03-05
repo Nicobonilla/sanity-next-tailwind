@@ -58,6 +58,7 @@
     "sanity-plugin-icon-manager": "^2.1.0",
     "sanity-plugin-media": "^2.3.2",
     "sanity-plugin-visual-options": "^2.0.2",
+    "schema-dts": "^1.1.5",
     "server-only": "^0.0.1",
     "styled-components": "^6.1.13",
     "tailwind-merge": "^2.5.5",

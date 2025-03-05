@@ -4,11 +4,14 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { size } from '../../../../app/icon';
 
 export default function ItemPostList({
   post,
+  index,
 }: {
   post: GetPostListQueryResult[number];
+  index: number;
 }) {
   //console.log('post: ', post);
   const path = usePathname();
@@ -18,18 +21,22 @@ export default function ItemPostList({
     post.components.find(
       (component) => component.typeComponentValue === 'Heading'
     ) || {};
-
+  const isPriority = index < 5; // Solo las primeras 5 imágenes son priority
   return (
     <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
         <div className="grid gap-4 md:grid-cols-[300px_1fr]">
-          <div className="relative h-48 overflow-hidden md:h-full">
-            <Image
-              src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
-              alt={post.title || ''}
-              fill
-              className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
-            />
+          <div className="h-48 overflow-hidden md:h-full">
+            <div className="relative flex size-full">
+              <Image
+                src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
+                alt={post.title || ''}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1028px) 50vw, 300px"
+                className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+                priority={isPriority}
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-4 p-4">
             {path == '/blog' ||
@@ -44,10 +51,10 @@ export default function ItemPostList({
                   </span>
                 </div>
               ))}
-            <h3 className="text-lg font-semibold text-gray-700 group-hover:underline">
+            <h3 className="line-clamp-2 text-lg font-semibold text-gray-700 group-hover:underline">
               {post.title}
             </h3>
-            <p className="font-robotoslab text-sm font-light text-gray-900">
+            <p className="line-clamp-3 font-robotoslab text-sm font-light text-gray-900">
               {post.resumen}
             </p>
             <div>
