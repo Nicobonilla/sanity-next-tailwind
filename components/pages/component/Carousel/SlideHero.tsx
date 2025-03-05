@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { PortableTextComponents } from 'next-sanity';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
 import PTextHero from '../Background/PTextHero';
@@ -45,6 +44,7 @@ const SlideHero = ({
 
       <PTextHero
         data={{ content: slide?.content, ctaLinkItem: slide?.ctaLinkItem }}
+        index={index}
       />
     </Background>
   );

@@ -7,6 +7,17 @@ import { trackButtonClick } from '@/components/lib/GTMTrackers';
 // Define PT1 and PT2 components
 const PT1: PortableTextComponents = {
   block: {
+    h1: ({ children }) => (
+      <h1
+        className={clsx(
+          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+          'lg:text-3xl',
+          '2xl:text-3xl'
+        )}
+      >
+        {children}
+      </h1>
+    ),
     h2: ({ children }) => (
       <h2
         className={clsx(
@@ -38,7 +49,13 @@ const PT1: PortableTextComponents = {
   },
 };
 
-export default function PTextHero({ data }: { data: ComponentProps }) {
+export default function PTextHero({
+  data,
+  index,
+}: {
+  data: ComponentProps;
+  index?: number;
+}) {
   return (
     <div className="absolute inset-0 flex items-center justify-center text-center">
       <div
