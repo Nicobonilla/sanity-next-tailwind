@@ -54,7 +54,7 @@ export async function sanityFetch<const QueryString extends string>({
     perspective: 'published',
     useCdn: false,
     next: {
-      revalidate: 50,
+      revalidate: 40000,
     },
   });
 }
