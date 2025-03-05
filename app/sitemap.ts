@@ -22,32 +22,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getPostListFetch(),
     getUnitBusinessListFetch(),
   ]);
+  const baseUrl = `https://${
+    process.env.NODE_ENV === 'development'
+      ? 'localhost:3000'
+      : settings?.metaBaseWebsite
+  }`;
   const servicesPages = services?.map((service) => ({
-    url: `${settings?.metaBaseWebsite}/services/${service.slug}`,
+    url: `${baseUrl}/services/${service.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
 
   const postsPages = posts?.map((post) => ({
-    url: `${settings?.metaBaseWebsite}/blog/${post.slug}`,
+    url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.5,
   }));
 
   const unitBusinessPages = unitBusiness?.map((unitBusiness) => ({
-    url: `${settings?.metaBaseWebsite}/area-de-practica/${unitBusiness.slug}`,
+    url: `${baseUrl}/area-de-practica/${unitBusiness.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
 
-  const baseUrl = `https://${
-    process.env.NODE_ENV === 'development'
-      ? 'localhost:3000'
-      : settings?.metaBaseWebsite
-  }`;
   return [
     {
       url: baseUrl,
