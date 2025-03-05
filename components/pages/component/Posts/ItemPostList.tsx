@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { size } from '../../../../app/icon';
 
 export default function ItemPostList({
   post,
