@@ -83,4 +83,3 @@ const PageTemplate = ({ components }: { components?: ComponentsProps }) => {
 };
 
 export default PageTemplate;
-export const revalidate = 10000;

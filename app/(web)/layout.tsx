@@ -68,7 +68,12 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     icons: {
-      icon: '../icon.tsx', // Ruta al ícono generado
+      icon: '/icon',
+      apple: '/apple-icon',
+      other: [
+        { rel: 'icon', url: '/icon-192', sizes: '192x192' },
+        { rel: 'icon', url: '/icon-512', sizes: '512x512' },
+      ],
     },
     openGraph: {
       title: settings?.title || '',
