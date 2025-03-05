@@ -40,7 +40,7 @@ const SlideHero = ({
         transition={{ duration: 5, ease: 'easeOut' }} // Ajusta la duración y la curva de la animación
         className="absolute inset-0"
       >
-        <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} />
+        <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} index={index} />
       </motion.div>
 
       <PTextHero
