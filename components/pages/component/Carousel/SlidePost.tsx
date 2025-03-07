@@ -56,16 +56,14 @@ export default function SlidePost({
               ) : null}
 
               <div className="flex min-h-12 items-center lg:min-h-14">
-                <h3 className="font-semibold text-gray-700 group-hover:underline lg:text-lg">
+                <h3 className="line-clamp-2 font-semibold text-gray-700 group-hover:underline lg:text-lg">
                   {post.title}
                 </h3>
               </div>
 
               <div className="flex min-h-20 items-center">
-                <p className="text-justify font-fira text-sm font-light text-gray-900">
-                  {post?.resumen && post?.resumen?.length > 195
-                    ? post.resumen.slice(0, 150) + '...'
-                    : post.resumen}
+                <p className="line-clamp-3 text-justify font-fira text-sm font-light text-gray-900">
+                  {post?.resumen}
                 </p>
               </div>
 
