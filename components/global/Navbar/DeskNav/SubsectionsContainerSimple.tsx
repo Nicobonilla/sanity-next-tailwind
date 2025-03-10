@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface SubsectionsContainerSimpleProps {
   unitBusinessList: GetUnitBusinessListQueryResult;
@@ -46,7 +46,7 @@ export default function SubsectionsContainerSimple({
             <Link
               href={`/area-de-practica/${business.slug}`}
               passHref
-              onClick={() => trackButtonClick(business.slug || '', 'desk-nav')}
+              //onClick={() => trackButtonClick(business.slug || '', 'desk-nav')}
               className={clsx(
                 'w-full py-3 text-center font-fira text-sm',
                 'border-b border-gray-200',

@@ -9,7 +9,7 @@ import { useSanityContext } from '@/context/SanityContext';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { useRouter } from 'next/navigation';
 import ServiceSelector from './ServiceSelector';
-import { trackFormSubmit } from '@/components/lib/GTMTrackers';
+//import { trackFormSubmit } from '@/components/lib/GTMTrackers';
 import { z } from 'zod';
 
 // Define Zod schema for form validation
@@ -213,7 +213,7 @@ export default function Form() {
     }
 
     setIsLoading(true);
-    trackFormSubmit('submited');
+    //trackFormSubmit('submited');
 
     try {
       const success = await sendEmail(formData);

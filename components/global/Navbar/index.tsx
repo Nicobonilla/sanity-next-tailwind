@@ -8,7 +8,7 @@ import {
   useScrollContext,
 } from '@/context/ScrollContext';
 import Contacto from './Contacto';
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 const NavbarContent = () => {
   const { scrolling } = useScrollContext();
@@ -44,7 +44,7 @@ const NavbarContent = () => {
         >
           <div
             className="my-auto h-fit"
-            onClick={() => trackButtonClick('logo', 'navbar')}
+            //onClick={() => trackButtonClick('logo', 'navbar')}
           >
             <Logo />
           </div>

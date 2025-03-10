@@ -1,4 +1,4 @@
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { MouseEvent } from 'react';
@@ -27,7 +27,7 @@ export default function NavLink({
     if (link.slug === 'contacto' && toggleDrawerForm) {
       e.preventDefault();
       toggleDrawerForm();
-      trackButtonClick(link.slug, 'desk-nav');
+      //trackButtonClick(link.slug, 'desk-nav');
     }
   };
 
@@ -68,7 +68,7 @@ export default function NavLink({
                 (path === `/${link.slug}` || path.split('/')[1] === link.slug),
             }
           )}
-          onClick={() => trackButtonClick(link.slug || '', 'desk-nav')}
+          //onClick={() => trackButtonClick(link.slug || '', 'desk-nav')}
         >
           {link.title}
         </Link>

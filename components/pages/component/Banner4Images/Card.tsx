@@ -1,4 +1,4 @@
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import type { ItemProps } from '@/components/types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
@@ -22,7 +22,7 @@ export default function Card({
     >
       <Link
         href={{ pathname: service?.ctaLinkItem }}
-        onClick={() => trackButtonClick(service?.ctaLinkItem, '4ImageBanner')}
+        //onClick={() => trackButtonClick(service?.ctaLinkItem, '4ImageBanner')}
         className="relative flex size-full"
       >
         <Image

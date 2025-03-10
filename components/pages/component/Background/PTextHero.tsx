@@ -2,7 +2,7 @@ import { ComponentProps } from '@/components/types';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 // Define PT1 and PT2 components
 const PT1: PortableTextComponents = {
@@ -70,7 +70,7 @@ export default function PTextHero({
         />
         <Link href={{ pathname: data.ctaLinkItem }} passHref>
           <button
-            onClick={() => trackButtonClick(data.ctaLinkItem, 'CarouselHero')}
+            //onClick={() => trackButtonClick(data.ctaLinkItem, 'CarouselHero')}
             className={clsx(
               'text-md mt-3 min-w-[150px] max-w-[250px] rounded bg-indigo-700 py-2 font-crimson font-light text-white transition-all',
               'hover:bg-indigo-600 hover:font-bold', // Efectos al hacer hover

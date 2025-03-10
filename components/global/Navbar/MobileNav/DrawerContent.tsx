@@ -2,7 +2,7 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import Logo from '@/components/global/Logo';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface DrawerContentProps {
   isMenuOpen: boolean;
@@ -42,7 +42,7 @@ export default function DrawerContent({
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
-                      trackButtonClick(business.slug, 'drawer-nav');
+                      //trackButtonClick(business.slug, 'drawer-nav');
                     }}
                     className={clsx(
                       'flex size-full',
@@ -61,7 +61,7 @@ export default function DrawerContent({
                     e.stopPropagation();
                     toggleDrawerForm();
                     closeMenu();
-                    trackButtonClick('contacto', 'drawer-nav');
+                    //trackButtonClick('contacto', 'drawer-nav');
                   }}
                   className="nav-container-active flex size-full text-base hover:text-lg"
                 >
@@ -74,7 +74,7 @@ export default function DrawerContent({
                   href={`/${page.slug}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    trackButtonClick(page.slug, 'drawer-nav');
+                    //trackButtonClick(page.slug, 'drawer-nav');
                     closeMenu();
                   }}
                   className={clsx(

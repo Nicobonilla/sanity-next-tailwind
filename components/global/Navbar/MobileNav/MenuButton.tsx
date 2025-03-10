@@ -1,4 +1,4 @@
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+//import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import clsx from 'clsx';
 import { IoIosMenu, IoIosClose } from 'react-icons/io';
 
@@ -11,7 +11,7 @@ const MenuButton = ({ isMenuOpen, toggleMenu }: MenuButtonProps) => (
   <button
     onClick={(e) => {
       e.stopPropagation(); // Prevent event bubbling
-      trackButtonClick('menu-button', 'drawer-nav');
+      //trackButtonClick('menu-button', 'drawer-nav');
       toggleMenu();
     }}
     className={clsx('menu-button z-50 mr-4 flex items-center justify-center')}
