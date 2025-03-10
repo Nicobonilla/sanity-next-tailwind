@@ -1,53 +1,42 @@
-import { motion } from 'framer-motion';
-import Background from '../Background';
-import ImageBg from '../Background/ImageBg';
-import PTextHero from '../Background/PTextHero';
-import { ColorList } from '../Background/utils';
-import { ItemProps } from '@/components/types';
+import { Suspense } from "react"
+import Background from "../Background"
+import ImageBg from "../Background/ImageBg"
+import PTextHero from "../Background/PTextHero"
+import type { ColorList } from "../Background/utils"
+import type { ItemProps } from "@/components/types"
+
+// Lazy load the animated version as a client component
+import dynamic from "next/dynamic"
+const AnimatedImageBg = dynamic(() => import("@/components/pages/component/Carousel/AnimatedImageBg"), {
+  ssr: false, // Disable SSR for this component since it uses client-side animation
+})
 
 type SlideHeroProps = {
-  slide: ItemProps;
-  layerStyle: ColorList;
-  index: number; // Índice del slide actual
-  activeIndex: number; // Índice activo del carrusel
-};
+  slide: ItemProps
+  layerStyle: ColorList
+  index: number
+  activeIndex: number
+}
 
-const SlideHero = ({
-  slide,
-  layerStyle,
-  index,
-  activeIndex,
-}: SlideHeroProps) => {
-  const isActive = index === activeIndex; // Determina si el slide está activo
+export default function SlideHero({ slide, layerStyle, index, activeIndex }: SlideHeroProps) {
+  const isActive = index === activeIndex
 
   return (
     <Background
       data={{
         ...slide,
-        typeComponent: 'carousel',
-        variant: 'hero',
+        typeComponent: "carousel",
+        variant: "hero",
         colors: layerStyle,
       }}
     >
-      <motion.div
-        key={index} // Usa el índice para forzar el reinicio del efecto
-        initial={{ scale: 1.2, opacity: 0.9 }} // Estado inicial
-        animate={{
-          opacity: isActive ? 1 : 0.9,
-          scale: isActive ? 1 : 0.9,
-        }}
-        transition={{ duration: 5, ease: 'easeOut' }} // Ajusta la duración y la curva de la animación
-        className="absolute inset-0"
-      >
-        <ImageBg imgBg={slide?.image} imgBgType={'dynamic'} index={index} />
-      </motion.div>
+      {/* Only show the animated version */}
+      <Suspense fallback={<ImageBg imgBg={slide?.image} imgBgType="dynamic" index={index} />}>
+        <AnimatedImageBg imgBg={slide?.image} imgBgType="dynamic" index={index} isActive={isActive} />
+      </Suspense>
 
-      <PTextHero
-        data={{ content: slide?.content, ctaLinkItem: slide?.ctaLinkItem }}
-        index={index}
-      />
+      <PTextHero data={{ content: slide?.content, ctaLinkItem: slide?.ctaLinkItem }} index={index} />
     </Background>
-  );
-};
+  )
+}
 
-export default SlideHero;
