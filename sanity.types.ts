@@ -14,7 +14,7 @@
 
 // Source: schema.json
 export type SanityImagePaletteSwatch = {
-  _type: 'sanity.imagePaletteSwatch';
+  _type: "sanity.imagePaletteSwatch";
   background?: string;
   foreground?: string;
   population?: number;
@@ -22,7 +22,7 @@ export type SanityImagePaletteSwatch = {
 };
 
 export type SanityImagePalette = {
-  _type: 'sanity.imagePalette';
+  _type: "sanity.imagePalette";
   darkMuted?: SanityImagePaletteSwatch;
   lightVibrant?: SanityImagePaletteSwatch;
   darkVibrant?: SanityImagePaletteSwatch;
@@ -33,7 +33,7 @@ export type SanityImagePalette = {
 };
 
 export type SanityImageDimensions = {
-  _type: 'sanity.imageDimensions';
+  _type: "sanity.imageDimensions";
   height?: number;
   width?: number;
   aspectRatio?: number;
@@ -41,7 +41,7 @@ export type SanityImageDimensions = {
 
 export type SanityFileAsset = {
   _id: string;
-  _type: 'sanity.fileAsset';
+  _type: "sanity.fileAsset";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -62,14 +62,14 @@ export type SanityFileAsset = {
 };
 
 export type Geopoint = {
-  _type: 'geopoint';
+  _type: "geopoint";
   lat?: number;
   lng?: number;
   alt?: number;
 };
 
 export type ResourceItem = {
-  _type: 'resourceItem';
+  _type: "resourceItem";
   title?: string;
   description?: string;
   url?: string;
@@ -77,7 +77,7 @@ export type ResourceItem = {
 
 export type Service = {
   _id: string;
-  _type: 'service';
+  _type: "service";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -87,96 +87,85 @@ export type Service = {
   slug?: Slug;
   iconfyIcon?: IconManager;
   resumen?: string;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'normal'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'blockquote';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  >;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   unitBusiness?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'unitBusiness';
+    [internalGroqTypeReferenceTo]?: "unitBusiness";
   };
   components?: Array<{
     isActive?: boolean;
     typeComponent?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     };
-    variant?: 'hero' | 'post';
+    variant?: "hero" | "post";
     background?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'background';
+      [internalGroqTypeReferenceTo]?: "background";
     };
     imageBackground?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
     videoUrl?: string;
-    videoType?: 'mp4' | 'webm';
+    videoType?: "mp4" | "webm";
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet';
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }>;
     PTextBanner?: string;
@@ -184,15 +173,15 @@ export type Service = {
     imageContent?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
-    imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -201,168 +190,150 @@ export type Service = {
       image?: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       };
       alt?: string;
       icon?: IconManager;
       svgIcon?: string;
-      svgIconList?: Array<
-        {
+      svgIconList?: Array<{
+        _key: string;
+      } & IconsListItem>;
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
           _key: string;
-        } & IconsListItem
-      >;
-      content?: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'normal'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'blockquote';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      >;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
       ctaLinkItem?: string;
-      _type: 'item';
+      _type: "item";
       _key: string;
     }>;
-    resources?: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    >;
-    _type: 'banner';
+    resources?: Array<{
+      _key: string;
+    } & ResourceItem>;
+    _type: "banner";
     _key: string;
   }>;
 };
 
 export type Post = {
   _id: string;
-  _type: 'post';
+  _type: "post";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   orderRank?: string;
   title?: string;
   slug?: Slug;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?: 'normal' | 'blockquote' | 'h2' | 'h3';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  >;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "blockquote" | "h2" | "h3";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   unitBusiness?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'unitBusiness';
+    [internalGroqTypeReferenceTo]?: "unitBusiness";
   };
   resumen?: string;
   components?: Array<{
     isActive?: boolean;
     typeComponent?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     };
-    variant?: 'hero' | 'post';
+    variant?: "hero" | "post";
     background?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'background';
+      [internalGroqTypeReferenceTo]?: "background";
     };
     imageBackground?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
     videoUrl?: string;
-    videoType?: 'mp4' | 'webm';
+    videoType?: "mp4" | "webm";
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet';
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }>;
     PTextBanner?: string;
@@ -370,15 +341,15 @@ export type Post = {
     imageContent?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
-    imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -387,72 +358,57 @@ export type Post = {
       image?: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       };
       alt?: string;
       icon?: IconManager;
       svgIcon?: string;
-      svgIconList?: Array<
-        {
+      svgIconList?: Array<{
+        _key: string;
+      } & IconsListItem>;
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
           _key: string;
-        } & IconsListItem
-      >;
-      content?: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'normal'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'blockquote';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      >;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
       ctaLinkItem?: string;
-      _type: 'item';
+      _type: "item";
       _key: string;
     }>;
-    resources?: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    >;
-    _type: 'banner';
+    resources?: Array<{
+      _key: string;
+    } & ResourceItem>;
+    _type: "banner";
     _key: string;
   }>;
   date?: string;
@@ -460,113 +416,95 @@ export type Post = {
 
 export type UnitBusiness = {
   _id: string;
-  _type: 'unitBusiness';
+  _type: "unitBusiness";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   orderRank?: string;
   title?: string;
   slug?: Slug;
-  icon?: 'user' | 'menu';
-  color?:
-    | 'bg-red-100 text-red-800'
-    | 'bg-blue-100 text-blue-800'
-    | 'bg-yellow-100 text-yellow-800'
-    | 'bg-green-100 text-green-800'
-    | 'bg-purple-100 text-purple-800'
-    | 'bg-orange-100 text-orange-800'
-    | 'bg-gray-100 text-gray-800';
-  description?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'normal'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'blockquote';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  >;
+  icon?: "user" | "menu";
+  color?: "bg-red-100 text-red-800" | "bg-blue-100 text-blue-800" | "bg-yellow-100 text-yellow-800" | "bg-green-100 text-green-800" | "bg-purple-100 text-purple-800" | "bg-orange-100 text-orange-800" | "bg-gray-100 text-gray-800";
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   services?: Array<{
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: 'service';
+    [internalGroqTypeReferenceTo]?: "service";
   }>;
   components?: Array<{
     isActive?: boolean;
     typeComponent?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     };
-    variant?: 'hero' | 'post';
+    variant?: "hero" | "post";
     background?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'background';
+      [internalGroqTypeReferenceTo]?: "background";
     };
     imageBackground?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
     videoUrl?: string;
-    videoType?: 'mp4' | 'webm';
+    videoType?: "mp4" | "webm";
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet';
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }>;
     PTextBanner?: string;
@@ -574,15 +512,15 @@ export type UnitBusiness = {
     imageContent?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
-    imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -591,79 +529,64 @@ export type UnitBusiness = {
       image?: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       };
       alt?: string;
       icon?: IconManager;
       svgIcon?: string;
-      svgIconList?: Array<
-        {
+      svgIconList?: Array<{
+        _key: string;
+      } & IconsListItem>;
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
           _key: string;
-        } & IconsListItem
-      >;
-      content?: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'normal'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'blockquote';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      >;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
       ctaLinkItem?: string;
-      _type: 'item';
+      _type: "item";
       _key: string;
     }>;
-    resources?: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    >;
-    _type: 'banner';
+    resources?: Array<{
+      _key: string;
+    } & ResourceItem>;
+    _type: "banner";
     _key: string;
   }>;
 };
 
 export type Page = {
   _id: string;
-  _type: 'page';
+  _type: "page";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -674,90 +597,79 @@ export type Page = {
   title?: string;
   resumen?: string;
   isHome?: boolean;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'normal'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'blockquote';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  >;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   components?: Array<{
     isActive?: boolean;
     typeComponent?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     };
-    variant?: 'hero' | 'post';
+    variant?: "hero" | "post";
     background?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'background';
+      [internalGroqTypeReferenceTo]?: "background";
     };
     imageBackground?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
     videoUrl?: string;
-    videoType?: 'mp4' | 'webm';
+    videoType?: "mp4" | "webm";
     content?: Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-      listItem?: 'bullet';
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }>;
     PTextBanner?: string;
@@ -765,15 +677,15 @@ export type Page = {
     imageContent?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
-    imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -782,79 +694,64 @@ export type Page = {
       image?: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       };
       alt?: string;
       icon?: IconManager;
       svgIcon?: string;
-      svgIconList?: Array<
-        {
+      svgIconList?: Array<{
+        _key: string;
+      } & IconsListItem>;
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
           _key: string;
-        } & IconsListItem
-      >;
-      content?: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'normal'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'blockquote';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      >;
+        }>;
+        style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
       ctaLinkItem?: string;
-      _type: 'item';
+      _type: "item";
       _key: string;
     }>;
-    resources?: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    >;
-    _type: 'banner';
+    resources?: Array<{
+      _key: string;
+    } & ResourceItem>;
+    _type: "banner";
     _key: string;
   }>;
 };
 
 export type Item = {
   _id: string;
-  _type: 'item';
+  _type: "item";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -863,81 +760,66 @@ export type Item = {
   image?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
   alt?: string;
   icon?: IconManager;
   svgIcon?: string;
-  svgIconList?: Array<
-    {
+  svgIconList?: Array<{
+    _key: string;
+  } & IconsListItem>;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
-    } & IconsListItem
-  >;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'normal'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'blockquote';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  >;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
   ctaLinkItem?: string;
 };
 
 export type IconsListItem = {
-  _type: 'iconsListItem';
+  _type: "iconsListItem";
   icon?: string;
   title?: string;
   subtitle?: string;
 };
 
-export type IconsList = Array<
-  {
-    _key: string;
-  } & IconsListItem
->;
+export type IconsList = Array<{
+  _key: string;
+} & IconsListItem>;
 
 export type ColorItem = {
   _id: string;
-  _type: 'colorItem';
+  _type: "colorItem";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -949,53 +831,53 @@ export type ColorItem = {
 
 export type Banner = {
   _id: string;
-  _type: 'banner';
+  _type: "banner";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   isActive?: boolean;
   typeComponent?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'component';
+    [internalGroqTypeReferenceTo]?: "component";
   };
-  variant?: 'hero' | 'post';
+  variant?: "hero" | "post";
   background?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'background';
+    [internalGroqTypeReferenceTo]?: "background";
   };
   imageBackground?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
   videoUrl?: string;
-  videoType?: 'mp4' | 'webm';
+  videoType?: "mp4" | "webm";
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
-      _type: 'span';
+      _type: "span";
       _key: string;
     }>;
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-    listItem?: 'bullet';
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet";
     markDefs?: Array<{
       href?: string;
-      _type: 'link';
+      _type: "link";
       _key: string;
     }>;
     level?: number;
-    _type: 'block';
+    _type: "block";
     _key: string;
   }>;
   PTextBanner?: string;
@@ -1003,15 +885,15 @@ export type Banner = {
   imageContent?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
-  imagePosition?: 'left' | 'right' | 'top' | 'bottom';
+  imagePosition?: "left" | "right" | "top" | "bottom";
   layoutItems?: string;
   PTextItem?: string;
   items?: Array<{
@@ -1020,72 +902,59 @@ export type Banner = {
     image?: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     };
     alt?: string;
     icon?: IconManager;
     svgIcon?: string;
     svgIconList?: IconsList;
-    content?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: 'span';
-            _key: string;
-          }>;
-          style?:
-            | 'normal'
-            | 'h1'
-            | 'h2'
-            | 'h3'
-            | 'h4'
-            | 'h5'
-            | 'h6'
-            | 'blockquote';
-          listItem?: 'bullet' | 'number';
-          markDefs?: Array<{
-            href?: string;
-            _type: 'link';
-            _key: string;
-          }>;
-          level?: number;
-          _type: 'block';
-          _key: string;
-        }
-      | {
-          asset?: {
-            _ref: string;
-            _type: 'reference';
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-          };
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          _type: 'image';
-          _key: string;
-        }
-    >;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
     ctaLinkItem?: string;
-    _type: 'item';
+    _type: "item";
     _key: string;
   }>;
-  resources?: Array<
-    {
-      _key: string;
-    } & ResourceItem
-  >;
+  resources?: Array<{
+    _key: string;
+  } & ResourceItem>;
 };
 
 export type Component = {
   _id: string;
-  _type: 'component';
+  _type: "component";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1095,36 +964,36 @@ export type Component = {
 
 export type Background = {
   _id: string;
-  _type: 'background';
+  _type: "background";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: string;
-  backgroundMode?: 'transparent' | 'image' | 'colors' | 'video' | 'items';
-  imageBackgroundType?: 'fixed' | 'dynamic';
+  backgroundMode?: "transparent" | "image" | "colors" | "video" | "items";
+  imageBackgroundType?: "fixed" | "dynamic";
   colorWithDarkMode?: boolean;
   colorList?: Array<{
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: 'colorItem';
+    [internalGroqTypeReferenceTo]?: "colorItem";
   }>;
   directionDeg?: number;
   backgroundLayer?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'layer';
+    [internalGroqTypeReferenceTo]?: "layer";
   };
-  responsiveHeight?: 'fit-max' | 'h-900';
+  responsiveHeight?: "fit-max" | "h-900";
   invertLayoutMobile?: boolean;
   invertLayoutDesk?: boolean;
 };
 
 export type Layer = {
   _id: string;
-  _type: 'layer';
+  _type: "layer";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1134,7 +1003,7 @@ export type Layer = {
 
 export type Author = {
   _id: string;
-  _type: 'author';
+  _type: "author";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1142,20 +1011,20 @@ export type Author = {
   picture?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
-    _type: 'image';
+    _type: "image";
   };
 };
 
 export type Settings = {
   _id: string;
-  _type: 'settings';
+  _type: "settings";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1167,18 +1036,18 @@ export type Settings = {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
-      _type: 'span';
+      _type: "span";
       _key: string;
     }>;
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
-    listItem?: 'bullet' | 'number';
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
-      _type: 'link';
+      _type: "link";
       _key: string;
     }>;
     level?: number;
-    _type: 'block';
+    _type: "block";
     _key: string;
   }>;
   withDarkTheme?: boolean;
@@ -1187,42 +1056,42 @@ export type Settings = {
   ogImage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     metadataBase?: string;
-    _type: 'image';
+    _type: "image";
   };
   imageNotFoundImage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
   imageNotFoundPage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
 };
 
 export type SanityImageCrop = {
-  _type: 'sanity.imageCrop';
+  _type: "sanity.imageCrop";
   top?: number;
   bottom?: number;
   left?: number;
@@ -1230,7 +1099,7 @@ export type SanityImageCrop = {
 };
 
 export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot';
+  _type: "sanity.imageHotspot";
   x?: number;
   y?: number;
   height?: number;
@@ -1239,7 +1108,7 @@ export type SanityImageHotspot = {
 
 export type SanityImageAsset = {
   _id: string;
-  _type: 'sanity.imageAsset';
+  _type: "sanity.imageAsset";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1261,14 +1130,14 @@ export type SanityImageAsset = {
 };
 
 export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData';
+  _type: "sanity.assetSourceData";
   name?: string;
   id?: string;
   url?: string;
 };
 
 export type SanityImageMetadata = {
-  _type: 'sanity.imageMetadata';
+  _type: "sanity.imageMetadata";
   location?: Geopoint;
   dimensions?: SanityImageDimensions;
   palette?: SanityImagePalette;
@@ -1279,7 +1148,7 @@ export type SanityImageMetadata = {
 };
 
 export type SanityAssistInstructionTask = {
-  _type: 'sanity.assist.instructionTask';
+  _type: "sanity.assist.instructionTask";
   path?: string;
   instructionKey?: string;
   started?: string;
@@ -1288,47 +1157,43 @@ export type SanityAssistInstructionTask = {
 };
 
 export type SanityAssistTaskStatus = {
-  _type: 'sanity.assist.task.status';
-  tasks?: Array<
-    {
-      _key: string;
-    } & SanityAssistInstructionTask
-  >;
+  _type: "sanity.assist.task.status";
+  tasks?: Array<{
+    _key: string;
+  } & SanityAssistInstructionTask>;
 };
 
 export type SanityAssistSchemaTypeAnnotations = {
-  _type: 'sanity.assist.schemaType.annotations';
+  _type: "sanity.assist.schemaType.annotations";
   title?: string;
-  fields?: Array<
-    {
-      _key: string;
-    } & SanityAssistSchemaTypeField
-  >;
+  fields?: Array<{
+    _key: string;
+  } & SanityAssistSchemaTypeField>;
 };
 
 export type SanityAssistOutputType = {
-  _type: 'sanity.assist.output.type';
+  _type: "sanity.assist.output.type";
   type?: string;
 };
 
 export type SanityAssistOutputField = {
-  _type: 'sanity.assist.output.field';
+  _type: "sanity.assist.output.field";
   path?: string;
 };
 
 export type SanityAssistInstructionContext = {
-  _type: 'sanity.assist.instruction.context';
+  _type: "sanity.assist.instruction.context";
   reference?: {
     _ref: string;
-    _type: 'reference';
+    _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: 'assist.instruction.context';
+    [internalGroqTypeReferenceTo]?: "assist.instruction.context";
   };
 };
 
 export type AssistInstructionContext = {
   _id: string;
-  _type: 'assist.instruction.context';
+  _type: "assist.instruction.context";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1337,92 +1202,82 @@ export type AssistInstructionContext = {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
-      _type: 'span';
+      _type: "span";
       _key: string;
     }>;
-    style?: 'normal';
+    style?: "normal";
     listItem?: never;
     markDefs?: null;
     level?: number;
-    _type: 'block';
+    _type: "block";
     _key: string;
   }>;
 };
 
 export type SanityAssistInstructionUserInput = {
-  _type: 'sanity.assist.instruction.userInput';
+  _type: "sanity.assist.instruction.userInput";
   message?: string;
   description?: string;
 };
 
 export type SanityAssistInstructionPrompt = Array<{
-  children?: Array<
-    | {
-        marks?: Array<string>;
-        text?: string;
-        _type: 'span';
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & SanityAssistInstructionFieldRef)
-    | ({
-        _key: string;
-      } & SanityAssistInstructionContext)
-    | ({
-        _key: string;
-      } & SanityAssistInstructionUserInput)
-  >;
-  style?: 'normal';
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  } | {
+    _key: string;
+  } & SanityAssistInstructionFieldRef | {
+    _key: string;
+  } & SanityAssistInstructionContext | {
+    _key: string;
+  } & SanityAssistInstructionUserInput>;
+  style?: "normal";
   listItem?: never;
   markDefs?: null;
   level?: number;
-  _type: 'block';
+  _type: "block";
   _key: string;
 }>;
 
 export type SanityAssistInstructionFieldRef = {
-  _type: 'sanity.assist.instruction.fieldRef';
+  _type: "sanity.assist.instruction.fieldRef";
   path?: string;
 };
 
 export type SanityAssistInstruction = {
-  _type: 'sanity.assist.instruction';
+  _type: "sanity.assist.instruction";
   prompt?: SanityAssistInstructionPrompt;
   icon?: string;
   title?: string;
   userId?: string;
   createdById?: string;
-  output?: Array<
-    | ({
-        _key: string;
-      } & SanityAssistOutputField)
-    | ({
-        _key: string;
-      } & SanityAssistOutputType)
-  >;
+  output?: Array<{
+    _key: string;
+  } & SanityAssistOutputField | {
+    _key: string;
+  } & SanityAssistOutputType>;
 };
 
 export type SanityAssistSchemaTypeField = {
-  _type: 'sanity.assist.schemaType.field';
+  _type: "sanity.assist.schemaType.field";
   path?: string;
-  instructions?: Array<
-    {
-      _key: string;
-    } & SanityAssistInstruction
-  >;
+  instructions?: Array<{
+    _key: string;
+  } & SanityAssistInstruction>;
 };
 
 export type InlineSvg = string;
 
 export type IconManager = {
-  _type: 'icon.manager';
+  _type: "icon.manager";
   icon?: string;
   metadata?: IconManagerMetadata;
 };
 
 export type IconManagerMetadata = {
-  _type: 'icon.manager.metadata';
+  _type: "icon.manager.metadata";
   downloadUrl?: string;
   url?: string;
   inlineSvg?: string;
@@ -1440,31 +1295,31 @@ export type IconManagerMetadata = {
 };
 
 export type IconManagerLicense = {
-  _type: 'icon.manager.license';
+  _type: "icon.manager.license";
   name?: string;
   url?: string;
 };
 
 export type IconManagerAuthor = {
-  _type: 'icon.manager.author';
+  _type: "icon.manager.author";
   name?: string;
   url?: string;
 };
 
 export type IconManagerSize = {
-  _type: 'icon.manager.size';
+  _type: "icon.manager.size";
   width?: number;
   height?: number;
 };
 
 export type IconManagerColor = {
-  _type: 'icon.manager.color';
+  _type: "icon.manager.color";
   hex?: string;
   rgba?: IconManagerColorRgba;
 };
 
 export type IconManagerColorRgba = {
-  _type: 'icon.manager.color.rgba';
+  _type: "icon.manager.color.rgba";
   r?: number;
   g?: number;
   b?: number;
@@ -1473,7 +1328,7 @@ export type IconManagerColorRgba = {
 
 export type MediaTag = {
   _id: string;
-  _type: 'media.tag';
+  _type: "media.tag";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1481,13 +1336,13 @@ export type MediaTag = {
 };
 
 export type Slug = {
-  _type: 'slug';
+  _type: "slug";
   current?: string;
   source?: string;
 };
 
 export type Color = {
-  _type: 'color';
+  _type: "color";
   hex?: string;
   alpha?: number;
   hsl?: HslaColor;
@@ -1496,7 +1351,7 @@ export type Color = {
 };
 
 export type RgbaColor = {
-  _type: 'rgbaColor';
+  _type: "rgbaColor";
   r?: number;
   g?: number;
   b?: number;
@@ -1504,7 +1359,7 @@ export type RgbaColor = {
 };
 
 export type HsvaColor = {
-  _type: 'hsvaColor';
+  _type: "hsvaColor";
   h?: number;
   s?: number;
   v?: number;
@@ -1512,72 +1367,21 @@ export type HsvaColor = {
 };
 
 export type HslaColor = {
-  _type: 'hslaColor';
+  _type: "hslaColor";
   h?: number;
   s?: number;
   l?: number;
   a?: number;
 };
 
-export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityFileAsset
-  | Geopoint
-  | ResourceItem
-  | Service
-  | Post
-  | UnitBusiness
-  | Page
-  | Item
-  | IconsListItem
-  | IconsList
-  | ColorItem
-  | Banner
-  | Component
-  | Background
-  | Layer
-  | Author
-  | Settings
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
-  | SanityAssistInstructionTask
-  | SanityAssistTaskStatus
-  | SanityAssistSchemaTypeAnnotations
-  | SanityAssistOutputType
-  | SanityAssistOutputField
-  | SanityAssistInstructionContext
-  | AssistInstructionContext
-  | SanityAssistInstructionUserInput
-  | SanityAssistInstructionPrompt
-  | SanityAssistInstructionFieldRef
-  | SanityAssistInstruction
-  | SanityAssistSchemaTypeField
-  | InlineSvg
-  | IconManager
-  | IconManagerMetadata
-  | IconManagerLicense
-  | IconManagerAuthor
-  | IconManagerSize
-  | IconManagerColor
-  | IconManagerColorRgba
-  | MediaTag
-  | Slug
-  | Color
-  | RgbaColor
-  | HsvaColor
-  | HslaColor;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | ResourceItem | Service | Post | UnitBusiness | Page | Item | IconsListItem | IconsList | ColorItem | Banner | Component | Background | Layer | Author | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | InlineSvg | IconManager | IconManagerMetadata | IconManagerLicense | IconManagerAuthor | IconManagerSize | IconManagerColor | IconManagerColorRgba | MediaTag | Slug | Color | RgbaColor | HsvaColor | HslaColor;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
 // Query: *[_type == "settings"][0]
 export type SettingsQueryResult = {
   _id: string;
-  _type: 'settings';
+  _type: "settings";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -1589,18 +1393,18 @@ export type SettingsQueryResult = {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
-      _type: 'span';
+      _type: "span";
       _key: string;
     }>;
-    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-    listItem?: 'bullet' | 'number';
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
-      _type: 'link';
+      _type: "link";
       _key: string;
     }>;
     level?: number;
-    _type: 'block';
+    _type: "block";
     _key: string;
   }>;
   withDarkTheme?: boolean;
@@ -1609,77 +1413,74 @@ export type SettingsQueryResult = {
   ogImage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     metadataBase?: string;
-    _type: 'image';
+    _type: "image";
   };
   imageNotFoundImage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
   imageNotFoundPage?: {
     asset?: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: 'image';
+    _type: "image";
   };
 } | null;
 // Variable: heroQuery
 // Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
 export type HeroQueryResult = {
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   _id: string;
-  status: 'draft' | 'published';
-  title: string | 'Untitled';
+  status: "draft" | "published";
+  title: string | "Untitled";
   slug: string | null;
   excerpt: null;
   coverImage: null;
@@ -1690,8 +1491,8 @@ export type HeroQueryResult = {
 // Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
 export type MoreStoriesQueryResult = Array<{
   _id: string;
-  status: 'draft' | 'published';
-  title: string | 'Untitled';
+  status: "draft" | "published";
+  title: string | "Untitled";
   slug: string | null;
   excerpt: null;
   coverImage: null;
@@ -1701,41 +1502,38 @@ export type MoreStoriesQueryResult = Array<{
 // Variable: postQuery
 // Query: *[_type == "post" && slug.current == $slug] [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
 export type PostQueryResult = {
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   _id: string;
-  status: 'draft' | 'published';
-  title: string | 'Untitled';
+  status: "draft" | "published";
+  title: string | "Untitled";
   slug: string | null;
   excerpt: null;
   coverImage: null;
@@ -1762,7 +1560,7 @@ export type GetPagesNavQueryResult = Array<{
   id: string;
   name: string | null;
   title: string | null;
-  slug: string | '' | null;
+  slug: string | "" | null;
   isHome: boolean | null;
   orderRank: string | null;
   isActive: boolean | null;
@@ -1775,84 +1573,67 @@ export type GetPageDetailQueryResult = {
   slug: string | null;
   isActive: boolean | null;
   title: string | null;
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -1869,7 +1650,7 @@ export type GetPageDetailQueryResult = {
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -1877,18 +1658,18 @@ export type GetPageDetailQueryResult = {
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -1896,85 +1677,70 @@ export type GetPageDetailQueryResult = {
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
@@ -1987,58 +1753,44 @@ export type GetPostListQueryResult = Array<{
   title: string | null;
   slug: Slug | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
-    icon: '/default-icon.png' | 'menu' | 'user';
-    slug: string | 'default-slug';
-    color:
-      | 'bg-blue-100 text-blue-800'
-      | 'bg-gray-100 text-gray-800'
-      | 'bg-gray-100'
-      | 'bg-green-100 text-green-800'
-      | 'bg-orange-100 text-orange-800'
-      | 'bg-purple-100 text-purple-800'
-      | 'bg-red-100 text-red-800'
-      | 'bg-yellow-100 text-yellow-800';
+    title: string | "Sin t\xEDtulo";
+    icon: "/default-icon.png" | "menu" | "user";
+    slug: string | "default-slug";
+    color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-gray-100" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800";
   };
   orderRank: string | null;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -2055,7 +1807,7 @@ export type GetPostListQueryResult = Array<{
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -2063,18 +1815,18 @@ export type GetPostListQueryResult = Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -2082,85 +1834,70 @@ export type GetPostListQueryResult = Array<{
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
@@ -2173,58 +1910,44 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
   title: string | null;
   slug: Slug | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
-    icon: '/default-icon.png' | 'menu' | 'user';
-    slug: string | 'default-slug';
-    color:
-      | 'bg-blue-100 text-blue-800'
-      | 'bg-gray-100 text-gray-800'
-      | 'bg-gray-100'
-      | 'bg-green-100 text-green-800'
-      | 'bg-orange-100 text-orange-800'
-      | 'bg-purple-100 text-purple-800'
-      | 'bg-red-100 text-red-800'
-      | 'bg-yellow-100 text-yellow-800';
+    title: string | "Sin t\xEDtulo";
+    icon: "/default-icon.png" | "menu" | "user";
+    slug: string | "default-slug";
+    color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-gray-100" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800";
   };
   orderRank: string | null;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -2241,7 +1964,7 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -2249,18 +1972,18 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -2268,85 +1991,70 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
@@ -2359,58 +2067,44 @@ export type GetPostDetailQueryResult = {
   title: string | null;
   slug: Slug | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
-    icon: '/default-icon.png' | 'menu' | 'user';
-    slug: string | 'default-slug';
-    color:
-      | 'bg-blue-100 text-blue-800'
-      | 'bg-gray-100 text-gray-800'
-      | 'bg-gray-100'
-      | 'bg-green-100 text-green-800'
-      | 'bg-orange-100 text-orange-800'
-      | 'bg-purple-100 text-purple-800'
-      | 'bg-red-100 text-red-800'
-      | 'bg-yellow-100 text-yellow-800';
+    title: string | "Sin t\xEDtulo";
+    icon: "/default-icon.png" | "menu" | "user";
+    slug: string | "default-slug";
+    color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-gray-100" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800";
   };
   orderRank: string | null;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -2427,7 +2121,7 @@ export type GetPostDetailQueryResult = {
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -2435,18 +2129,18 @@ export type GetPostDetailQueryResult = {
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -2454,125 +2148,107 @@ export type GetPostDetailQueryResult = {
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
   resumen: string | null;
   date: string | null;
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?: 'blockquote' | 'h2' | 'h3' | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   tableOfContents: Array<{
     _key: string;
-    style: 'blockquote' | 'h2' | 'h3' | 'normal' | null;
+    style: "blockquote" | "h2" | "h3" | "normal" | null;
     text: string | null;
   }> | null;
 } | null;
@@ -2585,18 +2261,10 @@ export type GetServicesNavQueryResult = Array<{
   title: string | null;
   slug: string | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
-    icon: '/default-icon.png' | 'menu' | 'user';
-    slug: string | 'default-slug';
-    color:
-      | 'bg-blue-100 text-blue-800'
-      | 'bg-gray-100 text-gray-800'
-      | 'bg-gray-100'
-      | 'bg-green-100 text-green-800'
-      | 'bg-orange-100 text-orange-800'
-      | 'bg-purple-100 text-purple-800'
-      | 'bg-red-100 text-red-800'
-      | 'bg-yellow-100 text-yellow-800';
+    title: string | "Sin t\xEDtulo";
+    icon: "/default-icon.png" | "menu" | "user";
+    slug: string | "default-slug";
+    color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-gray-100" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800";
   };
 }>;
 // Variable: getServiceDetailQuery
@@ -2605,112 +2273,78 @@ export type GetServiceDetailQueryResult = {
   title: string | null;
   iconfyIcon: IconManager | null;
   resumen: string | null;
-  content: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   tableOfContents: Array<{
     _key: string;
-    style:
-      | 'blockquote'
-      | 'h1'
-      | 'h2'
-      | 'h3'
-      | 'h4'
-      | 'h5'
-      | 'h6'
-      | 'normal'
-      | null;
+    style: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal" | null;
     text: string | null;
   }> | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
-    icon: '/default-icon.png' | 'menu' | 'user';
-    slug: string | 'default-slug';
-    color:
-      | 'bg-blue-100 text-blue-800'
-      | 'bg-gray-100 text-gray-800'
-      | 'bg-gray-100'
-      | 'bg-green-100 text-green-800'
-      | 'bg-orange-100 text-orange-800'
-      | 'bg-purple-100 text-purple-800'
-      | 'bg-red-100 text-red-800'
-      | 'bg-yellow-100 text-yellow-800';
+    title: string | "Sin t\xEDtulo";
+    icon: "/default-icon.png" | "menu" | "user";
+    slug: string | "default-slug";
+    color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-gray-100" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800";
   };
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -2727,7 +2361,7 @@ export type GetServiceDetailQueryResult = {
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -2735,18 +2369,18 @@ export type GetServiceDetailQueryResult = {
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -2754,85 +2388,70 @@ export type GetServiceDetailQueryResult = {
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
@@ -2844,15 +2463,7 @@ export type GetServiceDetailQueryResult = {
 export type GetUnitBusinessListQueryResult = Array<{
   title: string | null;
   slug: string | null;
-  color:
-    | 'bg-blue-100 text-blue-800'
-    | 'bg-gray-100 text-gray-800'
-    | 'bg-green-100 text-green-800'
-    | 'bg-orange-100 text-orange-800'
-    | 'bg-purple-100 text-purple-800'
-    | 'bg-red-100 text-red-800'
-    | 'bg-yellow-100 text-yellow-800'
-    | null;
+  color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800" | null;
   services: Array<{
     title: string | null;
     slug: string | null;
@@ -2865,56 +2476,37 @@ export type GetUnitBusinessDetailQueryResult = {
   id: string;
   title: string | null;
   slug: string | null;
-  icon: 'menu' | 'user' | null;
-  color:
-    | 'bg-blue-100 text-blue-800'
-    | 'bg-gray-100 text-gray-800'
-    | 'bg-green-100 text-green-800'
-    | 'bg-orange-100 text-orange-800'
-    | 'bg-purple-100 text-purple-800'
-    | 'bg-red-100 text-red-800'
-    | 'bg-yellow-100 text-yellow-800'
-    | null;
-  description: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: 'span';
-          _key: string;
-        }>;
-        style?:
-          | 'blockquote'
-          | 'h1'
-          | 'h2'
-          | 'h3'
-          | 'h4'
-          | 'h5'
-          | 'h6'
-          | 'normal';
-        listItem?: 'bullet' | 'number';
-        markDefs?: Array<{
-          href?: string;
-          _type: 'link';
-          _key: string;
-        }>;
-        level?: number;
-        _type: 'block';
-        _key: string;
-      }
-    | {
-        asset?: {
-          _ref: string;
-          _type: 'reference';
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-        };
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        _type: 'image';
-        _key: string;
-      }
-  > | null;
+  icon: "menu" | "user" | null;
+  color: "bg-blue-100 text-blue-800" | "bg-gray-100 text-gray-800" | "bg-green-100 text-green-800" | "bg-orange-100 text-orange-800" | "bg-purple-100 text-purple-800" | "bg-red-100 text-red-800" | "bg-yellow-100 text-yellow-800" | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
   services: Array<{
     title: string | null;
     slug: string | null;
@@ -2925,40 +2517,34 @@ export type GetUnitBusinessDetailQueryResult = {
     isActive: boolean | null;
     typeComponent: {
       _ref: string;
-      _type: 'reference';
+      _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'component';
+      [internalGroqTypeReferenceTo]?: "component";
     } | null;
     typeComponentValue: string | null;
-    variant: 'hero' | 'post' | null;
+    variant: "hero" | "post" | null;
     imageBackground: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
     backgroundValue: {
       name: string | null;
-      backgroundMode:
-        | 'colors'
-        | 'image'
-        | 'items'
-        | 'transparent'
-        | 'video'
-        | null;
-      imageBackgroundType: 'dynamic' | 'fixed' | null;
+      backgroundMode: "colors" | "image" | "items" | "transparent" | "video" | null;
+      imageBackgroundType: "dynamic" | "fixed" | null;
       colorWithDarkMode: boolean | null;
       colorList: Array<{
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
         _key: string;
-        [internalGroqTypeReferenceTo]?: 'colorItem';
+        [internalGroqTypeReferenceTo]?: "colorItem";
       }> | null;
       colors: Array<{
         lightColor: {
@@ -2975,7 +2561,7 @@ export type GetUnitBusinessDetailQueryResult = {
       }> | null;
       directionDeg: number | null;
       layer: string | null;
-      responsiveHeight: 'fit-max' | 'h-900' | null;
+      responsiveHeight: "fit-max" | "h-900" | null;
       invertLayoutMobile: boolean | null;
       invertLayoutDesk: boolean | null;
     } | null;
@@ -2983,18 +2569,18 @@ export type GetUnitBusinessDetailQueryResult = {
       children?: Array<{
         marks?: Array<string>;
         text?: string;
-        _type: 'span';
+        _type: "span";
         _key: string;
       }>;
-      style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
-      listItem?: 'bullet';
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet";
       markDefs?: Array<{
         href?: string;
-        _type: 'link';
+        _type: "link";
         _key: string;
       }>;
       level?: number;
-      _type: 'block';
+      _type: "block";
       _key: string;
     }> | null;
     ctaLinkBanner: string | null;
@@ -3002,109 +2588,94 @@ export type GetUnitBusinessDetailQueryResult = {
     imageContent: {
       asset?: {
         _ref: string;
-        _type: 'reference';
+        _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: 'image';
+      _type: "image";
     } | null;
-    imagePosition: 'bottom' | 'left' | 'right' | 'top' | null;
+    imagePosition: "bottom" | "left" | "right" | "top" | null;
     videoUrl: string | null;
-    videoType: 'mp4' | 'webm' | null;
+    videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
     PTextItem: string | null;
-    resources: Array<
-      {
-        _key: string;
-      } & ResourceItem
-    > | null;
+    resources: Array<{
+      _key: string;
+    } & ResourceItem> | null;
     items: Array<{
       isActive: boolean | null;
       image: {
         asset?: {
           _ref: string;
-          _type: 'reference';
+          _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
         };
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        _type: 'image';
+        _type: "image";
       } | null;
       icon: IconManager | null;
       svgIcon: string | null;
-      svgIconList: Array<
-        {
-          _key: string;
-        } & IconsListItem
-      > | null;
+      svgIconList: Array<{
+        _key: string;
+      } & IconsListItem> | null;
       alt: string | null;
-      content: Array<
-        | {
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: 'span';
-              _key: string;
-            }>;
-            style?:
-              | 'blockquote'
-              | 'h1'
-              | 'h2'
-              | 'h3'
-              | 'h4'
-              | 'h5'
-              | 'h6'
-              | 'normal';
-            listItem?: 'bullet' | 'number';
-            markDefs?: Array<{
-              href?: string;
-              _type: 'link';
-              _key: string;
-            }>;
-            level?: number;
-            _type: 'block';
-            _key: string;
-          }
-        | {
-            asset?: {
-              _ref: string;
-              _type: 'reference';
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-            };
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: 'image';
-            _key: string;
-          }
-      > | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }> | null;
       ctaLinkItem: string | null;
     }> | null;
   }> | null;
 } | null;
 
 // Query TypeMap
-import '@sanity/client';
-declare module '@sanity/client' {
+import "@sanity/client";
+declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "settings"][0]': SettingsQueryResult;
-    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': HeroQueryResult;
-    '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': MoreStoriesQueryResult;
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{"name": coalesce(name, "Anonymous"), picture},\n\n  }\n': PostQueryResult;
+    "*[_type == \"settings\"][0]": SettingsQueryResult;
+    "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": HeroQueryResult;
+    "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
+    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
-    '\n    *[_type == \'page\' && isActive] | order(orderRank asc) {\n      "id": coalesce(_id, ""), \n      "name": coalesce(name, title),\n      title,\n      "slug": select(\n        isHome == true => "",\n        slug.current\n      ),\n      isHome,\n      orderRank,\n      isActive\n    }\n  ': GetPagesNavQueryResult;
-    '\n    *[_type == \'page\' && slug.current == $slug][0] {\n    \n    "id": _id,\n    name,\n    "slug": slug.current,\n    isActive,\n    title,\n    content,\n    components[isActive]  {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }': GetPageDetailQueryResult;
-    '\n    *[_type == \'post\'] | order(orderRank desc) {\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListQueryResult;
-    '\n    *[_type == \'post\' && unitBusiness->slug.current == $slug ] | order(orderRank desc){\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListByUnitBusinessQueryResult;
-    '\n  *[_type == \'post\' && slug.current == $slug][0] {\n    \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  ,\n    content,\n    "tableOfContents" : content[style in [\'h2\', \'h3\']] {\n      _key,\n      style,\n      \'text\':children[0].text \n    }\n  }\n': GetPostDetailQueryResult;
-    '*[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n      "id": coalesce(slug.current, null),\n      "title": coalesce(title, null),\n      "slug": coalesce(slug.current, null),\n      \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n\n    }': GetServicesNavQueryResult;
-    '*[_type == \'service\' && slug.current == $slug][0] {\n    title,  // Fetch the title of the service\n    iconfyIcon,\n    resumen,\n    content,  // Fetch the content of the service\n    "tableOfContents" : content[style in [\'h2\']] {\n      _key,\n      style,\n      \'text\':children[0].text \n    },\n    \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n  }': GetServiceDetailQueryResult;
-    '\n    *[_type == \'unitBusiness\'] |  order(orderRank asc) {\n      title,\n      "slug": slug.current,\n      color,\n      "services" : services[] -> {\n        title,\n        "slug": slug.current,\n      },  \n      orderRank,\n  }': GetUnitBusinessListQueryResult;
-    '\n    *[_type == \'unitBusiness\' && slug.current == $slug][0] {\n      \n  "id": _id,\n  title,\n  "slug": slug.current,\n  icon,\n  color,\n  description,\n  "services" : services[] -> {\n    title,\n    "slug": slug.current,\n    iconfyIcon,\n    resumen,\n    },\n  components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }': GetUnitBusinessDetailQueryResult;
+    "\n    *[_type == 'page' && isActive] | order(orderRank asc) {\n      \"id\": coalesce(_id, \"\"), \n      \"name\": coalesce(name, title),\n      title,\n      \"slug\": select(\n        isHome == true => \"\",\n        slug.current\n      ),\n      isHome,\n      orderRank,\n      isActive\n    }\n  ": GetPagesNavQueryResult;
+    "\n    *[_type == 'page' && slug.current == $slug][0] {\n    \n    \"id\": _id,\n    name,\n    \"slug\": slug.current,\n    isActive,\n    title,\n    content,\n    components[isActive]  {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }": GetPageDetailQueryResult;
+    "\n    *[_type == 'post'] | order(orderRank desc) {\n      \n  title,\n  slug,\n  \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  \"resumen\": coalesce(\n    resumen,\n    array::join(content[_type == \"block\" && style == \"normal\"][0].children[].text, \" \")\n  ),\n  date\n  \n      }": GetPostListQueryResult;
+    "\n    *[_type == 'post' && unitBusiness->slug.current == $slug ] | order(orderRank desc){\n      \n  title,\n  slug,\n  \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  \"resumen\": coalesce(\n    resumen,\n    array::join(content[_type == \"block\" && style == \"normal\"][0].children[].text, \" \")\n  ),\n  date\n  \n      }": GetPostListByUnitBusinessQueryResult;
+    "\n  *[_type == 'post' && slug.current == $slug][0] {\n    \n  title,\n  slug,\n  \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  \"resumen\": coalesce(\n    resumen,\n    array::join(content[_type == \"block\" && style == \"normal\"][0].children[].text, \" \")\n  ),\n  date\n  ,\n    content,\n    \"tableOfContents\" : content[style in ['h2', 'h3']] {\n      _key,\n      style,\n      'text':children[0].text \n    }\n  }\n": GetPostDetailQueryResult;
+    "*[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n      \"id\": coalesce(slug.current, null),\n      \"title\": coalesce(title, null),\n      \"slug\": coalesce(slug.current, null),\n      \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n\n    }": GetServicesNavQueryResult;
+    "*[_type == 'service' && slug.current == $slug][0] {\n    title,  // Fetch the title of the service\n    iconfyIcon,\n    resumen,\n    content,  // Fetch the content of the service\n    \"tableOfContents\" : content[style in ['h2']] {\n      _key,\n      style,\n      'text':children[0].text \n    },\n    \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n,\n    components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n  }": GetServiceDetailQueryResult;
+    "\n    *[_type == 'unitBusiness'] |  order(orderRank asc) {\n      title,\n      \"slug\": slug.current,\n      color,\n      \"services\" : services[] -> {\n        title,\n        \"slug\": slug.current,\n      },  \n      orderRank,\n  }": GetUnitBusinessListQueryResult;
+    "\n    *[_type == 'unitBusiness' && slug.current == $slug][0] {\n      \n  \"id\": _id,\n  title,\n  \"slug\": slug.current,\n  icon,\n  color,\n  description,\n  \"services\" : services[] -> {\n    title,\n    \"slug\": slug.current,\n    iconfyIcon,\n    resumen,\n    },\n  components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }": GetUnitBusinessDetailQueryResult;
   }
 }
