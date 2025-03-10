@@ -52,4 +52,6 @@ next-env.d.ts
 /cli
 /components/pages/component/Banner1Factored
 /componentes
+/components/lib/GTMGlobals.ts
+/components/lib/GTMTrackers.ts
 .vscode

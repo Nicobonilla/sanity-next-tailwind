@@ -3,7 +3,6 @@ import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
-import GTMGlobals from '@/components/lib/GTMGlobals';
 import { type SanityContextType } from '@/context/SanityContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
@@ -21,8 +20,9 @@ import WhatsappSticky from '@/components/global/WhatsappSticky';
 import Form from '@/components/global/Form';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleTagManager } from '@next/third-parties/google';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+//import { GoogleTagManager } from '@next/third-parties/google';
+//import GTMGlobals from '@/components/lib/GTMGlobals';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
@@ -135,8 +135,8 @@ export default async function RootLayout({
         <head>
           <DarkModeScript />
         </head>
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-        <GTMGlobals />
+        {/*<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+        <GTMGlobals />*/}
 
         <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>

@@ -53,43 +53,11 @@
 }
 
 @layer components {
-  .h2 {
-    @apply font-bitter text-4xl font-semibold text-slate-700 dark:text-slate-300 md:text-5xl;
-  }
   .inline-svg-preview svg {
     fill: currentColor !important;
   }
 
-  .p2 {
-    @apply font-robotomono font-light text-slate-700 dark:text-slate-100 lg:text-lg;
-  }
 
-  .h3 {
-    @apply font-crimson text-2xl font-semibold text-slate-700 dark:text-slate-200 lg:text-2xl;
-  }
-
-  .p3 {
-    @apply text-justify font-bitter text-base font-normal text-slate-700 dark:text-gray-200 lg:font-medium;
-  }
-
-  .nav-unit-business {
-    @apply font-montserrat text-sm font-light text-gray-900;
-  }
-
-  .nav-subsection-desk {
-    @apply font-montserrat text-xs font-light text-gray-600 transition-all duration-300 hover:font-semibold hover:text-gray-400;
-  }
-
-  .nav-subsection-mob {
-    @apply font-robotomono text-sm text-black transition-all duration-300 hover:text-red-500 dark:text-gray-200 dark:hover:text-red-400;
-  }
-  .nav-bg-subsection {
-    @apply hover:bg-gradient-to-r hover:from-white hover:via-gray-50 hover:to-white;
-  }
-
-  .t {
-    box-flex-group: rgb(178, 34, 34);
-  }
 
   .form-h {
     @apply h-[800px] md:h-[600px] lg:h-[600px];
@@ -97,22 +65,6 @@
 
   .form-input {
     @apply w-full rounded border border-gray-300 p-1 pl-10 text-sm;
-  }
-
-  .responsive-banner-1 {
-    @apply h-[700px] w-full md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px];
-  }
-
-  .responsive-banner-2 {
-    @apply h-[900px] w-full md:h-[500px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px];
-  }
-
-  .responsive-banner-3 {
-    @apply h-96;
-  }
-
-  .responsive-image-1 {
-    @apply size-[400px];
   }
 
   /* DRAWER MENU */
