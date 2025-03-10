@@ -36,10 +36,10 @@ export default function NavLink({
       {link.slug === 'services' || link.slug === 'contacto' ? (
         <button
           className={clsx(
-            'truncate rounded-md px-8 text-center font-montserrat text-sm uppercase text-neutral-800 drop-shadow-2xl',
+            'truncate px-8 text-center font-montserrat text-sm uppercase text-neutral-800 drop-shadow-2xl',
             {
               'py-3 group-hover:text-white': link.slug !== 'contacto',
-              'contact-drawer bg-indigo-700 py-2 text-white hover:bg-indigo-600':
+              'contact-drawer rounded-md bg-indigo-700 py-2 text-white hover:bg-indigo-600':
                 link.slug === 'contacto',
               'bg-neutral-950 text-white':
                 (path !== '/' &&
