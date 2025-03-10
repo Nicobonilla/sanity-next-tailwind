@@ -52,7 +52,6 @@ export async function sanityFetch<const QueryString extends string>({
   return client.fetch(query, params, {
     stega: actualStega,
     perspective: 'published',
-    useCdn: false,
     next: {
       revalidate: 40000,
     },

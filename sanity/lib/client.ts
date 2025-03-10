@@ -6,7 +6,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion: apiVersion,
-  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  useCdn: process.env.NODE_ENV === 'production', // Set to false if statically generating pages, using ISR or tag-based revalidation
   perspective: 'published',
   stega: {
     enabled: false,
