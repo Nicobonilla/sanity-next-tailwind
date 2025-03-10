@@ -20,7 +20,7 @@ export default function ItemPostList({
     post.components.find(
       (component) => component.typeComponentValue === 'Heading'
     ) || {};
-  const isPriority = index < 5; // Solo las primeras 5 imágenes son priority
+  const isPriority = false; // Solo las primeras 5 imágenes son priority
   return (
     <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
