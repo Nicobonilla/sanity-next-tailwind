@@ -475,7 +475,7 @@ function InputField({
           onChange={onChange}
           onBlur={onBlur}
           required={required}
-          onClick={() => trackFormSubmit(name)}
+          //onClick={() => trackFormSubmit(name)}
           className={`w-full rounded bg-[#1a201f] py-2 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 ${
             error
               ? 'border border-red-500 focus:ring-red-500'
@@ -533,7 +533,7 @@ function TextAreaField({
         placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
-        onClick={() => trackFormSubmit(name)}
+        //onClick={() => trackFormSubmit(name)}
         aria-invalid={error ? 'true' : 'false'}
         aria-describedby={error ? `${id}-error` : undefined}
       />
@@ -554,7 +554,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
         type="submit"
         disabled={isLoading}
         className="rounded bg-[#6C5CE7] px-8 py-3 font-medium text-white transition-colors hover:bg-[#5849c4] focus:outline-none focus:ring-2 focus:ring-menuColor2 disabled:opacity-50"
-        onClick={() => trackFormSubmit('submit')}
+        //onClick={() => trackFormSubmit('submit')}
       >
         {isLoading ? (
           <span className="flex items-center gap-2">
