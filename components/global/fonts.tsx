@@ -1,8 +1,6 @@
 import {
   Inter,
-  Roboto_Flex,
   Roboto_Slab,
-  Roboto_Mono,
   Crimson_Pro,
   Montserrat,
   Bitter,
@@ -15,20 +13,8 @@ const inter = Inter({
   display: 'swap',
 });
 
-const roboto_flex = Roboto_Flex({
-  variable: '--font-roboto-flex',
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 const roboto_slab = Roboto_Slab({
   variable: '--font-roboto-slab',
-  subsets: ['latin'],
-  display: 'swap',
-});
-
-const roboto_mono = Roboto_Mono({
-  variable: '--font-roboto-mono',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -60,9 +46,7 @@ const fira_sans = Fira_Sans({
 
 export const fonts = {
   inter,
-  roboto_flex,
   roboto_slab,
-  roboto_mono,
   crimson_pro,
   montserrat,
   bitter,

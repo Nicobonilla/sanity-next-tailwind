@@ -2,7 +2,6 @@ import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
 import { type SanityContextType } from '@/context/SanityContext';
 import { SanityLive } from '@/sanity/lib/live';
 import { VisualEditing } from 'next-sanity';
@@ -133,7 +132,6 @@ export default async function RootLayout({
           .join(' ')} scroll-smooth`}
       >
         <head>
-          <DarkModeScript />
         </head>
         {/*<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
         <GTMGlobals />*/}

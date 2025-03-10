@@ -15,9 +15,7 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)'],
         inter: ['var(--font-inter)', 'sans-serif'],
-        roboto: ['var(--font-roboto-flex)', 'sans-serif'],
         robotoslab: ['var(--font-roboto-slab)', 'sans-serif'],
-        robotomono: ['var(--font-roboto-mono)', 'sans-serif'],
         crimson: ['var(--font-crimson-pro)', 'serif'],
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
         bitter: ['var(--font-bitter)', 'sans-serif'],
