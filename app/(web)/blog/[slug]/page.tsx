@@ -4,7 +4,7 @@ import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
-import { urlForImage } from '../../../../sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({
@@ -18,7 +18,7 @@ export async function generateMetadata({
     openGraph: {
       title: post?.title || '',
       type: 'article',
-      images: urlForImage(post?.components?.[0]?.imageBackground).url(),
+      images: resolveOpenGraphImage(post?.components?.[0]?.imageBackground),
     },
   };
 }

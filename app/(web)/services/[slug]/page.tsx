@@ -5,7 +5,7 @@ import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { Metadata } from 'next';
 import { ComponentProps } from '@/components/types';
-import { urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({
@@ -18,7 +18,7 @@ export async function generateMetadata({
     title: service?.title,
     description: service?.resumen,
     openGraph: {
-      images: urlForImage(service?.components?.[0]?.imageBackground).url(),
+      images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground),
     },
   };
 }

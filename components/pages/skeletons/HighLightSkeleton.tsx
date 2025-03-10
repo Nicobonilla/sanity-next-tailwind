@@ -1,6 +1,5 @@
 import React from 'react';
 import Background from '../component/Background';
-import ImageBg from '../component/Background/ImageBg';
 import clsx from 'clsx';
 
 export default function HighLightSkeleton() {

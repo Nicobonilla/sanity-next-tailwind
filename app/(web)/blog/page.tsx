@@ -11,7 +11,7 @@ import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { ComponentProps, ComponentsProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
-import { urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: page?.title || '',
       type: 'article',
-      images: urlForImage(page?.components?.[0]?.imageBackground).url(),
+      images: resolveOpenGraphImage(page?.components?.[0]?.imageBackground),
     },
   };
 }
