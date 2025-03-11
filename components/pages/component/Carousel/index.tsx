@@ -3,7 +3,6 @@
 import { CarouselProps } from './types';
 import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
-import clsx from 'clsx';
 import Background from '../Background';
 
 export default function Carousel({ data }: CarouselProps) {
@@ -19,9 +18,10 @@ export default function Carousel({ data }: CarouselProps) {
     loop: true,
     dragFree: false,
   };
+  console.log('data: ', data);
   return (
     <>
-      {data.typeComponent == 'carousel' && data.variant == 'post' ? (
+      {data.variant == 'post' ? (
         <Background
           data={{ ...data, typeComponent: 'carousel', variant: 'post' }}
         >

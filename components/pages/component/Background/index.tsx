@@ -1,17 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeContext';
-import { useState } from 'react';
 import { BackgroundProps, useCurrentStyle } from './utils';
 import Layer from './Layer';
 
 export default function Background({ data, children }: BackgroundProps) {
-  const { isDarkMode } = useTheme();
-  const [activeTheme] = useState<'light' | 'dark'>('light');
 
   const { typeComponent, variant, responsiveHeight, layer } = data;
-  const currentStyle = useCurrentStyle(data, isDarkMode);
+  const currentStyle = useCurrentStyle(data, false);
 
   return (
     <div
@@ -21,11 +17,11 @@ export default function Background({ data, children }: BackgroundProps) {
         'h-[900px]': responsiveHeight == 'h-900',
         'h-[750px] md:h-[500px]': typeComponent == 'heroForm',
         'h-[350px]': typeComponent == 'heading',
-        'h-fit md:h-[400px]': typeComponent == 'highLight',
+        'min-h-[388px] md:min-h-[336px] ': typeComponent == 'highLight',
         'h-[50svh] items-center justify-center':
           typeComponent == 'carousel' && variant == 'hero',
-        'flex h-full items-center justify-center':
-          data.typeComponent == 'carousel' && variant == 'post',
+        'flex min-h-[1040px] h-full items-center justify-center':
+          typeComponent == 'carousel' && variant == 'post',
       })}
     >
       {data?.colors && (
@@ -35,7 +31,7 @@ export default function Background({ data, children }: BackgroundProps) {
       {layer && (
         <Layer
           layer={layer}
-          activeTheme={activeTheme}
+          activeTheme={'light'}
           currentStyle={currentStyle}
         />
       )}

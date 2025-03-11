@@ -29,6 +29,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
     if (data) {
       // Only trigger loading if we're actually loading new components
       setIsLoading(true);
+      console.log('Loading started componente: ', data);
       setComponents(data);
     }
   }, []);
@@ -38,6 +39,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
       // Add a small delay to ensure smooth transitions
       const timer = setTimeout(() => {
         setIsLoading(false);
+        console.log('Loading completed, time = ', timer);
       }, 100);
       return () => clearTimeout(timer);
     }

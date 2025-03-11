@@ -8,7 +8,6 @@ import Banner1Skeleton from '../Banner1Skeleton';
 import Banner2Skeleton from '../Banner2Skeleton';
 import Banner4ImagesSkeleton from '../Banner4ImagesSkeleton';
 import BannerServicesSkeleton from '../BannerServicesSkeleton';
-import BreadcrumbsSkeleton from '../BreadcrumbsSkeleton';
 import HeadingSkeleton from '../HeadingSkeleton';
 import HighLightSkeleton from '../HighLightSkeleton';
 import PortableTextAndTocSkeleton from '../PortableTextAndTocSkeleton';
@@ -20,6 +19,10 @@ type SkeletonComponent = () => JSX.Element;
 
 // Definir el objeto skeletonMap
 const skeletonMap: Record<string, (variant?: string) => SkeletonComponent> = {
+  Banner1: () => Banner1Skeleton,
+  Banner2: () => Banner2Skeleton,
+  Banner4Images: () => Banner4ImagesSkeleton,
+  BannerServices: () => BannerServicesSkeleton,
   Carousel: (variant?: string) => {
     switch (variant) {
       case 'hero':
@@ -30,11 +33,6 @@ const skeletonMap: Record<string, (variant?: string) => SkeletonComponent> = {
         return CarouselSkeleton; // Valor por defecto
     }
   },
-  Banner1: () => Banner1Skeleton,
-  Banner2: () => Banner2Skeleton,
-  Banner4Images: () => Banner4ImagesSkeleton,
-  BannerServices: () => BannerServicesSkeleton,
-  Breadcrumbs: () => BreadcrumbsSkeleton,
   Heading: () => HeadingSkeleton,
   HighLight: () => HighLightSkeleton,
   PortableTextAndToc: () => PortableTextAndTocSkeleton,

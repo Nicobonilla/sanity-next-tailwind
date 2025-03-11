@@ -3,7 +3,6 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 export default function PostsSkeleton() {
-  const path = usePathname();
   return (
     <main>
       {/* Botones de filtrado */}
@@ -32,14 +31,6 @@ export default function PostsSkeleton() {
               <div className="grid gap-4 md:grid-cols-[300px_1fr]">
                 <div className="relative h-48 overflow-hidden md:h-full"></div>
                 <div className="flex flex-col gap-4 p-4">
-                  {path == '/blog' ||
-                    (path == '/' && (
-                      <div>
-                        <span
-                          className={`inline-block rounded-full px-3 py-1 text-sm font-medium`}
-                        ></span>
-                      </div>
-                    ))}
                   <h3 className="text-lg font-semibold text-gray-700 group-hover:underline"></h3>
                   <p className="font-robotoslab text-sm font-light text-gray-900"></p>
                   <div>

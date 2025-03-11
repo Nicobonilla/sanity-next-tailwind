@@ -1,5 +1,6 @@
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
+import { extractKeywords } from '@/components/utils';
 import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
@@ -11,9 +12,16 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const currentPage = await getData(params.slug);
+  const data = await getData(params.slug);
+  if (!data) {
+    return {
+      title: 'Página no encontrada',
+    };
+  }
+  const {page } = data
   return {
-    title: currentPage?.page?.title,
+    title: page?.title,
+    keywords : extractKeywords(page?.content),
   };
 }
 
@@ -34,7 +42,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Página no encontrada.</div>;
   }
   const { page } = data;
-
+ 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
     '@type': 'Service',

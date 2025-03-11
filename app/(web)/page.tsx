@@ -1,4 +1,3 @@
-'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentWithBannerPosts } from '@/components/types';
 import {
@@ -14,17 +13,19 @@ type PageData = {
   home: GetPageDetailQueryResult | null;
   posts: GetPostListQueryResult | null;
 };
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Sebastián Bonilla | Abogados',
   };
 }
-async function getData(slug: string) {
+
+async function getData(slug: string): Promise<PageData | null> {
   try {
-    const [home, posts]: [
-      GetPageDetailQueryResult | null,
-      GetPostListQueryResult | null,
-    ] = await Promise.all([getPageBySlugFetch(slug), getPostListFetch()]);
+    const [home, posts] = await Promise.all([
+      getPageBySlugFetch(slug),
+      getPostListFetch(),
+    ]);
     return { home, posts };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -36,8 +37,25 @@ export type ModifiedComponent = ComponentWithBannerPosts & {
   bannerPostsItems?: GetPostListQueryResult | null;
 };
 
+// ✅ Ahora Page recibe `data` como props para evitar `async function`
 export default async function Page() {
   const currentPage = await getData('inicio');
+  if (!currentPage) {
+    return <div>Error al cargar la página.</div>;
+  }
+  console.log('currentPage', currentPage);
+  const { home, posts } = currentPage;
+
+  // ✅ Asegurar que los componentes no se muten
+  const componentsAndPosts: ModifiedComponent[] = home?.components?.map(
+    (component) => ({
+      ...component,
+      bannerPostsItems:
+        component.typeComponentValue === 'Carousel' && component.variant === 'post'
+          ? posts
+          : undefined,
+    })
+  ) || [];
 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
@@ -66,26 +84,6 @@ export default async function Page() {
       priceCurrency: 'CLP',
     },
   };
-  if (!currentPage) {
-    return <div>Error al cargar la página.</div>;
-  }
-  // Crear una copia de los componentes para evitar mutaciones directas
-  const { home, posts }: PageData = currentPage;
-
-  const componentsAndPosts: ModifiedComponent = home?.components?.map(
-    (component) => {
-      if (
-        component.typeComponentValue === 'Carousel' &&
-        component.variant === 'post'
-      ) {
-        return {
-          ...component,
-          bannerPostsItems: posts,
-        };
-      }
-      return component;
-    }
-  );
 
   return (
     <section>
@@ -93,9 +91,7 @@ export default async function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {componentsAndPosts && (
-        <PageTemplate components={componentsAndPosts as ModifiedComponent} />
-      )}
+      <PageTemplate components={componentsAndPosts} />
     </section>
   );
 }

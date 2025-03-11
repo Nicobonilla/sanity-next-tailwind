@@ -4,7 +4,6 @@ import {
   SanityContextProvider,
   type SanityContextType,
 } from '@/context/SanityContext';
-import { ThemeProvider } from '@/context/ThemeContext';
 import { LoadingProvider } from '@/context/LoadingContext';
 import { ContactDrawerProvider } from './ContactDrawerContext';
 import { DrawerNavProvider } from './DrawerNavContext';
@@ -22,13 +21,11 @@ export default function Providers({
 }: ProvidersProps) {
   return (
     <SanityContextProvider initialData={initialData}>
-      <ThemeProvider withDarkMode={withDarkMode}>
         <LoadingProvider>
           <ContactDrawerProvider>
             <DrawerNavProvider>{children}</DrawerNavProvider>
           </ContactDrawerProvider>
         </LoadingProvider>
-      </ThemeProvider>
     </SanityContextProvider>
   );
 }

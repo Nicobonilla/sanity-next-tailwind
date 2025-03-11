@@ -1,3 +1,4 @@
+'use client';
 import { ComponentProps } from '@/components/types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { useEffect, useRef } from 'react';
