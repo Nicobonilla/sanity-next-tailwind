@@ -64,9 +64,9 @@ export default async function Page() {
   //console.log('page blog', page);
   return (
     <section>
-      {page?.components?.[0] && (
+      {/*page?.components?.[0] && (
         <PageTemplate components={[page.components?.[0]] as ComponentsProps} />
-      )}
+      )*/}
 
       <div className="mx-auto max-w-screen-xl px-4 py-8 md:px-6 lg:py-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_300px]">

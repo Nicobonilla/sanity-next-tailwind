@@ -145,7 +145,7 @@ export default async function RootLayout({
                 <WhatsappSticky />
                 {process.env.NODE_ENV === 'development' && <SanityLive />}
 
-                {isEnabled && (
+                {isEnabled && process.env.NODE_ENV === 'development' && (
                   <>
                     <DisableDraftMode />
                     <VisualEditing />
