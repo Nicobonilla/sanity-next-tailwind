@@ -36,7 +36,7 @@ export default function AnimatedImageBg({
       variants={variants}
       onAnimationStart={onLoad}
     >
-      <ImageBg imgBg={imgBg} index={index} />
+      <ImageBg imgBg={imgBg} index={index} className={"size-full "} sizes={"100vw"} />
     </motion.div>
   )
 }

@@ -5,6 +5,7 @@ import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({
@@ -18,10 +19,10 @@ export async function generateMetadata({
       title: 'Página no encontrada',
     };
   }
-  const {page } = data
+  const { page } = data
   return {
     title: page?.title,
-    keywords : extractKeywords(page?.content),
+    keywords: extractKeywords(page?.content),
   };
 }
 
@@ -37,12 +38,15 @@ async function getData(slug: string) {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
+  if (params?.slug == 'contacto') {
+    return redirect('/');
+  }
   const data = await getData(params?.slug);
   if (!data) {
     return <div>Página no encontrada.</div>;
   }
   const { page } = data;
- 
+
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
     '@type': 'Service',

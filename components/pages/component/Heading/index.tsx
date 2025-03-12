@@ -14,7 +14,7 @@ export default function Heading({ data }: { data: ComponentProps }) {
         typeComponent: 'heading',
       }}
     >
-      <ImageBg imgBg={data?.imageBackground} index={0} />
+      <ImageBg imgBg={data?.imageBackground} index={0} className='h-[350px]' />
 
       <PtextHeading data={data.content} />
 

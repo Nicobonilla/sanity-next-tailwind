@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import ImageBg from '../Background/ImageBg';
 
 export default function SlidePost({
   post,
@@ -25,26 +26,20 @@ export default function SlidePost({
       <Link
         href={{ pathname: `/blog/${post.slug?.current}` }}
         className="group"
-        //onClick={() => trackButtonClick(post.slug?.current || '','CarouselPost' + '-' + path)}
+      //onClick={() => trackButtonClick(post.slug?.current || '','CarouselPost' + '-' + path)}
       >
         <article className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
           <div className="grid">
             <div className="relative h-48 overflow-hidden">
-              <Image
-                src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
-                alt={post.title || ''}
-                fill
-                sizes="(max-width: 450px) 90vw, (max-width: 550px) 70vw, (max-width: 1028px) 33vw"
-                className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
-              />
+              <ImageBg imgBg={imageBackground} index={1} className={"h-48 overflow-hidden object-cover transition-transform duration-300 ease-out group-hover:scale-110"}
+                sizes={"(max-width: 450px) 90vw, (max-width: 550px) 70vw, (max-width: 1028px) 33vw"} />
             </div>
             <div className="flex flex-col gap-2 p-6">
               {path === '/blog' ? (
                 <div>
                   <span
-                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                      post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
-                    }`}
+                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                      }`}
                   >
                     {post.unitBusiness?.title}
                   </span>
@@ -66,9 +61,8 @@ export default function SlidePost({
               <div className={clsx({ 'flex flex-row gap-2': path == '/' })}>
                 {path == '/' && (
                   <span
-                    className={`inline-block text-sm font-medium ${
-                      false ? post.unitBusiness?.color : 'text-gray-800'
-                    }`}
+                    className={`inline-block text-sm font-medium ${false ? post.unitBusiness?.color : 'text-gray-800'
+                      }`}
                     style={{ whiteSpace: 'nowrap' }} // Evita el ajuste de línea
                   >
                     {post.unitBusiness?.title}
