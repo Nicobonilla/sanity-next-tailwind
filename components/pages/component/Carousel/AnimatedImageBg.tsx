@@ -5,13 +5,11 @@ import ImageBg from "../Background/ImageBg"
 
 export default function AnimatedImageBg({
   imgBg,
-  imgBgType,
   index,
   isActive,
   onLoad,
 }: {
   imgBg: any
-  imgBgType: string
   index: number
   isActive: boolean
   onLoad?: () => void
@@ -38,7 +36,7 @@ export default function AnimatedImageBg({
       variants={variants}
       onAnimationStart={onLoad}
     >
-      <ImageBg imgBg={imgBg} imgBgType={imgBgType}  />
+      <ImageBg imgBg={imgBg} index={index} />
     </motion.div>
   )
 }

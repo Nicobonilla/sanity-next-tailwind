@@ -29,7 +29,7 @@ export default function Card({
           src={urlForImage(service.image)?.url() || '/meeting.jpeg'}
           alt={'title'}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33.33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 33.33vw"
           className="object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/80 sm:m-3" />

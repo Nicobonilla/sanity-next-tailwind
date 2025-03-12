@@ -18,7 +18,7 @@ export default function Background({ data, children }: BackgroundProps) {
         'h-[750px] md:h-[500px]': typeComponent == 'heroForm',
         'h-[350px]': typeComponent == 'heading',
         'min-h-[388px] md:min-h-[336px] ': typeComponent == 'highLight',
-        'h-[50svh] items-center justify-center':
+        'h-[500px] md:h-[650px] items-center justify-center':
           typeComponent == 'carousel' && variant == 'hero',
         'h-full items-center justify-center':
           typeComponent == 'carousel' && variant == 'post',

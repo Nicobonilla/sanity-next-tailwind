@@ -11,7 +11,6 @@ const imageBuilder = createImageUrlBuilder({
 
 export const urlForImage = (
   source: { asset?: { _ref?: string } } | null | undefined,
-  width?: number
 ) => {
   // Ensure that source image contains a valid reference
   if (!source?.asset?._ref) {
@@ -28,7 +27,6 @@ export const urlForImage = (
     ?.image(source)
     .auto('format')
     .fit('max')
-    .width(width || 1200); // Default to 1200px if no width specified
 };
 
 export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
