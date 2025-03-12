@@ -31,7 +31,7 @@ export default function SlideHero({ slide, layerStyle, index, activeIndex }: Sli
       }}
     >
       {/* Only show the animated version */}
-      <Suspense fallback={<ImageBg imgBg={slide?.image} imgBgType="dynamic" index={index} />}>
+      <Suspense fallback={<ImageBg imgBg={slide?.image} imgBgType="dynamic"  />}>
         <AnimatedImageBg imgBg={slide?.image} imgBgType="dynamic" index={index} isActive={isActive} />
       </Suspense>
 

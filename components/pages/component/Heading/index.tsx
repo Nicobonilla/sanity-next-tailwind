@@ -1,5 +1,4 @@
-import React from 'react';
-
+'use client'
 import { ComponentProps } from '@/components/types';
 import Background from '../Background';
 import PtextHeading from '../Background/PtextHeading';
@@ -17,7 +16,8 @@ export default function Heading({ data }: { data: ComponentProps }) {
     >
       <ImageBg imgBg={data?.imageBackground} imgBgType={'dynamic'} />
 
-      <PtextHeading data={data} />
+      <PtextHeading data={data.content} />
+
     </Background>
   );
 }

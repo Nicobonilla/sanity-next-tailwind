@@ -11,13 +11,11 @@ import { DrawerNavProvider } from './DrawerNavContext';
 interface ProvidersProps {
   children: React.ReactNode;
   initialData: SanityContextType;
-  withDarkMode: boolean;
 }
 
 export default function Providers({
   children,
   initialData,
-  withDarkMode,
 }: ProvidersProps) {
   return (
     <SanityContextProvider initialData={initialData}>

@@ -19,7 +19,6 @@ export default function Highlight({ data }: { data: ComponentProps }) {
       <ImageBg
         imgBg={data?.imageBackground}
         imgBgType={dataBg?.imageBackgroundType}
-        index={1}
       />
 
       <div

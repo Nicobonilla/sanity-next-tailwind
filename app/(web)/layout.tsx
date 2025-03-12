@@ -139,7 +139,7 @@ export default async function RootLayout({
         <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
-              <Providers initialData={initialData} withDarkMode={false}>
+              <Providers initialData={initialData} >
                 <Navbar />
                 <main className="grow flex-col">
                   {children}

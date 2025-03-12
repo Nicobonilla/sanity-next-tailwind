@@ -101,6 +101,8 @@
     --slide-size: 90%;
     margin-top: 50px;
     margin-bottom: 50px;
+    --slide-height: 50rem;
+    --slide-spacing: 0rem;
   }
 
   @media (min-width: 500px) {

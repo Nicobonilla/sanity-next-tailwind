@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import clsx from 'clsx';
 import { PortableText } from 'next-sanity';
@@ -10,8 +11,10 @@ import ItemServiceBanner from './Item/ItemServiceBanner';
 import { PTextBannerServiceCard } from '../PTextComponents';
 import Image from 'next/image';
 
+
 export default function BannerServices({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
+  console.log('bannerServices', data);
   return (
     <Background
       data={{

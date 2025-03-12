@@ -43,7 +43,6 @@ export default async function Page() {
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
   }
-  console.log('currentPage', currentPage);
   const { home, posts } = currentPage;
 
   // ✅ Asegurar que los componentes no se muten

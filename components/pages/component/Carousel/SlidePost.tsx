@@ -34,6 +34,7 @@ export default function SlidePost({
                 src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
                 alt={post.title || ''}
                 fill
+                sizes={"(max-width: 450px) 100vw, (max-width: 550px) 70vw, (max-width: 1028px) 33vw"}
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
               />
             </div>

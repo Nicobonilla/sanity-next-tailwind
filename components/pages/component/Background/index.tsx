@@ -20,7 +20,7 @@ export default function Background({ data, children }: BackgroundProps) {
         'min-h-[388px] md:min-h-[336px] ': typeComponent == 'highLight',
         'h-[50svh] items-center justify-center':
           typeComponent == 'carousel' && variant == 'hero',
-        'flex min-h-[1040px] h-full items-center justify-center':
+        'h-full items-center justify-center':
           typeComponent == 'carousel' && variant == 'post',
       })}
     >

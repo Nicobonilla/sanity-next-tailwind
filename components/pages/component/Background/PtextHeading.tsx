@@ -1,3 +1,4 @@
+'use client';
 import { ComponentProps } from '@/components/types';
 import { PortableText, PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
@@ -13,7 +14,6 @@ export const PTextBanner: PortableTextComponents = {
   },
 };
 export default function PtextHeading({ data }: { data: ComponentProps }) {
-  const { content } = data;
   return (
     <div className="absolute inset-0 my-auto flex items-center justify-center text-center">
       <div
@@ -24,7 +24,7 @@ export default function PtextHeading({ data }: { data: ComponentProps }) {
         )}
       >
         <PortableText
-          value={content || []} // Renderiza el contenido si está disponible
+          value={data || []} // Renderiza el contenido si está disponible
           components={PTextBanner} // Usamos el componente adecuado, con valor por defecto
         />
       </div>

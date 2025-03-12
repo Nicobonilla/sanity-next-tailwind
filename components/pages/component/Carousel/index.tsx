@@ -18,10 +18,9 @@ export default function Carousel({ data }: CarouselProps) {
     loop: true,
     dragFree: false,
   };
-  console.log('data: ', data);
   return (
     <>
-      {data.variant == 'post' ? (
+      {data?.variant == 'post' && (
         <Background
           data={{ ...data, typeComponent: 'carousel', variant: 'post' }}
         >
@@ -31,7 +30,8 @@ export default function Carousel({ data }: CarouselProps) {
             autoplayOptions={autoplayOptions}
           />
         </Background>
-      ) : (
+      ) } 
+      {data?.variant ==  'hero' && (
         <EmblaCarousel
           data={data}
           options={options}

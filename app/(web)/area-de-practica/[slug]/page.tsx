@@ -1,18 +1,15 @@
-'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
-import {
-  ComponentsProps,
-  ComponentWithBannerPosts,
-  ComponentWithServices,
-} from '@/components/types';
-import {
-  GetPostListByUnitBusinessQueryResult,
-  GetUnitBusinessDetailQueryResult,
-} from '@/sanity.types';
+import { ComponentWithBannerPosts, ComponentWithServices } from '@/components/types';
+import { GetUnitBusinessDetailQueryResult, GetPostListByUnitBusinessQueryResult } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { Metadata } from 'next';
+
+type PageData = {
+  unitBusiness: GetUnitBusinessDetailQueryResult | null;
+  posts: GetPostListByUnitBusinessQueryResult | null;
+};
 
 export async function generateMetadata({
   params,
@@ -27,61 +24,53 @@ export async function generateMetadata({
     openGraph: {
       title: unitBusiness?.title || '',
       type: 'article',
-      images: resolveOpenGraphImage(
-        unitBusiness?.components?.[0]?.imageBackground
-      ),
+      images: resolveOpenGraphImage(unitBusiness?.components?.[0]?.imageBackground),
     },
   };
 }
 
-async function getData(slug: string) {
+async function getData(slug: string): Promise<PageData | null> {
   try {
-    const [unitBusiness, posts]: [
-      GetUnitBusinessDetailQueryResult,
-      GetPostListByUnitBusinessQueryResult | null,
-    ] = await Promise.all([
+    const [unitBusiness, posts] = await Promise.all([
       getUnitBusinessBySlugFetch(slug),
       getPostListByUnitBusinessFetch(slug),
     ]);
-    //console.log('unitBusiness', unitBusiness);
-    //console.log('posts', posts);
-
     return { unitBusiness, posts };
   } catch (error) {
     return null;
   }
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const unitBusinessPage = await getData(params.slug);
-  // add posts brief to Banner Posts
-  unitBusinessPage?.unitBusiness?.components?.map((component) => {
-    if (
-      component.typeComponentValue === 'Carousel' &&
-      component?.variant == 'post'
-    ) {
-      (component as ComponentWithBannerPosts).bannerPostsItems =
-        unitBusinessPage?.posts;
-    } else if (component.typeComponentValue === 'BannerServices') {
-      (component as ComponentWithServices).services =
-        unitBusinessPage?.unitBusiness?.services;
-    }
-  });
+export type ModifiedComponent = ComponentWithBannerPosts & ComponentWithServices & {
+  bannerPostsItems?: GetPostListByUnitBusinessQueryResult | null;
+  services?: ComponentWithServices['services'];
+};
 
-  if (!unitBusinessPage) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
+export default async function Page({ params }: { params: { slug: string } }) {
+  const currentPage = await getData(params.slug);
+  if (!currentPage) {
+    return <div>Servicio no encontrado.</div>;
   }
+
+  const { unitBusiness, posts } = currentPage;
+
+  const componentsWithData: ModifiedComponent[] = unitBusiness?.components?.map(
+    (component) => ({
+      ...component,
+      bannerPostsItems:
+        component.typeComponentValue === 'Carousel' && component.variant === 'post'
+          ? posts
+          : undefined,
+      services:
+        component.typeComponentValue === 'BannerServices'
+          ? unitBusiness?.services
+          : undefined,
+    })
+  ) || [];
+
   return (
     <section>
-      {unitBusinessPage?.unitBusiness?.components ? (
-        <PageTemplate
-          components={
-            unitBusinessPage.unitBusiness.components as ComponentsProps
-          }
-        />
-      ) : (
-        <div>Servicio no encontrado.</div>
-      )}
+      <PageTemplate components={componentsWithData} />
     </section>
   );
 }

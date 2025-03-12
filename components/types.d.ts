@@ -1,4 +1,4 @@
-import { GetServiceDetailQueryResult } from '@/sanity.types';
+import { GetPageDetailQueryResult, GetServiceDetailQueryResult, GetUnitBusinessDetailQueryResult } from '@/sanity.types';
 
 // Tipo para el componente dinámico
 type DynamicComponentType = React.ComponentType<{
@@ -19,6 +19,11 @@ type ComponentsServiceProps =
   NonNullable<GetServiceDetailQueryResult>['components'];
 type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 
+type ComponentsUnitBusinessProps =
+  NonNullable<GetUnitBusinessDetailQueryResultt>['components'];
+type ComponentUnitBusinessProps = NonNullable<ComponentsUnitBusinessProps>[number];
+
+
 export type ComponentWithBannerPosts = ComponentProps & {
   bannerPostsItems?: GetPostListQueryResult | null;
 };
@@ -27,8 +32,8 @@ export type ComponentWithServices = ComponentProps & {
   services?: GetServiceDetailQueryResult['services'] | null;
 };
 
-export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps;
-export type ComponentProps = ComponentPageProps | ComponentServiceProps;
+export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps | ComponentsUnitBusinessProps;
+export type ComponentProps = ComponentPageProps | ComponentServiceProps | ComponentUnitBusinessProps;
 
 export type ItemsProps = NonNullable<ComponentProps>['items'];
 export type ItemProps = NonNullable<ItemsProps>[number];
