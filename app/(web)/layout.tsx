@@ -9,8 +9,6 @@ import { draftMode } from 'next/headers';
 import { fonts } from '@/components/global/fonts';
 import DisableDraftMode from '@/components/global/DisableDraftMode';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { Suspense } from 'react';
-import { Spinner } from '@/components/global/Spinner';
 import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
@@ -28,10 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const { settings } = data;
   return {
     metadataBase: new URL(
-      `https://${
-        process.env.NODE_ENV == 'development'
-          ? 'localhost:3000'
-          : settings?.metaBaseWebsite
+      `https://${process.env.NODE_ENV == 'development'
+        ? 'localhost:3000'
+        : settings?.metaBaseWebsite
       }`
     ), // URL base
     title: {
@@ -138,27 +135,25 @@ export default async function RootLayout({
 
         <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
-            <Suspense fallback={<Spinner />}>
-              <Providers initialData={initialData} >
-                <Navbar />
-                <main className="grow flex-col">
-                  {children}
-                  <SpeedInsights />
-                  <Form />
+            <Providers initialData={initialData} >
+              <Navbar />
+              <main className="grow flex-col">
+                {children}
+                <SpeedInsights />
+                <Form />
 
-                  <WhatsappSticky />
-                  {process.env.NODE_ENV === 'development' && <SanityLive />}
+                <WhatsappSticky />
+                {process.env.NODE_ENV === 'development' && <SanityLive />}
 
-                  {isEnabled && (
-                    <>
-                      <DisableDraftMode />
-                      <VisualEditing />
-                    </>
-                  )}
-                </main>
-                <Footer />
-              </Providers>
-            </Suspense>
+                {isEnabled && (
+                  <>
+                    <DisableDraftMode />
+                    <VisualEditing />
+                  </>
+                )}
+              </main>
+              <Footer />
+            </Providers>
           </ErrorBoundary>
         </body>
       </html>

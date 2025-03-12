@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 // Carga dinámica de componentes (solo se renderizan cuando se usan)
 const componentsMap: { [key: string]: React.ComponentType<any> } = {
   Banner1: dynamic(() => import('@/components/pages/component/Banner1')),
-  Banner2: dynamic(() => import('@/components/pages/component/Banner2')),
   Banner4Images: dynamic(() => import('@/components/pages/component/Banner4Images')),
   BannerServices: dynamic(() => import('@/components/pages/component/BannerServices')),
   Carousel: dynamic(() => import('@/components/pages/component/Carousel')),

@@ -5,7 +5,6 @@ import CarouselSkeleton from '../CarouselSkeleton';
 import CarouselHeroSkeleton from '../CarouselHeroSkeleton';
 import CarouselPostSkeleton from '../CarouselPostSkeleton';
 import Banner1Skeleton from '../Banner1Skeleton';
-import Banner2Skeleton from '../Banner2Skeleton';
 import Banner4ImagesSkeleton from '../Banner4ImagesSkeleton';
 import BannerServicesSkeleton from '../BannerServicesSkeleton';
 import HeadingSkeleton from '../HeadingSkeleton';
@@ -20,7 +19,6 @@ type SkeletonComponent = () => JSX.Element;
 // Definir el objeto skeletonMap
 const skeletonMap: Record<string, (variant?: string) => SkeletonComponent> = {
   Banner1: () => Banner1Skeleton,
-  Banner2: () => Banner2Skeleton,
   Banner4Images: () => Banner4ImagesSkeleton,
   BannerServices: () => BannerServicesSkeleton,
   Carousel: (variant?: string) => {

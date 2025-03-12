@@ -1,6 +1,5 @@
 // components/skeletons/index.tsx
 export { default as Banner1Skeleton } from './Banner1Skeleton';
-export { default as Banner2Skeleton } from './Banner2Skeleton';
 export { default as Banner4ImagesSkeleton } from './Banner4ImagesSkeleton';
 export { default as BreadcrumbsSkeleton } from './BreadcrumbsSkeleton';
 export { default as CarouselSkeleton } from './BreadcrumbsSkeleton';
