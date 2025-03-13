@@ -11,10 +11,9 @@ import DisableDraftMode from '@/components/global/DisableDraftMode';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
-import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import WhatsappSticky from '@/components/global/WhatsappSticky';
-import Form from '@/components/global/Form';
+import ContactForm from '@/components/global/ContactForm';
 import { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 //import { GoogleTagManager } from '@next/third-parties/google';
@@ -82,18 +81,16 @@ export async function generateMetadata(): Promise<Metadata> {
 // Async function to fetch data
 async function getData(): Promise<SanityContextType> {
   try {
-    const [pages, componentsMap, unitBusinessList, settings] =
+    const [pages, unitBusinessList, settings] =
       await Promise.all([
         getPagesNavFetch(),
-        getComponentListFetch(),
         getUnitBusinessListFetch(),
         getSettingsFetch(),
       ]);
     if (!pages) throw new Error('Failed to fetch pages');
-    if (!componentsMap) throw new Error('Failed to fetch components');
     if (!unitBusinessList) throw new Error('Failed to fetch unit business');
     if (!settings) throw new Error('Failed to fetch settings');
-    return { pages, componentsMap, unitBusinessList, settings };
+    return { pages, unitBusinessList, settings };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw new Error('Failed to fetch necessary data for the application');
@@ -106,14 +103,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   try {
-    const { pages, componentsMap, unitBusinessList, settings } =
+    const { pages, unitBusinessList, settings } =
       await getData();
-    if (!pages || !componentsMap || !unitBusinessList || !settings) {
+    if (!pages || !unitBusinessList || !settings) {
       throw new Error('Essential data is missing');
     }
 
     const initialData: SanityContextType = {
-      componentsMap,
       pages,
       unitBusinessList,
       settings,
@@ -140,7 +136,7 @@ export default async function RootLayout({
               <main className="grow flex-col">
                 {children}
                 <SpeedInsights />
-                <Form />
+                <ContactForm />
 
                 <WhatsappSticky />
                 {process.env.NODE_ENV === 'development' && <SanityLive />}
