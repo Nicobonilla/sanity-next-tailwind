@@ -59,7 +59,7 @@
 
   /* DRAWER MENU */
   .nav-container {
-    @apply h-8 cursor-pointer items-center justify-start font-bitter text-gray-100 transition-all duration-300 hover:bg-gray-900 hover:text-lg hover:font-medium hover:text-white;
+    @apply h-8 cursor-pointer items-center justify-start font-robotoslab text-gray-100 transition-all duration-300 hover:bg-gray-900 hover:text-lg hover:font-medium hover:text-white;
   }
 
   .nav-container-active {

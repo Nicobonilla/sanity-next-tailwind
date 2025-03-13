@@ -1,14 +1,37 @@
 import React from 'react';
-import { PortableText } from 'next-sanity';
+import { PortableText, PortableTextComponents } from 'next-sanity';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
-import { PTextBannerDark1 } from '../PTextComponents';
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
   const typeComponent = data?.typeComponentValue || '';
+  const PTextBannerDark1: PortableTextComponents = {
+    block: {
+      h2: ({ children }) => (
+        <h2 className="font-crimson text-xl font-semibold uppercase text-red-700">
+          {children}
+        </h2>
+      ),
+      h3: ({ children }) => (
+        <h3
+          className={clsx(
+            'mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm',
+            'lg:text-3xl 2xl:text-3xl'
+          )}
+        >
+          {children}
+        </h3>
+      ),
+      normal: ({ children }) => (
+        <p className="font-robotoslab text-base font-light text-gray-900">
+          {children}
+        </p>
+      ),
+    },
+  };
   return (
     <Background
       data={{

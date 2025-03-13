@@ -48,7 +48,7 @@ export default function SubsectionsContainerSimple({
               passHref
               //onClick={() => trackButtonClick(business.slug || '', 'desk-nav')}
               className={clsx(
-                'w-full py-3 text-center font-fira text-sm',
+                'w-full py-3 text-center font-montserrat text-sm',
                 'border-b border-gray-200',
                 {
                   'font-normal text-neutral-800': activeLink === business.slug,

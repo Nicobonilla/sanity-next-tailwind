@@ -37,8 +37,8 @@ export default function BannerServicesSkeleton() {
                   <div className="relative h-10 w-10"></div>
                 </div>
                 <div className="relative text-center text-neutral-600">
-                  <h3 className="font-fira font-semibold uppercase"></h3>
-                  <p className="font-fira text-sm"></p>
+                  <h3 className="font-montserrat font-semibold uppercase"></h3>
+                  <p className="font-montserrat text-sm"></p>
                 </div>
               </div>
             </div>

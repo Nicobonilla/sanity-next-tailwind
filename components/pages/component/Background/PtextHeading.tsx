@@ -1,10 +1,10 @@
 'use client';
-import { ComponentProps } from '@/components/types';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import { type ComponentProps } from '@/components/types';
+import { PortableText, type PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
 
 // Componente de PortableText con estilos personalizados
-export const PTextBanner: PortableTextComponents = {
+const PTextBanner: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
       <h1 className="font-robotoslab text-3xl uppercase text-white drop-shadow-md">

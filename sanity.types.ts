@@ -1446,112 +1446,6 @@ export type SettingsQueryResult = {
     _type: "image";
   };
 } | null;
-// Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
-export type HeroQueryResult = {
-  content: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h2" | "h3" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }> | null;
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string | null;
-  excerpt: null;
-  coverImage: null;
-  date: string;
-  author: null;
-} | null;
-// Variable: moreStoriesQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
-export type MoreStoriesQueryResult = Array<{
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string | null;
-  excerpt: null;
-  coverImage: null;
-  date: string;
-  author: null;
-}>;
-// Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
-export type PostQueryResult = {
-  content: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h2" | "h3" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }> | null;
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string | null;
-  excerpt: null;
-  coverImage: null;
-  date: string;
-  author: null;
-} | null;
-// Variable: getComponentListQuery
-// Query: *[_type == 'component']{  value, name}
-export type GetComponentListQueryResult = Array<{
-  value: string | null;
-  name: string | null;
-}>;
-// Variable: getIconListQuery
-// Query: *[_type == 'icon']{  value, name}
-export type GetIconListQueryResult = Array<never>;
-// Variable: getReactIconListQuery
-// Query: *[_type == 'reactIcon']{  iconGroup, iconName}
-export type GetReactIconListQueryResult = Array<never>;
 
 // Source: ./sanity/lib/queries/page.query.ts
 // Variable: getPagesNavQuery
@@ -2662,12 +2556,6 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": HeroQueryResult;
-    "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
-    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
-    "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
-    "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
-    "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
     "\n    *[_type == 'page' && isActive] | order(orderRank asc) {\n      \"id\": coalesce(_id, \"\"), \n      \"name\": coalesce(name, title),\n      title,\n      \"slug\": select(\n        isHome == true => \"\",\n        slug.current\n      ),\n      isHome,\n      orderRank,\n      isActive\n    }\n  ": GetPagesNavQueryResult;
     "\n    *[_type == 'page' && slug.current == $slug][0] {\n    \n    \"id\": _id,\n    name,\n    \"slug\": slug.current,\n    isActive,\n    title,\n    content,\n    components[isActive]  {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }": GetPageDetailQueryResult;
     "\n    *[_type == 'post'] | order(orderRank desc) {\n      \n  title,\n  slug,\n  \n\"unitBusiness\": {\n    \"title\": coalesce(unitBusiness->title, \"Sin t\xEDtulo\"),\n    \"icon\": coalesce(unitBusiness->icon, \"/default-icon.png\"),\n    \"slug\": coalesce(unitBusiness->slug.current, \"default-slug\"),\n    \"color\": coalesce(unitBusiness->color, \"bg-gray-100\")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  \"typeComponentValue\": typeComponent->value,\n  variant,\n  imageBackground,\n  'backgroundValue': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  \"colors\": colorList[]-> {\n    \"lightColor\": lightColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    \"darkColor\": darkColor{\n      \"rgb\": rgb,\n      \"alpha\": alpha,\n      \"hex\": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  \"layer\" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  \"resumen\": coalesce(\n    resumen,\n    array::join(content[_type == \"block\" && style == \"normal\"][0].children[].text, \" \")\n  ),\n  date\n  \n      }": GetPostListQueryResult;

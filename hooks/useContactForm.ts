@@ -9,7 +9,7 @@ import { useContactDrawerContext } from "@/context/ContactDrawerContext"
 import { object as zobject, string as zstring, type infer as zinfer, ZodError } from "zod"
 
 // Define Zod schema for form validation
-export const formSchema = zobject({
+const formSchema = zobject({
   name: zstring().min(3, { message: "El nombre es requerido (mínimo 3 caracteres)" }),
   rut: zstring().refine(
     (value) => {
@@ -37,10 +37,10 @@ export const formSchema = zobject({
 })
 
 // Infer the type from the schema
-export type TForm = zinfer<typeof formSchema>
+type TForm = zinfer<typeof formSchema>
 
 // Type for form errors
-export type TFormErrors = {
+type TFormErrors = {
   [key in keyof TForm]?: string
 }
 
@@ -241,7 +241,7 @@ export const useContactForm = () => {
 }
 
 // API service function
-export async function sendEmail(formData: TForm) {
+async function sendEmail(formData: TForm) {
   try {
     const response = await fetch("/api/email", {
       method: "POST",

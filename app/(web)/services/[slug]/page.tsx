@@ -15,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const service: GetServiceDetailQueryResult = await getData(params.slug);
   return {
-    title: service?.title,
-    description: service?.resumen,
+    title: service?.title || '',
+    description: service?.resumen || '',
     openGraph: {
-      images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground),
+      images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground) || '',
     },
   };
 }

@@ -1,6 +1,6 @@
 'use client';
-import { createContext, useContext, ReactNode } from 'react';
-import {
+import { createContext, useContext, type ReactNode } from 'react';
+import type {
   GetPagesNavQueryResult,
   GetUnitBusinessListQueryResult,
   SettingsQueryResult,
@@ -14,7 +14,7 @@ export type SanityContextType = {
 };
 
 // Create context with a default value (it can be undefined or an empty object)
-export const SanityContext = createContext<SanityContextType | undefined>(
+const SanityContext = createContext<SanityContextType | undefined>(
   undefined
 );
 

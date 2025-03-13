@@ -14,7 +14,7 @@ import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import WhatsappSticky from '@/components/global/WhatsappSticky';
 import ContactForm from '@/components/global/ContactForm';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 //import { GoogleTagManager } from '@next/third-parties/google';
 //import GTMGlobals from '@/components/lib/GTMGlobals';
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'compraventa de inmuebles San Felipe',
       'herencias y testamentos San Felipe',
     ],
-    description: settings?.description,
+    description: settings?.description || '',
     publisher: 'Vercel',
     robots: {
       index: true,
@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       title: settings?.title || '',
-      images: resolveOpenGraphImage(settings?.ogImage),
+      images: resolveOpenGraphImage(settings?.ogImage) || '',
       type: 'website',
     },
   };

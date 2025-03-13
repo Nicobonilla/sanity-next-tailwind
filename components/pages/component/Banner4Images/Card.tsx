@@ -37,7 +37,7 @@ export default function Card({
                 components={{
                   block: {
                     normal: ({ children }) => (
-                      <p className="mt-2 font-bitter text-sm text-white/90 sm:text-base">
+                      <p className="mt-2 font-robotoslab text-sm text-white/90 sm:text-base">
                         {children}
                       </p>
                     ),

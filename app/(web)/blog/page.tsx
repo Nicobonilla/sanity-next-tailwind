@@ -5,7 +5,6 @@ import {
 } from '@/sanity.types';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { Metadata } from 'next';
-import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
@@ -31,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Información Sobre Procedimientos Legales',
     openGraph: {
       title: page?.title || '',
-      type: 'article',
-      images: resolveOpenGraphImage(page?.components?.[0]?.imageBackground),
+      images: resolveOpenGraphImage(page?.components?.[0]?.imageBackground) || '',
+      type: 'website'
     },
   };
 }

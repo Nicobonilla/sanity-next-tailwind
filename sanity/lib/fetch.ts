@@ -4,7 +4,7 @@ import { draftMode } from 'next/headers';
 import { client } from '@/sanity/lib/client';
 import { sanityFetch as liveFetch } from '@/sanity/lib/live';
 
-import { SettingsQueryResult } from '@/sanity.types';
+import { type SettingsQueryResult } from '@/sanity.types';
 import { settingsQuery } from './queries';
 /**
  * Used to fetch data in Server Components, it has built in support for handling Draft Mode and perspectives.

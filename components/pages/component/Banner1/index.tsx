@@ -25,7 +25,7 @@ export default function Banner1({ data }: { data: ComponentProps }) {
           components={{
             block: {
               h2: ({ children }) => (
-                <h2 className="relative font-fira text-2xl font-light uppercase lg:text-4xl">
+                <h2 className="relative font-montserrat text-2xl font-light uppercase lg:text-4xl">
                   {children}
                 </h2>
               ),
@@ -35,14 +35,14 @@ export default function Banner1({ data }: { data: ComponentProps }) {
                 </h3>
               ),
               normal: ({ children }) => (
-                <p className="text-justify font-bitter text-sm font-light leading-6 lg:text-base">
+                <p className="text-justify font-robotoslab text-sm font-light leading-6 lg:text-base">
                   {children}
                 </p>
               ),
             },
             list: {
               bullet: ({ children }) => (
-                <div className="pl-5 font-bitter text-sm font-light leading-6 lg:text-base">
+                <div className="pl-5 font-robotoslab text-sm font-light leading-6 lg:text-base">
                   {children}
                 </div>
               ),

@@ -1,20 +1,50 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { PortableText } from 'next-sanity';
+import { PortableText, type PortableTextComponents } from 'next-sanity';
 
 import Background from '../Background';
-import { ComponentProps } from '@/components/types';
-import PTextBanner from './PTextBanner';
-import { urlForImage } from '@/sanity/lib/utils';
+import { type ComponentProps } from '@/components/types';
 import ItemServiceBanner from './Item/ItemServiceBanner';
-import { PTextBannerServiceCard } from '../PTextComponents';
-import Image from 'next/image';
 
 
 export default function BannerServices({ data }: { data: ComponentProps }) {
+
+  const PTextBannerService: PortableTextComponents = {
+    block: {
+      h2: ({ children }) => (
+        <h2 className="font-montserrat text-2xl font-medium uppercase text-neutral-600 drop-shadow-lg md:w-1/3 md:text-4xl">
+          {children}
+        </h2>
+      ),
+      normal: ({ children }) => (
+        <p className="mx-auto text-center text-base font-medium text-neutral-700/90 md:w-2/3 md:text-right">
+          {children}
+        </p>
+      ),
+    },
+  };
+
+  const PTextBannerServiceCard: PortableTextComponents = {
+    block: {
+      h1: ({ children }) => (
+        <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold">
+          {children}
+        </h2>
+      ),
+      normal: ({ children }) => (
+        <p className="p3 pb-5 text-justify font-crimson text-base leading-none">
+          {children}
+        </p>
+      ),
+    },
+    marks: {
+      strong: ({ children }) => (
+        <span className="font-extrabold dark:text-red-500">{children}</span>
+      ),
+    },
+  };
   const dataBg = data?.backgroundValue || {};
-  console.log('bannerServices', data);
   return (
     <Background
       data={{
@@ -37,7 +67,7 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
           >
             <PortableText
               value={data.content || []}
-              components={PTextBannerServiceCard}
+              components={PTextBannerService}
             />
           </div>
         )}
@@ -55,25 +85,13 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
                   <ItemServiceBanner
                     key={index}
                     service={service}
-                    PTextItem={PTextBanner['PT3']}
+                    PTextItem={PTextBannerServiceCard}
                   />
                 )
             )}
           </div>
         </div>
       </div>
-      {false && (
-        <div className="absolute inset-x-0 bottom-0 flex h-1/2 items-start">
-          <div className="relative z-0 h-full w-full">
-            <Image
-              src={urlForImage(data.imageBackground)?.url()}
-              alt="vec1"
-              fill
-              className="object-cover"
-            />
-          </div>
-        </div>
-      )}
       <div className="absolute inset-0 z-10 bg-white/70"></div>
     </Background>
   );

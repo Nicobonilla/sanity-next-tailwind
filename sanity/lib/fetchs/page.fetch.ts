@@ -1,4 +1,4 @@
-import {
+import type {
   GetPageDetailQueryResult,
   GetPagesNavQueryResult,
 } from '@/sanity.types';

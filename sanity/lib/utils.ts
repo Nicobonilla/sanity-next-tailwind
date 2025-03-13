@@ -1,6 +1,6 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { SanityClient } from 'sanity';
-import { ValidationContext } from 'sanity';
+import { type ValidationContext } from 'sanity';
 
 import { dataset, projectId } from '@/sanity/lib/api';
 
@@ -32,7 +32,7 @@ export const urlForImage = (
 export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
   if (!image) return;
   const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
-  if (!url) return;
+  if (!url) return undefined;
   return { url, alt: image?.alt as string, width, height };
 }
 

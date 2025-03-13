@@ -24,7 +24,7 @@ export async function generateMetadata({
     openGraph: {
       title: unitBusiness?.title || '',
       type: 'article',
-      images: resolveOpenGraphImage(unitBusiness?.components?.[0]?.imageBackground),
+      images: resolveOpenGraphImage(unitBusiness?.components?.[0]?.imageBackground) || '',
     },
   };
 }

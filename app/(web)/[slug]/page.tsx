@@ -1,12 +1,12 @@
 import PageTemplate from '@/components/pages/PageTemplate';
-import { ComponentsProps } from '@/components/types';
 import { extractKeywords } from '@/components/utils';
-import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { Service, WithContext } from 'schema-dts';
+import { type ComponentsProps } from '@/components/types';
+import type { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+import type { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({
   params,
@@ -21,7 +21,7 @@ export async function generateMetadata({
   }
   const { page } = data
   return {
-    title: page?.title,
+    title: page?.title || '',
     keywords: extractKeywords(page?.content),
   };
 }

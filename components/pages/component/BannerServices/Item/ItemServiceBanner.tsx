@@ -1,6 +1,6 @@
 import React from 'react';
-import { ComponentProps } from '@/components/types';
-import Iconfy from '../../../../global/Icons/Iconfy';
+import { type ComponentProps } from '@/components/types';
+import Iconfy from '@/components/global/Icons/Iconfy';
 import Link from 'next/link';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
@@ -16,7 +16,7 @@ export default function ItemServiceBanner({
       href={{ pathname: `/services/${slug}` }}
       passHref
       className="size-full p-2 sm:p-4"
-      //onClick={()=> trackButtonClick(slug, 'BannerServices')}
+    //onClick={()=> trackButtonClick(slug, 'BannerServices')}
     >
       <div className="group flex size-full flex-col items-center justify-center rounded-lg bg-indigo-200/60 px-5 py-10">
         <div className="relative mx-auto mb-5 w-fit group-hover:animate-bounce">
@@ -40,9 +40,9 @@ export default function ItemServiceBanner({
         </div>
         <div className="relative text-center text-neutral-600">
           {title && (
-            <h3 className="font-fira font-semibold uppercase">{title}</h3>
+            <h3 className="font-montserrat font-semibold uppercase">{title}</h3>
           )}
-          {resumen && <p className="font-fira text-sm">{resumen}</p>}
+          {resumen && <p className="font-montserrat text-sm">{resumen}</p>}
         </div>
       </div>
     </Link>

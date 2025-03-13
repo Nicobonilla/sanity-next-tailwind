@@ -10,7 +10,7 @@ const PT1: PortableTextComponents = {
     h1: ({ children }) => (
       <h1
         className={clsx(
-          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+          'font-robotoslab text-2xl font-extralight uppercase text-white drop-shadow-2xl',
           'lg:text-3xl',
           '2xl:text-3xl'
         )}
@@ -21,7 +21,7 @@ const PT1: PortableTextComponents = {
     h2: ({ children }) => (
       <h2
         className={clsx(
-          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+          'font-robotoslab text-2xl font-extralight uppercase text-white drop-shadow-2xl',
           'lg:text-3xl',
           '2xl:text-3xl'
         )}

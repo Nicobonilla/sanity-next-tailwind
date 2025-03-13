@@ -1,6 +1,7 @@
-import { Component, CSSProperties, useMemo } from 'react';
-import { ComponentProps } from '@/components/types';
-export const defaultColor: Color = {
+import { type CSSProperties, useMemo } from 'react';
+import { type ComponentProps } from '@/components/types';
+
+const defaultColor: Color = {
   rgb: { r: 255, g: 255, b: 255, a: 0 },
 };
 export interface BackgroundProps {
@@ -27,7 +28,7 @@ export interface BackgroundProps {
   children?: React.ReactNode;
 }
 
-export interface Color {
+interface Color {
   rgb: {
     r: number;
     g: number;
@@ -36,13 +37,8 @@ export interface Color {
   };
 }
 
-export interface Theme {
+interface Theme {
   colors: Color[]; // Cambiado para ser un array de colores
-}
-
-export interface Themes {
-  light: CSSProperties;
-  dark: CSSProperties;
 }
 
 /**
@@ -51,7 +47,7 @@ export interface Themes {
  * @param position - Posición opcional para gradientes.
  * @returns Cadena de texto en formato rgba.
  */
-export function getRgbaString(color: Color, position?: number): string {
+function getRgbaString(color: Color, position?: number): string {
   if (!color?.rgb) return 'transparent';
   const { r, g, b, a } = color.rgb;
   return position !== undefined
@@ -98,7 +94,7 @@ const getThemeStyle = (
   if (colors.length === 0) {
     return { background: 'transparent' };
   } else if (colors.length === 1) {
-    return { background: getRgbaString(colors[0]) };
+    return { background: getRgbaString(colors[0] || defaultColor) };
   } else {
     return {
       background: getGradient(style, angle, colors, normalizedPositions),

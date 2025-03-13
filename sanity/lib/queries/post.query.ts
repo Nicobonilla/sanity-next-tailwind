@@ -3,7 +3,7 @@ import { unitBusiness } from './unitBusiness.query';
 import { componentFields } from './component.query';
 
 /* BLOG - POST */
-export const post = /* groq */ `
+const post = /* groq */ `
   title,
   slug,
   ${unitBusiness},

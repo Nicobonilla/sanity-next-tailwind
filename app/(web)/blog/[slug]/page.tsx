@@ -18,7 +18,7 @@ export async function generateMetadata({
     openGraph: {
       title: post?.title || '',
       type: 'article',
-      images: resolveOpenGraphImage(post?.components?.[0]?.imageBackground),
+      images: resolveOpenGraphImage(post?.components?.[0]?.imageBackground) || '',
     },
   };
 }

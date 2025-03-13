@@ -1,4 +1,4 @@
-import {
+import type {
   GetUnitBusinessDetailQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';

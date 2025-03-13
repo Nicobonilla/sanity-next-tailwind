@@ -5,7 +5,7 @@ interface ItemBC {
   slug: string;
 }
 
-export interface BreadcrumbsProps {
+interface BreadcrumbsProps {
   items: ItemBC[];
 }
 

@@ -4,21 +4,22 @@ import { useEffect, useState, useCallback } from 'react';
 
 import SlideHero from './SlideHero';
 import SlidePost from './SlidePost'; // Importa el nuevo SlidePost
-import { ColorList } from '../Background/utils';
 import clsx from 'clsx';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import { PortableText, type PortableTextComponents } from 'next-sanity';
 
-import { EmblaCarouselType } from 'embla-carousel';
+import { type EmblaCarouselType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import Fade from 'embla-carousel-fade';
 
-import { CarouselProps } from './types';
-import { ItemProps } from '@/components/types';
-import {
+import { type ColorList } from '../Background/utils';
+import { type ItemProps } from '@/components/types';
+import type {
   GetPostListByUnitBusinessQueryResult,
   GetPostListQueryResult,
 } from '@/sanity.types';
+import type { CarouselProps } from '.';
+
 
 export default function EmblaCarousel({
   data,

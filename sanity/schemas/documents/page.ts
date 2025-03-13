@@ -8,7 +8,6 @@ import {
   orderRankField,
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
-import PageBuilderInput from '@/sanity/PageBuilderInput';
 
 const page = defineType({
   name: 'page',

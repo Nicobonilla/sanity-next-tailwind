@@ -80,7 +80,7 @@ export default function ContactForm() {
           {/* Form content */}
           <div className="text-white">
             <h3 className="mb-4 text-center font-montserrat text-xl font-light">¿Quieres Recibir más Información?</h3>
-            <p className="mb-8 text-center font-bitter text-gray-300">
+            <p className="mb-8 text-center font-robotoslab text-gray-300">
               Nos contactaremos contigo para resolver tus dudas
             </p>
 
@@ -95,7 +95,7 @@ export default function ContactForm() {
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("name")}
                 placeholder="Nombre Completo"
-                error={touched.name || formSubmitted ? errors.name : undefined}
+                error={touched.name || formSubmitted ? errors.name || "" : ""}
                 required
               />
 
@@ -109,7 +109,7 @@ export default function ContactForm() {
                 placeholder="RUT (ej: 12345678-9)"
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("rut")}
-                error={touched.rut || formSubmitted ? errors.rut : undefined}
+                error={touched.rut || formSubmitted ? errors.rut || "" : ""}
                 required
               />
 
@@ -123,7 +123,7 @@ export default function ContactForm() {
                 placeholder="Teléfono (ej: +56 9 12345678)"
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("phone")}
-                error={touched.phone || formSubmitted ? errors.phone : undefined}
+                error={touched.phone || formSubmitted ? errors.phone || "" : ""}
                 required
               />
 
@@ -137,7 +137,7 @@ export default function ContactForm() {
                 placeholder="Email"
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("email")}
-                error={touched.email || formSubmitted ? errors.email : undefined}
+                error={touched.email || formSubmitted ? errors.email || "" : ""}
                 required
               />
 
@@ -151,7 +151,7 @@ export default function ContactForm() {
                 placeholder="Comuna"
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("comuna")}
-                error={touched.comuna || formSubmitted ? errors.comuna : undefined}
+                error={touched.comuna || formSubmitted ? errors.comuna || "" : ""}
                 required
               />
 
@@ -175,7 +175,7 @@ export default function ContactForm() {
                 placeholder="Escribe tu mensaje aquí..."
                 onChange={handleFormChange}
                 onBlur={() => handleBlur("message")}
-                error={touched.message || formSubmitted ? errors.message : undefined}
+                error={touched.message || formSubmitted ? errors.message || "" : ""}
               />
 
               {/* Submit button */}

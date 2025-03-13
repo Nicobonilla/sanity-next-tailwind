@@ -53,7 +53,7 @@ export default function SlidePost({
               </div>
 
               <div className="flex min-h-20 items-center">
-                <p className="line-clamp-3 text-justify font-fira text-sm font-light text-gray-900">
+                <p className="line-clamp-3 text-justify font-montserrat text-sm font-light text-gray-900">
                   {post?.resumen}
                 </p>
               </div>

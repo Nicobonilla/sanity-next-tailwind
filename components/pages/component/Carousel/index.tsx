@@ -1,9 +1,19 @@
 'use client';
 
-import { CarouselProps } from './types';
 import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
 import Background from '../Background';
+import type { ComponentProps } from '@/components/types';
+
+export type CarouselProps = {
+  data?: ComponentProps;
+  options: EmblaOptionsType;
+  autoplayOptions?: {
+    delay?: number;
+    stopOnInteraction?: boolean;
+    stopOnMouseEnter?: boolean;
+  };
+};
 
 export default function Carousel({ data }: CarouselProps) {
   const autoplayOptions = {
@@ -30,8 +40,8 @@ export default function Carousel({ data }: CarouselProps) {
             autoplayOptions={autoplayOptions}
           />
         </Background>
-      ) } 
-      {data?.variant ==  'hero' && (
+      )}
+      {data?.variant == 'hero' && (
         <EmblaCarousel
           data={data}
           options={options}

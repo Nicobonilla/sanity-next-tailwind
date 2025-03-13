@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import Image from 'next/image';
-import { CSSProperties } from 'react';
-export type LayerProps = {
+import { type CSSProperties } from 'react';
+
+type LayerProps = {
   layer: string;
   activeTheme: string;
   currentStyle: CSSProperties;
@@ -21,7 +21,7 @@ export default function Layer({
             'absolute inset-0 z-20 size-full items-end transition-colors duration-300'
           )}
         >
-         
+
         </div>
       );
     case 'layer5':

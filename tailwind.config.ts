@@ -13,13 +13,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        inter: ['var(--font-inter)', 'sans-serif'],
         robotoslab: ['var(--font-roboto-slab)', 'sans-serif'],
         crimson: ['var(--font-crimson-pro)', 'serif'],
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
-        bitter: ['var(--font-bitter)', 'sans-serif'],
-        fira: ['var(--font-fira-sans)', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',
