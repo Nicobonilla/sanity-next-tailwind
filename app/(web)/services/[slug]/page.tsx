@@ -1,12 +1,13 @@
 'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
-import { GetServiceDetailQueryResult } from '@/sanity.types';
 import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
-import { Metadata } from 'next';
-import { ComponentProps } from '@/components/types';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import { Service, WithContext } from 'schema-dts';
+
+import { type GetServiceDetailQueryResult } from '@/sanity.types';
+import { type ComponentProps } from '@/components/types';
+import type { Service, WithContext } from 'schema-dts';
+import { type Metadata } from 'next';
 
 export async function generateMetadata({
   params,

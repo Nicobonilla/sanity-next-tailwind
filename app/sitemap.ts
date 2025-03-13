@@ -1,9 +1,9 @@
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
-import { MetadataRoute } from 'next';
+import { type MetadataRoute } from 'next';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import {
+import type {
   GetPostListQueryResult,
   GetServicesNavQueryResult,
   GetUnitBusinessListQueryResult,

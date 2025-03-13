@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
   GetPostListQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';

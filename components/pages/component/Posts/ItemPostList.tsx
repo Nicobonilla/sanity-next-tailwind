@@ -1,4 +1,4 @@
-import { GetPostListQueryResult } from '@/sanity.types';
+import { type GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/utils';
 import { format } from 'date-fns';
 import Image from 'next/image';

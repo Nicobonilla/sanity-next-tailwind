@@ -1,14 +1,14 @@
-import {
+import type {
   GetPageDetailQueryResult,
   GetPostListQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Posts from '@/components/pages/component/Posts';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { ComponentProps, ComponentsProps } from '@/components/types';
+import type { ComponentProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
 import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
 

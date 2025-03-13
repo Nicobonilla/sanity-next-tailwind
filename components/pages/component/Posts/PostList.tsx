@@ -1,4 +1,4 @@
-import { GetPostListQueryResult } from '@/sanity.types';
+import { type GetPostListQueryResult } from '@/sanity.types';
 import ItemPostList from './ItemPostList';
 
 interface PostListProps {

@@ -1,10 +1,11 @@
 import PageTemplate from '@/components/pages/PageTemplate';
-import { ComponentWithBannerPosts, ComponentWithServices } from '@/components/types';
-import { GetUnitBusinessDetailQueryResult, GetPostListByUnitBusinessQueryResult } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import { Metadata } from 'next';
+
+import type { ComponentWithBannerPosts, ComponentWithServices } from '@/components/types';
+import type { GetUnitBusinessDetailQueryResult, GetPostListByUnitBusinessQueryResult } from '@/sanity.types';
+import { type Metadata } from 'next';
 
 type PageData = {
   unitBusiness: GetUnitBusinessDetailQueryResult | null;
@@ -20,7 +21,7 @@ export async function generateMetadata({
   if (!data) return { title: 'Servicio no encontrado' };
   const { unitBusiness } = data;
   return {
-    title: unitBusiness?.title,
+    title: unitBusiness?.title || '',
     openGraph: {
       title: unitBusiness?.title || '',
       type: 'article',

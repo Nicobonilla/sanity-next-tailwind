@@ -1,4 +1,4 @@
-import { GetPageDetailQueryResult, GetServiceDetailQueryResult, GetUnitBusinessDetailQueryResult } from '@/sanity.types';
+import type { GetPageDetailQueryResult, GetServiceDetailQueryResult, GetUnitBusinessDetailQueryResult } from '@/sanity.types';
 
 // Tipo para el componente dinámico
 type DynamicComponentType = React.ComponentType<{

@@ -1,4 +1,4 @@
-import {
+import type {
   GetServiceDetailQueryResult,
   GetServicesNavQueryResult,
 } from '@/sanity.types';

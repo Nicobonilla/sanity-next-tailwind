@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSanityContext } from '@/context/SanityContext';
 import { usePathname } from 'next/navigation';
-import { GetPagesNavQueryResult } from '@/sanity.types';
+import { type GetPagesNavQueryResult } from '@/sanity.types';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import NavItem from './NavItem';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { GetUnitBusinessListQueryResult } from '@/sanity.types';
+import { type GetUnitBusinessListQueryResult } from '@/sanity.types';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface SubsectionsContainerSimpleProps {

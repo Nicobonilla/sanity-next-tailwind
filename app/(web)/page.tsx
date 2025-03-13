@@ -1,13 +1,13 @@
 import PageTemplate from '@/components/pages/PageTemplate';
-import { ComponentWithBannerPosts } from '@/components/types';
-import {
+import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
+import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
+import { type ComponentWithBannerPosts } from '@/components/types';
+import type {
   GetPageDetailQueryResult,
   GetPostListQueryResult,
 } from '@/sanity.types';
-import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
-import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { Metadata } from 'next';
-import { Service, WithContext } from 'schema-dts';
+import { type Metadata } from 'next';
+import type { Service, WithContext } from 'schema-dts';
 
 type PageData = {
   home: GetPageDetailQueryResult | null;

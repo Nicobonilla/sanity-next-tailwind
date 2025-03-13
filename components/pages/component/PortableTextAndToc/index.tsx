@@ -1,5 +1,5 @@
 import { PortableText } from '@portabletext/react';
-import {
+import type {
   GetPostDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';

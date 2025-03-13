@@ -1,9 +1,7 @@
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
-import { GetPostListQueryResult } from '@/sanity.types';
-import { urlForImage } from '@/sanity/lib/utils';
+import type { GetPostListQueryResult } from '@/sanity.types';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';

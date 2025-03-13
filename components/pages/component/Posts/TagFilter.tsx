@@ -1,4 +1,4 @@
-import { GetUnitBusinessListQueryResult } from '@/sanity.types';
+import { type GetUnitBusinessListQueryResult } from '@/sanity.types';
 import clsx from 'clsx';
 
 interface TagFilterProps {

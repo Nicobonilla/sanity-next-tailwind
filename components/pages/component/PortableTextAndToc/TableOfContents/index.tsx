@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import {
+import type {
   GetPostDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';

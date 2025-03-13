@@ -1,11 +1,11 @@
-import { Metadata } from 'next';
-import { GetPostDetailQueryResult } from '@/sanity.types';
 import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
-import { ComponentsProps } from '@/components/types';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import { Service, WithContext } from 'schema-dts';
+import type { ComponentsProps } from '@/components/types';
+import type { GetPostDetailQueryResult } from '@/sanity.types';
+import type { Service, WithContext } from 'schema-dts';
+import { type Metadata } from 'next';
 
 export async function generateMetadata({
   params,
@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post: GetPostDetailQueryResult = await getData(params.slug);
   return {
-    title: post?.title,
+    title: post?.title || '',
     openGraph: {
       title: post?.title || '',
       type: 'article',
