@@ -1,30 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Autoplay from 'embla-carousel-autoplay';
-import Slide from './Slide';
-import { CarouselProps } from './types';
-import React, { useCallback } from 'react';
-import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
-import useEmblaCarousel from 'embla-carousel-react';
-import { ItemProps, ItemsProps } from '@/components/types';
+import { useEffect, useState, useCallback } from 'react';
+
 import SlideHero from './SlideHero';
-import { ColorList, useCurrentStyle } from '../Background/utils';
-import Fade from 'embla-carousel-fade';
 import SlidePost from './SlidePost'; // Importa el nuevo SlidePost
+import { ColorList } from '../Background/utils';
+import clsx from 'clsx';
+import { PortableText, PortableTextComponents } from 'next-sanity';
+
+import { EmblaCarouselType } from 'embla-carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import useEmblaCarousel from 'embla-carousel-react';
+import Fade from 'embla-carousel-fade';
+
+import { CarouselProps } from './types';
+import { ItemProps } from '@/components/types';
 import {
   GetPostListByUnitBusinessQueryResult,
   GetPostListQueryResult,
 } from '@/sanity.types';
-import clsx from 'clsx';
-import { PortableText, PortableTextComponents } from 'next-sanity';
 
 export default function EmblaCarousel({
   data,
   options,
   autoplayOptions,
 }: CarouselProps) {
-  const [hoveredItemIndex, setHoveredItemIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -72,22 +72,6 @@ export default function EmblaCarousel({
     },
     [isMobile, emblaApi]
   );
-
-  const handleMouseEnter = (index: number) => {
-    setHoveredItemIndex(index);
-    setActiveIndex(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredItemIndex(null);
-  };
-
-  const getIsActive = (index: number) => {
-    if (hoveredItemIndex !== null) {
-      return hoveredItemIndex === index;
-    }
-    return activeIndex === index;
-  };
 
   return (
     <section
@@ -161,23 +145,6 @@ export default function EmblaCarousel({
               </div>
             ))}
 
-          {data?.variant != 'hero' &&
-            data?.variant != 'post' &&
-            data?.items?.map((slide: ItemProps, index: number) => (
-              <div
-                key={index}
-                className="embla__slide"
-                onClick={() => handleClick(index)}
-              >
-                <Slide
-                  key={index}
-                  slide={slide}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                  isActive={getIsActive(index)}
-                />
-              </div>
-            ))}
         </div>
       </div>
     </section>
