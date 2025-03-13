@@ -1,7 +1,6 @@
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
-import { type MetadataRoute } from 'next';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import type {
   GetPostListQueryResult,
@@ -9,6 +8,7 @@ import type {
   GetUnitBusinessListQueryResult,
   SettingsQueryResult,
 } from '@/sanity.types';
+import { type MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [settings, services, posts, unitBusiness]: [
