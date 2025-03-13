@@ -1,4 +1,3 @@
-// src/components/pages/PageTemplate.tsx
 import React, { memo } from 'react';
 import getComponent from '@/components/pages/component/utils/getComponent';
 import { ComponentProps, ComponentsProps } from '../types';
