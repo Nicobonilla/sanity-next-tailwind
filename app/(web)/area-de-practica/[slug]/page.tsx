@@ -3,7 +3,7 @@ import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 
-import type { ComponentWithBannerPosts, ComponentWithServices } from '@/components/types';
+import type { ComponentProps, ComponentWithBannerPosts } from '@/components/types';
 import type { GetUnitBusinessDetailQueryResult, GetPostListByUnitBusinessQueryResult } from '@/sanity.types';
 import { type Metadata } from 'next';
 
@@ -38,14 +38,10 @@ async function getData(slug: string): Promise<PageData | null> {
     ]);
     return { unitBusiness, posts };
   } catch (error) {
+    console.error('Error in area-de-practica/slug:', error);
     return null;
   }
 }
-
-export type ModifiedComponent = ComponentWithBannerPosts & ComponentWithServices & {
-  bannerPostsItems?: GetPostListByUnitBusinessQueryResult | null;
-  services?: ComponentWithServices['services'];
-};
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const currentPage = await getData(params.slug);
@@ -55,7 +51,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { unitBusiness, posts } = currentPage;
 
-  const componentsWithData: ModifiedComponent[] = unitBusiness?.components?.map(
+  const componentsWithData: (ComponentProps | ComponentWithBannerPosts)[] = unitBusiness?.components?.map(
     (component) => ({
       ...component,
       bannerPostsItems:

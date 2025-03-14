@@ -22,6 +22,7 @@ import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
+  if (!data) return {};
   const { settings } = data;
   return {
     metadataBase: new URL(
@@ -79,7 +80,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Async function to fetch data
-async function getData(): Promise<SanityContextType> {
+async function getData(): Promise<SanityContextType | null> {
   try {
     const [pages, unitBusinessList, settings] =
       await Promise.all([
@@ -93,7 +94,7 @@ async function getData(): Promise<SanityContextType> {
     return { pages, unitBusinessList, settings };
   } catch (error) {
     console.error('Failed to fetch data:', error);
-    throw new Error('Failed to fetch necessary data for the application');
+    return null
   }
 }
 
@@ -103,8 +104,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   try {
-    const { pages, unitBusinessList, settings } =
-      await getData();
+    const data = await getData();
+    if (!data) throw new Error('Failed to fetch data');
+    const { pages, unitBusinessList, settings } = data
     if (!pages || !unitBusinessList || !settings) {
       throw new Error('Essential data is missing');
     }

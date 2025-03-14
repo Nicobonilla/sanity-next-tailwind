@@ -32,7 +32,7 @@ export type ComponentWithServices = ComponentProps & {
   services?: GetServiceDetailQueryResult['services'] | null;
 };
 
-export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps | ComponentsUnitBusinessProps;
+export type ComponentsProps = ComponentsPageProps | ComponentsServiceProps | ComponentsUnitBusinessProps ;
 export type ComponentProps = ComponentPageProps | ComponentServiceProps | ComponentUnitBusinessProps;
 
 export type ItemsProps = NonNullable<ComponentProps>['items'];

@@ -1,15 +1,18 @@
 import React, { memo } from 'react';
 import getComponent from '@/components/pages/component/utils/getComponent';
-import { ComponentProps, ComponentsProps } from '../types';
+import type { ComponentProps, ComponentWithBannerPosts } from '../types';
 import getComponentSkeleton from './skeletons/utils/getComponentSkeleton';
 
+interface PageTemplateProps {
+  components: (ComponentProps | ComponentWithBannerPosts)[];
+}
 
-const PageTemplate: React.FC<ComponentsProps> = ({ components }) => {
+const PageTemplate: React.FC<PageTemplateProps> = ({ components }) => {
   return (
     <div suppressHydrationWarning>
-      {components.map((component: ComponentProps, index:number) => {
-        const ComponentToRender = getComponent(component.typeComponentValue, component.variant);
-        const Skeleton = getComponentSkeleton(component.typeComponentValue, component.variant);
+      {components?.map((component: (ComponentProps | ComponentWithBannerPosts), index: number) => {
+        const ComponentToRender = getComponent(component.typeComponentValue || '');
+        const Skeleton = getComponentSkeleton(component.typeComponentValue || '');
 
         return (
           <React.Suspense key={index} fallback={<Skeleton />}>

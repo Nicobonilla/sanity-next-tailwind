@@ -4,7 +4,7 @@ import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { type ComponentsProps } from '@/components/types';
+import { type ComponentProps } from '@/components/types';
 import type { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 import type { Service, WithContext } from 'schema-dts';
 
@@ -14,15 +14,18 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const data = await getData(params.slug);
+
   if (!data) {
     return {
-      title: 'Página no encontrada',
+      title: "Página no encontrada",
     };
   }
-  const { page } = data
+
+  const { page } = data;
+
   return {
-    title: page?.title || '',
-    keywords: extractKeywords(page?.content),
+    title: page?.title || "",
+    keywords: extractKeywords((page?.content as ComponentProps["content"])),
   };
 }
 
@@ -86,7 +89,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {page?.components ? (
-        <PageTemplate components={page.components as ComponentsProps} />
+        <PageTemplate components={page.components} />
       ) : (
         <div>No se encontraron componentes para esta página.</div>
       )}

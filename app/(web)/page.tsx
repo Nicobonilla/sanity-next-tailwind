@@ -1,7 +1,7 @@
 import PageTemplate from '@/components/pages/PageTemplate';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { type ComponentWithBannerPosts } from '@/components/types';
+import { type ComponentProps, type ComponentWithBannerPosts } from '@/components/types';
 import type {
   GetPageDetailQueryResult,
   GetPostListQueryResult,
@@ -33,9 +33,6 @@ async function getData(slug: string): Promise<PageData | null> {
   }
 }
 
-export type ModifiedComponent = ComponentWithBannerPosts & {
-  bannerPostsItems?: GetPostListQueryResult | null;
-};
 
 // ✅ Ahora Page recibe `data` como props para evitar `async function`
 export default async function Page() {
@@ -46,7 +43,7 @@ export default async function Page() {
   const { home, posts } = currentPage;
 
   // ✅ Asegurar que los componentes no se muten
-  const componentsAndPosts: ModifiedComponent[] = home?.components?.map(
+  const componentsAndPosts: (ComponentProps | ComponentWithBannerPosts)[] = home?.components?.map(
     (component) => ({
       ...component,
       bannerPostsItems:

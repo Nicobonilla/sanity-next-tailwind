@@ -2,7 +2,6 @@ import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import type { ComponentsProps } from '@/components/types';
 import type { GetPostDetailQueryResult } from '@/sanity.types';
 import type { Service, WithContext } from 'schema-dts';
 import { type Metadata } from 'next';
@@ -80,7 +79,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {post?.components && (
-        <PageTemplate components={post.components as ComponentsProps} />
+        <PageTemplate components={post.components} />
       )}
       <PortableTextAndToc article={post} breadcrumbsItems={breadcrumbsItems} />
     </section>

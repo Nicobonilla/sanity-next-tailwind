@@ -5,7 +5,6 @@ import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc'
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 
 import { type GetServiceDetailQueryResult } from '@/sanity.types';
-import { type ComponentProps } from '@/components/types';
 import type { Service, WithContext } from 'schema-dts';
 import { type Metadata } from 'next';
 
@@ -83,7 +82,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       />
       <div className={'mx-auto'}>
         {service?.components && (
-          <PageTemplate components={service.components as ComponentProps} />
+          <PageTemplate components={service.components} />
         )}
         <PortableTextAndToc
           article={service}
