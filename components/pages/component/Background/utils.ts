@@ -29,7 +29,7 @@ export interface BackgroundProps {
   children?: React.ReactNode;
 }
 
-interface Color {
+export interface Color {
   rgb: {
     r: number;
     g: number;

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from '@portabletext/react';
-import { ComponentProps } from '@/components/types';
+import { type ComponentProps } from '@/components/types';
 
 export default function Banner1({ data }: { data: ComponentProps }) {
   const { content, imageContent } = data;

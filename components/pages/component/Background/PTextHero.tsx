@@ -1,4 +1,4 @@
-import { type ComponentProps } from '@/components/types';
+import { type ItemProps } from '@/components/types';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -50,9 +50,10 @@ const PT1: PortableTextComponents = {
 };
 
 export default function PTextHero({
-  data,
+  content, link
 }: {
-  data: ComponentProps;
+  content: ItemProps['content'];
+  link: ItemProps['ctaLinkItem'];
 }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center text-center">
@@ -63,10 +64,10 @@ export default function PTextHero({
         )}
       >
         <PortableText
-          value={data.content || []} // Renderiza el contenido si está disponible
+          value={content || []} // Renderiza el contenido si está disponible
           components={PT1} // Usamos el componente adecuado, con valor por defecto
         />
-        <Link href={{ pathname: data?.ctaLinkBanner }} passHref>
+        <Link href={{ pathname: link }} passHref>
           <button
             //onClick={() => trackButtonClick(data.ctaLinkItem, 'CarouselHero')}
             className={clsx(

@@ -2,14 +2,15 @@
 
 import { motion } from "framer-motion"
 import ImageBg from "../Background/ImageBg"
+import type { ItemProps } from "@/components/types"
 
 export default function AnimatedImageBg({
   imgBg,
   index,
   isActive,
-  onLoad,
+  onLoad = () => { },
 }: {
-  imgBg: any
+  imgBg: ItemProps['image']
   index: number
   isActive: boolean
   onLoad?: () => void
