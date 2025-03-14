@@ -1,4 +1,4 @@
-import Icon, { IconProps } from '@/components/global/Icons/LucideIcon';
+import Icon, { type IconProps } from '@/components/global/Icons/LucideIcon';
 
 // Reusable input field component
 export default function InputField({

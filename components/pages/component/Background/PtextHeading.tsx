@@ -13,7 +13,7 @@ const PTextBanner: PortableTextComponents = {
     ),
   },
 };
-export default function PtextHeading({ data }: { data: ComponentProps }) {
+export default function PtextHeading({ data }: { data: ComponentProps['content'] }) {
   return (
     <div className="absolute inset-0 my-auto flex items-center justify-center text-center">
       <div

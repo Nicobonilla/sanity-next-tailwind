@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ComponentProps } from '@/components/types';
+import { type ComponentProps } from '@/components/types';
 import { urlForImage } from '@/sanity/lib/utils';
 import Image from 'next/image';
 

@@ -1,5 +1,5 @@
 'use client'
-import { ComponentProps } from '@/components/types';
+import { type ComponentProps } from '@/components/types';
 import Background from '../Background';
 import PtextHeading from '../Background/PtextHeading';
 import ImageBg from '../Background/ImageBg';

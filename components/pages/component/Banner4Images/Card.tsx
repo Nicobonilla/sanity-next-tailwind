@@ -1,8 +1,6 @@
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import type { ItemProps } from '@/components/types';
-import { urlForImage } from '@/sanity/lib/utils';
 import { PortableText } from 'next-sanity';
-import Image from 'next/image';
 import Link from 'next/link';
 import ImageBg from '../Background/ImageBg';
 

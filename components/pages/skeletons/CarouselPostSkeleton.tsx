@@ -1,6 +1,5 @@
 'use client';
 
-import { ComponentProps, ItemProps } from '@/components/types';
 import Background from '../component/Background';
 import clsx from 'clsx';
 

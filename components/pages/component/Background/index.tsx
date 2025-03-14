@@ -1,14 +1,14 @@
 'use client';
 
 import clsx from 'clsx';
-import { BackgroundProps, useCurrentStyle } from './utils';
+import { type BackgroundProps, useCurrentStyle } from './utils';
 import Layer from './Layer';
+import type { CSSProperties } from 'react';
 
 export default function Background({ data, children }: BackgroundProps) {
 
-  const { typeComponent, variant, responsiveHeight, layer } = data;
-  const currentStyle = useCurrentStyle(data, false);
-
+  const { typeComponent, variant, responsiveHeight, layer, colors, directionDeg } = data;
+  const currentStyle: CSSProperties = useCurrentStyle({ colors, directionDeg }, false);
   return (
     <div
       className={clsx('relative w-full transition-colors duration-300', {

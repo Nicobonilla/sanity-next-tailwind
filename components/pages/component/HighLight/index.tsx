@@ -1,13 +1,12 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-import { ComponentProps } from '@/components/types';
+import { PortableText, type PortableTextComponents } from 'next-sanity';
+import { type ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
 
 export default function Highlight({ data }: { data: ComponentProps }) {
   const dataBg = data?.backgroundValue || {};
-  const typeComponent = data?.typeComponentValue || '';
   const PTextBannerDark1: PortableTextComponents = {
     block: {
       h2: ({ children }) => (
@@ -36,7 +35,7 @@ export default function Highlight({ data }: { data: ComponentProps }) {
     <Background
       data={{
         ...dataBg,
-        typeComponent,
+        typeComponent: 'highLight',
       }}
     >
       <ImageBg

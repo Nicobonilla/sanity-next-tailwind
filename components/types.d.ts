@@ -20,7 +20,7 @@ type ComponentsServiceProps =
 type ComponentServiceProps = NonNullable<ComponentsServiceProps>[number];
 
 type ComponentsUnitBusinessProps =
-  NonNullable<GetUnitBusinessDetailQueryResultt>['components'];
+  NonNullable<GetUnitBusinessDetailQueryResult>['components'];
 type ComponentUnitBusinessProps = NonNullable<ComponentsUnitBusinessProps>[number];
 
 

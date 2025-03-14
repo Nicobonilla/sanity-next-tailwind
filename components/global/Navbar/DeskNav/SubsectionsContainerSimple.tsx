@@ -30,7 +30,7 @@ export default function SubsectionsContainerSimple({
   return (
     <div className="absolute left-0 top-full z-50 w-[200px] bg-white shadow-lg xl:w-[250px]">
       <ul className="flex flex-col">
-        {unitBusinessList.map((business, index) => (
+        {unitBusinessList.map((business) => (
           <li
             key={business.slug}
             className={clsx(

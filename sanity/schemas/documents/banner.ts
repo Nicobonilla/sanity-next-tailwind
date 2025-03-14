@@ -1,7 +1,3 @@
-import {
-  orderRankField,
-  orderRankOrdering,
-} from '@sanity/orderable-document-list';
 import { defineType, defineField } from 'sanity';
 
 const validIdItems = [

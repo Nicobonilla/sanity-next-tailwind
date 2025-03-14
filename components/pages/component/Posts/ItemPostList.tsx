@@ -7,10 +7,8 @@ import { usePathname } from 'next/navigation';
 
 export default function ItemPostList({
   post,
-  index,
 }: {
   post: GetPostListQueryResult[number];
-  index: number;
 }) {
   //console.log('post: ', post);
   const path = usePathname();
@@ -20,7 +18,6 @@ export default function ItemPostList({
     post.components.find(
       (component) => component.typeComponentValue === 'Heading'
     ) || {};
-  const isPriority = false; // Solo las primeras 5 imágenes son priority
   return (
     <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
@@ -33,7 +30,6 @@ export default function ItemPostList({
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1028px) 50vw, 300px"
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
-                priority={isPriority}
               />
             </div>
           </div>
@@ -42,9 +38,8 @@ export default function ItemPostList({
               (path == '/' && (
                 <div>
                   <span
-                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                      post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
-                    }`}
+                    className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                      }`}
                   >
                     {post.unitBusiness?.title}
                   </span>
@@ -58,9 +53,8 @@ export default function ItemPostList({
             </p>
             <div>
               <span
-                className={`mr-2 inline-block rounded-full px-3 py-1 text-sm font-medium ${
-                  post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
-                }`}
+                className={`mr-2 inline-block rounded-full px-3 py-1 text-sm font-medium ${post.unitBusiness?.color || 'bg-gray-100 text-gray-800'
+                  }`}
               >
                 {post.unitBusiness?.title}
               </span>

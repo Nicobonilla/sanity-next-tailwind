@@ -1,7 +1,7 @@
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { MouseEvent } from 'react';
+import { type MouseEvent } from 'react';
 
 interface NavPageProps {
   link: {

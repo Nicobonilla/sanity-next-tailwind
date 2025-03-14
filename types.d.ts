@@ -1,6 +1,3 @@
-import { Protab } from 'next-sanity';
-import { UrlObject } from 'url';
-
 type Content = ComponentProps['content'];
 
 export type UniteBusiness = {

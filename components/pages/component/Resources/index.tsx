@@ -1,7 +1,9 @@
-import { ComponentProps } from '@/components/types';
+import { type ComponentProps } from '@/components/types';
+import type { ResourceItem } from '@/sanity.types';
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
-export default function Resources({ data }: ComponentProps) {
+
+export default function Resources(data: ComponentProps) {
   return (
     <aside className="space-y-6">
       <div className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800">
@@ -13,7 +15,7 @@ export default function Resources({ data }: ComponentProps) {
             {data?.resources &&
               data?.resources.map(
                 (
-                  resource: ComponentProps['resources'][number],
+                  resource: ResourceItem,
                   index: number
                 ) => (
                   <div key={index} className="space-y-1">

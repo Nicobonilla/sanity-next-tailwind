@@ -1,5 +1,4 @@
 import { defineType, defineField } from 'sanity';
-import { validateUniquePosition } from '@/sanity/lib/validations';
 import {
   orderRankField,
   orderRankOrdering,

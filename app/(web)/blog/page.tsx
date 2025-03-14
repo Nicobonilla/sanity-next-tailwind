@@ -10,7 +10,7 @@ import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import type { ComponentProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;

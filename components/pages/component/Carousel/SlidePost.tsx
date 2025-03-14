@@ -29,7 +29,7 @@ export default function SlidePost({
         <article className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
           <div className="grid">
             <div className="relative h-48 overflow-hidden">
-              <ImageBg imgBg={imageBackground} index={1} className={"h-48 overflow-hidden object-cover transition-transform duration-300 ease-out group-hover:scale-110"}
+              <ImageBg imgBg={imageBackground ?? null} index={1} className={"h-48 overflow-hidden object-cover transition-transform duration-300 ease-out group-hover:scale-110"}
                 sizes={"(max-width: 450px) 90vw, (max-width: 550px) 70vw, (max-width: 1028px) 33vw"} />
             </div>
             <div className="flex flex-col gap-2 p-6">
@@ -59,8 +59,7 @@ export default function SlidePost({
               <div className={clsx({ 'flex flex-row gap-2': path == '/' })}>
                 {path == '/' && (
                   <span
-                    className={`inline-block text-sm font-medium ${false ? post.unitBusiness?.color : 'text-gray-800'
-                      }`}
+                    className={"inline-block text-sm font-medium text-gray-800"}
                     style={{ whiteSpace: 'nowrap' }} // Evita el ajuste de línea
                   >
                     {post.unitBusiness?.title}

@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import SubsectionsContainerSimple from './SubsectionsContainerSimple';
 import NavLink from './NavLink';
 
@@ -37,7 +36,7 @@ export default function NavItem({
           'hover:bg-neutral-950 hover:text-white': !isContact,
           'ml-4 h-8 rounded-sm bg-blue-900/90 hover:bg-blue-950': isContact,
           'bg-neutral-950 text-white':
-            path !== '/'  && path === `/${link.slug}`,
+            path !== '/' && path === `/${link.slug}`,
         }
       )}
       onMouseEnter={() => onMouseEnter(link.slug || '')}
@@ -49,7 +48,7 @@ export default function NavItem({
         activeLink={activeLink}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        toggleDrawerForm={toggleDrawerForm}
+        toggleDrawerForm={toggleDrawerForm || (() => { })}
       />
       {isServices &&
         (activeLink === link.slug ||

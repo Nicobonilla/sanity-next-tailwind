@@ -1,5 +1,5 @@
+import type { ColorItem } from '@/sanity.types';
 import { type CSSProperties, useMemo } from 'react';
-import { type ComponentProps } from '@/components/types';
 
 const defaultColor: Color = {
   rgb: { r: 255, g: 255, b: 255, a: 0 },
@@ -22,7 +22,8 @@ export interface BackgroundProps {
       };
     };
     layer?: string;
-    colors?: Color[];
+    colors?: ColorItem[];
+    directionDeg ?: number;
     imageBackgroundType?: 'dynamic';
   };
   children?: React.ReactNode;
@@ -33,7 +34,8 @@ interface Color {
     r: number;
     g: number;
     b: number;
-    a: number;
+    a?: number | undefined;
+    _type?: string | undefined;
   };
 }
 
@@ -47,7 +49,7 @@ interface Theme {
  * @param position - Posición opcional para gradientes.
  * @returns Cadena de texto en formato rgba.
  */
-function getRgbaString(color: Color, position?: number): string {
+export function getRgbaString(color: Color, position?: number): string {
   if (!color?.rgb) return 'transparent';
   const { r, g, b, a } = color.rgb;
   return position !== undefined
@@ -57,8 +59,8 @@ function getRgbaString(color: Color, position?: number): string {
 
 const getGradient = (
   style: 'linear' | 'radial',
-  angle: number,
-  colors: Color[],
+  angle: number = 0,
+  colors: Color[]  ,
   positions: number[] = []
 ): string => {
   const normalizedPositions = colors.map((_, index) =>
@@ -102,61 +104,42 @@ const getThemeStyle = (
   }
 };
 
-export type ColorList = ComponentProps['backgroundValue']['colors'];
-type ColorListItem = ComponentProps['backgroundValue']['colors'][number];
-interface SanityColor {
-  rgb: {
-    r: number;
-    g: number;
-    b: number;
-  };
-  alpha: number;
-  hex: string;
-  hsv: {
-    h: number;
-    s: number;
-    v: number;
-    a: number;
-  };
-}
-interface ColorListItem2 {
-  lightColor: SanityColor;
-  darkColor: SanityColor | null;
-  colorBackground1Position: number;
-}
-
 export function useCurrentStyle(
-  data: ColorList,
+  data: {
+    colors?: ColorItem[]  | undefined;
+    directionDeg?: number | undefined;
+  },
   isDarkMode: boolean
 ): CSSProperties {
-  const { colorWithDarkMode } = data || false;
   const themeStyles = useMemo(() => {
     const createThemeColors = (useLight: boolean) => ({
-      colors: data?.colors?.map((item: ColorListItem) => ({
-        rgb: {
-          ...((useLight ? item.lightColor : item.darkColor)?.rgb ||
-            item.lightColor.rgb),
-          a:
-            (useLight ? item.lightColor : item.darkColor)?.alpha ||
-            item.lightColor.alpha,
-        },
-      })) || [defaultColor],
+      colors: data?.colors?.map((item: ColorItem) => {
+        // Get the appropriate color based on light/dark mode
+        const colorSource = useLight ? item.lightColor : item.darkColor || item.lightColor;
+        // Ensure r, g, b values are present with defaults if missing
+        return {
+          rgb: {
+            r: colorSource?.rgb?.r ?? 255, // Default to white if missing
+            g: colorSource?.rgb?.g ?? 255,
+            b: colorSource?.rgb?.b ?? 255,
+            a: colorSource?.alpha ?? 0,
+            _type: colorSource?.rgb?._type
+          },
+        };
+      }) || [defaultColor],
     });
 
-    const positions =
-      data?.colors?.map(
-        (item: ColorListItem) => item.colorBackground1Position
-      ) || [];
+    const positions : (number | undefined)[]  =data?.colors?.map((item: ColorItem) => item.colorBackground1Position) || [];
     const dir = data?.directionDeg || 0;
 
     const lightTheme = createThemeColors(true);
     const darkTheme = createThemeColors(false);
 
     return {
-      light: getThemeStyle('linear', dir, lightTheme, positions),
-      dark: getThemeStyle('linear', dir, darkTheme, positions),
+      light: getThemeStyle('linear', dir, lightTheme, positions as number[]), 
+      dark: getThemeStyle('linear', dir, darkTheme, positions as number []),
     };
   }, [data]);
 
-  return themeStyles[colorWithDarkMode && isDarkMode ? 'dark' : 'light'];
+  return themeStyles[ isDarkMode ? 'dark' : 'light'];
 }

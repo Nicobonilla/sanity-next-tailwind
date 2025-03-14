@@ -1,11 +1,10 @@
 import {
   defineDocuments,
   defineLocations,
-  DocumentLocation,
-  PresentationPluginOptions,
+  type DocumentLocation,
+  type PresentationPluginOptions,
 } from 'sanity/presentation';
 import { resolveHref } from '../utils';
-import { component } from 'sanity/structure';
 
 const homeLocation = {
   title: 'Inicio',
