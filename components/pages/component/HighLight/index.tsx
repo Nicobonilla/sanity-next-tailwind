@@ -4,9 +4,10 @@ import { type ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';
 import ImageBg from '../Background/ImageBg';
+import type { ColorItem } from '@/sanity.types';
 
 export default function Highlight({ data }: { data: ComponentProps }) {
-  const dataBg = data?.backgroundValue || {};
+  const dataBg = data?.backgroundValue;
   const PTextBannerDark1: PortableTextComponents = {
     block: {
       h2: ({ children }) => (
@@ -34,8 +35,10 @@ export default function Highlight({ data }: { data: ComponentProps }) {
   return (
     <Background
       data={{
-        ...dataBg,
         typeComponent: 'highLight',
+        colors: (dataBg?.colors as ColorItem[]),
+        layer: dataBg?.layer ?? undefined,
+        directionDeg: dataBg?.directionDeg ?? undefined
       }}
     >
       <ImageBg

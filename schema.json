@@ -6030,15 +6030,7 @@
         },
         "optional": true
       },
-      "darkColor": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "color"
-        },
-        "optional": true
-      },
-      "colorBackground1Position": {
+      "position": {
         "type": "objectAttribute",
         "value": {
           "type": "number"

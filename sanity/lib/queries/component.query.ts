@@ -5,17 +5,8 @@ const background = /* groq */ ` // used as template for background component in 
   colorWithDarkMode,
   colorList,
   "colors": colorList[]-> {
-    "lightColor": lightColor{
-      "rgb": rgb,
-      "alpha": alpha,
-      "hex": hex
-    },
-    "darkColor": darkColor{
-      "rgb": rgb,
-      "alpha": alpha,
-      "hex": hex
-    },
-    colorBackground1Position
+    lightColor,
+    position
   },
   directionDeg,
   "layer" : backgroundLayer -> value,

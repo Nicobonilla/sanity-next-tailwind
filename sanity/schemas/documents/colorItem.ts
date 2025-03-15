@@ -16,12 +16,7 @@ export default defineType({
       type: 'color',
     }),
     defineField({
-      name: 'darkColor',
-      title: 'Color oscuro',
-      type: 'color',
-    }),
-    defineField({
-      name: 'colorBackground1Position',
+      name: 'position',
       title: 'Posicion Color de Fondo 1',
       type: 'number',
     }),

@@ -3,13 +3,11 @@ import { type CSSProperties } from 'react';
 
 type LayerProps = {
   layer: string;
-  activeTheme: string;
-  currentStyle: CSSProperties;
+  currentStyle?: CSSProperties | undefined;
 };
 
 export default function Layer({
   layer,
-  activeTheme,
   currentStyle,
 }: LayerProps): JSX.Element | undefined {
   //console.log('currentStyle', currentStyle);
@@ -52,15 +50,6 @@ export default function Layer({
     case 'layer3':
       return (
         <div className={'absolute inset-0 z-20'} style={currentStyle}></div>
-      );
-    case 'layer1':
-      return (
-        <div
-          className={clsx(
-            'absolute inset-0 z-20 transition-colors duration-300',
-            activeTheme === 'light' ? 'bg-white/60' : 'bg-black/80'
-          )}
-        ></div>
       );
   }
 }

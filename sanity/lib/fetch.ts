@@ -56,7 +56,7 @@ export async function sanityFetch<const QueryString extends string>({
     stega: actualStega,
     perspective: 'published',
     next: {
-      revalidate: 40000,
+      revalidate: 30,
     },
   });
 }

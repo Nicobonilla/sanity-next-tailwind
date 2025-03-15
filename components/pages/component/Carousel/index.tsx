@@ -4,6 +4,7 @@ import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
 import Background from '../Background';
 import type { ComponentProps, ComponentWithBannerPosts } from '@/components/types';
+import type { ColorItem } from '@/sanity.types';
 
 export type CarouselProps = {
   data: ComponentProps | ComponentWithBannerPosts;
@@ -45,11 +46,20 @@ export default function Carousel({ data }: CarouselProps) {
         </Background>
       )}
       {data?.variant == 'hero' && (
-        <EmblaCarousel
-          data={data as ComponentProps}
-          options={options}
-          autoplayOptions={autoplayOptions}
-        />
+        <Background
+          data={{
+            typeComponent: "carousel",
+            variant: "hero",
+            colors: data?.backgroundValue?.colors as ColorItem[],
+            layer: data?.backgroundValue?.layer ?? undefined
+          }}
+        >
+          <EmblaCarousel
+            data={data as ComponentProps}
+            options={options}
+            autoplayOptions={autoplayOptions}
+          />
+        </Background>
       )}
     </>
   );

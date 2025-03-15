@@ -1,48 +1,43 @@
-import { Suspense, useEffect, useState } from "react"
-import Background from "../Background"
-import ImageBg from "../Background/ImageBg"
-import PTextHero from "../Background/PTextHero"
-import type { ItemProps } from "@/components/types"
+"use client";
 
-// Lazy load the animated version as a client component
-import dynamic from "next/dynamic"
-import type { ColorItem } from "@/sanity.types"
+import { Suspense, useEffect, useState, memo } from "react";
+import ImageBg from "../Background/ImageBg";
+import PTextHero from "../Background/PTextHero";
+import type { ItemProps } from "@/components/types";
+
+// Lazy load de la versión animada como componente cliente
+import dynamic from "next/dynamic";
+
 const AnimatedImageBg = dynamic(() => import("@/components/pages/component/Carousel/AnimatedImageBg"), {
-  ssr: false, // Disable SSR for this component since it uses client-side animation
-})
+  ssr: false,
+});
 
 type SlideHeroProps = {
-  slide: ItemProps
-  layerStyle: ColorItem[]
-  index: number
-  activeIndex: number
-}
+  slide: ItemProps;
+  index: number;
+  activeIndex: number;
+};
 
-export default function SlideHero({ slide, layerStyle, index, activeIndex }: SlideHeroProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const isActive = index === activeIndex
+// Memoizar SlideHero para evitar renders innecesarios
+const SlideHero = memo(function SlideHero({ slide, index, activeIndex }: SlideHeroProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isActive = index === activeIndex;
+
   useEffect(() => {
-    // Use lazy loading or intersection observer logic here if needed.
-    // When the component or image is fully loaded, set isLoaded to true
-    setIsLoaded(true)
-  }, [])
+    setIsLoaded(true);
+  }, []);
+
   return (
-    <Background
-      data={{
-        ...slide,
-        typeComponent: "carousel",
-        variant: "hero",
-        colors: layerStyle,
-      }}
-    >
-      {/* Only show the animated version */}
+    <div className="h-[500px] md:h-[650px] items-center justify-center">
       <Suspense fallback={<ImageBg imgBg={slide?.image} index={index} />}>
-        {isLoaded &&
-          <AnimatedImageBg imgBg={slide?.image} index={index} isActive={isActive} />}
+        {isLoaded && <AnimatedImageBg imgBg={slide?.image} index={index} isActive={isActive} />}
       </Suspense>
 
       <PTextHero content={slide?.content} link={slide?.ctaLinkItem} />
-    </Background>
-  )
-}
+    </div>
+  );
+});
 
+SlideHero.displayName = "SlideHero";
+
+export default SlideHero;
