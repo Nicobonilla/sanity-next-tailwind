@@ -1,12 +1,12 @@
 import React from 'react';
-import { type ComponentProps } from '@/components/types';
+import { type ComponentWithServices } from '@/components/types';
 import Iconfy from '@/components/global/Icons/Iconfy';
 import Link from 'next/link';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 export default function ItemServiceBanner({
   service,
-}: ComponentProps['services']) {
+}: ComponentWithServices['services']) {
   if (!service) return null;
 
   const { iconfyIcon, title, resumen, slug } = service;

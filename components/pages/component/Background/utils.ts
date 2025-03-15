@@ -23,7 +23,7 @@ export interface BackgroundProps {
     };
     layer?: string;
     colors?: ColorItem[];
-    directionDeg ?: number;
+    directionDeg?: number;
     imageBackgroundType?: 'dynamic';
   };
   children?: React.ReactNode;

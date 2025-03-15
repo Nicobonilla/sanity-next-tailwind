@@ -1,5 +1,5 @@
 import type { ComponentProps, ItemProps } from '@/components/types';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import { PortableText, type PortableTextComponents } from 'next-sanity';
 import Card from './Card';
 import clsx from 'clsx';
 

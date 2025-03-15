@@ -2,12 +2,13 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import Logo from '@/components/global/Logo';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
+import type { GetPagesNavQueryResult, GetUnitBusinessListQueryResult } from '@/sanity.types';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface DrawerContentProps {
   isMenuOpen: boolean;
-  pages: any[];
-  unitBusinessList: any[];
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
   path: string;
   closeMenu: () => void;
 }
@@ -47,7 +48,7 @@ export default function DrawerContent({
                     className={clsx(
                       'flex size-full',
                       path === `/area-de-practica/${business.slug}` &&
-                        'nav-container-active'
+                      'nav-container-active'
                     )}
                   >
                     {business.title}

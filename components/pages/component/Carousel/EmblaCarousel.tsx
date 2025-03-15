@@ -12,9 +12,9 @@ import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import Fade from 'embla-carousel-fade';
 
-import { type ColorList } from '../Background/utils';
 import { type ItemProps } from '@/components/types';
 import type {
+  ColorItem,
   GetPostListByUnitBusinessQueryResult,
   GetPostListQueryResult,
 } from '@/sanity.types';
@@ -84,7 +84,7 @@ export default function EmblaCarousel({
         embla: data?.variant != 'post' && data?.variant != 'hero',
       })}
     >
-      {data.variant == 'post' && (
+      {data?.variant == 'post' && (
         <div className="relative flex h-full flex-col">
           <div className="relative flex size-full items-center justify-start">
             <PortableText
@@ -111,7 +111,7 @@ export default function EmblaCarousel({
       )}
       <div ref={emblaRef} className="embla__viewport">
         <div className={`embla__container`}>
-          {data?.variant == 'post' &&
+          {data.variant == 'post' && ('bannerPostsItems' in data) &&
             data?.bannerPostsItems?.map(
               (
                 slide:
@@ -139,7 +139,7 @@ export default function EmblaCarousel({
                 <SlideHero
                   key={`${index}-${activeIndex}`}
                   slide={slide as ItemProps}
-                  layerStyle={data.backgroundValue.colors as ColorList}
+                  layerStyle={data?.backgroundValue?.colors as ColorItem[]}
                   index={index}
                   activeIndex={activeIndex}
                 />

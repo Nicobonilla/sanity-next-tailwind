@@ -1,4 +1,9 @@
-import type { GetPageDetailQueryResult, GetServiceDetailQueryResult, GetUnitBusinessDetailQueryResult } from '@/sanity.types';
+import type { GetPageDetailQueryResult, 
+  GetPostListByUnitBusinessQueryResult, 
+  GetPostListQueryResult, 
+  GetServiceDetailQueryResult, 
+  GetUnitBusinessDetailQueryResult 
+} from '@/sanity.types';
 
 // Tipo para el componente dinámico
 type DynamicComponentType = React.ComponentType<{
@@ -23,6 +28,8 @@ type ComponentsUnitBusinessProps =
   NonNullable<GetUnitBusinessDetailQueryResult>['components'];
 type ComponentUnitBusinessProps = NonNullable<ComponentsUnitBusinessProps>[number];
 
+type ComponentsPostsProps = NonNullable<GetPostListQueryResultt>['posts'];
+type ComponentsPostsByUnitBusinessProps = NonNullable<GetPostListByUnitBusinessQueryResult>['posts'];
 
 export type ComponentWithBannerPosts = ComponentProps & {
   bannerPostsItems?: GetPostListQueryResult | null;

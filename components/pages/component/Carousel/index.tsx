@@ -3,10 +3,10 @@
 import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
 import Background from '../Background';
-import type { ComponentProps } from '@/components/types';
+import type { ComponentProps, ComponentWithBannerPosts } from '@/components/types';
 
 export type CarouselProps = {
-  data?: ComponentProps;
+  data: ComponentProps | ComponentWithBannerPosts;
   options: EmblaOptionsType;
   autoplayOptions?: {
     delay?: number;
@@ -32,10 +32,13 @@ export default function Carousel({ data }: CarouselProps) {
     <>
       {data?.variant == 'post' && (
         <Background
-          data={{ ...data, typeComponent: 'carousel', variant: 'post' }}
+          data={{
+            typeComponent: 'carousel',
+            variant: 'post',
+          }}
         >
           <EmblaCarousel
-            data={data}
+            data={data as ComponentWithBannerPosts}
             options={options}
             autoplayOptions={autoplayOptions}
           />
@@ -43,7 +46,7 @@ export default function Carousel({ data }: CarouselProps) {
       )}
       {data?.variant == 'hero' && (
         <EmblaCarousel
-          data={data}
+          data={data as ComponentProps}
           options={options}
           autoplayOptions={autoplayOptions}
         />

@@ -4,11 +4,11 @@ import clsx from 'clsx';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 
 import Background from '../Background';
-import { type ComponentProps } from '@/components/types';
+import type { ComponentWithServices } from '@/components/types';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 
 
-export default function BannerServices({ data }: { data: ComponentProps }) {
+export default function BannerServices({ data }: { data: ComponentWithServices }) {
 
   const PTextBannerService: PortableTextComponents = {
     block: {
@@ -80,7 +80,7 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
             )}
           >
             {data?.services?.map(
-              (service: ComponentProps['services'], index: number) =>
+              (service: ComponentWithServices['services'], index: number) =>
                 service && (
                   <ItemServiceBanner
                     key={index}
