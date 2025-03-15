@@ -3,7 +3,7 @@
  * This config is used to set up Sanity Studio that's mounted on the `app/(sanity)/studio/[[...tool]]/page.tsx` route
  */
 import { visionTool } from '@sanity/vision';
-import { PluginOptions, defineConfig } from 'sanity';
+import { type PluginOptions, defineConfig } from 'sanity';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
@@ -78,7 +78,7 @@ export default defineConfig({
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     presentationTool({
-      resolve,
+      resolve : resolve as NonNullable<typeof resolve>,
       previewUrl: {
         origin: 'http://localhost:3000',
         previewMode: {

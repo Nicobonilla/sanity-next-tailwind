@@ -36,7 +36,7 @@ const IconsListItem = defineType({
       const { icon, title, subtitle } = selection;
       return {
         title: title || 'Untitled',
-        subtitle: subtitle,
+        subtitle: subtitle || '',
         media: () =>
           React.createElement(InlineSvgPreviewItem, {
             icon,

@@ -1,6 +1,6 @@
 // positionValidation.js
 import { client } from '@/sanity/lib/client';
-import { ValidationContext } from 'sanity';
+import {type  ValidationContext } from 'sanity';
 
 export const validateUniquePosition = async (
   orderRank: string | null | undefined,

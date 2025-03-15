@@ -1,5 +1,5 @@
 import { urlForImage } from '@/sanity/lib/utils';
-import { PortableTextComponents } from 'next-sanity';
+import { type PortableTextComponents } from 'next-sanity';
 import Image from 'next/image';
 
 export const PTextPost: PortableTextComponents = {
