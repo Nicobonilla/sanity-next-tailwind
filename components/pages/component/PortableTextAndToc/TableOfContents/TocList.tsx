@@ -1,4 +1,4 @@
-import { TableOfComponentsProps } from './index';
+import { type TableOfComponentsProps } from './index';
 
 interface TocListProps {
   items: TableOfComponentsProps | null;
