@@ -24,7 +24,6 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/orderable-document-list": "^1.2.2",
     "@sanity/vision": "^3.64.1",
-    "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
     "@vercel/speed-insights": "^1.2.0",

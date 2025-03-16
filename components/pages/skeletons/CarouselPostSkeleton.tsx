@@ -1,5 +1,3 @@
-'use client';
-
 import Background from '../component/Background';
 import clsx from 'clsx';
 

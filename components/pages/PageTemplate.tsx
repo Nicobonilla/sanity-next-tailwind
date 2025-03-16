@@ -10,14 +10,20 @@ interface PageTemplateProps {
 const PageTemplate: React.FC<PageTemplateProps> = ({ components }) => {
   return (
     <div suppressHydrationWarning>
-      {components?.map((component: (ComponentProps | ComponentWithBannerPosts), index: number) => {
+      {components?.map((component, index) => {
         const ComponentToRender = getComponent(component.typeComponentValue || '');
         const Skeleton = getComponentSkeleton(component.typeComponentValue || '');
 
         return (
-          <React.Suspense key={index} fallback={<Skeleton />}>
+          <div key={index}>
+            {/* Renderizar el skeleton en el servidor */}
+            <noscript>
+              <Skeleton />
+            </noscript>
+
+            {/* Renderizar el componente directamente en SSR */}
             <ComponentToRender data={component} />
-          </React.Suspense>
+          </div>
         );
       })}
     </div>

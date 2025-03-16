@@ -1,5 +1,3 @@
-'use client';
-
 import EmblaCarousel from './EmblaCarousel';
 import { type EmblaOptionsType } from 'embla-carousel';
 import Background from '../Background';

@@ -32,13 +32,11 @@ export default function PortableTextAndTOC({
             )}
           </div>
 
-          <div className="order-2 md:order-1 md:w-3/4 mx-2 mb-10">
-            <div className="prose prose-sm max-w-none">
-              <PortableText
-                value={article?.content || []}
-                components={PTextPost}
-              />
-            </div>
+          <div className="order-2 md:order-1 md:w-3/4 mx-2 mb-10 max-w-none">
+            <PortableText
+              value={article?.content || []}
+              components={PTextPost}
+            />
           </div>
 
           <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4">

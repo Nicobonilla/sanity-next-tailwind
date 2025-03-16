@@ -36,7 +36,6 @@ export default function PortableTextAndTocSkeleton() {
           </div>
 
           <div className="order-2 mx-2 mb-10 md:order-1 md:w-3/4">
-            <div className="prose prose-sm max-w-none"></div>
           </div>
 
           <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4"></aside>
