@@ -6,16 +6,20 @@ import Logo from '@/components/global/Logo';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 export default function Navbar() {
-
+  const [isMobile, setIsMobile] = useState(false);
   const [scrolling, setScrolling] = useState(false);
 
   useEffect(() => {
+    const checkScreenSize = () => setIsMobile(window.innerWidth < 768);
+    checkScreenSize(); // Verifica tamaño inicial
+    window.addEventListener("resize", checkScreenSize);
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setScrolling(true);
       } else {
         setScrolling(false);
       }
+      return () => window.removeEventListener("resize", checkScreenSize);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -43,15 +47,15 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile contact and nav */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <MobileNav />
-        </div>
-
-        {/* Desktop nav */}
-        <div className="hidden place-content-end lg:block">
-          <DeskNav />
-        </div>
+        {isMobile ? (
+          <div className="flex items-center gap-2 lg:hidden">
+            <MobileNav />
+          </div>
+        ) : (
+          <div className="hidden place-content-end lg:block">
+            <DeskNav />
+          </div>
+        )}
       </div>
     </div>
   );

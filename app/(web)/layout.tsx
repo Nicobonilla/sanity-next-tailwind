@@ -13,14 +13,17 @@ import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import WhatsappSticky from '@/components/global/WhatsappSticky';
-import ContactForm from '@/components/global/ContactForm';
 import { type Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 //import { GoogleTagManager } from '@next/third-parties/google';
 //import GTMGlobals from '@/components/lib/GTMGlobals';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
+import dynamic from "next/dynamic";
+
+const ContactForm = dynamic(() => import('@/components/global/ContactForm'), { ssr: false });
 
 export async function generateMetadata(): Promise<Metadata> {
+
   const data = await getData();
   if (!data) return {};
   const { settings } = data;
