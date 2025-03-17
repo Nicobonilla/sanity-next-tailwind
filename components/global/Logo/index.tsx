@@ -1,13 +1,6 @@
-'use client';
-import { useSanityContext } from '@/context/SanityContext';
 import Link from 'next/link';
 
-export default function Logo() {
-  const { settings } = useSanityContext();
-  if (!settings) {
-    return null;
-  }
-  const { logo, slogan } = settings;
+export default function Logo({ logo, slogan }: { logo: string; slogan: string }) {
   return (
     <Link href={{ pathname: '/' }}>
       <div className="flex h-fit w-[210px] items-center justify-center">

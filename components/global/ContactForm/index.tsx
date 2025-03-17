@@ -11,8 +11,9 @@ import ServiceSelector from "./ServiceSelector"
 import TextAreaField from "./TextAreaField"
 import SubmitButton from "./SubmitButton"
 import { useContactForm } from "@/hooks/useContactForm"
+import type { NavbarProps } from "../Navbar"
 
-export default function ContactForm() {
+export default function ContactForm({ logo, slogan }: Omit<NavbarProps, 'pages' | 'unitBusinessList'>) {
   const { isOpen, closeDrawer } = useContactDrawerContext()
   const { unitBusinessList } = useSanityContext()
   const {
@@ -74,7 +75,7 @@ export default function ContactForm() {
 
           {/* Logo */}
           <div className="mb-8 flex justify-center text-white">
-            <Logo />
+            <Logo logo={logo} slogan={slogan} />
           </div>
 
           {/* Form content */}

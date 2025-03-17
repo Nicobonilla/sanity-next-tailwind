@@ -1,4 +1,3 @@
-'use server';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';

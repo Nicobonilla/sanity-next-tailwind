@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import clsx from 'clsx';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
@@ -8,7 +7,12 @@ import type { ComponentWithServices } from '@/components/types';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 
 
-export default function BannerServices({ data }: { data: ComponentWithServices }) {
+type BannerServicesProps = {
+  data: ComponentWithServices;
+  styleBg?: React.CSSProperties;
+};
+
+export default function BannerServices({ data, styleBg }: BannerServicesProps) {
 
   const PTextBannerService: PortableTextComponents = {
     block: {
@@ -51,6 +55,7 @@ export default function BannerServices({ data }: { data: ComponentWithServices }
         ...dataBg,
         typeComponent: 'bannerServices',
       }}
+      styleBg={styleBg}
     >
       <div
         className={clsx(

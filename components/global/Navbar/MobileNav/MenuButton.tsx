@@ -1,3 +1,4 @@
+'use client';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import clsx from 'clsx';
 import { IoIosMenu, IoIosClose } from 'react-icons/io';

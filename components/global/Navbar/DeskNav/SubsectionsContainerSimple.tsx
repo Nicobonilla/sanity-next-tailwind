@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { type GetUnitBusinessListQueryResult } from '@/sanity.types';
+import type { NavbarProps } from '..';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface SubsectionsContainerSimpleProps {
-  unitBusinessList: GetUnitBusinessListQueryResult;
+  unitBusinessList: NavbarProps['unitBusinessList'];
   onMouseEnter: (slug: string) => void;
   onMouseLeave: () => void;
 }

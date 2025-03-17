@@ -1,57 +1,64 @@
+'use client';
 import clsx from 'clsx';
 import SubsectionsContainerSimple from './SubsectionsContainerSimple';
 import NavLink from './NavLink';
-
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 interface NavItemProps {
-  link: {
-    slug?: string | null;
-    title?: string | null;
+  page: {
+    slug: string | null;
+    title: string | null;
   };
-  path: string;
-  activeLink: string | null;
-  onMouseEnter: (slug: string) => void;
-  onMouseLeave: () => void;
-  toggleDrawerForm?: () => void;
-  unitBusinessList: any[];
+  unitBusinessList?: {
+    slug: string | null;
+    title: string | null;
+  }[];
 }
 
-export default function NavItem({
-  link,
-  path,
-  activeLink,
-  onMouseEnter,
-  onMouseLeave,
-  toggleDrawerForm,
+export default function NavItem({ page,
   unitBusinessList,
 }: NavItemProps) {
-  const isContact = link.slug === 'contacto';
-  const isServices = link.slug === 'services';
+  const [activeLink, setActiveLink] = useState<string | null>(null);
+  const path = usePathname();
+  const { toggleDrawerForm } = useContactDrawerContext();
+
+  const onMouseEnter = (slug: string) => {
+    setActiveLink(slug);
+  };
+
+  const onMouseLeave = () => {
+    setActiveLink(null);
+  };
+
+  const isContact = page.slug === 'contacto';
+  const isServices = page.slug === 'services';
 
   return (
     <li
-      key={link.title}
+      key={page.title}
       className={clsx(
         'group relative my-auto flex size-full cursor-pointer items-center justify-center',
         {
           'hover:bg-neutral-950 hover:text-white': !isContact,
           'ml-4 h-8 rounded-sm bg-blue-900/90 hover:bg-blue-950': isContact,
           'bg-neutral-950 text-white':
-            path !== '/' && path === `/${link.slug}`,
+            path !== '/' && path === `/${page.slug}`,
         }
       )}
-      onMouseEnter={() => onMouseEnter(link.slug || '')}
+      onMouseEnter={() => onMouseEnter(page.slug || '')}
       onMouseLeave={onMouseLeave}
     >
       <NavLink
-        link={link}
+        link={page}
         path={path}
         activeLink={activeLink}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         toggleDrawerForm={toggleDrawerForm || (() => { })}
       />
-      {isServices &&
-        (activeLink === link.slug ||
+      {isServices && unitBusinessList &&
+        (activeLink === page.slug ||
           activeLink === 'derecho-familiar' ||
           activeLink === 'derecho-inmobiliario') && (
           <SubsectionsContainerSimple

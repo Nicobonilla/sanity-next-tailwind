@@ -1,4 +1,3 @@
-'use client';
 import { type ComponentProps } from '@/components/types';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 import clsx from 'clsx';

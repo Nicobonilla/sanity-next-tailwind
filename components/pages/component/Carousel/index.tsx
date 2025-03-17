@@ -1,32 +1,16 @@
 import EmblaCarousel from './EmblaCarousel';
-import { type EmblaOptionsType } from 'embla-carousel';
 import Background from '../Background';
 import type { ComponentProps, ComponentWithBannerPosts } from '@/components/types';
 import type { ColorItem } from '@/sanity.types';
+import type { CSSProperties } from 'react';
 
 export type CarouselProps = {
   data: ComponentProps | ComponentWithBannerPosts;
-  options: EmblaOptionsType;
-  autoplayOptions?: {
-    delay?: number;
-    stopOnInteraction?: boolean;
-    stopOnMouseEnter?: boolean;
-  };
+  styleBg?: CSSProperties | undefined;
 };
 
-export default function Carousel({ data }: CarouselProps) {
-  const autoplayOptions = {
-    delay: 7000,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
-    watchDrag: true,
-  };
-  //console.log('data: ', data  );
-  const options: EmblaOptionsType = {
-    align: 'start',
-    loop: true,
-    dragFree: false,
-  };
+export default function Carousel({ data, styleBg }: CarouselProps) {
+
   return (
     <>
       {data?.variant == 'post' && (
@@ -35,11 +19,10 @@ export default function Carousel({ data }: CarouselProps) {
             typeComponent: 'carousel',
             variant: 'post',
           }}
+          styleBg={styleBg}
         >
           <EmblaCarousel
             data={data as ComponentWithBannerPosts}
-            options={options}
-            autoplayOptions={autoplayOptions}
           />
         </Background>
       )}
@@ -51,11 +34,11 @@ export default function Carousel({ data }: CarouselProps) {
             colors: data?.backgroundValue?.colors as ColorItem[],
             layer: data?.backgroundValue?.layer ?? undefined
           }}
+          styleBg={styleBg}
+
         >
           <EmblaCarousel
             data={data as ComponentProps}
-            options={options}
-            autoplayOptions={autoplayOptions}
           />
         </Background>
       )}

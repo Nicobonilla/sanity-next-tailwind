@@ -2,25 +2,24 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import Logo from '@/components/global/Logo';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
-import type { GetPagesNavQueryResult, GetUnitBusinessListQueryResult } from '@/sanity.types';
+import { usePathname } from 'next/navigation';
+import type { NavbarProps } from '..';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface DrawerContentProps {
+  data: NavbarProps;
   isMenuOpen: boolean;
-  pages: GetPagesNavQueryResult;
-  unitBusinessList: GetUnitBusinessListQueryResult;
-  path: string;
   closeMenu: () => void;
 }
 
 export default function DrawerContent({
+  data,
   isMenuOpen,
-  pages,
-  unitBusinessList,
-  path,
   closeMenu,
 }: DrawerContentProps) {
   const { toggleDrawerForm } = useContactDrawerContext();
+  const path = usePathname();
+
   return (
     <div
       className={clsx(
@@ -31,12 +30,12 @@ export default function DrawerContent({
     >
       <nav className="max-h-screen overflow-y-auto p-6">
         <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">
-          {isMenuOpen && <Logo />}
+          {isMenuOpen && <Logo logo={data.logo} slogan={data.slogan} />}
         </div>
         <ul className="min-w-[250px]">
-          {pages.map((page) =>
+          {data.pages.map((page) =>
             page.slug === 'services' ? (
-              unitBusinessList?.map((business) => (
+              data.unitBusinessList?.map((business) => (
                 <li key={business.slug} className="nav-container">
                   <Link
                     href={`/area-de-practica/${business.slug}`}

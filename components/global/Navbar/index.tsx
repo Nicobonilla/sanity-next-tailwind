@@ -1,29 +1,67 @@
-'use client';
+'use client'; // Mantener esta directiva si estás usando Next.js App Router
+
 import React, { useEffect, useState } from 'react';
 import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/global/Logo';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-export default function Navbar() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [scrolling, setScrolling] = useState(false);
+export type NavbarProps = {
+  logo: string;
+  slogan: string;
+  pages: {
+    title: string | null;
+    slug: string | null;
+  }[];
+  unitBusinessList: {
+    title: string | null;
+    slug: string | null;
+  }[];
+  initialScrolling?: boolean; // Nueva prop para controlar el estado inicial
+}
 
+export default function Navbar({
+  logo,
+  slogan,
+  pages,
+  unitBusinessList,
+  initialScrolling = false // Valor por defecto false para SSR
+}: NavbarProps) {
+  // Estado para controlar si estamos en el cliente o en el servidor
+  const [isClient, setIsClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [scrolling, setScrolling] = useState(initialScrolling);
+
+  // Este efecto se ejecutará solo en el cliente después de la hidratación
   useEffect(() => {
-    const checkScreenSize = () => setIsMobile(window.innerWidth < 768);
-    checkScreenSize(); // Verifica tamaño inicial
+    // Marcar que estamos en el cliente
+    setIsClient(true);
+
+    // Configurar el detector de tamaño de pantalla
+    const checkScreenSize = () => setIsMobile(window.innerWidth < 1024);
+    checkScreenSize(); // Verificar tamaño inicial
     window.addEventListener("resize", checkScreenSize);
+
+    // Configurar el detector de scroll
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setScrolling(true);
       } else {
         setScrolling(false);
       }
-      return () => window.removeEventListener("resize", checkScreenSize);
     };
 
+    // Verificar la posición inicial del scroll
+    handleScroll();
+
+    // Agregar event listener para scroll
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Limpieza al desmontar
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -43,17 +81,25 @@ export default function Navbar() {
             className="my-auto h-fit"
           //onClick={() => trackButtonClick('logo', 'navbar')}
           >
-            <Logo />
+            <Logo logo={logo} slogan={slogan} />
           </div>
         </div>
 
-        {isMobile ? (
+        {/* Renderizado condicional basado en si estamos en el cliente y el tamaño de la pantalla */}
+        {!isClient ? (
+          // Versión inicial para SSR (siempre mostrar DeskNav)
+          <div className="hidden place-content-end lg:block">
+            <DeskNav pages={pages} unitBusinessList={unitBusinessList} />
+          </div>
+        ) : isMobile ? (
+          // Versión móvil (solo en cliente)
           <div className="flex items-center gap-2 lg:hidden">
-            <MobileNav />
+            <MobileNav pages={pages} unitBusinessList={unitBusinessList} logo={logo} slogan={slogan} />
           </div>
         ) : (
+          // Versión desktop (solo en cliente)
           <div className="hidden place-content-end lg:block">
-            <DeskNav />
+            <DeskNav pages={pages} unitBusinessList={unitBusinessList} />
           </div>
         )}
       </div>

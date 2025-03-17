@@ -137,11 +137,20 @@ export default async function RootLayout({
         <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Providers initialData={initialData} >
-              <Navbar />
+              <Navbar logo={settings.logo || ''}
+                slogan={settings.slogan || ''}
+                pages={pages.map((page) => ({
+                  title: page.title,
+                  slug: page.slug,
+                }))}
+                unitBusinessList={unitBusinessList.map(ub => ({
+                  title: ub.title,
+                  slug: ub.slug
+                }))} />
               <main className="grow flex-col">
                 {children}
                 <SpeedInsights />
-                <ContactForm />
+                <ContactForm logo={settings?.logo || ''} slogan={settings.slogan || ''} />
 
                 <WhatsappSticky />
                 {process.env.NODE_ENV === 'development' && <SanityLive />}
@@ -153,7 +162,7 @@ export default async function RootLayout({
                   </>
                 )}
               </main>
-              <Footer />
+              <Footer logo={settings?.logo || ''} slogan={settings.slogan || ''} />
             </Providers>
           </ErrorBoundary>
         </body>
