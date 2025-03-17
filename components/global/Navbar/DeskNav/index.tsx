@@ -1,21 +1,26 @@
 import NavItem from './NavItem';
-import { type GetPagesNavQueryResult } from '@/sanity.types';
+import { Suspense } from 'react';
+import NavItemSkeleton from './NavItem/NavItemSkeleton';
 import type { NavbarProps } from '..';
 
+export type DeskNavProps = Omit<NavbarProps, 'logo' | 'slogan' | 'initialScrolling'>
 
 export default function DeskNav({
   pages, unitBusinessList
-}: Omit<NavbarProps, 'logo' | 'slogan'>) {
+}: DeskNavProps) {
   return (
     <div>
       <ul className="flex h-full items-end justify-center">
-        {(pages as GetPagesNavQueryResult)?.map((pageLink) => (
+        <Suspense fallback={
+          <NavItemSkeleton
+            pages={pages}
+            unitBusinessList={unitBusinessList} />
+        }>
           <NavItem
-            key={pageLink.slug}
-            page={{ slug: pageLink?.slug, title: pageLink?.title }}
+            pages={pages}
             unitBusinessList={unitBusinessList}
           />
-        ))}
+        </Suspense>
       </ul>
     </div>
   )

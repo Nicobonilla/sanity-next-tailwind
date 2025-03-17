@@ -6,14 +6,16 @@ import { usePathname } from 'next/navigation';
 import type { NavbarProps } from '..';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-interface DrawerContentProps {
-  data: NavbarProps;
+export type DrawerContentProps = NavbarProps & {
   isMenuOpen: boolean;
   closeMenu: () => void;
-}
+};
 
 export default function DrawerContent({
-  data,
+  pages,
+  unitBusinessList,
+  logo,
+  slogan,
   isMenuOpen,
   closeMenu,
 }: DrawerContentProps) {
@@ -30,12 +32,12 @@ export default function DrawerContent({
     >
       <nav className="max-h-screen overflow-y-auto p-6">
         <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">
-          {isMenuOpen && <Logo logo={data.logo} slogan={data.slogan} />}
+          {isMenuOpen && <Logo logo={logo} slogan={slogan} />}
         </div>
         <ul className="min-w-[250px]">
-          {data.pages.map((page) =>
+          {pages.map((page) =>
             page.slug === 'services' ? (
-              data.unitBusinessList?.map((business) => (
+              unitBusinessList?.map((business) => (
                 <li key={business.slug} className="nav-container">
                   <Link
                     href={`/area-de-practica/${business.slug}`}

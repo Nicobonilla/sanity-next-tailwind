@@ -1,32 +1,23 @@
-'use client'; // Mantener esta directiva si estás usando Next.js App Router
-
-import React, { useEffect, useState } from 'react';
-import MobileNav from './MobileNav';
-import DeskNav from './DeskNav';
-import Logo from '@/components/global/Logo';
-//import { trackButtonClick } from '@/components/lib/GTMTrackers';
+import { useEffect, useState } from "react";
+import Logo from "../Logo";
+import DeskNav from "./DeskNav";
+import MobileNav from "./MobileNav";
 
 export type NavbarProps = {
   logo: string;
   slogan: string;
-  pages: {
-    title: string | null;
-    slug: string | null;
-  }[];
-  unitBusinessList: {
-    title: string | null;
-    slug: string | null;
-  }[];
-  initialScrolling?: boolean; // Nueva prop para controlar el estado inicial
-}
+  pages: { title: string; slug: string }[];
+  unitBusinessList?: { title: string; slug: string }[] | undefined;
+  initialScrolling?: boolean | undefined;
+};
 
-export default function Navbar({
+export default function NavbarClient({
   logo,
   slogan,
   pages,
   unitBusinessList,
   initialScrolling = false // Valor por defecto false para SSR
-}: NavbarProps) {
+}: NavbarProps): JSX.Element {
   // Estado para controlar si estamos en el cliente o en el servidor
   const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

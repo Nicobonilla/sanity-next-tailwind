@@ -1,7 +1,7 @@
 
 'use client';
 import type { ComponentProps, ComponentWithBannerPosts, ItemProps } from "@/components/types";
-import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
+import type { EmblaOptionsType } from "embla-carousel";
 import type { AutoplayOptionsType } from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -19,16 +19,14 @@ export default function EmblaCarouselClient({ data }: EmblaCarouselClientProps) 
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
 
-    const autoplayOptions: AutoplayOptionsType = {
+    const autoplayOptions = useMemo<AutoplayOptionsType>(() => ({
         delay: 7000,
         stopOnInteraction: false,
         stopOnMouseEnter: true,
-    };
+    }), []);
 
-    const fadePlugin = useMemo(
-        () => (data?.variant === "hero" ? Fade() : undefined),
-        [data?.variant]
-    );
+
+    const fadePlugin = useMemo(() => (data?.variant === "hero" ? Fade() : undefined), []);
 
     const plugins = useMemo(
         () =>
@@ -47,20 +45,16 @@ export default function EmblaCarouselClient({ data }: EmblaCarouselClientProps) 
 
     const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins);
 
-    const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
-        setActiveIndex(emblaApi.selectedScrollSnap());
-    }, []);
-
     useEffect(() => {
         if (!emblaApi) return;
 
-        onSelect(emblaApi);
-        emblaApi.on("select", onSelect);
+        const updateIndex = () => setActiveIndex(emblaApi.selectedScrollSnap());
 
-        return () => {
-            emblaApi.off("select", onSelect);
-        };
-    }, [emblaApi, onSelect]);
+        updateIndex(); // Inicializa `activeIndex`
+        emblaApi.on("select", updateIndex); // Se suscribe
+
+        return () => { emblaApi.off("select", updateIndex) }; // Cleanup
+    }, [emblaApi]);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -79,7 +73,7 @@ export default function EmblaCarouselClient({ data }: EmblaCarouselClientProps) 
                 emblaApi.scrollTo(index);
             }
         },
-        [isMobile, emblaApi]
+        [isMobile]
     );
 
     return (

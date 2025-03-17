@@ -5,7 +5,11 @@ import Overlay from "./Overlay";
 import DrawerContent from "./DrawerContent";
 import type { NavbarProps } from "..";
 
-export default function MobileNavClient({ pages, unitBusinessList, logo, slogan }: NavbarProps) {
+export default function MobileNavClient({
+    pages,
+    unitBusinessList,
+    logo,
+    slogan }: NavbarProps) {
     const { isOpen, closeDrawer, toggleDrawerNav } = useDrawerNavContext();
     const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -37,12 +41,10 @@ export default function MobileNavClient({ pages, unitBusinessList, logo, slogan 
             <div ref={drawerRef}>
                 <DrawerContent
                     isMenuOpen={isOpen}
-                    data={{
-                        pages: pages,
-                        unitBusinessList: unitBusinessList,
-                        logo: logo,
-                        slogan: slogan,
-                    }}
+                    pages={pages}
+                    unitBusinessList={unitBusinessList}
+                    logo={logo}
+                    slogan={slogan}
                     closeMenu={closeDrawer}
                 />
             </div>

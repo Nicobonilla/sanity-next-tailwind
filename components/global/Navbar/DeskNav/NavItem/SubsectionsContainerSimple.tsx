@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
-import type { NavbarProps } from '..';
+import type { DeskNavProps } from '..';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
 interface SubsectionsContainerSimpleProps {
-  unitBusinessList: NavbarProps['unitBusinessList'];
+  unitBusinessList: DeskNavProps['unitBusinessList'];
   onMouseEnter: (slug: string) => void;
   onMouseLeave: () => void;
 }
@@ -30,7 +30,7 @@ export default function SubsectionsContainerSimple({
   return (
     <div className="absolute left-0 top-full z-50 w-[200px] bg-white shadow-lg xl:w-[250px]">
       <ul className="flex flex-col">
-        {unitBusinessList.map((business) => (
+        {unitBusinessList?.map((business) => (
           <li
             key={business.slug}
             className={clsx(
