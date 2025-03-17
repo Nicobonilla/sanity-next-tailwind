@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from "react";
 import Logo from "../Logo";
 import DeskNav from "./DeskNav";
@@ -6,8 +7,8 @@ import MobileNav from "./MobileNav";
 export type NavbarProps = {
   logo: string;
   slogan: string;
-  pages: { title: string; slug: string }[];
-  unitBusinessList?: { title: string; slug: string }[] | undefined;
+  pages: { title: string | null; slug: string | null }[];
+  unitBusinessList?: { title: string | null; slug: string | null }[] | undefined;
   initialScrolling?: boolean | undefined;
 };
 
