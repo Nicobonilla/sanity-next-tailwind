@@ -20,15 +20,11 @@ export default function NavbarClient({
   initialScrolling = false // Valor por defecto false para SSR
 }: NavbarProps): JSX.Element {
   // Estado para controlar si estamos en el cliente o en el servidor
-  const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [scrolling, setScrolling] = useState(initialScrolling);
 
   // Este efecto se ejecutará solo en el cliente después de la hidratación
   useEffect(() => {
-    // Marcar que estamos en el cliente
-    setIsClient(true);
-
     // Configurar el detector de tamaño de pantalla
     const checkScreenSize = () => setIsMobile(window.innerWidth < 1024);
     checkScreenSize(); // Verificar tamaño inicial
@@ -78,13 +74,7 @@ export default function NavbarClient({
         </div>
 
         {/* Renderizado condicional basado en si estamos en el cliente y el tamaño de la pantalla */}
-        {!isClient ? (
-          // Versión inicial para SSR (siempre mostrar DeskNav)
-          <div className="hidden place-content-end lg:block">
-            <DeskNav pages={pages} unitBusinessList={unitBusinessList} />
-          </div>
-        ) : isMobile ? (
-          // Versión móvil (solo en cliente)
+        {isMobile ? (
           <div className="flex items-center gap-2 lg:hidden">
             <MobileNav pages={pages} unitBusinessList={unitBusinessList} logo={logo} slogan={slogan} />
           </div>

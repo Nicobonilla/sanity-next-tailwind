@@ -18,9 +18,9 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 //import { GoogleTagManager } from '@next/third-parties/google';
 //import GTMGlobals from '@/components/lib/GTMGlobals';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import dynamic from "next/dynamic";
-
-const ContactForm = dynamic(() => import('@/components/global/ContactForm'), { ssr: false });
+import ContactForm from '@/components/global/ContactForm';
+import { Suspense } from 'react';
+import NavbarSkeleton from '@/components/global/Navbar/NavbarSkeleton';
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -137,16 +137,33 @@ export default async function RootLayout({
         <body className="min-h-screen min-w-[320px] flex-col">
           <ErrorBoundary>
             <Providers initialData={initialData} >
-              <Navbar logo={settings.logo || ''}
-                slogan={settings.slogan || ''}
-                pages={pages.map((page) => ({
-                  title: page.title,
-                  slug: page.slug,
-                }))}
-                unitBusinessList={unitBusinessList.map(ub => ({
-                  title: ub.title,
-                  slug: ub.slug
-                }))} />
+              <Suspense fallback={
+                <NavbarSkeleton
+                  logo={settings.logo || ''}
+                  slogan={settings.slogan || ''}
+                  pages={pages.map((page) => ({
+                    title: page.title,
+                    slug: page.slug,
+                  }))}
+                  unitBusinessList={unitBusinessList.map(ub => ({
+                    title: ub.title,
+                    slug: ub.slug
+                  }))}
+                />}
+              >
+                <Navbar
+                  logo={settings.logo || ''}
+                  slogan={settings.slogan || ''}
+                  pages={pages.map((page) => ({
+                    title: page.title,
+                    slug: page.slug,
+                  }))}
+                  unitBusinessList={unitBusinessList.map(ub => ({
+                    title: ub.title,
+                    slug: ub.slug
+                  }))} />
+              </Suspense>
+
               <main className="grow flex-col">
                 {children}
                 <SpeedInsights />
@@ -166,7 +183,7 @@ export default async function RootLayout({
             </Providers>
           </ErrorBoundary>
         </body>
-      </html>
+      </html >
     );
   } catch (error) {
     console.error('Error in RootLayout:', error);

@@ -59,8 +59,8 @@ export default function SubsectionsContainerSimple({
               {business.title}
             </Link>
           </li>
-        ))}
-      </ul>
+        ))}      
+        </ul>
     </div>
   );
 }

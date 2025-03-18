@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import type { DeskNavProps } from '..';
+import ButtonNavContact from './ButtonNavContact';
 
 export default function NavItem({ pages,
   unitBusinessList,
@@ -32,7 +33,7 @@ export default function NavItem({ pages,
             {
               'hover:bg-neutral-950 hover:text-white':
                 !(page.slug === 'contacto'),
-              'ml-4 h-8 rounded-sm bg-blue-900/90 hover:bg-blue-950':
+              'ml-4 rounded-sm bg-blue-900/90 hover:bg-blue-950':
                 page.slug === 'contacto',
               'bg-neutral-950 text-white':
                 path !== '/' && path === `/${page.slug}`,
@@ -41,26 +42,38 @@ export default function NavItem({ pages,
           onMouseEnter={() => onMouseEnter(page.slug || '')}
           onMouseLeave={onMouseLeave}
         >
-          <NavLink
-            page={page}
-            path={path}
-            activeLink={activeLink}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            toggleDrawerForm={toggleDrawerForm || (() => { })}
-          />
-          {page.slug === 'services' && unitBusinessList &&
-            (activeLink === page.slug ||
-              activeLink === 'derecho-familiar' ||
-              activeLink === 'derecho-inmobiliario') && (
-              <SubsectionsContainerSimple
-                unitBusinessList={unitBusinessList}
+          {page.slug === 'services' || page.slug === 'contacto' ? (
+            <>
+              <ButtonNavContact
+                page={page}
+                path={path}
+                activeLink={activeLink}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                toggleDrawerForm={toggleDrawerForm}
               />
-            )}
-        </li>))
-      }
-    </>
-  );
+              {page.slug === 'services' && unitBusinessList &&
+                (activeLink === page.slug ||
+                  activeLink === 'derecho-familiar' ||
+                  activeLink === 'derecho-inmobiliario') && (
+                  <SubsectionsContainerSimple
+                    unitBusinessList={unitBusinessList}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                  />
+                )}
+            </>
+          ) : (
+            <NavLink
+              page={page}
+              path={path}
+              activeLink={activeLink}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              toggleDrawerForm={toggleDrawerForm || (() => { })}
+            />
+          )}
+        </li>
+      ))}
+    </>);
 }

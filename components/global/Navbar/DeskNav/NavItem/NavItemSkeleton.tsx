@@ -3,11 +3,7 @@ import SubsectionsContainerSimpleSk from './SubsectionsContainerSimpleSk';
 import NavLinkSkeleton from './NavLinkSkeleton';
 import type { DeskNavProps } from '..';
 
-export default function NavItemSkeleton({
-    pages,
-    unitBusinessList,
-}: DeskNavProps) {
-
+export default function NavItemSkeleton({ pages, unitBusinessList }: DeskNavProps) {
     return (
         <>
             {pages?.map((page: DeskNavProps['pages'][number]) => {
@@ -25,9 +21,11 @@ export default function NavItemSkeleton({
                         )}
                     >
                         <NavLinkSkeleton page={page} />
-                        {unitBusinessList && isService && <SubsectionsContainerSimpleSk unitBusinessList={unitBusinessList} />}
+                        {unitBusinessList && isService && (
+                            <SubsectionsContainerSimpleSk unitBusinessList={unitBusinessList} />
+                        )}
                     </li>
-                )
+                );
             })}
         </>
     );

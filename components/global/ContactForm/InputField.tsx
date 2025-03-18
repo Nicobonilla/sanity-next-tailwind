@@ -59,3 +59,14 @@ export default function InputField({
         </div>
     );
 }
+
+export function InputFieldSkeleton() {
+    return (
+      <div className="relative space-y-1 animate-pulse">
+        <div className="relative">
+          <div className="absolute left-3 top-3 h-4 w-4 rounded-full bg-gray-600" /> {/* Icono */}
+          <div className="h-10 w-full rounded bg-[#1a201f] py-2 pl-10 pr-4" /> {/* Input */}
+        </div>
+      </div>
+    );
+  }

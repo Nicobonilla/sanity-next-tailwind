@@ -6,7 +6,9 @@ import { usePathname } from 'next/navigation';
 import type { NavbarProps } from '..';
 //import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-export type DrawerContentProps = NavbarProps & {
+type DrawerContentProps = Omit<NavbarProps, 'logo' | 'slogan'> & {
+  logo: string;
+  slogan: string;
   isMenuOpen: boolean;
   closeMenu: () => void;
 };
@@ -24,11 +26,7 @@ export default function DrawerContent({
 
   return (
     <div
-      className={clsx(
-        'mobile-nav-drawer fixed right-0 top-0 z-40 h-screen bg-neutral-950',
-        'shadow-lg transition-all duration-300 ease-in-out',
-        isMenuOpen ? 'w-4/5 translate-x-0 sm:w-3/4' : 'w-0 translate-x-full'
-      )}
+      className={`mobile-nav-drawer fixed right-0 top-0 z-40 h-screen w-4/5 sm:w-3/4 bg-neutral-950 shadow-lg ${isMenuOpen ? "open" : ""}`}
     >
       <nav className="max-h-screen overflow-y-auto p-6">
         <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">

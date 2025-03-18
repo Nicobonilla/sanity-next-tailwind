@@ -153,3 +153,23 @@
 .force-relative {
   position: relative !important;
 }
+
+.contact-drawer {
+  will-change: transform, opacity;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.contact-drawer.open {
+  transform: translate3d(0, 0, 0);
+}
+
+.mobile-nav-drawer {
+  will-change: transform, opacity;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.mobile-nav-drawer.open {
+  transform: translate3d(0, 0, 0);
+}

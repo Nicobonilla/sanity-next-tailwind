@@ -1,46 +1,23 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { useContactDrawerContext } from "@/context/ContactDrawerContext"
-import { object as zobject, string as zstring, type infer as zinfer, ZodError } from "zod"
 
-// Define Zod schema for form validation
-const formSchema = zobject({
-  name: zstring().min(3, { message: "El nombre es requerido (mínimo 3 caracteres)" }),
-  rut: zstring().refine(
-    (value) => {
-      // Basic RUT validation (Chilean ID)
-      if (!value) return false
-      const cleanRut = value.replace(/[.-]/g, "")
-      const rutRegex = /^(\d{1,8})([0-9K])$/
-      return rutRegex.test(cleanRut)
-    },
-    { message: "RUT inválido" },
-  ),
-  phone: zstring().refine(
-    (value) => {
-      // Chilean phone number validation
-      const phoneRegex = /^(\+?56)?(\s?)(9)(\s?)[98765432]\d{7}$/
-      return phoneRegex.test(value)
-    },
-    { message: "Número de teléfono inválido (debe tener 9 dígitos)" },
-  ),
-  comuna: zstring().min(2, { message: "Comuna es requerida" }),
-  email: zstring().email({ message: "Email inválido" }),
-  mainCategory: zstring().optional(),
-  serviceCategory: zstring().min(1, { message: "Selecciona un servicio" }),
-  message: zstring().optional(),
-})
+// Tipos básicos que necesitamos inmediatamente
+export type TForm = {
+  name: string;
+  rut: string;
+  phone: string;
+  comuna: string;
+  email: string;
+  mainCategory: string;
+  serviceCategory: string;
+  message: string;
+}
 
-// Infer the type from the schema
-type TForm = zinfer<typeof formSchema>
-
-// Type for form errors
-type TFormErrors = {
+export type TFormErrors = {
   [key in keyof TForm]?: string
 }
 
@@ -71,6 +48,24 @@ const initialTouched: Record<keyof TForm, boolean> = {
 // Storage key for form data
 const FORM_STORAGE_KEY = "contact_form_data"
 
+// Implementación de validación propia sin Zod
+const validateEmail = (email: string): boolean => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+};
+
+const validateRut = (rut: string): boolean => {
+  if (!rut) return false;
+  const cleanRut = rut.replace(/[.-]/g, "");
+  const rutRegex = /^(\d{1,8})([0-9K])$/;
+  return rutRegex.test(cleanRut);
+};
+
+const validatePhone = (phone: string): boolean => {
+  const phoneRegex = /^(\+?56)?(\s?)(9)(\s?)[98765432]\d{7}$/;
+  return phoneRegex.test(phone);
+};
+
 export const useContactForm = () => {
   const { closeDrawer } = useContactDrawerContext()
   const router = useRouter()
@@ -89,7 +84,6 @@ export const useContactForm = () => {
         setFormData(parsedData)
       } catch (error) {
         console.error("Error parsing saved form data:", error)
-        // If there's an error parsing, clear the localStorage
         localStorage.removeItem(FORM_STORAGE_KEY)
       }
     }
@@ -100,46 +94,53 @@ export const useContactForm = () => {
     ? `${formData.serviceCategory}${formData.mainCategory ? ` - ${formData.mainCategory}` : ""}`
     : null
 
-  // Validate a single field using Zod
-  const validateField = (name: keyof TForm, value: string): string => {
-    // Create a partial schema for just this field
-    const fieldSchema = zobject({ [name]: formSchema.shape[name] })
-
-    try {
-      // Validate just this field
-      fieldSchema.parse({ [name]: value })
-      return ""
-    } catch (error) {
-      if (error instanceof ZodError) {
-        // Extract the error message for this field
-        const fieldError = error.errors.find((err) => err.path[0] === name)
-        return fieldError?.message || ""
-      }
-      return ""
+  // Validate a single field using our custom validation
+  const validateField = useCallback((name: keyof TForm, value: string): string => {
+    switch(name) {
+      case 'name':
+        return !value || value.length < 3 ? "El nombre es requerido (mínimo 3 caracteres)" : "";
+      
+      case 'rut':
+        return !validateRut(value) ? "RUT inválido" : "";
+      
+      case 'phone':
+        return !validatePhone(value) ? "Número de teléfono inválido (debe tener 9 dígitos)" : "";
+      
+      case 'comuna':
+        return !value || value.length < 2 ? "Comuna es requerida" : "";
+      
+      case 'email':
+        return !validateEmail(value) ? "Email inválido" : "";
+      
+      case 'serviceCategory':
+        return !value ? "Selecciona un servicio" : "";
+      
+      default:
+        return "";
     }
-  }
+  }, []);
 
-  // Validate all fields using Zod
-  const validateForm = (): boolean => {
-    try {
-      formSchema.parse(formData)
-      setErrors({})
-      return true
-    } catch (error) {
-      if (error instanceof ZodError) {
-        // Convert Zod errors to our error format
-        const newErrors: TFormErrors = {}
-        error.errors.forEach((err) => {
-          const field = err.path[0] as keyof TForm
-          newErrors[field] = err.message
-        })
-        setErrors(newErrors)
+  // Validate all fields
+  const validateForm = useCallback((): boolean => {
+    let isValid = true;
+    const newErrors: TFormErrors = {};
+    
+    // Validar cada campo
+    Object.keys(formData).forEach((key) => {
+      const fieldName = key as keyof TForm;
+      const error = validateField(fieldName, formData[fieldName] || "");
+      
+      if (error) {
+        newErrors[fieldName] = error;
+        isValid = false;
       }
-      return false
-    }
-  }
+    });
+    
+    setErrors(newErrors);
+    return isValid;
+  }, [formData, validateField]);
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     const fieldName = name as keyof TForm
 
@@ -161,9 +162,9 @@ export const useContactForm = () => {
         [fieldName]: error,
       }))
     }
-  }
+  }, [formData, touched, validateField])
 
-  const handleBlur = (name: keyof TForm) => {
+  const handleBlur = useCallback((name: keyof TForm) => {
     setTouched((prev) => ({
       ...prev,
       [name]: true,
@@ -175,18 +176,18 @@ export const useContactForm = () => {
       ...prev,
       [name]: error,
     }))
-  }
+  }, [formData, validateField])
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setFormData(initialForm)
     setErrors(initialErrors)
     setTouched(initialTouched)
     setFormSubmitted(false)
     // Clear localStorage
     localStorage.removeItem(FORM_STORAGE_KEY)
-  }
+  }, [])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setFormSubmitted(true)
 
@@ -208,7 +209,6 @@ export const useContactForm = () => {
     }
 
     setIsLoading(true)
-    //trackFormSubmit('submited');
 
     try {
       const success = await sendEmail(formData)
@@ -224,7 +224,7 @@ export const useContactForm = () => {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [formData, validateForm, resetForm, closeDrawer, router])
 
   return {
     formData,
@@ -270,4 +270,3 @@ async function sendEmail(formData: TForm) {
     return false
   }
 }
-

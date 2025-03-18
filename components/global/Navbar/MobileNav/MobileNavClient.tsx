@@ -1,3 +1,4 @@
+'use client';
 import { useDrawerNavContext } from "@/context/DrawerNavContext";
 import { useEffect, useRef } from "react";
 import MenuButton from "./MenuButton";

@@ -8,28 +8,19 @@ interface SubsectionsContainerSimpleSkProps {
 export default function SubsectionsContainerSimpleSk({
   unitBusinessList,
 }: SubsectionsContainerSimpleSkProps) {
-
   return (
-    <div className="absolute left-0 top-full z-50 w-[200px] bg-white shadow-lg xl:w-[250px]">
+    <div className="absolute left-0 top-full z-50 w-[200px] bg-white shadow-lg xl:w-[250px] animate-pulse">
       <ul className="flex flex-col">
-        {unitBusinessList?.map((business) => (
+        {/* Simulamos un número fijo de ítems basado en unitBusinessList o un promedio */}
+        {Array.from({ length: unitBusinessList?.length || 3 }).map((_, index) => (
           <li
-            key={business.slug}
+            key={index}
             className={clsx(
-              'relative flex items-center justify-center uppercase transition-colors duration-300',
-              'hover:bg-gradient-to-r hover:from-white hover:via-gray-200 hover:to-white'
+              'relative flex items-center justify-center',
+              'border-b border-gray-200'
             )}
           >
-            <a
-              href={`/area-de-practica/${business.slug}`}
-              className={clsx(
-                'w-full py-3 text-center font-montserrat text-sm',
-                'border-b border-gray-200',
-                'font-light text-neutral-900'
-              )}
-            >
-              {business.title}
-            </a>
+            <div className="w-full h-10 bg-gray-200" />
           </li>
         ))}
       </ul>
