@@ -32,7 +32,7 @@ const PT1: PortableTextComponents = {
     normal: ({ children }) => (
       <span
         className={clsx(
-          'mt-3 font-crimson text-lg font-thin leading-5 text-white',
+          'mt-3 font-crimson text-lg font-extralight leading-5 text-white',
           'md:mt-5 lg:text-2xl'
         )}
       >

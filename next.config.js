@@ -9,6 +9,7 @@ const baseConfig = {
   experimental: {
     typedRoutes: true,
     optimizeCss: true,
+    inlineCss: true,
   },
   logging: {
     fetches: { fullUrl: !isProduction }, // Solo en desarrollo
