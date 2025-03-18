@@ -1,8 +1,9 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import ImageBg from "../Background/ImageBg"
-import type { ItemProps } from "@/components/types"
+import { motion, useInView } from "framer-motion";
+import { useRef, useEffect } from "react";
+import ImageBg from "../Background/ImageBg";
+import type { ItemProps } from "@/components/types";
 
 export default function AnimatedImageBg({
   imgBg,
@@ -11,12 +12,22 @@ export default function AnimatedImageBg({
   onLoad = () => { },
   showSkeleton = false,
 }: {
-  imgBg: ItemProps["image"]
-  index: number
-  isActive: boolean
-  onLoad?: () => void
-  showSkeleton?: boolean
+  imgBg: ItemProps["image"];
+  index: number;
+  isActive: boolean;
+  onLoad?: () => void;
+  showSkeleton?: boolean;
 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false });
+
+  // Llamar a onLoad cuando el componente está en vista o es activo
+  useEffect(() => {
+    if ((isInView || isActive) && onLoad) {
+      onLoad();
+    }
+  }, [isInView, isActive, onLoad]);
+
   // Simple animation variants
   const variants = {
     active: {
@@ -29,25 +40,24 @@ export default function AnimatedImageBg({
       opacity: 0.9,
       transition: { duration: 1.5, ease: "easeIn" },
     },
-  }
+  };
 
   return (
     <motion.div
-      className="absolute inset-0 overflow-hidden"
+      ref={ref}
+      className="absolute inset-0 w-full h-full overflow-hidden"
       initial="inactive"
       animate={isActive ? "active" : "inactive"}
       variants={variants}
-      onAnimationStart={onLoad}
     >
       <ImageBg
         imgBg={imgBg}
         index={index}
-        className={"size-full"}
-        sizes={"100vw"}
+        className="w-full h-full object-cover"
+        sizes="100vw"
         showSkeleton={showSkeleton}
         onLoad={onLoad}
       />
     </motion.div>
-  )
+  );
 }
-

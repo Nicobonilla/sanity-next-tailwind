@@ -1,192 +1,190 @@
-"use client"
-import type { ComponentProps, ComponentWithBannerPosts, ItemProps } from "@/components/types"
-import type { EmblaOptionsType } from "embla-carousel"
-import type { AutoplayOptionsType } from "embla-carousel-autoplay"
-import useEmblaCarousel from "embla-carousel-react"
-import { useCallback, useEffect, useMemo, useState, useRef } from "react"
-import Fade from "embla-carousel-fade"
-import Autoplay from "embla-carousel-autoplay"
-import type { GetPostListByUnitBusinessQueryResult, GetPostListQueryResult } from "@/sanity.types"
-import SlidePost from "./SlidePost"
-import SlideHero from "./SlideHero"
+'use client';
+import type { ComponentProps, ComponentWithBannerPosts, ItemProps } from "@/components/types";
+import type { EmblaOptionsType } from "embla-carousel";
+import type { AutoplayOptionsType } from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import Fade from "embla-carousel-fade";
+import Autoplay from "embla-carousel-autoplay";
+import type { GetPostListByUnitBusinessQueryResult, GetPostListQueryResult } from "@/sanity.types";
+import SlidePost from "./SlidePost";
+import SlideHero from "./SlideHero";
+import { useInView } from "framer-motion";
 
 type EmblaCarouselClientProps = {
-    data: ComponentWithBannerPosts | ComponentProps
-}
+    data: ComponentWithBannerPosts | ComponentProps;
+};
 
-// Global cache to track loaded images across renders
-const loadedImagesCache = new Set<number>()
-
-// Number of slides to preload ahead and behind the current slide
-const PRELOAD_COUNT = 2
+// Global cache to track which slides should be loaded
+const slidesToLoadCache = new Set<number>();
 
 export default function EmblaCarouselClient({ data }: EmblaCarouselClientProps) {
-    const [activeIndex, setActiveIndex] = useState(0)
-    const [isMobile, setIsMobile] = useState(false)
-    const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set(loadedImagesCache))
-    const [initialLoadComplete, setInitialLoadComplete] = useState(false)
-    const totalSlides = useRef(data?.items?.length || ('bannerPostsItems' in data ? data.bannerPostsItems?.length : 0) || 0)
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+    const [slidesToLoad, setSlidesToLoad] = useState<Set<number>>(new Set([0])); // Start with first slide
+    const containerRef = useRef(null);
 
-    const autoplayOptions = useMemo<AutoplayOptionsType>(
-        () => ({
-            delay: 7000,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-        }),
-        [],
-    )
+    // Use Framer Motion's useInView to detect when carousel is near viewport
+    const isInView = useInView(containerRef, {
+        margin: "200px", // Start loading when carousel is 200px away from viewport
+        once: false // Keep checking if it goes in and out of view
+    });
 
-    const fadePlugin = useMemo(() => (data?.variant === "hero" ? Fade() : undefined), [data?.variant])
+    const autoplayOptions = useMemo<AutoplayOptionsType>(() => ({
+        delay: 7000,
+        stopOnInteraction: false,
+        stopOnMouseEnter: true,
+    }), []);
+
+    const fadePlugin = useMemo(() => (data?.variant === "hero" ? Fade() : undefined), [data?.variant]);
 
     const plugins = useMemo(
         () =>
-            [Autoplay(autoplayOptions), fadePlugin].filter((plugin): plugin is NonNullable<typeof plugin> => Boolean(plugin)),
-        [autoplayOptions, fadePlugin],
-    )
+            [
+                Autoplay(autoplayOptions),
+                fadePlugin,
+            ].filter((plugin): plugin is NonNullable<typeof plugin> => Boolean(plugin)),
+        [autoplayOptions, fadePlugin]
+    );
 
     const options: EmblaOptionsType = {
-        align: "start",
+        align: 'start',
         loop: true,
         dragFree: false,
-    }
+    };
 
-    const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins)
+    const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins);
 
-    // Function to mark an image as loaded
-    const markImageLoaded = useCallback((index: number) => {
-        setLoadedImages((prev) => {
-            const newSet = new Set(prev)
-            newSet.add(index)
-            loadedImagesCache.add(index) // Update the global cache
-            return newSet
-        })
-    }, [])
+    // Function to mark a slide for loading
+    const markSlideForLoading = useCallback((index: number) => {
+        setSlidesToLoad((prev) => {
+            const newSet = new Set(prev);
+            newSet.add(index);
+            slidesToLoadCache.add(index);
+            return newSet;
+        });
+    }, []);
 
-    // Function to preload images around the current index
-    const preloadAdjacentSlides = useCallback(
-        (currentIndex: number) => {
-            if (totalSlides.current === 0) return
+    // Preload adjacent slides when a slide becomes active
+    const preloadAdjacentSlides = useCallback((currentIndex: number) => {
+        const totalSlides = data?.variant === "post" && "bannerPostsItems" in data
+            ? data.bannerPostsItems?.length || 0
+            : data?.items?.length || 0;
 
-            // Calculate indices to preload (current + PRELOAD_COUNT ahead and behind)
-            const indicesToPreload = []
+        if (totalSlides === 0) return;
 
-            // Add current index
-            indicesToPreload.push(currentIndex)
+        // Calculate next and previous indices with loop
+        const nextIndex = (currentIndex + 1) % totalSlides;
+        const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
 
-            // Add next slides
-            for (let i = 1; i <= PRELOAD_COUNT; i++) {
-                const nextIndex = (currentIndex + i) % totalSlides.current
-                indicesToPreload.push(nextIndex)
-            }
-
-            // Add previous slides
-            for (let i = 1; i <= PRELOAD_COUNT; i++) {
-                const prevIndex = (currentIndex - i + totalSlides.current) % totalSlides.current
-                indicesToPreload.push(prevIndex)
-            }
-
-            // Mark these indices for loading if they're not already loaded
-            indicesToPreload.forEach((index) => {
-                if (!loadedImages.has(index)) {
-                    // Use setTimeout to stagger the loading and not block the main thread
-                    setTimeout(() => markImageLoaded(index), 100 * (index - currentIndex))
-                }
-            })
-        },
-        [loadedImages, markImageLoaded],
-    )
+        // Preload current, next and previous slides
+        markSlideForLoading(currentIndex);
+        markSlideForLoading(nextIndex);
+        markSlideForLoading(prevIndex);
+    }, [data, markSlideForLoading]);
 
     useEffect(() => {
-        if (!emblaApi) return
+        if (!emblaApi || !isInView) return;
 
         const updateIndex = () => {
-            const newIndex = emblaApi.selectedScrollSnap()
-            setActiveIndex(newIndex)
+            const newIndex = emblaApi.selectedScrollSnap();
+            setActiveIndex(newIndex);
 
             // Preload adjacent slides when a new slide becomes active
-            preloadAdjacentSlides(newIndex)
-        }
+            preloadAdjacentSlides(newIndex);
+        };
 
-        updateIndex() // Initialize activeIndex
-        emblaApi.on("select", updateIndex) // Subscribe to slide changes
-
-        // Mark initial load as complete after first render and preload initial slides
-        if (!initialLoadComplete) {
-            setInitialLoadComplete(true)
-            preloadAdjacentSlides(0) // Preload slides around the first slide
-        }
+        updateIndex(); // Initialize activeIndex
+        emblaApi.on("select", updateIndex); // Subscribe to slide changes
 
         return () => {
-            emblaApi.off("select", updateIndex)
-        } // Cleanup
-    }, [emblaApi, initialLoadComplete, preloadAdjacentSlides])
+            emblaApi.off("select", updateIndex);
+        }; // Cleanup
+    }, [emblaApi, isInView, preloadAdjacentSlides]);
+
+    // Initial load of first few slides when carousel comes into view
+    useEffect(() => {
+        if (isInView) {
+            const initialSlidesToLoad = isMobile ? 3 : 5;
+            const totalSlides = data?.variant === "post" && "bannerPostsItems" in data
+                ? data.bannerPostsItems?.length || 0
+                : data?.items?.length || 0;
+
+            for (let i = 0; i < Math.min(initialSlidesToLoad, totalSlides); i++) {
+                markSlideForLoading(i);
+            }
+        }
+    }, [isInView, isMobile, data, markSlideForLoading]);
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768)
-        }
+            setIsMobile(window.innerWidth <= 768);
+        };
 
-        checkMobile()
-        window.addEventListener("resize", checkMobile)
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
 
-        return () => window.removeEventListener("resize", checkMobile)
-    }, [])
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     const handleClick = useCallback(
         (index: number) => {
             if (isMobile && emblaApi) {
-                emblaApi.scrollTo(index)
+                emblaApi.scrollTo(index);
+                markSlideForLoading(index);
             }
         },
-        [isMobile, emblaApi],
-    )
+        [isMobile, emblaApi, markSlideForLoading]
+    );
 
-    // Update totalSlides ref when data changes
-    useEffect(() => {
-        if ('bannerPostsItems' in data) {
-
-            totalSlides.current = data.bannerPostsItems?.length || 0;
-        } else {
-            totalSlides.current = data?.items?.length || 0;
-        }
-    }, [data])
     return (
-        <div ref={emblaRef} className="embla__viewport">
-            <div className="embla__container">
-
-
-
-                {data.variant === "post" &&
-                    'bannerPostsItems' in data &&
-                    data.bannerPostsItems?.map(
-                        (slide: GetPostListQueryResult[number] | GetPostListByUnitBusinessQueryResult[number], index: number) => (
-                            <div key={index} className="embla__slide" onClick={() => handleClick(index)}>
-                                <SlidePost
+        <div ref={containerRef} className="relative w-full">
+            {/* IMPORTANTE: La estructura correcta para Embla Carousel */}
+            <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                    {data.variant === "post" &&
+                        "bannerPostsItems" in data &&
+                        data?.bannerPostsItems?.map(
+                            (
+                                slide:
+                                    | GetPostListQueryResult[number]
+                                    | GetPostListByUnitBusinessQueryResult[number],
+                                index: number
+                            ) => (
+                                <div
                                     key={index}
-                                    post={slide}
-                                    isLoaded={loadedImages.has(index)}
-                                    onLoad={() => markImageLoaded(index)}
+                                    className="flex-[0_0_100%] min-w-0"
+                                    onClick={() => handleClick(index)}
+                                >
+                                    <SlidePost
+                                        key={index}
+                                        post={slide}
+                                        isLoaded={slidesToLoad.has(index)}
+                                        onLoad={() => markSlideForLoading(index)}
+                                    />
+                                </div>
+                            )
+                        )}
+
+                    {data?.variant === "hero" &&
+                        data?.items?.map((slide: ItemProps, index: number) => (
+                            <div
+                                key={index}
+                                className="flex-[0_0_100%] min-w-0"
+                                onClick={() => handleClick(index)}
+                            >
+                                <SlideHero
+                                    key={`${index}-${activeIndex}`}
+                                    slide={slide as ItemProps}
+                                    index={index}
+                                    activeIndex={activeIndex}
+                                    isLoaded={slidesToLoad.has(index)}
+                                    onLoad={() => markSlideForLoading(index)}
                                 />
                             </div>
-                        ),
-                    )}
-
-
-                {data?.variant === "hero" &&
-                    data?.items?.map((slide: ItemProps, index: number) => (
-                        <div key={index} className="embla__slide" onClick={() => handleClick(index)}>
-                            <SlideHero
-                                key={`${index}-${activeIndex}`}
-                                slide={slide as ItemProps}
-                                index={index}
-                                activeIndex={activeIndex}
-                                isLoaded={loadedImages.has(index)}
-                                onLoad={() => markImageLoaded(index)}
-                            />
-                        </div>
-                    ))}
+                        ))}
+                </div>
             </div>
         </div>
-    )
-
+    );
 }

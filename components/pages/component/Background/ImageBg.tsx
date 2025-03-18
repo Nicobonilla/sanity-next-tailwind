@@ -1,9 +1,12 @@
-"use client"
+'use client';
 
-import { useState, useEffect, useRef, useCallback, memo } from "react"
-import type { ComponentProps } from "@/components/types"
-import { urlForImage } from "@/sanity/lib/utils"
-import Image from "next/image"
+import { useState, useEffect, useRef, useCallback, memo } from "react";
+import type { ComponentProps } from "@/components/types";
+import { urlForImage } from "@/sanity/lib/utils";
+import Image from "next/image";
+
+// Global registry to track which images have been loaded
+const loadedImagesRegistry = new Map<string, boolean>();
 
 const ImageBg = memo(
   ({
@@ -14,32 +17,89 @@ const ImageBg = memo(
     showSkeleton = false,
     onLoad,
   }: {
-    imgBg: ComponentProps["imageBackground"]
-    index: number
-    className?: string
-    sizes?: string
-    showSkeleton?: boolean
-    onLoad?: () => void
+    imgBg: ComponentProps["imageBackground"];
+    index: number;
+    className?: string;
+    sizes?: string;
+    showSkeleton?: boolean;
+    onLoad?: () => void;
   }) => {
-    const isPriority = index === 0
-    const [loaded, setLoaded] = useState(false)
-    const [optimizedSrc, setOptimizedSrc] = useState<string | null>(null)
-    const containerRef = useRef<HTMLDivElement>(null)
-    const [isIntersecting, setIsIntersecting] = useState(false)
+    const isPriority = index === 0;
+    const [loaded, setLoaded] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [shouldLoad, setShouldLoad] = useState(isPriority || !isMobile); // Cargar inmediatamente en desktop
+    const [optimizedSrc, setOptimizedSrc] = useState<string | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Generate a unique key for this image
+    const imageKey = `img-${imgBg?.asset?._ref}`;
+
+    // Check if this image is already in the registry
+    useEffect(() => {
+      if (loadedImagesRegistry.has(imageKey)) {
+        setLoaded(true);
+      }
+    }, [imageKey]);
+
+    // Detect if we're on mobile
+    useEffect(() => {
+      const checkMobile = () => {
+        const mobile = window.innerWidth <= 768;
+        setIsMobile(mobile);
+        
+        // Si no es móvil, cargar la imagen inmediatamente
+        if (!mobile) {
+          setShouldLoad(true);
+        }
+      };
+      
+      // Ejecutar al montar
+      checkMobile();
+      
+      // Actualizar en cambios de tamaño
+      window.addEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // Set up true lazy loading with IntersectionObserver ONLY for mobile
+    useEffect(() => {
+      // Si no es móvil o ya debería cargar, no usar IntersectionObserver
+      if (!containerRef.current || !isMobile || isPriority || shouldLoad) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        },
+        {
+          // Start loading when image is 300px away from viewport
+          rootMargin: "300px",
+          threshold: 0.01,
+        }
+      );
+
+      observer.observe(containerRef.current);
+      return () => observer.disconnect();
+    }, [isMobile, isPriority, shouldLoad]);
 
     // Función optimizada con useCallback para evitar recreaciones innecesarias
     const calculateOptimalSize = useCallback(() => {
-      if (typeof window === "undefined") return
+      if (typeof window === "undefined" || !shouldLoad || !imgBg?.asset?._ref) return;
 
-      const viewportWidth = window.innerWidth
-      let imageWidth = 1920
+      const viewportWidth = window.innerWidth;
+      let imageWidth = 1920;
 
-      if (viewportWidth < 450) imageWidth = 450
-      else if (viewportWidth < 550) imageWidth = 550
-      else if (viewportWidth < 640) imageWidth = 640
-      else if (viewportWidth < 768) imageWidth = 768
-      else if (viewportWidth < 1024) imageWidth = 1024
-      else if (viewportWidth < 1536) imageWidth = 1536
+      if (viewportWidth < 450) imageWidth = 450;
+      else if (viewportWidth < 550) imageWidth = 550;
+      else if (viewportWidth < 640) imageWidth = 640;
+      else if (viewportWidth < 768) imageWidth = 768;
+      else if (viewportWidth < 1024) imageWidth = 1024;
+      else if (viewportWidth < 1536) imageWidth = 1536;
+
+      // Calidad más alta para desktop
+      const quality = isMobile ? 60 : (isPriority ? 80 : 70);
 
       try {
         const src =
@@ -47,82 +107,63 @@ const ImageBg = memo(
             ?.width(imageWidth)
             ?.auto("format")
             ?.fit("max")
-            ?.quality(isPriority && imageWidth > 768 ? 80 : 60)
-            ?.url() || "/meeting.jpeg"
+            ?.quality(quality)
+            ?.url() || "/meeting.jpeg";
 
-        setOptimizedSrc(src)
+        setOptimizedSrc(src);
       } catch (error) {
-        console.error("Error al optimizar la imagen:", error)
-        setOptimizedSrc("/meeting.jpeg")
+        console.error("Error al optimizar la imagen:", error);
+        setOptimizedSrc("/meeting.jpeg");
       }
-    }, [imgBg, isPriority])
+    }, [imgBg, isPriority, shouldLoad, isMobile]);
 
-    // Set up intersection observer to detect when the image is about to enter the viewport
+    // Only calculate image URL when we should load the image
     useEffect(() => {
-      if (!containerRef.current) return
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setIsIntersecting(true)
-              // Once we've detected it's in view, we don't need to observe anymore
-              observer.disconnect()
-            }
-          })
-        },
-        {
-          // Start loading the image when it's 200px away from entering the viewport
-          rootMargin: "200px",
-          threshold: 0.01,
-        },
-      )
-
-      observer.observe(containerRef.current)
-
-      return () => {
-        observer.disconnect()
+      if (shouldLoad) {
+        calculateOptimalSize();
       }
-    }, [])
-
-    // Only calculate and load the image when it's about to be visible or is marked for preloading
-    useEffect(() => {
-      // Load if it's the first image (priority), if it's intersecting with viewport, or if it's explicitly marked for loading
-      if (isPriority || isIntersecting || showSkeleton === false) {
-        calculateOptimalSize()
-      }
-    }, [calculateOptimalSize, isPriority, isIntersecting, showSkeleton])
+    }, [calculateOptimalSize, shouldLoad]);
 
     const handleImageLoad = () => {
-      setLoaded(true)
+      setLoaded(true);
+      // Add to registry so we know it's loaded
+      loadedImagesRegistry.set(imageKey, true);
       if (onLoad) {
-        onLoad()
+        onLoad();
       }
-    }
+    };
+
+    // Verificar si hay una imagen para mostrar
+    const hasImage = !!imgBg?.asset?._ref;
 
     return (
-      <div ref={containerRef} className={`relative ${className}`}>
-        {optimizedSrc && (isIntersecting || isPriority || showSkeleton === false) && (
+      <div ref={containerRef} className={`relative w-full h-full ${className}`}>
+        {/* Mostrar un mensaje de depuración si no hay imagen */}
+        {!hasImage && <div className="absolute inset-0 flex items-center justify-center bg-gray-300 text-gray-700">No image available</div>}
+        
+        {/* Only render the Image component when shouldLoad is true and we have an image */}
+        {optimizedSrc && shouldLoad && hasImage && (
           <Image
-            src={optimizedSrc || "/placeholder.svg"}
-            alt={"alt"}
+            src={optimizedSrc}
+            alt={"Background image"}
             sizes={sizes}
             fill
-            className={`absolute inset-0 object-cover`}
+            className="absolute inset-0 object-cover w-full h-full"
             priority={isPriority}
             onLoad={handleImageLoad}
             loading={isPriority ? "eager" : "lazy"}
           />
         )}
 
-        {/* Only show skeleton if explicitly requested and image isn't loaded yet */}
-        {(showSkeleton || !loaded) && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+        {/* Show skeleton if image should be visible but hasn't loaded yet */}
+        {(!loaded || showSkeleton) && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        )}
       </div>
-    )
-  },
-)
+    );
+  }
+);
 
-ImageBg.displayName = "ImageBg" // Para evitar advertencias en React DevTools
+ImageBg.displayName = "ImageBg";
 
-export default ImageBg
-
+export default ImageBg;

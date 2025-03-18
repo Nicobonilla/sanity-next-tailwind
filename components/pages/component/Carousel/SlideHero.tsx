@@ -1,60 +1,73 @@
-"use client"
+'use client';
 
-import { Suspense, useEffect, useState, memo } from "react"
-import PTextHero from "../Background/PTextHero"
-import type { ItemProps } from "@/components/types"
+import { useEffect, useState, memo } from "react";
+import PTextHero from "../Background/PTextHero";
+import type { ItemProps } from "@/components/types";
+import dynamic from "next/dynamic";
 
 // Lazy load de la versión animada como componente cliente
-import dynamic from "next/dynamic"
-
 const AnimatedImageBg = dynamic(() => import("@/components/pages/component/Carousel/AnimatedImageBg"), {
   ssr: false,
-})
+});
 
 type SlideHeroProps = {
-  slide: ItemProps
-  index: number
-  activeIndex: number
-  isLoaded?: boolean
-  onLoad?: () => void
-}
+  slide: ItemProps;
+  index: number;
+  activeIndex: number;
+  isLoaded?: boolean;
+  onLoad?: () => void;
+};
 
 // Memoizar SlideHero para evitar renders innecesarios
-const SlideHero = memo(function SlideHero({ slide, index, activeIndex, isLoaded = false, onLoad }: SlideHeroProps) {
-  const [componentLoaded, setComponentLoaded] = useState(false)
-  const isActive = index === activeIndex
+const SlideHero = memo(function SlideHero({
+  slide,
+  index,
+  activeIndex,
+  isLoaded = false,
+  onLoad
+}: SlideHeroProps) {
+  const [localLoaded, setLocalLoaded] = useState(isLoaded);
+  const isActive = index === activeIndex;
 
+  // Actualizar el estado local cuando cambia la prop
   useEffect(() => {
-    setComponentLoaded(true)
-
-    // If this is the active slide and it's not marked as loaded yet, mark it as loaded
-    if (isActive && !isLoaded && onLoad) {
-      onLoad()
+    if (isLoaded && !localLoaded) {
+      setLocalLoaded(true);
     }
-  }, [isActive, isLoaded, onLoad])
+  }, [isLoaded, localLoaded]);
 
-  // Only show skeleton on initial load for this slide
-  const showSkeleton = !isLoaded
+  // Notificar que este slide debe cargarse cuando se activa
+  useEffect(() => {
+    if (isActive && !localLoaded && onLoad) {
+      onLoad();
+      setLocalLoaded(true);
+    }
+  }, [isActive, localLoaded, onLoad]);
 
   return (
-    <div className="h-[500px] md:h-[650px] items-center justify-center">
-      <Suspense fallback={showSkeleton ? <div className="absolute inset-0 bg-gray-200 animate-pulse" /> : null}>
-        {(componentLoaded || isLoaded) && (
-          <AnimatedImageBg
-            imgBg={slide?.image}
-            index={index}
-            isActive={isActive}
-            onLoad={onLoad || (() => { })}
-            showSkeleton={showSkeleton}
-          />
-        )}
-      </Suspense>
+    <div className="relative h-[500px] md:h-[650px] w-full overflow-hidden">
+      {/* Contenedor para la imagen de fondo con posición absoluta */}
+      <div className="absolute inset-0 w-full h-full">
+        <AnimatedImageBg
+          imgBg={slide?.image}
+          index={index}
+          isActive={isActive}
+          onLoad={() => {
+            setLocalLoaded(true);
+            if (onLoad) onLoad();
+          }}
+          showSkeleton={!localLoaded}
+        />
+      </div>
 
-      <PTextHero content={slide?.content} link={slide?.ctaLinkItem} />
+      {/* Contenedor para el texto con posición relativa y z-index para estar por encima de la imagen */}
+      <div className="relative z-10 h-full w-full flex items-center justify-center">
+        <PTextHero content={slide?.content} link={slide?.ctaLinkItem} />
+      </div>
     </div>
-  )
-})
-SlideHero.displayName = "SlideHero"
+  );
+});
 
-export default SlideHero
+SlideHero.displayName = "SlideHero";
 
+export default SlideHero;
