@@ -9,11 +9,13 @@ export default function AnimatedImageBg({
   index,
   isActive,
   onLoad = () => { },
+  showSkeleton = false,
 }: {
-  imgBg: ItemProps['image']
+  imgBg: ItemProps["image"]
   index: number
   isActive: boolean
   onLoad?: () => void
+  showSkeleton?: boolean
 }) {
   // Simple animation variants
   const variants = {
@@ -37,7 +39,14 @@ export default function AnimatedImageBg({
       variants={variants}
       onAnimationStart={onLoad}
     >
-      <ImageBg imgBg={imgBg} index={index} className={"size-full "} sizes={"100vw"} />
+      <ImageBg
+        imgBg={imgBg}
+        index={index}
+        className={"size-full"}
+        sizes={"100vw"}
+        showSkeleton={showSkeleton}
+        onLoad={onLoad}
+      />
     </motion.div>
   )
 }
