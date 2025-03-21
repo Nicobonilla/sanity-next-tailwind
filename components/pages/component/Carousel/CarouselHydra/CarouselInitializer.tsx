@@ -24,6 +24,7 @@ export default function CarouselInitializer({ setActiveIndex, variant, emblaRef 
     useEffect(() => {
         if (emblaRef) {
             emblaRefCallback(emblaRef);
+            console.log("inizializdo", variant);
         }
     }, [emblaRef, emblaRefCallback]);
 

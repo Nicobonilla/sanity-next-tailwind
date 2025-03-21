@@ -81,7 +81,7 @@
     margin-top: 50px;
     margin-bottom: 50px;
     --slide-height: 50rem;
-    --slide-spacing: 0rem;
+    --slide-spacing: 1rem;
   }
 
   @media (min-width: 500px) {
@@ -112,6 +112,7 @@
       --slide-size: 32%;
     }
   }
+
   /* CAROUSEL HERO*/
   .active-slide {
     transform: scale(1.05);

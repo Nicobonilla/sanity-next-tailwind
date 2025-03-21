@@ -7,13 +7,15 @@ export default function CarouselHydra({ variant }: { variant: string }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null);
-
+    console.log("hidratacion", variant, "isMounted", isMounted);
     useEffect(() => {
         setIsMounted(true);
         const carousel = document.querySelector(`.embla_${variant} .embla__viewport`);
         if (carousel) {
             containerRef.current = carousel as HTMLDivElement;
         }
+        console.log("montado", variant);
+
         return () => setIsMounted(false);
     }, [variant]);
 

@@ -16,15 +16,15 @@ export default function Carousel({ data, styleBg }: CarouselProps) {
 
   return (
     <div
-      className={clsx("relative w-full", {
-        "h-[500px] md:h-[650px] items-center justify-center": data?.variant === "hero",
-        "h-full items-center justify-center": data?.variant === "post",
+      className={clsx("relative w-full items-center justify-center", {
+        "h-[500px] md:h-[650px] ": data?.variant === "hero",
+        "h-full": data?.variant === "post",
       })}
     >
 
       <section
         className={clsx(`embla_${data?.variant}`, {
-          "mx-auto h-fit max-w-screen-xl items-center justify-center px-4":
+          "mx-auto h-fit max-w-screen-xl px-4":
             data?.variant === "post"
         })}
       >
@@ -62,8 +62,8 @@ export default function Carousel({ data, styleBg }: CarouselProps) {
             {data?.variant === "post" && data?.bannerPostsItems &&
               <SlidesPostStatic posts={data?.bannerPostsItems} />}
 
-            {data.variant && <Suspense fallback={null}>
-              <CarouselHydra variant={data.variant} />
+            {data?.variant && <Suspense fallback={null}>
+              <CarouselHydra variant={data?.variant} />
             </Suspense>}
           </div>
         </div>

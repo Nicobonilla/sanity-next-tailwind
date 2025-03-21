@@ -15,7 +15,7 @@ export default function SlidesHeroStatic({ data, styleBg }: HeroStaticProps) {
             {data?.items?.map((slide: ItemProps, index: number) => (
                 <div key={index}
                     className="embla__slide">
-                    <div className="relative h-[500px] md:h-[650px] w-full overflow-hidden">
+                    <div className="relative h-[500px] md:h-[650px]">
                         {/* Fondo: z-0 */}
                         <div
                             data-key={index}
