@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 
-import Background from '../Background';
 import type { ComponentWithServices } from '@/components/types';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 
@@ -12,7 +11,7 @@ type BannerServicesProps = {
   styleBg?: React.CSSProperties;
 };
 
-export default function BannerServices({ data, styleBg }: BannerServicesProps) {
+export default function BannerServices({ data }: BannerServicesProps) {
 
   const PTextBannerService: PortableTextComponents = {
     block: {
@@ -48,21 +47,11 @@ export default function BannerServices({ data, styleBg }: BannerServicesProps) {
       ),
     },
   };
-  const dataBg = data?.backgroundValue || {};
   return (
-    <Background
-      data={{
-        ...dataBg,
-        typeComponent: 'bannerServices',
-      }}
-      styleBg={styleBg}
-    >
-      <div
-        className={clsx(
-          'relative z-20 mx-auto h-fit px-3 py-16',
-          'lg:max-w-screen-xl'
-        )}
-      >
+    <div className={`relative w-full min-h-screen md:min-h-0 lg:max-h-fit`}>
+
+      <div className={`relative z-20 mx-auto h-fit 
+        px-3 py-16 lg:max-w-screen-xl`}>
         {/* Title and Premise Section */}
         {data.content && (
           <div
@@ -77,13 +66,8 @@ export default function BannerServices({ data, styleBg }: BannerServicesProps) {
           </div>
         )}
 
-        <div className={clsx('relative z-10 flex h-full flex-col gap-6')}>
-          <div
-            className={clsx(
-              'grid size-full gap-0',
-              'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-            )}
-          >
+        <div className={'relative z-10 flex h-full flex-col gap-6'}>
+          <div className={'grid size-full gap-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}>
             {data?.services?.map(
               (service: ComponentWithServices['services'], index: number) =>
                 service && (
@@ -98,6 +82,6 @@ export default function BannerServices({ data, styleBg }: BannerServicesProps) {
         </div>
       </div>
       <div className="absolute inset-0 z-10 bg-white/70"></div>
-    </Background>
+    </div>
   );
 }

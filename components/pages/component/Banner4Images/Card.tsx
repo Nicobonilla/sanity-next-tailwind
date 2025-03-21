@@ -2,7 +2,7 @@
 import type { ItemProps } from '@/components/types';
 import { PortableText } from 'next-sanity';
 import Link from 'next/link';
-import ImageBg from '../Background/ImageBg';
+import ImageBg from '../Background/ImageCsr';
 
 export default function Card({
   service,

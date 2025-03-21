@@ -1,7 +1,6 @@
-import React, { Suspense, type CSSProperties } from 'react';
+import React, { type CSSProperties } from 'react';
 import getComponent from '@/components/pages/component/utils/getComponent';
 import type { ComponentProps, ComponentWithBannerPosts } from '../types';
-import getComponentSkeleton from './skeletons/utils/getComponentSkeleton';
 import { getThemeStyle } from './component/Background/utils';
 
 interface PageTemplateProps {
@@ -23,16 +22,14 @@ const PageTemplate: React.FC<PageTemplateProps> = ({ components }) => {
             component.backgroundValue.colors,
             component.backgroundValue.directionDeg
           );
+          console.log('currentStyle', currentStyle);
         }
 
         const ComponentToRender = getComponent(component.typeComponentValue || '');
-        const Skeleton = getComponentSkeleton(component.typeComponentValue || '');
 
         return (
           <div key={index}>
-            <Suspense fallback={<Skeleton />}>
-              <ComponentToRender data={component} styleBg={currentStyle} />
-            </Suspense>
+            <ComponentToRender data={component} styleBg={currentStyle} />
           </div>
         );
       })}

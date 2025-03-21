@@ -70,7 +70,7 @@ export default function PTextHero({
         <Link href={{ pathname: link }} passHref>
           <button
             //onClick={() => trackButtonClick(data.ctaLinkItem, 'CarouselHero')}
-            className={clsx(
+            className={clsx('hero-button hover:cursor-pointer z-40',
               'text-md mt-3 min-w-[150px] max-w-[250px] rounded bg-indigo-700 py-2 font-crimson font-light text-white transition-all',
               'hover:bg-indigo-600 hover:font-bold', // Efectos al hacer hover
               'lg:text-lg' // Responsive design para pantallas grandes

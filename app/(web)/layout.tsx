@@ -168,12 +168,10 @@ export default async function RootLayout({
                 {children}
                 <SpeedInsights />
                 <ContactForm logo={settings?.logo || ''} slogan={settings.slogan || ''} />
-
                 <WhatsappSticky />
-                {process.env.NODE_ENV === 'development' && <SanityLive />}
-
                 {isEnabled && process.env.NODE_ENV === 'development' && (
                   <>
+                    <SanityLive />
                     <DisableDraftMode />
                     <VisualEditing />
                   </>

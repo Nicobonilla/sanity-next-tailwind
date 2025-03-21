@@ -1,8 +1,8 @@
 import { type ComponentProps } from '@/components/types';
-import Background from '../Background';
 import PtextHeading from '../Background/PtextHeading';
-import ImageBg from '../Background/ImageBg';
+import ImageBg from '../Background/ImageCsr';
 import type { CSSProperties } from 'react';
+import Layer from '../Background/Layer';
 
 type HeadingProps = {
   data: ComponentProps;
@@ -10,20 +10,15 @@ type HeadingProps = {
 };
 
 export default function Heading({ data, styleBg }: HeadingProps) {
-  const dataBg = data?.backgroundValue || {};
+  const layer = data?.backgroundValue?.layer;
 
   return (
-    <Background
-      data={{
-        ...dataBg,
-        typeComponent: 'heading',
-      }}
-      styleBg={styleBg}
-    >
+    <div className='relative w-full h-[350px]'>
+      {layer && <Layer layer={layer} currentStyle={styleBg} />}
       <ImageBg imgBg={data?.imageBackground} index={0} className='h-[350px]' />
 
       <PtextHeading data={data.content} />
 
-    </Background>
+    </div>
   );
 }

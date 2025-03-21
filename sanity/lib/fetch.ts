@@ -50,16 +50,17 @@ export async function sanityFetch<const QueryString extends string>({
 
     return result.data;
   }
-
+  const revalidateTime = parseInt(process.env.NEXT_PUBLIC_SANITY_REVALIDATION_TIME as string) || 40000;
   //console.log("Fetching in production mode with perspective 'published'");
   return client.fetch(query, params, {
     stega: actualStega,
     perspective: 'published',
     next: {
-      revalidate: 40000,
+      revalidate: revalidateTime,
     },
   });
 }
+
 
 /* SINGLETONS - SETTINGS */
 export async function getSettingsFetch(): Promise<SettingsQueryResult | null> {

@@ -2,45 +2,13 @@ import React from 'react';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 import { type ComponentProps } from '@/components/types';
 import clsx from 'clsx';
-import Background from '../Background';
-import ImageBg from '../Background/ImageBg';
-import type { ColorItem } from '@/sanity.types';
+import ImageBg from '../Background/ImageCsr';
 
 export default function Highlight({ data }: { data: ComponentProps }) {
-  const dataBg = data?.backgroundValue;
-  const PTextBannerDark1: PortableTextComponents = {
-    block: {
-      h2: ({ children }) => (
-        <h2 className="font-crimson text-xl font-semibold uppercase text-red-700">
-          {children}
-        </h2>
-      ),
-      h3: ({ children }) => (
-        <h3
-          className={clsx(
-            'mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm',
-            'lg:text-3xl 2xl:text-3xl'
-          )}
-        >
-          {children}
-        </h3>
-      ),
-      normal: ({ children }) => (
-        <p className="font-robotoslab text-base font-light text-gray-900">
-          {children}
-        </p>
-      ),
-    },
-  };
+
   return (
-    <Background
-      data={{
-        typeComponent: 'highLight',
-        colors: (dataBg?.colors as ColorItem[]),
-        layer: dataBg?.layer ?? undefined,
-        directionDeg: dataBg?.directionDeg ?? undefined
-      }}
-    >
+
+    <div className="relative w-full min-h-[388px] md:min-h-[336px]">
       <ImageBg
         imgBg={data?.imageBackground}
         index={1}
@@ -54,12 +22,35 @@ export default function Highlight({ data }: { data: ComponentProps }) {
         )}
       >
         <PortableText
-          components={PTextBannerDark1}
+          components={{
+            block: {
+              h2: ({ children }) => (
+                <h2 className="font-crimson text-xl font-semibold uppercase text-red-700">
+                  {children}
+                </h2>
+              ),
+              h3: ({ children }) => (
+                <h3
+                  className={clsx(
+                    'mb-10 font-robotoslab text-2xl font-light text-gray-700 drop-shadow-sm',
+                    'lg:text-3xl 2xl:text-3xl'
+                  )}
+                >
+                  {children}
+                </h3>
+              ),
+              normal: ({ children }) => (
+                <p className="font-robotoslab text-base font-light text-gray-900">
+                  {children}
+                </p>
+              ),
+            },
+          } as PortableTextComponents}
           value={data.content || []}
         />
       </div>
 
       <div className="absolute inset-0 z-10 size-full bg-white/25"></div>
-    </Background>
+    </div >
   );
 }

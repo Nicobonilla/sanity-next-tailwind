@@ -55,3 +55,6 @@ next-env.d.ts
 /components/lib/GTMGlobals.ts
 /components/lib/GTMTrackers.ts
 .vscode
+
+/components/pages/component/carousel/backup
+/components/pages/skeletons/*

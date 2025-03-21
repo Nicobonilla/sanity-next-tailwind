@@ -6,10 +6,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Configuración base
 const baseConfig = {
   reactStrictMode: true,
+  swcMinify: true, // Habilita la minificación con SWC
   experimental: {
     typedRoutes: true,
     optimizeCss: true,
-    inlineCss: true,
+    ppr: false,
+    serverActions: {
+      bodySizeLimit: '2mb',
+    }
   },
   logging: {
     fetches: { fullUrl: !isProduction }, // Solo en desarrollo
