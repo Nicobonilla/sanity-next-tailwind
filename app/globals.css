@@ -86,8 +86,8 @@
   /* CAROUSEL POST */
   .embla_post {
     --slide-size: 90%;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
     --slide-height: 50rem;
     --slide-spacing: 1rem;
   }
