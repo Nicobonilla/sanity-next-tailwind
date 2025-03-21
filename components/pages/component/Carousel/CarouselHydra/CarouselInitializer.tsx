@@ -12,13 +12,7 @@ type CarouselInitializerProps = {
 };
 
 export default function CarouselInitializer({ setActiveIndex, variant, emblaRef }: CarouselInitializerProps) {
-    const options: EmblaOptionsType = {
-        align: "start",
-        loop: true,
-        dragFree: false,
-        containScroll: "trimSnaps",
-        duration: 100,
-    };
+    const options: EmblaOptionsType = { align: "start", loop: true };
 
     const plugins: (ReturnType<typeof Autoplay> | ReturnType<typeof Fade>)[] = [
         Autoplay({ delay: 8000, stopOnInteraction: false }),
