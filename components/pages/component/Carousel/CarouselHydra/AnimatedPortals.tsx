@@ -1,41 +1,48 @@
-"use client";
-import { useEffect, useRef } from "react";
+"use client"
+import { useEffect, useRef } from "react"
 
 type AnimatedPortalsProps = {
-  imageContainers: HTMLDivElement[];
-  activeIndex: number;
-};
+  imageContainers: HTMLElement[]
+  activeIndex: number
+}
 
 export default function AnimatedPortals({ imageContainers, activeIndex }: AnimatedPortalsProps) {
-  const imageContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Actualizamos las referencias cuando imageContainers cambia
-  useEffect(() => {
-    imageContainerRefs.current = imageContainers;
-  }, [imageContainers]);
+  const prevIndexRef = useRef(activeIndex)
 
   useEffect(() => {
-    if (!imageContainerRefs.current.length) return;
+    if (!imageContainers.length) return
 
-    imageContainerRefs.current.forEach((container) => {
-      if (!container) return;
+    // Store the previous index to handle transitions
+    const prevIndex = prevIndexRef.current
+    prevIndexRef.current = activeIndex
 
-      const dataKey = Number.parseInt(container.getAttribute("data-key") || "0", 10);
-      const isActive = activeIndex === dataKey;
+    imageContainers.forEach((container) => {
+      if (!container) return
 
-      const img = container.querySelector("img");
-      if (img) {
-        img.animate(
-          { transform: `scale(${isActive ? 1.15 : 1})`, opacity: isActive ? 1 : 0.9 },
-          {
-            duration: isActive ? 15000 : 800,
-            easing: isActive ? "ease-out" : "ease-in",
-            fill: "forwards",
-          }
-        );
+      const dataKey = Number.parseInt(container.getAttribute("data-key") || "0", 10)
+      const isActive = activeIndex === dataKey
+      const wasActive = prevIndex === dataKey
+
+      // Find the image inside the container
+      const img = container.querySelector("img")
+      if (!img) return
+
+      // Remove any existing active-slide class
+      img.classList.remove("active-slide")
+
+      // Apply active-slide class to the active slide
+      if (isActive) {
+        img.classList.add("active-slide")
       }
-    });
-  }, [activeIndex]);
 
-  return null;
+      // For non-active slides, ensure they're at the base scale
+      if (!isActive && !wasActive) {
+        img.style.transform = "scale(1)"
+        img.style.opacity = "0.9"
+      }
+    })
+  }, [activeIndex, imageContainers])
+
+  return null
 }
+
