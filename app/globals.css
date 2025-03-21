@@ -6,13 +6,6 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-.image-bg-ssr img {
-  transform-origin: center;
-  will-change: transform, opacity; /* Mejora el rendimiento */
-}
-.image-bg-ssr {
-  overflow: visible; /* Evita que el escalado se corte */
-}
 
 @layer base {
   body {
@@ -52,6 +45,15 @@
     clip-path: polygon(0% 70%, 100% 80%, 100% 100%, 0% 100%); /* Triángulo */
   }
 
+  .image-bg-ssr img {
+    transform-origin: center;
+    will-change: transform, opacity; /* Mejora el rendimiento */
+  }
+  .image-bg-ssr {
+    overflow: visible; /* Evita que el escalado se corte */
+  }
+
+  
   /* DRAWER MENU */
   .nav-container {
     @apply h-8 cursor-pointer items-center justify-start font-robotoslab text-gray-100 transition-all duration-300 hover:bg-gray-900 hover:text-lg hover:font-medium hover:text-white;
@@ -63,6 +65,12 @@
   }
 
   /* CAROUSEL MAIN */
+  .embla__viewport {
+    overflow: hidden;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .embla__container {
     display: flex;
     touch-action: pan-y pinch-zoom;
@@ -125,11 +133,6 @@
     --slide-height: 50rem;
     --slide-spacing: 0rem;
     --slide-size: 100%;
-  }
-  .embla__viewport {
-    overflow: hidden;
-    margin-top: auto;
-    margin-bottom: auto;
   }
 
 
