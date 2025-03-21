@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import AnimatedPortals from "./AnimatedPortals";
 import CarouselInitializer from "./CarouselInitializer";
+import AnimatedPortals from "./AnimatedPortals";
 
 export default function CarouselHydra({ variant }: { variant: string }) {
     const [activeIndex, setActiveIndex] = useState(0);
