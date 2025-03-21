@@ -23,9 +23,9 @@ export default function SlidesPostStatic({
             <article className={`flex h-full min-h-[420px] flex-col rounded-xl bg-white`}>
 
               <div data-key={index}
-                className="relative h-48 overflow-hidden"
+                className="relative h-48 overflow-hidden rounnded-t-md"
               >
-                {<ImageBgSsr
+                { <ImageBgSsr
                   imgBg={slide?.components?.find(component =>
                     component.typeComponentValue == "Heading")?.imageBackground ?? null
                   }
@@ -48,7 +48,7 @@ export default function SlidesPostStatic({
                   </p>
                 </div>
                 <time
-                  className="text-sm text-gray-500 dark:text-gray-400"
+                  className="text-sm text-gray-500"
                   style={{ whiteSpace: "nowrap" }} // Evita el ajuste de línea
                 >
                   {format(new Date(slide.date || ""), "MMMM d, yyyy")}
