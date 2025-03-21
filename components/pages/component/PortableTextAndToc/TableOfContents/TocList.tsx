@@ -13,11 +13,10 @@ export const TocList = ({
 }: TocListProps) => {
   return (
     <ul
-      className={`pl-4 transition-all duration-300 ${
-        isExpanded
-          ? 'mb-4 max-h-[70vh] opacity-100'
-          : 'max-h-0 opacity-0 md:max-h-full md:opacity-100'
-      } overflow-auto bg-gray-100`}
+      className={`pl-4 transition-all duration-300 ${isExpanded
+        ? 'mb-4 max-h-[70vh] opacity-100'
+        : 'max-h-0 opacity-0 md:max-h-full md:opacity-100'
+        } overflow-auto`}
     >
       {items?.map((item, index) => (
         <li
@@ -26,7 +25,7 @@ export const TocList = ({
         >
           <a
             href={'#heading-' + item._key}
-            className="p3 text-sm hover:text-red-500"
+            className="text-justify font-robotoslab text-sm font-normal text-slate-700  hover:text-red-500"
             onClick={toggleExpanded}
             aria-hidden="true"
             tabIndex={-1}

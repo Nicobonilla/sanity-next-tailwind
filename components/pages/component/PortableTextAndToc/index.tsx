@@ -5,7 +5,7 @@ import type {
 } from '@/sanity.types';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { TableOfContents } from './TableOfContents';
-import { PTextPost } from '../Posts/PTextPost';
+import { PTextPost } from './TableOfContents/PTextPost';
 
 interface PortableTextAndTOCProps {
   article: GetPostDetailQueryResult | GetServiceDetailQueryResult;
@@ -20,19 +20,19 @@ export default function PortableTextAndTOC({
   breadcrumbsItems,
 }: PortableTextAndTOCProps) {
   return (
-    <div className="mx-auto max-w-screen-xl">
+    <div className="max-w-screen-lg mx-4 xl:mx-auto">
       <article>
         <Breadcrumbs items={breadcrumbsItems} />
-        <h1 className="h2 mb-2 ml-2 lg:mb-6">{article?.title}</h1>
+        <h1 className="font-robotoslab text-4xl font-semibold text-slate-700  md:text-5xl mb-4 lg:mb-6">{article?.title}</h1>
 
-        <div className="relative mx-2 flex w-full flex-col gap-2 md:flex-row">
-          <div className="sticky left-0 top-16 z-40 w-full md:hidden">
+        <div className="relative  flex w-full flex-col gap-2 md:flex-row">
+          <div className="sticky left-0 top-16 z-40 w-full md:hidden border-b-2 ">
             {article?.tableOfContents && (
               <TableOfContents items={article?.tableOfContents || null} />
             )}
           </div>
 
-          <div className="order-2 md:order-1 md:w-3/4 mx-2 mb-10 max-w-none">
+          <div className="order-2 md:order-1 md:w-3/4 mb-10 max-w-none ptext-bullet">
             <PortableText
               value={article?.content || []}
               components={PTextPost}

@@ -15,10 +15,10 @@ export default function SlidesPostStatic({
   return (
     <>
       {posts?.map((slide: GetPostListQueryResult[number], index: number) => (
-        <div className="embla__slide group relative h-fit w-full items-center overflow-hidden px-1">
+        <div key={index}
+          className="embla__slide group relative h-fit w-full items-center overflow-hidden px-1">
           <Link
             href={{ pathname: `/blog/${slide.slug?.current}` }}
-            className="group"
           >
             <article className={`flex h-full min-h-[420px] flex-col overflow-hidden 
         rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg`}>

@@ -158,7 +158,7 @@ export type Service = {
         _key: string;
       }>;
       style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -181,7 +181,6 @@ export type Service = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -326,7 +325,7 @@ export type Post = {
         _key: string;
       }>;
       style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -349,7 +348,6 @@ export type Post = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -497,7 +495,7 @@ export type UnitBusiness = {
         _key: string;
       }>;
       style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -520,7 +518,6 @@ export type UnitBusiness = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -662,7 +659,7 @@ export type Page = {
         _key: string;
       }>;
       style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -685,7 +682,6 @@ export type Page = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    imagePosition?: "left" | "right" | "top" | "bottom";
     layoutItems?: string;
     PTextItem?: string;
     items?: Array<{
@@ -869,7 +865,7 @@ export type Banner = {
       _key: string;
     }>;
     style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";
@@ -892,7 +888,6 @@ export type Banner = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  imagePosition?: "left" | "right" | "top" | "bottom";
   layoutItems?: string;
   PTextItem?: string;
   items?: Array<{
@@ -1546,7 +1541,7 @@ export type GetPageDetailQueryResult = {
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -1569,7 +1564,7 @@ export type GetPageDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
@@ -1694,7 +1689,7 @@ export type GetPostListQueryResult = Array<{
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -1717,7 +1712,7 @@ export type GetPostListQueryResult = Array<{
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
@@ -1842,7 +1837,7 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -1865,7 +1860,7 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
@@ -1990,7 +1985,7 @@ export type GetPostDetailQueryResult = {
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -2013,7 +2008,7 @@ export type GetPostDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
@@ -2221,7 +2216,7 @@ export type GetServiceDetailQueryResult = {
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -2244,7 +2239,7 @@ export type GetServiceDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;
@@ -2412,7 +2407,7 @@ export type GetUnitBusinessDetailQueryResult = {
         _key: string;
       }>;
       style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet";
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
         _type: "link";
@@ -2435,7 +2430,7 @@ export type GetUnitBusinessDetailQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     } | null;
-    imagePosition: "bottom" | "left" | "right" | "top" | null;
+    imagePosition: null;
     videoUrl: string | null;
     videoType: "mp4" | "webm" | null;
     layoutItems: string | null;

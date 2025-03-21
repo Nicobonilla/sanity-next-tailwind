@@ -1004,6 +1004,10 @@
                             {
                               "type": "string",
                               "value": "bullet"
+                            },
+                            {
+                              "type": "string",
+                              "value": "number"
                             }
                           ]
                         },
@@ -1149,31 +1153,6 @@
                       }
                     }
                   }
-                },
-                "optional": true
-              },
-              "imagePosition": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "left"
-                    },
-                    {
-                      "type": "string",
-                      "value": "right"
-                    },
-                    {
-                      "type": "string",
-                      "value": "top"
-                    },
-                    {
-                      "type": "string",
-                      "value": "bottom"
-                    }
-                  ]
                 },
                 "optional": true
               },
@@ -2259,6 +2238,10 @@
                             {
                               "type": "string",
                               "value": "bullet"
+                            },
+                            {
+                              "type": "string",
+                              "value": "number"
                             }
                           ]
                         },
@@ -2404,31 +2387,6 @@
                       }
                     }
                   }
-                },
-                "optional": true
-              },
-              "imagePosition": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "left"
-                    },
-                    {
-                      "type": "string",
-                      "value": "right"
-                    },
-                    {
-                      "type": "string",
-                      "value": "top"
-                    },
-                    {
-                      "type": "string",
-                      "value": "bottom"
-                    }
-                  ]
                 },
                 "optional": true
               },
@@ -3598,6 +3556,10 @@
                             {
                               "type": "string",
                               "value": "bullet"
+                            },
+                            {
+                              "type": "string",
+                              "value": "number"
                             }
                           ]
                         },
@@ -3743,31 +3705,6 @@
                       }
                     }
                   }
-                },
-                "optional": true
-              },
-              "imagePosition": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "left"
-                    },
-                    {
-                      "type": "string",
-                      "value": "right"
-                    },
-                    {
-                      "type": "string",
-                      "value": "top"
-                    },
-                    {
-                      "type": "string",
-                      "value": "bottom"
-                    }
-                  ]
                 },
                 "optional": true
               },
@@ -4860,6 +4797,10 @@
                             {
                               "type": "string",
                               "value": "bullet"
+                            },
+                            {
+                              "type": "string",
+                              "value": "number"
                             }
                           ]
                         },
@@ -5005,31 +4946,6 @@
                       }
                     }
                   }
-                },
-                "optional": true
-              },
-              "imagePosition": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "left"
-                    },
-                    {
-                      "type": "string",
-                      "value": "right"
-                    },
-                    {
-                      "type": "string",
-                      "value": "top"
-                    },
-                    {
-                      "type": "string",
-                      "value": "bottom"
-                    }
-                  ]
                 },
                 "optional": true
               },
@@ -6347,6 +6263,10 @@
                     {
                       "type": "string",
                       "value": "bullet"
+                    },
+                    {
+                      "type": "string",
+                      "value": "number"
                     }
                   ]
                 },
@@ -6492,31 +6412,6 @@
               }
             }
           }
-        },
-        "optional": true
-      },
-      "imagePosition": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "left"
-            },
-            {
-              "type": "string",
-              "value": "right"
-            },
-            {
-              "type": "string",
-              "value": "top"
-            },
-            {
-              "type": "string",
-              "value": "bottom"
-            }
-          ]
         },
         "optional": true
       },

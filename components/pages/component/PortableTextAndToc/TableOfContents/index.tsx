@@ -36,7 +36,7 @@ export const TableOfContents = ({
   return (
     <nav
       ref={navRef}
-      className="sticky top-24 z-40 mb-5 w-full border-b-2 border-gray-200 bg-gray-100"
+      className="sticky top-24 z-40 pb-2 w-full bg-gray-100"
     >
       <TocHeader isExpanded={isExpanded} toggleExpanded={toggleExpanded} />
       <TocList

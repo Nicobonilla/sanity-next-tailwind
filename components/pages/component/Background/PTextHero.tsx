@@ -40,13 +40,7 @@ const PT1: PortableTextComponents = {
       </span>
     ),
   },
-  marks: {
-    strong: ({ children }) => (
-      <span className="p3 drop-shadow-4xl font-extrabold text-red-700">
-        {children}
-      </span>
-    ),
-  },
+
 };
 
 export default function PTextHero({

@@ -97,7 +97,7 @@ export default defineType({
       name: 'content',
       title: 'Contenido',
       type: 'array',
-      of: [{ type: 'block', lists: [{ title: 'Bullet', value: 'bullet' }] }],
+      of: [{ type: 'block' }],
       group: 'content',
     }),
     defineField({
@@ -121,21 +121,6 @@ export default defineType({
         hotspot: true,
       },
       group: 'content',
-    }),
-    defineField({
-      name: 'imagePosition',
-      title: 'Ubicación de la Imagen',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Izquierda', value: 'left' },
-          { title: 'Derecha', value: 'right' },
-          { title: 'Arriba', value: 'top' },
-          { title: 'Abajo', value: 'bottom' },
-        ],
-      },
-      group: 'content',
-      hidden: ({ parent }) => parent.image === undefined,
     }),
     // ITEMS
     defineField({

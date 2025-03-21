@@ -26,27 +26,13 @@ export default function BannerServices({ data }: BannerServicesProps) {
         </p>
       ),
     },
-  };
-
-  const PTextBannerServiceCard: PortableTextComponents = {
-    block: {
-      h1: ({ children }) => (
-        <h2 className="h3 mx-auto mb-2 items-center justify-center font-montserrat text-sm font-extrabold">
-          {children}
-        </h2>
-      ),
-      normal: ({ children }) => (
-        <p className="p3 pb-5 text-justify font-crimson text-base leading-none">
-          {children}
-        </p>
-      ),
-    },
     marks: {
       strong: ({ children }) => (
         <span className="font-extrabold dark:text-red-500">{children}</span>
       ),
     },
   };
+
   return (
     <div className={`relative w-full min-h-screen md:min-h-0 lg:max-h-fit`}>
 
@@ -74,7 +60,6 @@ export default function BannerServices({ data }: BannerServicesProps) {
                   <ItemServiceBanner
                     key={index}
                     service={service}
-                    PTextItem={PTextBannerServiceCard}
                   />
                 )
             )}

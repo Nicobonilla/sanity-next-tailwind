@@ -52,18 +52,6 @@
     clip-path: polygon(0% 70%, 100% 80%, 100% 100%, 0% 100%); /* Triángulo */
   }
 
-  .items {
-    background-color: #1f2937;
-  }
-
-  .inline-svg-preview svg {
-    fill: currentColor !important;
-  }
-
-  .form-input {
-    @apply w-full rounded border border-gray-300 p-1 pl-10 text-sm;
-  }
-
   /* DRAWER MENU */
   .nav-container {
     @apply h-8 cursor-pointer items-center justify-start font-robotoslab text-gray-100 transition-all duration-300 hover:bg-gray-900 hover:text-lg hover:font-medium hover:text-white;
@@ -71,18 +59,20 @@
 
   .nav-container-active {
     @apply items-center justify-start text-lg text-white transition-all duration-300;
-  }
-  /* CAROUSEL DEFAULT */
-  @media (min-width: 600px) {
-    .embla {
-      --slide-size: 46%;
-    }
+
   }
 
-  @media (min-width: 1024px) {
-    .embla {
-      --slide-size: 28%;
-    }
+  /* CAROUSEL MAIN */
+  .embla__container {
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+  }
+  .embla__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
   }
 
   /* CAROUSEL POST */
@@ -140,18 +130,7 @@
     margin-top: auto;
     margin-bottom: auto;
   }
-  .embla__container {
-    display: flex;
-    touch-action: pan-y pinch-zoom;
-    margin-left: calc(var(--slide-spacing) * -1);
-  }
-  .embla__slide {
-    transform: translate3d(0, 0, 0);
-    flex: 0 0 var(--slide-size);
-    min-width: 0;
-    padding-left: var(--slide-spacing);
-  }
-}
+
 
 .force-relative {
   position: relative !important;
@@ -175,4 +154,22 @@
 
 .mobile-nav-drawer.open {
   transform: translate3d(0, 0, 0);
+}
+
+/* PortableTextAndToc Styles */
+.h2 {
+  @apply font-robotoslab text-4xl font-semibold text-slate-700  md:text-5xl;
+}
+
+.p2 {
+  @apply font-crimson font-light text-slate-700 lg:text-lg;
+}
+
+.h3 {
+  @apply font-robotoslab text-xl font-semibold text-slate-700 lg:text-2xl;
+}
+
+.p3 {
+  @apply text-justify text-sm font-robotoslab lg:text-base font-normal text-slate-700;
+}
 }

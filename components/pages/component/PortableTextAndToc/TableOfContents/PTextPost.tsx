@@ -6,20 +6,22 @@ export const PTextPost: PortableTextComponents = {
   block: {
     // Personalizar el renderizado del encabezado h2
     h2: ({ value, children }) => (
-      <div className="border-l-4 border-red-500 dark:border-red-700">
-        <h2 id={`heading-${value._key}`} className="h3 group relative ml-2">
+      <div className="border-l-4 border-red-500 my-4 lg:mt-16">
+        <h2 id={`heading-${value._key}`}
+          className="font-robotoslab text-pretty text-xl font-semibold text-slate-700 lg:text-2xl group relative ml-2">
           {children}
         </h2>
       </div>
     ),
     h3: ({ value, children }) => (
-      <h3 id={`heading-${value._key}`} className="h3">
+      <h3 id={`heading-${value._key}`}
+        className="ml-4 mt-4 font-robotoslab text-xl font-semibold text-slate-700 lg:text-2xl">
         {children}
       </h3>
     ),
-    normal: ({ children }) => <span className="p3">{children}</span>,
+    normal: ({ children }) => <p className="p3">{children}</p>,
     blockquote: ({ children }) => (
-      <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 p-4 pl-4 dark:border-red-700 dark:bg-slate-800">
+      <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 px-4 py-2">
         <span className="pr-3 text-5xl text-red-500">“</span>
         <div>{children}</div>
       </blockquote>
@@ -27,19 +29,30 @@ export const PTextPost: PortableTextComponents = {
   },
   marks: {
     strong: ({ children }) => (
-      <span className="p3 font-semibold text-red-600">{children}</span>
+      <span className="p3 font-semibold text-slate-800">{children}</span>
     ),
     link: ({ value, children }) => (
       <a
         href={value.href}
-        className="callToAction text-gray-900 underline dark:text-gray-300"
+        className="callToAction text-gray-900 underline"
       >
         {children}
       </a>
     ),
   },
   list: {
-    bullet: ({ children }) => <ul className="p3">{children}</ul>,
+    bullet: ({ children }) => (
+      <div className='py-1 px-2'>
+        <ul className="p3 ml-5 list-disc mt-4">
+          {children}
+        </ul>
+      </div>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => (
+      <li className=" ">{children}</li>
+    ),
   },
   types: {
     image: ({ value }) => {
