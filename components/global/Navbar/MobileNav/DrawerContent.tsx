@@ -36,7 +36,7 @@ export default function DrawerContent({
           {pages.map((page) =>
             page.slug === 'services' ? (
               unitBusinessList?.map((business) => (
-                <li key={business.slug} className="nav-container">
+                <li key={business.slug}   >
                   <Link
                     href={`/area-de-practica/${business.slug}`}
                     onClick={(e) => {
@@ -44,9 +44,8 @@ export default function DrawerContent({
                       closeMenu();
                       //trackButtonClick(business.slug, 'drawer-nav');
                     }}
-                    className={clsx(
-                      'flex size-full',
-                      path === `/area-de-practica/${business.slug}` &&
+                    className={clsx("nav-container",
+                      path === `/area-de-practica/${business.slug}/` &&
                       'nav-container-active'
                     )}
                   >
@@ -55,7 +54,7 @@ export default function DrawerContent({
                 </li>
               ))
             ) : page.slug === 'contacto' ? (
-              <li key={page.slug} className="nav-container">
+              <li key={page.slug} >
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -63,13 +62,13 @@ export default function DrawerContent({
                     closeMenu();
                     //trackButtonClick('contacto', 'drawer-nav');
                   }}
-                  className="nav-container-active flex size-full text-base hover:text-lg"
+                  className="nav-container"
                 >
                   {page.title}
                 </button>
               </li>
             ) : (
-              <li key={page.slug} className="nav-container">
+              <li key={page.slug} >
                 <Link
                   href={`/${page.slug}`}
                   onClick={(e) => {
@@ -77,9 +76,8 @@ export default function DrawerContent({
                     //trackButtonClick(page.slug, 'drawer-nav');
                     closeMenu();
                   }}
-                  className={clsx(
-                    'flex size-full',
-                    path === `/${page.slug}` && 'nav-container-active'
+                  className={clsx("nav-container",
+                    path === `/${page.slug}/` && 'nav-container-active'
                   )}
                 >
                   {page.title}

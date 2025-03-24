@@ -56,11 +56,14 @@
   
   /* DRAWER MENU */
   .nav-container {
-    @apply h-8 cursor-pointer items-center justify-start font-robotoslab text-gray-100 transition-all duration-300 hover:bg-gray-900 hover:text-lg hover:font-medium hover:text-white;
+    @apply flex size-full h-12 cursor-pointer  items-center
+     font-robotoslab text-gray-100 
+     transition-all duration-300 text-xl
+     hover:bg-gray-900 hover:text-2xl hover:font-medium;
   }
 
   .nav-container-active {
-    @apply items-center justify-start text-lg text-white transition-all duration-300;
+    @apply  text-2xl font-semibold transition-all duration-300 bg-gray-900;
 
   }
 
