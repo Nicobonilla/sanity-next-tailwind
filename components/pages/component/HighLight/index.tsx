@@ -2,18 +2,12 @@ import React from 'react';
 import { PortableText, type PortableTextComponents } from 'next-sanity';
 import { type ComponentProps } from '@/components/types';
 import clsx from 'clsx';
-import ImageBg from '../Background/ImageCsr';
 
 export default function Highlight({ data }: { data: ComponentProps }) {
 
   return (
 
     <div className="relative w-full min-h-[388px] md:min-h-[336px]">
-      <ImageBg
-        imgBg={data?.imageBackground}
-        index={1}
-      />
-
       <div
         className={clsx(
           'relative inset-0 z-20 flex flex-col items-center justify-center py-20 text-center text-neutral-800',

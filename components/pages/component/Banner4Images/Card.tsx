@@ -2,7 +2,7 @@
 import type { ItemProps } from '@/components/types';
 import { PortableText } from 'next-sanity';
 import Link from 'next/link';
-import ImageBg from '../Background/ImageCsr';
+import ImageLoader from '../ImageLoader';
 
 export default function Card({
   service,
@@ -22,8 +22,9 @@ export default function Card({
         //onClick={() => trackButtonClick(service?.ctaLinkItem, '4ImageBanner')}
         className="relative flex "
       >
-        <ImageBg imgBg={service.image} index={1}
-          className={"size-full object-cover transition-transform duration-300 group-hover:scale-110"}
+        <ImageLoader
+          imgBg={service.image}
+          className={"transition-transform duration-300 group-hover:scale-110"}
           sizes={"(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 33.33vw"} />
 
         <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/80 sm:m-3" />

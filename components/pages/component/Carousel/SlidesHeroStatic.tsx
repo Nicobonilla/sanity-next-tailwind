@@ -1,5 +1,5 @@
 import type { ComponentProps, ComponentWithBannerPosts, ItemProps } from "@/components/types";
-import ImageBgSsr from "../Background/ImageBgSsr";
+import ImageLoader from "../ImageLoader";
 import PTextHero from "../Background/PTextHero";
 import Layer from "../Background/Layer";
 import type { CSSProperties } from "react";
@@ -20,11 +20,11 @@ export default function SlidesHeroStatic({ data, styleBg }: HeroStaticProps) {
                             data-key={index}
                             className="absolute z-0 inset-0 w-full h-full image-bg-ssr"
                         >
-                            <ImageBgSsr
+                            <ImageLoader
                                 imgBg={slide.image}
-                                index={index}
                                 className="w-full h-full object-cover"
                                 sizes="100vw"
+                                desktopHencement={true}
                             />
                         </div>
 

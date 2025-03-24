@@ -13,7 +13,6 @@ export default function ItemPostList({
   //console.log('post: ', post);
   const path = usePathname();
   if (!post.components) return null;
-  console.log('path: ', path);
   const { imageBackground } =
     post.components.find(
       (component) => component.typeComponentValue === 'Heading'
