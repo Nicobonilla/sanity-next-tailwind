@@ -25,6 +25,7 @@ export default function SlidesHeroStatic({ data, styleBg }: HeroStaticProps) {
                                 className="w-full h-full object-cover"
                                 sizes="100vw"
                                 desktopHencement={true}
+                                priority={true}
                             />
                         </div>
 
