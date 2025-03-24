@@ -84,6 +84,14 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'keywords',
+      title: 'Palabras claves para SEO',
+      type: 'array',
+      of: [
+        { type: 'block' },
+      ],
+    }),
+    defineField({
       name: 'components',
       title: 'Componentes',
       type: 'array',

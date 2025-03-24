@@ -18,6 +18,7 @@ export const getServiceDetailQuery = defineQuery(
     iconfyIcon,
     resumen,
     content,  // Fetch the content of the service
+    keywords,
     "tableOfContents" : content[style in ['h2']] {
       _key,
       style,

@@ -6,6 +6,8 @@ import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { type GetServiceDetailQueryResult } from '@/sanity.types';
 import type { Service, WithContext } from 'schema-dts';
 import { type Metadata } from 'next';
+import { extractKeywords } from '@/components/utils';
+import type { ComponentProps } from '@/components/types';
 
 export async function generateMetadata({
   params,
@@ -15,8 +17,11 @@ export async function generateMetadata({
   const service: GetServiceDetailQueryResult = await getData(params.slug);
   return {
     title: service?.title || '',
-    description: service?.resumen || '',
+    description: service?.resumen?.slice(0, 160) || '',
+    keywords: extractKeywords((service?.keywords as ComponentProps["content"])) || '',
     openGraph: {
+      title: service?.title ? `${service.title} - abogadossanfelipe.cl` : '', 
+      description: service?.resumen?.slice(0, 160) || '',
       images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground) || '',
     },
   };

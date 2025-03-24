@@ -32,6 +32,7 @@ export const getPostDetailQuery = defineQuery(groq`
   *[_type == 'post' && slug.current == $slug][0] {
     ${post},
     content,
+    keywords,
     "tableOfContents" : content[style in ['h2', 'h3']] {
       _key,
       style,

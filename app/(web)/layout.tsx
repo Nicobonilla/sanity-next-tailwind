@@ -15,12 +15,11 @@ import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch
 import WhatsappSticky from '@/components/global/WhatsappSticky';
 import { type Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-//import { GoogleTagManager } from '@next/third-parties/google';
-//import GTMGlobals from '@/components/lib/GTMGlobals';
 import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import ContactForm from '@/components/global/ContactForm';
 import { Suspense } from 'react';
 import NavbarSkeleton from '@/components/global/Navbar/NavbarSkeleton';
+import { GTMWrapper } from '@/components/global/GTM/GTMWrapper';
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -40,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     generator: 'Next.js',
     keywords: [
-      'abogados San Felipe',
+      'abogado San Felipe',
       'bufete de abogados San Felipe',
       'asesoría legal San Felipe',
       'servicios jurídicos San Felipe',
@@ -67,11 +66,11 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     icons: {
-      icon: '/icon',
-      apple: '/apple-icon',
+      icon: '/icons/icon',
+      apple: '/icons//apple-icon',
       other: [
-        { rel: 'icon', url: '/icon-192', sizes: '192x192' },
-        { rel: 'icon', url: '/icon-512', sizes: '512x512' },
+        { rel: 'icon', url: '/icons/icon-192', sizes: '192x192' },
+        { rel: 'icon', url: '/icons/icon-512', sizes: '512x512' },
       ],
     },
     openGraph: {
@@ -131,10 +130,8 @@ export default async function RootLayout({
       >
         <head>
         </head>
-        {/*<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-        <GTMGlobals />*/}
-
         <body className="min-h-screen min-w-[320px] flex-col">
+          <GTMWrapper />
           <ErrorBoundary>
             <Providers initialData={initialData} >
               <Suspense fallback={

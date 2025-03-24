@@ -14,17 +14,11 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const data = await getData(params.slug);
-
-  if (!data) {
-    return {
-      title: "Página no encontrada",
-    };
-  }
-
+  if (!data) return { title: "Página no encontrada" };
   const { page } = data;
-
   return {
     title: page?.title || "",
+    description: page?.resumen?.slice(0, 160) || '',
     keywords: extractKeywords((page?.content as ComponentProps["content"])),
   };
 }

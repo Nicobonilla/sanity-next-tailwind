@@ -52,6 +52,12 @@ const page = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'keywords',
+      title: 'Palabras clave',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
       name: 'isHome',
       title: 'Página de inicio',
       type: 'boolean',

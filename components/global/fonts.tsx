@@ -9,7 +9,8 @@ const roboto_slab = Roboto_Slab({
   subsets: ['latin'],
   display: 'swap',
   preload: false,
-  weight: ['200', '400', '300', '600']
+  weight: ['200', '400', '300', '600'],
+  style: ['normal']
 });
 
 const crimson_pro = Crimson_Pro({
@@ -17,7 +18,9 @@ const crimson_pro = Crimson_Pro({
   subsets: ['latin'],
   display: 'swap',
   preload: false,
-  weight: ['200', '300', '400', '600']
+  weight: ['200', '300', '400', '600'],
+  style: ['normal']
+
 })
 
 const montserrat = Montserrat({
@@ -25,7 +28,8 @@ const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   preload: false,
-  weight: ['300', '400', '500', '600', '800']
+  weight: ['300', '400', '500', '600', '800'],
+  style: ['normal']
 
 });
 

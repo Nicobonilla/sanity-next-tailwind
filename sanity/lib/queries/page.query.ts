@@ -23,6 +23,8 @@ const pageFields = /* groq */ `
     "slug": slug.current,
     isActive,
     title,
+    resumen,
+    keywords,
     content,
     components[isActive]  { ${componentFields} }
 `;
