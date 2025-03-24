@@ -9,9 +9,7 @@ const post = /* groq */ `
   ${unitBusiness},
   orderRank,
   components[isActive] | order(orderRank asc) { ${componentFields} },
-  "resumen": coalesce(
-    resumen,
-    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")
+  "resumen": array::join(content[_type == "block" && style == "normal"][0].children[].text, " "
   ),
   date
   `;

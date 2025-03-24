@@ -40,8 +40,9 @@ export default defineType({
           styles: [
             { title: 'Normal', value: 'normal' },
             { title: 'Quote', value: 'blockquote' },
-            { title: 'H2', value: 'h2' },
-            { title: 'H3', value: 'h3' },
+            { title: 'h2', value: 'h2' },
+            { title: 'h3', value: 'h3' },
+            { title: 'h4', value: 'h4' },
           ],
           marks: {
             decorators: [{ title: 'Strong', value: 'strong' }],
@@ -75,13 +76,6 @@ export default defineType({
       title: 'Unidad de Negocio',
       type: 'reference',
       to: [{ type: 'unitBusiness' }],
-    }),
-    defineField({
-      name: 'resumen',
-      title: 'Resumen',
-      description:
-        'Texto para lista de Posts. (Si está vacio se mostrarán los 100 primeros caracteres del primer parrafo: estilo normal")',
-      type: 'text',
     }),
     defineField({
       name: 'keywords',

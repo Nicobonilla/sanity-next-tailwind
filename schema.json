@@ -1940,6 +1940,10 @@
                         {
                           "type": "string",
                           "value": "h3"
+                        },
+                        {
+                          "type": "string",
+                          "value": "h4"
                         }
                       ]
                     },
@@ -2127,13 +2131,6 @@
             }
           },
           "dereferencesTo": "unitBusiness"
-        },
-        "optional": true
-      },
-      "resumen": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
         },
         "optional": true
       },

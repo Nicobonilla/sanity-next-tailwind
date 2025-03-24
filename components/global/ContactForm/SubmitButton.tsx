@@ -1,13 +1,21 @@
+import { trackClick } from "../GTM/GTMGlobals";
 
 // Submit button component
 export default function SubmitButton({ isLoading }: { isLoading: boolean }) {
+    const handleClick = () => {
+        trackClick(
+            'submit',           // element_id
+            'Enviar', // element_text
+            'button'                  // element_type
+        );
+    };
     return (
         <div className="flex justify-center">
             <button
                 type="submit"
                 disabled={isLoading}
                 className="rounded bg-[#6C5CE7] px-8 py-3 font-medium text-white transition-colors hover:bg-[#5849c4] focus:outline-none focus:ring-2 focus:ring-menuColor2 disabled:opacity-50"
-            //onClick={() => trackFormSubmit('submit')}
+                onClick={handleClick}
             >
                 {isLoading ? (
                     <span className="flex items-center gap-2">

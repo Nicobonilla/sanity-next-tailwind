@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation'; // Añadimos hooks de Next.js
 import { GoogleTagManager } from '@next/third-parties/google';
 
 // Interfaces para tipado
@@ -11,10 +12,7 @@ interface GTMEvent {
 
 // Inicialización de GTM
 export const initializeGTM = (gtmId: string) => {
-  // Asegurarse de que dataLayer exista
   window.dataLayer = window.dataLayer || [];
-  
-  // Inyección de script GTM de forma manual para mayor control
   const script = document.createElement('script');
   script.innerHTML = `
     (function(w,d,s,l,i){
@@ -54,8 +52,8 @@ export const trackFormSubmit = (form_id: string, form_name?: string) => {
 };
 
 export const trackClick = (
-  element_id: string, 
-  element_text?: string, 
+  element_id: string,
+  element_text?: string,
   element_type: string = 'button'
 ) => {
   sendGTMEvent({
@@ -69,32 +67,33 @@ export const trackClick = (
 
 // Componente de Inicialización de GTM
 const GTMGlobals: React.FC = () => {
+  const pathname = usePathname(); // Obtiene la ruta actual
+  const searchParams = useSearchParams(); // Obtiene parámetros de búsqueda
+
   useEffect(() => {
     const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
     if (gtmId) {
-      // Comentar/descomentar según preferencia
       initializeGTM(gtmId);
-      // O usar el componente de Next.js
-      // <GoogleTagManager gtmId={gtmId} />
 
-      // Track initial page view
-      trackPageView(window.location.pathname);
-
-      // Manejar cambios de ruta en aplicaciones SPA
+      // Función para rastrear la vista de página
       const handleRouteChange = () => {
-        trackPageView(window.location.pathname);
+        const fullPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+        trackPageView(fullPath);
       };
 
+      // Rastrear la página inicial y los cambios de ruta
+      handleRouteChange();
+
+      // Escuchar cambios de historial (navegación atrás/adelante)
       window.addEventListener('popstate', handleRouteChange);
 
       return () => {
         window.removeEventListener('popstate', handleRouteChange);
       };
     }
-  }, []);
+  }, [pathname, searchParams]); // Dependencias para reaccionar a cambios de ruta
 
-  // Renderiza el componente nativo de GTM de Next.js
   return process.env.NEXT_PUBLIC_GTM_ID ? (
     <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
   ) : null;

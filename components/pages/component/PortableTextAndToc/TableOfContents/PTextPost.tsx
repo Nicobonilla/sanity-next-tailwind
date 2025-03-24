@@ -19,6 +19,11 @@ export const PTextPost: PortableTextComponents = {
         {children}
       </h3>
     ),
+    h4: ({ children }) => (
+      <h4 className="ml-2 mt-4 font-robotoslab font-semibold text-slate-700 lg:text-lg" >
+        {children}
+      </h4 >
+    ),
     normal: ({ children }) => <p className="p3">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 px-4 py-2">
@@ -43,7 +48,7 @@ export const PTextPost: PortableTextComponents = {
   list: {
     bullet: ({ children }) => (
       <div className='py-1 px-2'>
-        <ul className="p3 ml-5 list-disc mt-4">
+        <ul className="p3 ml-8 list-disc">
           {children}
         </ul>
       </div>
