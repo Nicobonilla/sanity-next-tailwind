@@ -1,5 +1,5 @@
-'use client';
-
+// GTMWrapper.jsx (or .tsx)
+import { Suspense } from 'react';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from './GTMGlobals';
 
@@ -9,7 +9,9 @@ export function GTMWrapper() {
             {process.env.NEXT_PUBLIC_GTM_ID && (
                 <>
                     <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-                    <GTMGlobals />
+                    <Suspense fallback={null}>
+                        <GTMGlobals />
+                    </Suspense>
                 </>
             )}
         </>

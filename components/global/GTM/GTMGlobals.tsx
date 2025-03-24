@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation'; // Añadimos hooks de Next.js
-import { GoogleTagManager } from '@next/third-parties/google';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 // Interfaces para tipado
 interface GTMEvent {
@@ -67,36 +66,32 @@ export const trackClick = (
 
 // Componente de Inicialización de GTM
 const GTMGlobals: React.FC = () => {
-  const pathname = usePathname(); // Obtiene la ruta actual
-  const searchParams = useSearchParams(); // Obtiene parámetros de búsqueda
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-
     if (gtmId) {
       initializeGTM(gtmId);
 
-      // Función para rastrear la vista de página
-      const handleRouteChange = () => {
+      const trackCurrentPage = () => {
         const fullPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
         trackPageView(fullPath);
       };
 
-      // Rastrear la página inicial y los cambios de ruta
-      handleRouteChange();
+      // Track initial page load
+      trackCurrentPage();
 
-      // Escuchar cambios de historial (navegación atrás/adelante)
-      window.addEventListener('popstate', handleRouteChange);
+      // Listen for navigation changes
+      window.addEventListener('popstate', trackCurrentPage);
 
       return () => {
-        window.removeEventListener('popstate', handleRouteChange);
+        window.removeEventListener('popstate', trackCurrentPage);
       };
     }
-  }, [pathname, searchParams]); // Dependencias para reaccionar a cambios de ruta
+  }, [pathname, searchParams]);
 
-  return process.env.NEXT_PUBLIC_GTM_ID ? (
-    <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-  ) : null;
+  return null; // No need for <GoogleTagManager /> here since GTMWrapper handles it
 };
 
 export default GTMGlobals;
