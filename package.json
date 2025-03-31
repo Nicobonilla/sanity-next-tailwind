@@ -13,6 +13,8 @@
     "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@as-integrations/next": "^3.2.0",
     "@focus-reactive/sanity-plugin-inline-svg-input": "^1.1.0",
     "@iconify/react": "^5.2.0",
     "@next/third-parties": "^15.2.3",
@@ -36,9 +38,12 @@
     "embla-carousel-autoplay": "^8.5.1",
     "embla-carousel-fade": "^8.5.2",
     "embla-carousel-react": "^8.5.1",
+    "graphql": "^16.10.0",
     "lucide-react": "^0.460.0",
     "next": "^14.2.18",
     "next-sanity": "^9.8.15",
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
     "postcss": "^8.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -50,6 +55,8 @@
     "sanity-plugin-icon-manager": "^2.1.0",
     "sanity-plugin-media": "^2.3.2",
     "schema-dts": "^1.1.5",
+    "sequelize": "^6.37.7",
+    "sequelize-typescript": "^2.1.6",
     "styled-components": "^6.1.13",
     "tailwindcss": "^3.4.15",
     "typescript": "5.6.3",
@@ -61,6 +68,7 @@
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.18",
-    "eslint-plugin-tailwindcss": "^3.17.5"
+    "eslint-plugin-tailwindcss": "^3.17.5",
+    "graphql-tag": "^2.12.6"
   }
 }
