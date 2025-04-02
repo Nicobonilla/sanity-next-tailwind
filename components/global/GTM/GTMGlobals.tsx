@@ -14,14 +14,14 @@ export const initializeGTM = (gtmId: string) => {
   window.dataLayer = window.dataLayer || [];
   const script = document.createElement('script');
   script.innerHTML = `
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','${gtmId}');
-  `;
+        (function(w,d,s,l,i){
+          w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+          var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+          j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+          f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${gtmId}');
+    `;
   document.head.appendChild(script);
 };
 
@@ -71,27 +71,41 @@ const GTMGlobals: React.FC = () => {
 
   useEffect(() => {
     const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-    if (gtmId) {
-      initializeGTM(gtmId);
+    if (!gtmId || window.__GTM_LOADED__) return;
 
-      const trackCurrentPage = () => {
-        const fullPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
-        trackPageView(fullPath);
-      };
+    const loadGTM = () => {
+      if (!window.__GTM_LOADED__) {
+        initializeGTM(gtmId);
+        trackPageView(`${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`);
+        window.__GTM_LOADED__ = true; // Marca GTM como cargado
+      }
+    };
 
-      // Track initial page load
-      trackCurrentPage();
-
-      // Listen for navigation changes
-      window.addEventListener('popstate', trackCurrentPage);
-
-      return () => {
-        window.removeEventListener('popstate', trackCurrentPage);
-      };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGTM);
+    } else {
+      setTimeout(loadGTM, 1000); // Reducir timeout para mejorar carga
     }
+
+    const onUserInteraction = () => {
+      loadGTM();
+      document.removeEventListener('scroll', onUserInteraction);
+      document.removeEventListener('mousemove', onUserInteraction);
+      document.removeEventListener('touchstart', onUserInteraction);
+    };
+
+    document.addEventListener('scroll', onUserInteraction);
+    document.addEventListener('mousemove', onUserInteraction);
+    document.addEventListener('touchstart', onUserInteraction);
+
+    return () => {
+      document.removeEventListener('scroll', onUserInteraction);
+      document.removeEventListener('mousemove', onUserInteraction);
+      document.removeEventListener('touchstart', onUserInteraction);
+    };
   }, [pathname, searchParams]);
 
-  return null; // No need for <GoogleTagManager /> here since GTMWrapper handles it
+  return null;
 };
 
 export default GTMGlobals;
