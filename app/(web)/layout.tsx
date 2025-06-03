@@ -39,16 +39,26 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     generator: 'Next.js',
     keywords: [
-      'abogado San Felipe',
-      'bufete de abogados San Felipe',
-      'asesoría legal San Felipe',
-      'servicios jurídicos San Felipe',
-      'consulta legal San Felipe',
-      'abogados de familia San Felipe',
-      'derecho inmobiliario San Felipe',
-      'contratos de arrendamiento San Felipe',
-      'compraventa de inmuebles San Felipe',
-      'herencias y testamentos San Felipe',
+      'abogados Chile',
+      'abogado online Chile',
+      'asesoría legal online',
+      'estudio jurídico online Chile',
+      'servicios legales Chile',
+      'abogados a distancia',
+      'consultas legales Chile',
+      'abogados especialistas Chile',
+      'derecho Chile',
+      'abogados de familia Chile',
+      'abogados laboral Chile',
+      'abogados civil Chile',
+      'asesoría jurídica virtual',
+      'soluciones legales Chile',
+      'tu abogado en Chile',
+      'asesoría legal a nivel nacional',
+      'abogado por videoconferencia',
+      'abogados San Felipe',
+      'estudio jurídico San Felipe',
+      'abogado para todo Chile'
     ],
     description: settings?.description || '',
     publisher: 'Vercel',
@@ -104,7 +114,7 @@ export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): Promise<React.ReactElement> {
   try {
     const data = await getData();
     if (!data) throw new Error('Failed to fetch data');
