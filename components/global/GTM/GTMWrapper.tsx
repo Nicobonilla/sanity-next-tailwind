@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { GoogleTagManager } from '@next/third-parties/google';
 import GTMGlobals from './GTMGlobals';
 
@@ -15,7 +15,9 @@ export function GTMWrapper(): React.ReactElement {
             {process.env.NEXT_PUBLIC_GTM_ID && (
                 <>
                     {loaded && <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />}
-                    <GTMGlobals />
+                    <Suspense fallback={null}>
+                        <GTMGlobals />
+                    </Suspense>
                 </>
             )}
         </>
