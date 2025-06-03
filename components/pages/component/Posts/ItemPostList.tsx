@@ -9,7 +9,7 @@ export default function ItemPostList({
   post,
 }: {
   post: GetPostListQueryResult[number];
-}) : React.ReactElement | null {
+}): React.ReactElement | null {
   //console.log('post: ', post);
   const path = usePathname();
   if (!post.components) return null;
@@ -27,7 +27,7 @@ export default function ItemPostList({
                 src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
                 alt={post.title || ''}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1028px) 50vw, 300px"
+                sizes="(max-width: 420px) 100vw, (max-width: 1028px) 50vw, 300px"
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
               />
             </div>

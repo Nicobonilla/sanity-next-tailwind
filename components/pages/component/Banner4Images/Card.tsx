@@ -10,7 +10,7 @@ export default function Card({
 }: {
   service: ItemProps;
   index: number;
-}) : React.ReactElement {
+}): React.ReactElement {
   return (
     <div
       className={`group relative grid h-full overflow-hidden rounded-lg hover:cursor-pointer ${index === 0 ? 'lg:row-span-3' : ''
@@ -25,7 +25,7 @@ export default function Card({
         <ImageLoader
           imgBg={service.image}
           className={"transition-transform duration-300 group-hover:scale-110"}
-          sizes={"(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 33.33vw"} />
+          sizes={"(max-width: 420px) 100vw, (max-width: 1023px) 50vw, 33.33vw"} />
 
         <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/80 sm:m-3" />
         <div className="absolute inset-0 flex items-end lg:items-center">

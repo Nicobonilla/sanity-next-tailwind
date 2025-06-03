@@ -48,7 +48,7 @@ export default function DesktopImageEnhancer({
 
   // Memoizamos el cálculo de optimalSize para evitar recalcularlo innecesariamente
   const optimalSize = useMemo(() => {
-    if (!hasImage || maxWidth < 640) return currentSize; // Evita cálculos si no hay imagen o el ancho es pequeño
+    if (!hasImage || maxWidth < 420) return currentSize; // Evita cálculos si no hay imagen o el ancho es pequeño
     return calculateOptimalImageSize(maxWidth);
   }, [maxWidth, hasImage, currentSize]);
 
@@ -57,7 +57,7 @@ export default function DesktopImageEnhancer({
   }, []);
 
   useEffect(() => {
-    if (!isCharged || !hasImage || maxWidth < 640) return;
+    if (!isCharged || !hasImage || maxWidth < 420) return;
     if (optimalSize === currentSize) return; // Evita re-renders innecesarios
     const src = generateOptimizedSrc(optimalSize);
     setOptimizedSrc(src);

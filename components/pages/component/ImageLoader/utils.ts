@@ -1,6 +1,6 @@
 // utils.ts
 export function getNearestSize(width: number): number {
-  const sizes = [1024, 1536, 2048]
+  const sizes = [640, 1024, 1536 ] // 2048
   console.log("getNearestSize input:", width) // Depuración
   const nearest = sizes.find(size => width <= size) || 2048
   console.log("getNearestSize output:", nearest) // Depuración

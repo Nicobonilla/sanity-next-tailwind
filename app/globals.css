@@ -17,7 +17,7 @@
   .text-balance {
     text-wrap: balance;
   }
-  @media (max-width: 640px) {
+  @media (max-width: 420px) {
     .text-balance {
       text-wrap: initial;
     }
