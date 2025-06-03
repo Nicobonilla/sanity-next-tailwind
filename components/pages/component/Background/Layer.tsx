@@ -9,7 +9,7 @@ type LayerProps = {
 export default function Layer({
   layer,
   currentStyle,
-}: LayerProps): JSX.Element | undefined {
+}: LayerProps): React.ReactElement | undefined {
   //console.log('currentStyle', currentStyle);
   switch (layer) {
     case 'layer6':

@@ -11,7 +11,7 @@ type CarouselInitializerProps = {
     emblaRef: HTMLDivElement; // Mantenemos esto como HTMLDivElement porque pasamos containerRef.current
 };
 
-export default function CarouselInitializer({ setActiveIndex, variant, emblaRef }: CarouselInitializerProps) {
+export default function CarouselInitializer({ setActiveIndex, variant, emblaRef }: CarouselInitializerProps): React.ReactElement | null {
     const options: EmblaOptionsType = { align: "start", loop: true };
 
     const plugins: (ReturnType<typeof Autoplay> | ReturnType<typeof Fade>)[] = [

@@ -3,7 +3,7 @@ import { PortableText, type PortableTextComponents } from 'next-sanity';
 import { type ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 
-export default function Highlight({ data }: { data: ComponentProps }) {
+export default function Highlight({ data }: { data: ComponentProps }): React.ReactElement {
 
   return (
 

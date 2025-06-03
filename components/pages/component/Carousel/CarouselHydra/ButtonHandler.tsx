@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 
-export default function ButtonHandler() {
+export default function ButtonHandler(): React.ReactElement | null {
     useEffect(() => {
         const buttons = document.querySelectorAll(".embla_hero .hero-button");
 

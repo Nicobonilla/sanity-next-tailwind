@@ -3,7 +3,7 @@ import { PortableText } from '@portabletext/react';
 import { type ComponentProps } from '@/components/types';
 import ImageLoader from '../ImageLoader';
 
-export default function Banner1({ data }: { data: ComponentProps }) {
+export default function Banner1({ data }: { data: ComponentProps }) : React.ReactElement {
   const { content, imageContent } = data;
 
   if (!data) {

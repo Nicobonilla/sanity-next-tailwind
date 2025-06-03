@@ -11,7 +11,7 @@ export default function TagFilter({
   currentTag,
   filteredUnitBusiness,
   onTagClick,
-}: TagFilterProps) {
+}: TagFilterProps) : React.ReactElement {
   return (
     <div className="mb-8 flex flex-wrap gap-2">
       {/* Botón "Todos" */}

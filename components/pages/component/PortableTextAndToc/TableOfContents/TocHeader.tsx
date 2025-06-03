@@ -5,7 +5,7 @@ interface TocHeaderProps {
   toggleExpanded: () => void;
 }
 
-export const TocHeader = ({ isExpanded, toggleExpanded }: TocHeaderProps) => {
+export const TocHeader = ({ isExpanded, toggleExpanded }: TocHeaderProps) : React.ReactElement => {
   return (
     <div
       onClick={toggleExpanded}

@@ -9,7 +9,7 @@ interface BreadcrumbsProps {
   items: ItemBC[];
 }
 
-export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ items }: BreadcrumbsProps) : React.ReactElement => {
   return (
     <nav className="mb-2 ml-2 mt-6 text-sm text-gray-700">
       <ul className="flex items-center">

@@ -9,7 +9,7 @@ export type CarouselProps = {
   styleBg?: CSSProperties | undefined;
 };
 
-export default function CarouselHero({ data, styleBg }: CarouselProps) {
+export default function CarouselHero({ data, styleBg }: CarouselProps): React.ReactElement {
 
   return (
     <div className={"relative w-full items-center justify-center h-[500px] md:h-[650px]"}>

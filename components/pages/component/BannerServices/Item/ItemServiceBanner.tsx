@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function ItemServiceBanner({
   service,
-}: ComponentWithServices['services']) {
+}: ComponentWithServices['services']) : React.ReactElement | null {
   if (!service) return null;
 
   const { iconfyIcon, title, resumen, slug } = service;

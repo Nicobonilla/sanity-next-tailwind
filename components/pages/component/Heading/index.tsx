@@ -9,7 +9,7 @@ type HeadingProps = {
   styleBg?: CSSProperties;
 };
 
-export default function Heading({ data, styleBg }: HeadingProps) {
+export default function Heading({ data, styleBg }: HeadingProps) : React.ReactElement{
   const layer = data?.backgroundValue?.layer;
 
   return (

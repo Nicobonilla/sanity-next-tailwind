@@ -10,7 +10,7 @@ export const TocList = ({
   items,
   isExpanded,
   toggleExpanded,
-}: TocListProps) => {
+}: TocListProps) : React.ReactElement  => {
   return (
     <ul
       className={`pl-4 transition-all duration-300 ${isExpanded

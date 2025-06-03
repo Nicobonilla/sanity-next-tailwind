@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import CarouselInitializer from "./CarouselInitializer";
 import AnimatedPortals from "./AnimatedPortals";
 
-export default function CarouselHydra({ variant }: { variant: string }) {
+export default function CarouselHydra({ variant }: { variant: string }): React.ReactElement | null {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null);

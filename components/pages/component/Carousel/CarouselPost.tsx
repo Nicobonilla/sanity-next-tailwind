@@ -10,7 +10,7 @@ export type CarouselProps = {
   data: ComponentWithBannerPosts;
 };
 
-export default function CarouselPost({ data }: CarouselProps) {
+export default function CarouselPost({ data }: CarouselProps): React.ReactElement {
   return (
     <div className="relative size-full items-center justify-center mx-auto max-w-screen-xl my-10 lg:my-20 flex-col">
 

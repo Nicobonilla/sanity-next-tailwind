@@ -14,7 +14,7 @@ export default function Posts({
 }: {
   posts: GetPostListQueryResult;
   unitBusiness: GetUnitBusinessListQueryResult;
-}) {
+}) : React.ReactElement  {
   const [currentTag, setCurrentTag] = useState<string | null>(null);
 
   // Filtrar posts según el tag seleccionado

@@ -11,7 +11,7 @@ type BannerServicesProps = {
   styleBg?: React.CSSProperties;
 };
 
-export default function BannerServices({ data }: BannerServicesProps) {
+export default function BannerServices({ data }: BannerServicesProps) : React.ReactElement {
 
   const PTextBannerService: PortableTextComponents = {
     block: {

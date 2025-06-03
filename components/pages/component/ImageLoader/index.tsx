@@ -17,7 +17,7 @@ export default function ImageLoader({
     className?: string
     sizes?: string
     desktopHencement?: boolean
-}): React.ReactNode {
+}): React.ReactElement | null {
 
     if (!imgBg?.asset?._ref) return null
     const initialWidth = 640

@@ -10,7 +10,7 @@ export default function Card({
 }: {
   service: ItemProps;
   index: number;
-}) {
+}) : React.ReactElement {
   return (
     <div
       className={`group relative grid h-full overflow-hidden rounded-lg hover:cursor-pointer ${index === 0 ? 'lg:row-span-3' : ''

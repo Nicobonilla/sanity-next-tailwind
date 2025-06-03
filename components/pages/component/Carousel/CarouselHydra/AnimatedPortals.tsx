@@ -6,7 +6,7 @@ type AnimatedPortalsProps = {
   activeIndex: number
 }
 
-export default function AnimatedPortals({ imageContainers, activeIndex }: AnimatedPortalsProps) {
+export default function AnimatedPortals({ imageContainers, activeIndex }: AnimatedPortalsProps): React.ReactElement | null {
   const prevIndexRef = useRef(activeIndex)
 
   useEffect(() => {

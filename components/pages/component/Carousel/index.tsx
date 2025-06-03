@@ -9,7 +9,7 @@ export type CarouselProps = {
   styleBg?: CSSProperties | undefined;
 };
 
-export default function Carousel({ data, styleBg }: CarouselProps) {
+export default function Carousel({ data, styleBg }: CarouselProps): React.ReactElement {
 
   return (
     <>

@@ -14,6 +14,6 @@ const componentsMap: { [key: string]: React.ComponentType<any> } = {
 };
 
 // Función para obtener el componente dinámico
-export default function getComponent(componentType: string) {
+export default function getComponent(componentType: string): React.ComponentType<any> {
   return componentsMap[componentType] || (() => <div>Componente no encontrado</div>);
 }

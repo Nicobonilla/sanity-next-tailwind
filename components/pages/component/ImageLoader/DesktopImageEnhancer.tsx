@@ -18,7 +18,7 @@ export default function DesktopImageEnhancer({
   className?: string;
   sizes: string;
   priority?: boolean;
-}) {
+}): React.ReactElement | null {
   const [optimizedSrc, setOptimizedSrc] = useState<string | null>(null);
   const [isCharged, setIsCharged] = useState(false);
   const [currentSize, setCurrentSize] = useState<number>(1920);

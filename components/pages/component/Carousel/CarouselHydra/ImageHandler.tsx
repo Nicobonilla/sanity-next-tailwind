@@ -5,7 +5,7 @@ type ImageHandlerProps = {
     containerRef: React.RefObject<HTMLDivElement>;
 };
 
-export default function ImageHandler({ containerRef }: ImageHandlerProps) {
+export default function ImageHandler({ containerRef }: ImageHandlerProps): React.ReactElement | null {
     //const [imageContainers, setImageContainers] = useState<HTMLDivElement[]>([]);
 
     useEffect(() => {

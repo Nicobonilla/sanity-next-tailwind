@@ -9,7 +9,7 @@ export default function ItemPostList({
   post,
 }: {
   post: GetPostListQueryResult[number];
-}) {
+}) : React.ReactElement | null {
   //console.log('post: ', post);
   const path = usePathname();
   if (!post.components) return null;

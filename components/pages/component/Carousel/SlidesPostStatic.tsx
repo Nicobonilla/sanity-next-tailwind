@@ -7,7 +7,7 @@ export default function SlidesPostStatic({
   posts,
 }: {
   posts: GetPostListQueryResult
-}) {
+}): React.ReactElement | null {
   if (!posts) return null
 
   return (

@@ -18,7 +18,7 @@ interface PortableTextAndTOCProps {
 export default function PortableTextAndTOC({
   article,
   breadcrumbsItems,
-}: PortableTextAndTOCProps) {
+}: PortableTextAndTOCProps): React.ReactElement  {
   return (
     <div className="max-w-screen-lg mx-4 xl:mx-auto">
       <article>

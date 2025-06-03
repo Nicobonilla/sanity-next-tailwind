@@ -9,7 +9,7 @@ type HeroStaticProps = {
     styleBg: CSSProperties | undefined;
 };
 
-export default function SlidesHeroStatic({ data, styleBg }: HeroStaticProps) {
+export default function SlidesHeroStatic({ data, styleBg }: HeroStaticProps): React.ReactElement {
     return (
         <>
             {data?.items?.map((slide: ItemProps, index: number) => (

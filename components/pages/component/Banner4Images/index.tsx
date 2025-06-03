@@ -3,7 +3,7 @@ import { PortableText, type PortableTextComponents } from 'next-sanity';
 import Card from './Card';
 import clsx from 'clsx';
 
-export default function Banner4Images({ data }: { data: ComponentProps }) {
+export default function Banner4Images({ data }: { data: ComponentProps }) : React.ReactElement {
   return (
     <section
       className={clsx(

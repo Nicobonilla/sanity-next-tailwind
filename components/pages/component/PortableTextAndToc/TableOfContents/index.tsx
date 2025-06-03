@@ -16,7 +16,7 @@ export const TableOfContents = ({
   items,
 }: {
   items: TableOfComponentsProps;
-}) => {
+}) : React.ReactElement => {
   const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 

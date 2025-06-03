@@ -5,7 +5,7 @@ interface PostListProps {
   posts: GetPostListQueryResult;
 }
 
-export default function PostList({ posts }: PostListProps) {
+export default function PostList({ posts }: PostListProps) : React.ReactElement  {
   return (
     <div className="grid gap-6">
       {posts.length > 0 ? (
