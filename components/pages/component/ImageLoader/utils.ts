@@ -2,14 +2,14 @@
 export function getNearestSize(width: number): number {
   const sizes = [640, 1024, 1536 ] // 2048
   console.log("getNearestSize input:", width) // Depuración
-  const nearest = sizes.find(size => width <= size) || 2048
+  const nearest = sizes.find(size => width <= size) || 1536
   console.log("getNearestSize output:", nearest) // Depuración
   return nearest
 }
 
 export function shouldLoadHighResImage(screenWidth: number): boolean {
   const connection = (navigator as any).connection
-  return !connection?.saveData && screenWidth > 768
+  return !connection?.saveData && screenWidth > 420
 }
 
 export function calculateOptimalImageSize(containerWidth: number): number {

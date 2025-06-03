@@ -54,7 +54,7 @@ async function getDataPage() {
   }
 }
 
-export default async function Page() {
+export default async function Page() : Promise<React.ReactElement> {
   const data = await getDataPage();
   if (!data) {
     return <div>Error fetching data</div>;

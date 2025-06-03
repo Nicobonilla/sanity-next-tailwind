@@ -37,7 +37,7 @@ async function getData(slug: string): Promise<GetServiceDetailQueryResult> {
   }
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { slug: string } }) : Promise<React.ReactElement> {
   const service = await getData(params?.slug);
   if (!service) {
     return <div>Servicio no encontrado.</div>; // Manejo básico de errores

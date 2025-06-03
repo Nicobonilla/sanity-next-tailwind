@@ -35,7 +35,7 @@ async function getData(slug: string): Promise<PageData | null> {
 
 
 // ✅ Ahora Page recibe `data` como props para evitar `async function`
-export default async function Page() {
+export default async function Page() : Promise<React.ReactElement> {
   const currentPage = await getData('inicio');
   if (!currentPage) {
     return <div>Error al cargar la página.</div>;
