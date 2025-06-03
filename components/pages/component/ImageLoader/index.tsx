@@ -20,7 +20,7 @@ export default function ImageLoader({
 }): React.ReactElement | null {
 
     if (!imgBg?.asset?._ref) return null
-    const initialWidth = 640
+    const initialWidth = 420
     try {
         const imageUrl = urlForImage(imgBg)?.width(initialWidth).quality(50).auto("format").fit("max").url()
 
