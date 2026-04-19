@@ -17,6 +17,7 @@ export const getUnitBusinessListQuery = groq`
     title,
     "slug": slug.current,
     color,
+    "summary": array::join(description[_type == "block" && style == "normal"][0].children[].text, " "),
     _updatedAt,
     seo{
       noIndex
@@ -44,7 +45,7 @@ const ubFields = /* groq */ `
     iconfyIcon,
     resumen
   },
-  components[isActive] { ${componentFields} }
+  components[isActive] | order(orderRank asc) { ${componentFields} }
 `;
 
 export const getUnitBusinessDetailQuery = groq`

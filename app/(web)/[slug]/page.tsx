@@ -7,7 +7,10 @@ import { ComponentsProps } from '@/components/types';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
+import {
+  getPageBySlugFetch,
+  getPagesNavFetch,
+} from '@/sanity/lib/fetchs/page.fetch';
 import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 
 async function getData(slug: string) {
@@ -25,6 +28,21 @@ async function getData(slug: string) {
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const pages = await getPagesNavFetch();
+
+  return (pages || [])
+    .filter(
+      (page) =>
+        !page.isHome &&
+        Boolean(page.slug) &&
+        !['blog'].includes(page.slug || '')
+    )
+    .map((page) => ({
+      slug: page.slug!,
+    }));
+}
 
 export async function generateMetadata({
   params,

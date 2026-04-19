@@ -84,7 +84,7 @@ export default defineType({
       title: 'title',
       active: 'isActive',
       unitBusiness: 'unitBusiness.title',
-      icon: 'iconftyIcon.icon',
+      icon: 'iconfyIcon.icon',
     },
     prepare({ title, active, unitBusiness, icon }) {
       return {

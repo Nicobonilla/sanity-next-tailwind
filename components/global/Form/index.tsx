@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
@@ -14,64 +13,40 @@ import {
   trackLeadFormSubmitSuccess,
 } from '@/components/lib/GTMTrackers';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
+import {
+  createInitialLeadForm,
+  leadFormRequestSchema,
+  visibleLeadFormSchema,
+  type VisibleLeadFormData,
+} from '@/lib/lead-form';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
 import ServiceSelector from './ServiceSelector';
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'El nombre es requerido (minimo 3 caracteres)' }),
-  rut: z.string().refine(
-    (value) => {
-      if (!value) return false;
-      const cleanRut = value.replace(/[.-]/g, '');
-      const rutRegex = /^(\d{1,8})([0-9K])$/;
-      return rutRegex.test(cleanRut);
-    },
-    { message: 'RUT invalido' }
-  ),
-  phone: z.string().refine(
-    (value) => {
-      const phoneRegex = /^(\+?56)?(\s?)(9)(\s?)[98765432]\d{7}$/;
-      return phoneRegex.test(value);
-    },
-    { message: 'Numero de telefono invalido (debe tener 9 digitos)' }
-  ),
-  comuna: z.string().min(2, { message: 'Comuna es requerida' }),
-  email: z.string().email({ message: 'Email invalido' }),
-  mainCategory: z.string().optional(),
-  serviceCategory: z.string().min(1, { message: 'Selecciona un servicio' }),
-  message: z.string().optional(),
-});
-
-type TForm = z.infer<typeof formSchema>;
+const formSchema = visibleLeadFormSchema;
+type TForm = VisibleLeadFormData;
 
 type TFormErrors = {
   [key in keyof TForm]?: string;
 };
 
-const initialForm: TForm = {
-  name: '',
-  rut: '',
-  phone: '',
-  comuna: '',
-  email: '',
-  mainCategory: '',
-  serviceCategory: '',
-  message: '',
-};
+const initialForm = createInitialLeadForm();
 
 const initialErrors: TFormErrors = {};
 
-async function sendEmail(formData: TForm) {
+async function sendEmail(formData: TForm, submittedAt: number) {
   try {
+    const requestBody = leadFormRequestSchema.parse({
+      ...formData,
+      submittedAt,
+      website: '',
+    });
     const response = await fetch('/api/email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
@@ -119,7 +94,7 @@ export default function Form({
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
-  const router = useRouter();
+  const [submittedAt, setSubmittedAt] = useState(() => Date.now());
 
   const selectedServiceDisplay = formData.serviceCategory
     ? `${formData.serviceCategory}${formData.mainCategory ? ` - ${formData.mainCategory}` : ''}`
@@ -219,13 +194,13 @@ export default function Form({
     setIsLoading(true);
 
     try {
-      const success = await sendEmail(formData);
+      const success = await sendEmail(formData, submittedAt);
       if (success) {
         trackLeadFormSubmitSuccess({
-          areaTitle: formData.serviceCategory || '',
-          serviceTitle: formData.mainCategory || '',
+          areaTitle: formData.mainCategory || '',
+          serviceTitle: formData.serviceCategory || '',
         });
-        setFormData(initialForm);
+        setFormData(createInitialLeadForm());
         setErrors(initialErrors);
         setTouched({
           name: false,
@@ -239,8 +214,8 @@ export default function Form({
         });
         setFormSubmitted(false);
         setHasTrackedStart(false);
+        setSubmittedAt(Date.now());
         closeDrawer();
-        router.push('/blog');
       } else {
         trackLeadFormSubmitError('api_error');
       }
@@ -272,7 +247,7 @@ export default function Form({
 
   useEffect(() => {
     if (!isOpen) {
-      setFormData(initialForm);
+      setFormData(createInitialLeadForm());
       setErrors(initialErrors);
       setTouched({
         name: false,
@@ -286,6 +261,7 @@ export default function Form({
       });
       setFormSubmitted(false);
       setHasTrackedStart(false);
+      setSubmittedAt(Date.now());
     }
   }, [isOpen]);
 
@@ -330,6 +306,18 @@ export default function Form({
             </p>
 
             <form className="space-y-6" noValidate onSubmit={handleSubmit}>
+              <div aria-hidden="true" className="hidden">
+                <label htmlFor="website">Sitio web</label>
+                <input
+                  autoComplete="off"
+                  id="website"
+                  name="website"
+                  readOnly
+                  tabIndex={-1}
+                  type="text"
+                  value=""
+                />
+              </div>
               <InputField
                 error={touched.name || formSubmitted ? errors.name : undefined}
                 icon="user"
@@ -427,6 +415,7 @@ export default function Form({
                 value={formData.message || ''}
               />
 
+              <input name="submittedAt" readOnly type="hidden" value={submittedAt} />
               <SubmitButton isLoading={isLoading} />
             </form>
           </div>

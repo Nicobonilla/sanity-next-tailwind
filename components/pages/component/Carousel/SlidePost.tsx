@@ -1,3 +1,5 @@
+'use client';
+
 import { trackArticleClick } from '@/components/lib/GTMTrackers';
 import { extractComponentImageBackground } from '@/lib/seo';
 import { GetPostListQueryResult } from '@/sanity.types';

@@ -37,7 +37,7 @@ const pageFields = /* groq */ `
   _updatedAt,
   ${seoFields},
   content,
-  components[isActive] { ${componentFields} }
+  components[isActive] | order(orderRank asc) { ${componentFields} }
 `;
 
 export const getPageDetailQuery = groq`

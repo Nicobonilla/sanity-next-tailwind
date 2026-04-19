@@ -1,3 +1,5 @@
+'use client';
+
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import { trackArticleClick } from '@/components/lib/GTMTrackers';

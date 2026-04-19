@@ -15,7 +15,10 @@ import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import {
+  getUnitBusinessBySlugFetch,
+  getUnitBusinessListFetch,
+} from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import {
   GetPostListByUnitBusinessQueryResult,
   GetUnitBusinessDetailQueryResult,
@@ -44,6 +47,16 @@ async function getData(slug: string) {
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const areas = await getUnitBusinessListFetch();
+
+  return (areas || [])
+    .filter((area) => Boolean(area.slug))
+    .map((area) => ({
+      slug: area.slug!,
+    }));
+}
 
 export async function generateMetadata({
   params,

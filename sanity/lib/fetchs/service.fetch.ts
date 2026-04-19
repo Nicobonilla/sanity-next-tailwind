@@ -16,6 +16,7 @@ export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult |
   try {
     const services = (await sanityFetch({
       query,
+      tags: ['service:list'],
     })) as GetServicesNavQueryResult | null;
     // Si service es null, retornamos null
     if (!services || (Array.isArray(services) && services.length === 0)) {
@@ -39,6 +40,7 @@ export async function getServiceBySlugFetch(
     const service = (await sanityFetch({
       query,
       params,
+      tags: ['service:list', `service:${params.slug}`],
     })) as GetServiceDetailQueryResult | null;
 
     // Si service es null, retornamos null

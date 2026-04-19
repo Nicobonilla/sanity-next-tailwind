@@ -7,12 +7,14 @@ interface TocHeaderProps {
 
 export const TocHeader = ({ isExpanded, toggleExpanded }: TocHeaderProps) => {
   return (
-    <div
+    <button
+      aria-expanded={isExpanded}
+      className="flex w-full cursor-pointer items-center justify-between p-1 text-left"
       onClick={toggleExpanded}
-      className="flex cursor-pointer items-center justify-between p-1"
+      type="button"
     >
       <h2 className="border-l-4 border-red-500 py-1 pl-4 font-semibold">
-        Table de Contenido
+        Tabla de contenido
       </h2>
       <div className="pr-20 md:hidden">
         <div
@@ -23,6 +25,6 @@ export const TocHeader = ({ isExpanded, toggleExpanded }: TocHeaderProps) => {
           <IoIosArrowDown size={20} />
         </div>
       </div>
-    </div>
+    </button>
   );
 };

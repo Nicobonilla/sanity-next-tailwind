@@ -1,4 +1,4 @@
-import { Component, CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { ComponentProps } from '@/components/types';
 export const defaultColor: Color = {
   rgb: { r: 255, g: 255, b: 255, a: 0 },

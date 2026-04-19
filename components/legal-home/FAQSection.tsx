@@ -1,4 +1,5 @@
 import SectionHeading from './SectionHeading';
+import { buildFaqJsonLd } from '@/lib/structured-data';
 
 type FaqItem = {
   question: string;
@@ -39,8 +40,14 @@ export default function FAQSection({
   description?: string;
   items?: FaqItem[];
 }) {
+  const faqJsonLd = buildFaqJsonLd(items);
+
   return (
     <section className="section-shell bg-[color:rgba(255,255,255,0.55)]">
+      <script
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        type="application/ld+json"
+      />
       <div className="site-container">
         <SectionHeading
           description={description}

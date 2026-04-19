@@ -1,17 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
-import {
-  trackExitIntent,
-  trackPageView,
-  trackScrollDepth,
-  trackTimeOnPage,
-} from './GTMTrackers';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+
+import { trackPageView, trackScrollDepth } from './GTMTrackers';
 
 export default function GTMGlobals() {
-  const effectRan = useRef(false);
   const pathname = usePathname();
   const reachedDepths = useRef(new Set<number>());
 
@@ -20,9 +15,16 @@ export default function GTMGlobals() {
       return;
     }
 
+    reachedDepths.current.clear();
+
     const handleScroll = debounce(() => {
       const scrollPosition = window.scrollY;
       const documentHeight = document.body.scrollHeight - window.innerHeight;
+
+      if (documentHeight <= 0) {
+        return;
+      }
+
       const scrollPercentage = Math.round(
         (scrollPosition / documentHeight) * 100
       );
@@ -36,30 +38,15 @@ export default function GTMGlobals() {
           reachedDepths.current.add(threshold);
         }
       });
-    }, 1000);
-
-    const startTime = Date.now();
-    const handleBeforeUnload = () => {
-      const timeSpent = Math.round((Date.now() - startTime) / 1000);
-      trackTimeOnPage(timeSpent);
-    };
-
-    const handleExitIntent = (event: MouseEvent) => {
-      if (!event.relatedTarget && event.clientY <= 0) {
-        trackExitIntent();
-      }
-    };
+    }, 600);
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('mouseout', handleExitIntent);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('mouseout', handleExitIntent);
+      handleScroll.cancel();
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (
@@ -68,10 +55,6 @@ export default function GTMGlobals() {
       !pathname
     ) {
       return;
-    }
-
-    if (!effectRan.current) {
-      effectRan.current = true;
     }
 
     trackPageView(pathname);

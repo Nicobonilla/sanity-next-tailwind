@@ -10,7 +10,10 @@ import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
-import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
+import {
+  getPostBySlugFetch,
+  getPostListFetch,
+} from '@/sanity/lib/fetchs/post.fetch';
 import { GetPostDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
 
 async function getData(slug: string) {
@@ -28,6 +31,16 @@ async function getData(slug: string) {
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const posts = await getPostListFetch();
+
+  return (posts || [])
+    .filter((post) => Boolean(post.slug))
+    .map((post) => ({
+      slug: post.slug!,
+    }));
+}
 
 export async function generateMetadata({
   params,
@@ -105,12 +118,13 @@ export default async function Page({ params }: PageProps) {
       {post.components && (
         <PageTemplate components={post.components as ComponentsProps} />
       )}
-      <PortableTextAndToc
-        article={post}
-        breadcrumbsItems={breadcrumbsItems}
-        cta={post.contentCta || settings?.defaultContentCta}
-        ctaSource={`blog_${slug}`}
-      />
+        <PortableTextAndToc
+          article={post}
+          breadcrumbsItems={breadcrumbsItems}
+          currentPath={`https://www.abogadossanfelipe.cl/blog/${slug}`}
+          cta={post.contentCta || settings?.defaultContentCta}
+          ctaSource={`blog_${slug}`}
+        />
     </section>
   );
 }

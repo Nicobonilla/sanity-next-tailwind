@@ -32,6 +32,6 @@ export const getServiceDetailQuery = groq`
       "text": children[0].text
     },
     ${unitBusiness},
-    components[isActive] { ${componentFields} }
+    components[isActive] | order(orderRank asc) { ${componentFields} }
   }
 `;

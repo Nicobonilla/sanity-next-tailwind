@@ -1,4 +1,5 @@
 import { TableOfComponentsProps } from './index';
+import { slugify } from '@/lib/slugify';
 
 interface TocListProps {
   items: TableOfComponentsProps | null;
@@ -22,14 +23,12 @@ export const TocList = ({
       {items?.map((item, index) => (
         <li
           key={index}
-          className={`ml-${(item.style == 'h2' ? 1 : 2) * 2} cursor-pointer pt-2 leading-extra-tight`}
+          className={`${item.style === 'h2' ? 'ml-2' : 'ml-4'} cursor-pointer pt-2 leading-extra-tight`}
         >
           <a
-            href={'#heading-' + item._key}
+            href={`#heading-${slugify(item?.text || '')}`}
             className="p3 text-sm hover:text-red-500"
             onClick={toggleExpanded}
-            aria-hidden="true"
-            tabIndex={-1}
           >
             {item?.text}
           </a>

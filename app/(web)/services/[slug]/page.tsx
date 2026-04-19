@@ -8,7 +8,10 @@ import { ComponentsProps } from '@/components/types';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
+import {
+  getServiceBySlugFetch,
+  getServicesNavFetch,
+} from '@/sanity/lib/fetchs/service.fetch';
 import {
   GetServiceDetailQueryResult,
   SettingsQueryResult,
@@ -31,6 +34,16 @@ async function getData(slug: string) {
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const services = await getServicesNavFetch();
+
+  return (services || [])
+    .filter((service) => Boolean(service.slug))
+    .map((service) => ({
+      slug: service.slug!,
+    }));
+}
 
 export async function generateMetadata({
   params,
@@ -117,6 +130,7 @@ export default async function Page({ params }: PageProps) {
         <PortableTextAndToc
           article={service}
           breadcrumbsItems={breadcrumbsItems}
+          currentPath={`https://www.abogadossanfelipe.cl/services/${slug}`}
           cta={service.contentCta || settings?.defaultContentCta}
           ctaSource={`service_${slug}`}
         />

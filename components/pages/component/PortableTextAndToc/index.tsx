@@ -14,6 +14,7 @@ interface PortableTextAndTOCProps {
     label: string;
     slug: string;
   }>;
+  currentPath?: string;
   cta?: {
     description?: string | null;
     eyebrow?: string | null;
@@ -28,13 +29,18 @@ interface PortableTextAndTOCProps {
 export default function PortableTextAndTOC({
   article,
   breadcrumbsItems,
+  currentPath,
   cta,
   ctaSource = 'content_cta',
 }: PortableTextAndTOCProps) {
   return (
     <div className="mx-auto max-w-screen-xl">
       <article>
-        <Breadcrumbs items={breadcrumbsItems} />
+        <Breadcrumbs
+          currentLabel={article?.title || undefined}
+          currentPath={currentPath}
+          items={breadcrumbsItems}
+        />
         <h1 className="h2 mb-2 ml-2 lg:mb-6">{article?.title}</h1>
 
         <div className="relative mx-2 flex w-full flex-col gap-2 md:flex-row">

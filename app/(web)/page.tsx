@@ -14,6 +14,7 @@ import TrustStrip from '@/components/legal-home/TrustStrip';
 import { buildLegalHomeContent } from '@/lib/legal-home-content';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
+import { buildOrganizationJsonLd } from '@/lib/structured-data';
 import {
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
@@ -80,11 +81,26 @@ export default async function Page() {
       addressCountry: 'CL',
     },
   };
+  const organizationJsonLd = buildOrganizationJsonLd({
+    addressLine: siteConfig.addressLine,
+    city: siteConfig.city,
+    description:
+      home?.seo?.metaDescription || home?.resumen || siteConfig.descriptor,
+    email: siteConfig.email,
+    firmName: settings?.title || siteConfig.firmName,
+    phoneDisplay: siteConfig.phoneDisplay,
+    region: siteConfig.region,
+    url: 'https://www.abogadossanfelipe.cl',
+  });
 
   return (
     <>
       <script
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        type="application/ld+json"
+      />
+      <script
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         type="application/ld+json"
       />
 

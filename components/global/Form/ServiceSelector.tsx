@@ -115,8 +115,8 @@ export default function ServiceSelector({
                       onClick={(event) => {
                         event.stopPropagation();
                         handleServiceClick(
-                          service?.title || '',
-                          unitBusiness?.title || ''
+                          unitBusiness?.title || '',
+                          service?.title || ''
                         );
                         trackLeadFormServiceSelect({
                           areaTitle: unitBusiness?.title || '',

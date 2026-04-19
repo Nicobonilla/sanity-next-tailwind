@@ -1,24 +1,30 @@
 import '../globals.css';
-import Navbar from '@/components/global/Navbar';
-import Footer from '@/components/global/Footer';
-import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { fonts } from '@/components/global/fonts';
+
+import { Metadata } from 'next';
+
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { Suspense } from 'react';
-import { Spinner } from '@/components/global/Spinner';
+import Footer from '@/components/global/Footer';
+import FormMount from '@/components/global/Form/FormMount';
+import { fonts } from '@/components/global/fonts';
+import Navbar from '@/components/global/Navbar';
+import WhatsappSticky from '@/components/global/WhatsappSticky';
 import Providers from '@/context/Providers';
+import { buildMetadataBase, isProductionIndexableEnvironment } from '@/lib/seo';
+import { siteConfig } from '@/lib/site-config';
+import {
+  buildLocalBusinessJsonLd,
+  buildOrganizationJsonLd,
+} from '@/lib/structured-data';
+import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { Metadata } from 'next';
-import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
-import { buildMetadataBase } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
-import FormMount from '@/components/global/Form/FormMount';
-import WhatsappSticky from '@/components/global/WhatsappSticky';
+
 const isGtmEnabled =
   process.env.NODE_ENV === 'production' &&
   process.env.NEXT_PUBLIC_ENABLE_GTM === 'true' &&
   Boolean(process.env.NEXT_PUBLIC_GTM_ID);
+
 const isSpeedInsightsEnabled =
   process.env.NODE_ENV === 'production' &&
   process.env.NEXT_PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
@@ -34,38 +40,28 @@ type LayoutData = {
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
   const { settings } = data;
+  const indexable = isProductionIndexableEnvironment();
+
   return {
     metadataBase: buildMetadataBase(
-      process.env.NODE_ENV == 'development'
+      process.env.NODE_ENV === 'development'
         ? 'localhost:3000'
         : settings?.metaBaseWebsite
     ),
     title: {
-      template: '%s ' + settings?.templateTitle,
+      template: `%s ${settings?.templateTitle || ''}`.trim(),
       default: settings?.templateTitle || '',
     },
     generator: 'Next.js',
-    keywords: [
-      'abogados San Felipe',
-      'bufete de abogados San Felipe',
-      'asesoría legal San Felipe',
-      'servicios jurídicos San Felipe',
-      'consulta legal San Felipe',
-      'abogados de familia San Felipe',
-      'derecho inmobiliario San Felipe',
-      'contratos de arrendamiento San Felipe',
-      'compraventa de inmuebles San Felipe',
-      'herencias y testamentos San Felipe',
-    ],
     description: settings?.description,
     publisher: siteConfig.firmName,
     robots: {
-      index: true,
-      follow: true,
+      index: indexable,
+      follow: indexable,
       nocache: false,
       googleBot: {
-        index: true,
-        follow: true,
+        index: indexable,
+        follow: indexable,
         noimageindex: false,
         'max-video-preview': -1,
         'max-image-preview': 'large',
@@ -88,22 +84,18 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Async function to fetch data
 async function getData(): Promise<LayoutData> {
-  try {
-    const [pages, unitBusinessList, settings] = await Promise.all([
-      getPagesNavFetch(),
-      getUnitBusinessListFetch(),
-      getSettingsFetch(),
-    ]);
-    if (!pages) throw new Error('Failed to fetch pages');
-    if (!unitBusinessList) throw new Error('Failed to fetch unit business');
-    if (!settings) throw new Error('Failed to fetch settings');
-    return { pages, unitBusinessList, settings };
-  } catch (error) {
-    console.error('Failed to fetch data:', error);
-    throw new Error('Failed to fetch necessary data for the application');
-  }
+  const [pages, unitBusinessList, settings] = await Promise.all([
+    getPagesNavFetch(),
+    getUnitBusinessListFetch(),
+    getSettingsFetch(),
+  ]);
+
+  if (!pages) throw new Error('Failed to fetch pages');
+  if (!unitBusinessList) throw new Error('Failed to fetch unit business');
+  if (!settings) throw new Error('Failed to fetch settings');
+
+  return { pages, unitBusinessList, settings };
 }
 
 export default async function RootLayout({
@@ -112,6 +104,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const { pages, unitBusinessList, settings } = await getData();
+  const metadataBase = buildMetadataBase(
+    process.env.NODE_ENV === 'development'
+      ? 'localhost:3000'
+      : settings?.metaBaseWebsite
+  );
   const GoogleTagManager =
     isGtmEnabled
       ? (await import('@next/third-parties/google')).GoogleTagManager
@@ -124,6 +121,28 @@ export default async function RootLayout({
       ? (await import('@vercel/speed-insights/next')).SpeedInsights
       : null;
 
+  const siteUrl = metadataBase.toString().replace(/\/$/, '');
+  const organizationJsonLd = buildOrganizationJsonLd({
+    addressLine: siteConfig.addressLine,
+    city: siteConfig.city,
+    description: settings?.description || siteConfig.descriptor,
+    email: siteConfig.email,
+    firmName: settings?.title || siteConfig.firmName,
+    phoneDisplay: siteConfig.phoneDisplay,
+    region: siteConfig.region,
+    url: siteUrl,
+  });
+  const localBusinessJsonLd = buildLocalBusinessJsonLd({
+    addressLine: siteConfig.addressLine,
+    city: siteConfig.city,
+    description: settings?.description || siteConfig.descriptor,
+    email: siteConfig.email,
+    firmName: settings?.title || siteConfig.firmName,
+    phoneDisplay: siteConfig.phoneDisplay,
+    region: siteConfig.region,
+    url: siteUrl,
+  });
+
   return (
     <html
       lang="es"
@@ -133,6 +152,18 @@ export default async function RootLayout({
     >
       <head />
       <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+          type="application/ld+json"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
+          type="application/ld+json"
+        />
         {isGtmEnabled && (
           <>
             {GoogleTagManager && (
@@ -142,30 +173,28 @@ export default async function RootLayout({
           </>
         )}
         <ErrorBoundary>
-          <Suspense fallback={<Spinner />}>
-            <Providers withDarkMode={false}>
-              <Navbar
-                pages={pages}
+          <Providers withDarkMode={false}>
+            <Navbar
+              pages={pages}
+              unitBusinessList={unitBusinessList}
+              logo={settings?.logo}
+              slogan={settings?.slogan}
+            />
+            <main className="flex min-h-screen flex-col">
+              {children}
+              {SpeedInsights && <SpeedInsights />}
+              <FormMount
                 unitBusinessList={unitBusinessList}
-                logo={settings?.logo}
-                slogan={settings?.slogan}
+                settings={settings}
               />
-              <main className="flex min-h-screen flex-col">
-                {children}
-                {SpeedInsights && <SpeedInsights />}
-                <FormMount
-                  unitBusinessList={unitBusinessList}
-                  settings={settings}
-                />
-                <WhatsappSticky />
-              </main>
-              <Footer
-                logo={settings?.logo}
-                pages={pages}
-                slogan={settings?.slogan}
-              />
-            </Providers>
-          </Suspense>
+              <WhatsappSticky />
+            </main>
+            <Footer
+              logo={settings?.logo}
+              pages={pages}
+              slogan={settings?.slogan}
+            />
+          </Providers>
         </ErrorBoundary>
       </body>
     </html>

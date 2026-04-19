@@ -44,6 +44,14 @@ type BuildSeoMetadataOptions = {
 
 const DEFAULT_SITE_URL = 'https://www.abogadossanfelipe.cl';
 
+export function isProductionIndexableEnvironment() {
+  if (process.env.VERCEL_ENV) {
+    return process.env.VERCEL_ENV === 'production';
+  }
+
+  return process.env.NODE_ENV === 'production';
+}
+
 export function getSiteUrl(hostOrUrl?: string | null) {
   if (!hostOrUrl) {
     return DEFAULT_SITE_URL;
@@ -85,7 +93,8 @@ export function buildSeoMetadata({
   const openGraphImage =
     resolveOpenGraphImage(seo?.ogImage || fallbackImage || settings?.ogImage) ||
     undefined;
-  const noIndex = Boolean(seo?.noIndex);
+  const noIndex =
+    Boolean(seo?.noIndex) || !isProductionIndexableEnvironment();
 
   return {
     title: resolvedTitle,

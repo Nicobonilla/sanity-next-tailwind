@@ -11,6 +11,7 @@ export async function getPagesNavFetch(): Promise<GetPagesNavQueryResult | null>
   try {
     const data = (await sanityFetch({
       query,
+      tags: ['navigation', 'page:list'],
     })) as GetPagesNavQueryResult | null;
     if (!data || (Array.isArray(data) && data.length === 0)) {
       return null; // Si no hay datos, retornamos null
@@ -32,6 +33,7 @@ export async function getPageBySlugFetch(
     const data = (await sanityFetch({
       query,
       params,
+      tags: ['page:list', `page:${params.slug}`],
     })) as GetPageDetailQueryResult | null;
     if (!data) {
       return null; // Si no hay datos, retornamos null

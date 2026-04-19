@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Blog, WithContext } from 'schema-dts';
 
 import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
@@ -75,9 +76,34 @@ export default async function Page() {
   }
 
   const { page, posts, unitBusiness }: PageData = data;
+  const blogJsonLd: WithContext<Blog> = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: page?.title || 'Informate',
+    description:
+      page?.seo?.metaDescription ||
+      page?.resumen ||
+      'Guias legales y articulos informativos del estudio juridico en San Felipe.',
+    url: 'https://www.abogadossanfelipe.cl/blog',
+    blogPost: (posts || [])
+      .filter((post) => Boolean(post.slug))
+      .slice(0, 12)
+      .map((post) => ({
+        '@type': 'BlogPosting',
+        headline: post.title || 'Articulo legal',
+        url: `https://www.abogadossanfelipe.cl/blog/${post.slug}`,
+        dateModified: post._updatedAt || undefined,
+        datePublished: post.date || undefined,
+        description: post.resumen || undefined,
+      })),
+  };
 
   return (
     <section>
+      <script
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+        type="application/ld+json"
+      />
       {page?.components?.[0] && (
         <PageTemplate components={[page.components[0]] as ComponentsProps} />
       )}

@@ -4,16 +4,21 @@ import { SettingsQueryResult } from '@/sanity.types';
 import { settingsQuery } from './queries';
 
 export async function sanityFetch<const QueryString extends string>({
+  revalidate = 3600,
   query,
   params = {},
+  tags = [],
 }: {
   query: QueryString;
   params?: Record<string, unknown>;
+  revalidate?: number | false;
+  tags?: string[];
 }) {
   return client.fetch(query, params, {
     perspective: 'published',
     next: {
-      revalidate: 40000,
+      revalidate,
+      tags,
     },
   });
 }

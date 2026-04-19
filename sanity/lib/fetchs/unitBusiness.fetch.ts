@@ -14,6 +14,7 @@ export async function getUnitBusinessListFetch(): Promise<GetUnitBusinessListQue
   try {
     const unitsBusiness = (await sanityFetch({
       query,
+      tags: ['area:list'],
     })) as GetUnitBusinessListQueryResult | null;
 
     // Si service es null, retornamos null
@@ -35,6 +36,7 @@ export async function getUnitBusinessBySlugFetch(
     const unitsBusiness = (await sanityFetch({
       query,
       params,
+      tags: ['area:list', `area:${params.slug}`],
     })) as GetUnitBusinessDetailQueryResult | null;
 
     // Si service es null, retornamos null

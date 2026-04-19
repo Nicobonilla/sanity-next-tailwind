@@ -73,7 +73,7 @@ export default function PracticeAreas({
                 {area.title}
               </h3>
               <p className="mt-4 text-base leading-7 text-[color:var(--color-text-soft)]">
-                {getAreaSummary(area.title)}
+                {area.summary || getAreaSummary(area.title)}
               </p>
 
               <div className="divider-line my-6" />

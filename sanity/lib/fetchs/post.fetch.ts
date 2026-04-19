@@ -16,6 +16,7 @@ export async function getPostListFetch(): Promise<GetPostListQueryResult | null>
   try {
     const posts = (await sanityFetch({
       query,
+      tags: ['post:list'],
     })) as GetPostListQueryResult | null;
 
     // Si service es null, retornamos null
@@ -38,6 +39,7 @@ export async function getPostListByUnitBusinessFetch(
     const posts = (await sanityFetch({
       query,
       params,
+      tags: ['post:list', `area:${sanitizedSlug}`],
     })) as GetPostListByUnitBusinessQueryResult | null;
 
     // Si service es null, retornamos null
@@ -63,6 +65,7 @@ export async function getPostBySlugFetch({
     const post = (await sanityFetch({
       query,
       params,
+      tags: ['post:list', `post:${sanitizedSlug}`],
     })) as GetPostDetailQueryResult | null;
 
     if (!post) return null;
