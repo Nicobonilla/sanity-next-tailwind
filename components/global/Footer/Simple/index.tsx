@@ -4,17 +4,23 @@ import Link from 'next/link';
 
 import Logo from '@/components/global/Logo';
 import { trackNavClick, trackPhoneClick } from '@/components/lib/GTMTrackers';
-import { siteConfig } from '@/lib/site-config';
+import { SiteIdentity } from '@/lib/site-identity';
 import { GetPagesNavQueryResult } from '@/sanity.types';
 
 export default function Simple({
+  currentYear,
+  footerText,
   logo,
   slogan,
   pages,
+  siteIdentity,
 }: {
+  currentYear: number;
+  footerText?: string;
   logo?: string | null;
   slogan?: string | null;
   pages: GetPagesNavQueryResult;
+  siteIdentity: SiteIdentity;
 }) {
   const footerPages = pages.filter(
     (page) =>
@@ -31,9 +37,8 @@ export default function Simple({
           <div className="space-y-5">
             <Logo align="left" invert logo={logo} slogan={slogan} />
             <p className="max-w-md text-base leading-7 text-[color:rgba(245,242,236,0.75)]">
-              Asesoria legal y judicial para personas y empresas en San Felipe,
-              con una practica orientada a la claridad, la responsabilidad y el
-              acompanamiento profesional en cada etapa.
+              {footerText ||
+                'Asesoria legal y judicial para personas y empresas en San Felipe, con una practica orientada a la claridad, la responsabilidad y el acompanamiento profesional en cada etapa.'}
             </p>
           </div>
 
@@ -74,24 +79,24 @@ export default function Simple({
             <div className="mt-5 space-y-4 text-base leading-7 text-[color:rgba(245,242,236,0.82)]">
               <a
                 className="block transition-colors duration-200 hover:text-[color:var(--color-bg)]"
-                href={siteConfig.phoneHref}
+                href={siteIdentity.phoneHref}
                 onClick={() => trackPhoneClick('footer_phone')}
               >
-                {siteConfig.phoneDisplay}
+                {siteIdentity.phoneDisplay}
               </a>
               <a
                 className="block transition-colors duration-200 hover:text-[color:var(--color-bg)]"
-                href={siteConfig.emailHref}
+                href={siteIdentity.emailHref}
               >
-                {siteConfig.email}
+                {siteIdentity.email}
               </a>
-              <p>{siteConfig.addressLine}</p>
+              <p>{siteIdentity.addressLine}</p>
             </div>
           </div>
         </div>
 
         <div className="mt-10 border-t border-[color:rgba(245,242,236,0.12)] pt-6 text-sm text-[color:rgba(245,242,236,0.6)]">
-          {new Date().getFullYear()} {siteConfig.firmName}. Todos los derechos
+          {currentYear} {siteIdentity.firmName}. Todos los derechos
           reservados.
         </div>
       </div>

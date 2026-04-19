@@ -2,7 +2,7 @@
 
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
 import { trackPhoneClick } from '@/components/lib/GTMTrackers';
-import { siteConfig } from '@/lib/site-config';
+import { SiteIdentity } from '@/lib/site-identity';
 
 type ContentCtaValue = {
   description?: string | null;
@@ -15,11 +15,13 @@ type ContentCtaValue = {
 
 type ContentContactCtaProps = {
   cta?: ContentCtaValue;
+  siteIdentity: SiteIdentity;
   source: string;
 };
 
 export default function ContentContactCta({
   cta,
+  siteIdentity,
   source,
 }: ContentContactCtaProps) {
   if (cta?.isEnabled === false) {
@@ -49,7 +51,7 @@ export default function ContentContactCta({
           </ContactDrawerButton>
           <a
             className="inline-flex min-h-[52px] items-center justify-center rounded-md border border-[color:var(--color-primary)] px-6 text-sm font-semibold text-[color:var(--color-primary)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)]"
-            href={siteConfig.phoneHref}
+            href={siteIdentity.phoneHref}
             onClick={() => trackPhoneClick(`${source}_phone`)}
           >
             {cta?.secondaryLabel || 'Llamar ahora'}

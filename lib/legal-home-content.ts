@@ -1,39 +1,7 @@
-import { siteConfig } from '@/lib/site-config';
-import {
-  GetPageDetailQueryResult,
-  GetUnitBusinessListQueryResult,
-  SettingsQueryResult,
-} from '@/sanity.types';
+import { GetHomePageQueryResult, GetUnitBusinessListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 
-type SanityImageSource = {
-  asset?: {
-    _ref?: string;
-  };
-} | null;
-
-type PortableTextChild = {
-  text?: string | null;
-};
-
-type PortableTextBlock = {
-  style?: string | null;
-  children?: PortableTextChild[] | null;
-};
-
-type HomeComponentItem = {
-  image?: SanityImageSource;
-  alt?: string | null;
-  content?: PortableTextBlock[] | null;
-} | null;
-
-type HomeComponent = {
-  typeComponentValue?: string | null;
-  variant?: string | null;
-  imageBackground?: SanityImageSource;
-  content?: PortableTextBlock[] | null;
-  items?: HomeComponentItem[] | null;
-} | null;
+import { SiteIdentity } from './site-identity';
 
 type TrustItem = {
   title: string;
@@ -56,215 +24,276 @@ type FaqItem = {
   answer: string;
 };
 
-const SUPPORTED_HOME_COMPONENTS = ['carousel:hero', 'highlight'];
+const defaultTrustItems: TrustItem[] = [
+  {
+    title: 'Atencion directa',
+    description:
+      'Cada consulta se aborda con analisis responsable y contacto profesional claro desde el inicio.',
+  },
+  {
+    title: 'Confidencialidad',
+    description:
+      'El manejo de la informacion se realiza con criterio juridico y reserva en cada etapa.',
+  },
+  {
+    title: 'Criterio estrategico',
+    description:
+      'Se revisa el escenario, sus riesgos y el camino mas adecuado antes de avanzar.',
+  },
+  {
+    title: 'Comunicacion clara',
+    description:
+      'Explicamos el proceso, sus alcances y proximos pasos sin tecnicismos innecesarios.',
+  },
+];
 
-function toPlainText(blocks?: PortableTextBlock[] | null) {
-  return (blocks || [])
-    .flatMap((block) => block?.children || [])
-    .map((child) => child?.text?.trim())
-    .filter(Boolean)
-    .join(' ')
-    .trim();
+const defaultFirmIntroParagraphs = [
+  'Cada asunto se revisa con estudio, orden y comunicacion clara. La prioridad es que la persona entienda su problema, conozca sus alternativas y sepa que pasos corresponde seguir.',
+  'Trabajamos con atencion directa, criterio profesional y una forma de trato responsable que permita avanzar con tranquilidad.',
+];
+
+const defaultFirmIntroCards: IntroCard[] = [
+  {
+    label: 'Como trabajamos',
+    value: 'Escucha, analisis y acompanamiento.',
+  },
+  {
+    label: 'Que priorizamos',
+    value: 'Claridad, seriedad y decisiones bien fundamentadas.',
+  },
+];
+
+const defaultProcessSteps: ProcessStep[] = [
+  {
+    step: '01',
+    title: 'Escuchamos y entendemos el caso',
+    description:
+      'La primera etapa es comprender el contexto, los antecedentes y el objetivo real de quien consulta.',
+  },
+  {
+    step: '02',
+    title: 'Evaluamos juridicamente el escenario',
+    description:
+      'Se revisan alternativas, riesgos y alcances para proponer un camino serio y bien fundamentado.',
+  },
+  {
+    step: '03',
+    title: 'Acompanamos con claridad durante el proceso',
+    description:
+      'La relacion profesional se sostiene con seguimiento, orden y comunicacion clara en cada etapa.',
+  },
+];
+
+const defaultFaqItems: FaqItem[] = [
+  {
+    question: 'Puedo realizar una primera consulta antes de iniciar un proceso?',
+    answer:
+      'Si. El objetivo de una primera conversacion es revisar el contexto del asunto, aclarar expectativas y evaluar la forma mas adecuada de abordarlo.',
+  },
+  {
+    question: 'La informacion entregada se maneja con confidencialidad?',
+    answer:
+      'Si. El tratamiento de antecedentes y documentacion se realiza con criterio profesional y reserva, desde el primer contacto.',
+  },
+  {
+    question: 'Atienden asuntos de personas y tambien de empresas?',
+    answer:
+      'Si. El estudio puede acompanar tanto necesidades juridicas personales como asuntos corporativos que requieran analisis y representacion profesional.',
+  },
+  {
+    question: 'Es posible coordinar atencion a distancia?',
+    answer:
+      'Si. Dependiendo del caso, se puede coordinar una primera orientacion por medios remotos y luego definir los pasos siguientes.',
+  },
+];
+
+function compactTextList(values?: (string | null)[] | null) {
+  return (values || []).map((value) => value?.trim()).filter(Boolean) as string[];
 }
 
-function getHomeComponents(home: GetPageDetailQueryResult | null) {
-  return ((home?.components as HomeComponent[] | null) || []).filter(Boolean);
+function compactObjects<T>(values?: (T | null)[] | null) {
+  return (values || []).filter(Boolean) as T[];
 }
 
-function resolveHeroImage(home: GetPageDetailQueryResult | null) {
-  const components = getHomeComponents(home);
-  const heroComponent = components.find((component) => {
-    const type = component?.typeComponentValue?.toLowerCase();
-    return type === 'carousel' && component?.variant === 'hero';
-  });
-
-  const heroImage =
-    heroComponent?.items?.find((item) => item?.image)?.image ||
-    heroComponent?.imageBackground;
-
-  return (
-    urlForImage(heroImage)?.width(960).height(1120).fit('crop').quality(72).url() ||
-    '/meeting.jpeg'
+function normalizeTrustItems(
+  values?: ({ title: string | null; description: string | null } | null)[] | null
+) {
+  return compactObjects(values).filter(
+    (item): item is TrustItem =>
+      Boolean(item.title?.trim()) && Boolean(item.description?.trim())
   );
 }
 
-function resolveSupportedComponentKeys(home: GetPageDetailQueryResult | null) {
-  const components = getHomeComponents(home);
+function normalizeIntroCards(
+  values?: ({ label: string | null; value: string | null } | null)[] | null
+) {
+  return compactObjects(values).filter(
+    (item): item is IntroCard =>
+      Boolean(item.label?.trim()) && Boolean(item.value?.trim())
+  );
+}
 
-  return components.map((component) => {
-    const type = component?.typeComponentValue?.toLowerCase() || 'unknown';
-    const variant = component?.variant?.toLowerCase();
-    return variant ? `${type}:${variant}` : type;
-  });
+function normalizeProcessSteps(
+  values?:
+    | ({ step: string | null; title: string | null; description: string | null } | null)[]
+    | null
+) {
+  return compactObjects(values).filter(
+    (item): item is ProcessStep =>
+      Boolean(item.step?.trim()) &&
+      Boolean(item.title?.trim()) &&
+      Boolean(item.description?.trim())
+  );
+}
+
+function normalizeFaqItems(
+  values?: ({ question: string | null; answer: string | null } | null)[] | null
+) {
+  return compactObjects(values).filter(
+    (item): item is FaqItem =>
+      Boolean(item.question?.trim()) && Boolean(item.answer?.trim())
+  );
+}
+
+function resolveHeroImage(homePage?: GetHomePageQueryResult | null) {
+  return (
+    urlForImage(homePage?.hero?.heroImage)
+      ?.width(960)
+      .height(1120)
+      .fit('crop')
+      .quality(72)
+      .url() || '/meeting.jpeg'
+  );
 }
 
 export function buildLegalHomeContent({
   areas,
-  home,
-  settings,
+  homePage,
+  siteIdentity,
 }: {
   areas: GetUnitBusinessListQueryResult;
-  home: GetPageDetailQueryResult | null;
-  settings: SettingsQueryResult | null;
+  homePage: GetHomePageQueryResult | null;
+  siteIdentity: SiteIdentity;
 }) {
-  const leaderName = settings?.title || siteConfig.shortName;
-  const availableComponents = resolveSupportedComponentKeys(home);
-  const highlightComponent = getHomeComponents(home).find(
-    (component) => component?.typeComponentValue?.toLowerCase() === 'highlight'
-  );
-
-  const highlightSummary = toPlainText(highlightComponent?.content).slice(0, 220);
-  const firmIntroLead =
-    highlightSummary ||
-    'Atendemos personas y empresas que necesitan entender su situacion, ordenar sus antecedentes y avanzar con respaldo juridico claro.';
+  const practiceAreasMaxItems = homePage?.practiceAreas?.maxItems || 6;
 
   return {
     hero: {
-      eyebrow: 'Estudio juridico en San Felipe',
+      eyebrow: homePage?.hero?.eyebrow || 'Estudio juridico en San Felipe',
       title:
+        homePage?.hero?.title ||
         'Asesoria legal clara, seria y responsable para decisiones que requieren respaldo profesional.',
       description:
+        homePage?.hero?.description ||
         'Acompanamos a personas y empresas con una practica juridica rigurosa, cercana y enfocada en soluciones concretas. Cada asunto se aborda con estudio, orden y comunicacion clara desde el primer contacto.',
       panelTitle:
+        homePage?.hero?.panelTitle ||
         'Asesoria legal clara para decisiones que requieren respaldo profesional.',
-      heroImageUrl: resolveHeroImage(home),
-      leaderName,
+      heroImageUrl: resolveHeroImage(homePage),
+      leaderName:
+        homePage?.leadership?.leaderNameOverride ||
+        siteIdentity.responsibleLawyerName,
+      leaderLabel:
+        homePage?.hero?.leaderLabel || 'Direccion profesional',
       areaCount: areas.length,
+      areasLabel: homePage?.hero?.areasLabel || 'Areas activas',
+      areasSuffix:
+        homePage?.hero?.areasSuffix || 'especialidades principales',
+      contactLabel: homePage?.hero?.contactLabel || 'Contacto',
+      primaryLabel:
+        homePage?.hero?.primaryLabel || 'Solicitar orientacion',
+      secondaryLabel:
+        homePage?.hero?.secondaryLabel || 'Ver areas de practica',
+      trustBullets:
+        compactTextList(homePage?.hero?.trustBullets) || [
+          'Atencion juridica directa y confidencial',
+          'Asesoria para personas y empresas',
+          'Base de atencion en San Felipe y alrededores',
+        ],
     },
     trustStrip: {
-      items: [
-        {
-          title: 'Atencion directa',
-          description:
-            'Cada consulta se aborda con analisis responsable y contacto profesional claro desde el inicio.',
-        },
-        {
-          title: 'Confidencialidad',
-          description:
-            'El manejo de la informacion se realiza con criterio juridico y reserva en cada etapa.',
-        },
-        {
-          title: 'Criterio estrategico',
-          description:
-            'Se revisa el escenario, sus riesgos y el camino mas adecuado antes de avanzar.',
-        },
-        {
-          title: 'Comunicacion clara',
-          description:
-            'Explicamos el proceso, sus alcances y proximos pasos sin tecnicismos innecesarios.',
-        },
-      ] as TrustItem[],
+      items: normalizeTrustItems(homePage?.trustItems) || defaultTrustItems,
     },
     firmIntro: {
-      eyebrow: 'Quienes somos',
+      eyebrow: homePage?.firmIntro?.heading?.eyebrow || 'Quienes somos',
       title:
+        homePage?.firmIntro?.heading?.title ||
         'Asesoria juridica seria, cercana y bien fundamentada en San Felipe.',
-      description: firmIntroLead,
-      paragraphs: [
-        'Cada asunto se revisa con estudio, orden y comunicacion clara. La prioridad es que la persona entienda su problema, conozca sus alternativas y sepa que pasos corresponde seguir.',
-        'Trabajamos con atencion directa, criterio profesional y una forma de trato responsable que permita avanzar con tranquilidad.',
-      ],
-      cards: [
-        {
-          label: 'Como trabajamos',
-          value: 'Escucha, analisis y acompanamiento.',
-        },
-        {
-          label: 'Que priorizamos',
-          value: 'Claridad, seriedad y decisiones bien fundamentadas.',
-        },
-      ] as IntroCard[],
+      description:
+        homePage?.firmIntro?.heading?.description ||
+        'Atendemos personas y empresas que necesitan entender su situacion, ordenar sus antecedentes y avanzar con respaldo juridico claro.',
+      paragraphs:
+        compactTextList(homePage?.firmIntro?.paragraphs) ||
+        defaultFirmIntroParagraphs,
+      cards: normalizeIntroCards(homePage?.firmIntro?.cards) || defaultFirmIntroCards,
     },
     practiceAreas: {
-      eyebrow: 'Areas de practica',
-      title: 'Servicios juridicos enfocados en problemas concretos.',
+      eyebrow:
+        homePage?.practiceAreas?.heading?.eyebrow || 'Areas de practica',
+      title:
+        homePage?.practiceAreas?.heading?.title ||
+        'Servicios juridicos enfocados en problemas concretos.',
       description:
+        homePage?.practiceAreas?.heading?.description ||
         'Materias frecuentes para personas, familias y propietarios que necesitan orientacion juridica clara.',
+      maxItems: practiceAreasMaxItems,
+      servicesLabel:
+        homePage?.practiceAreas?.servicesLabel || 'Servicios relacionados',
+      detailLabel: homePage?.practiceAreas?.detailLabel || 'Ver detalle',
     },
     leadership: {
-      eyebrow: 'Direccion profesional',
-      title: 'Respaldo juridico con criterio tecnico y trato claro.',
+      eyebrow: homePage?.leadership?.heading?.eyebrow || 'Direccion profesional',
+      title:
+        homePage?.leadership?.heading?.title ||
+        'Respaldo juridico con criterio tecnico y trato claro.',
       description:
+        homePage?.leadership?.heading?.description ||
         'Atencion directa, explicacion clara y seguimiento responsable en cada etapa del caso.',
-      leaderName,
-      bullets: [
-        'Atencion profesional con enfoque personalizado.',
-        'Comunicacion clara sobre escenario, riesgos y alternativas.',
-        'Seguimiento responsable de cada asunto encomendado.',
-      ],
+      leaderName:
+        homePage?.leadership?.leaderNameOverride ||
+        siteIdentity.responsibleLawyerName,
+      leaderCardLabel:
+        homePage?.leadership?.leaderCardLabel || 'Responsable del estudio',
+      bullets:
+        compactTextList(homePage?.leadership?.bullets) || [
+          'Atencion profesional con enfoque personalizado.',
+          'Comunicacion clara sobre escenario, riesgos y alternativas.',
+          'Seguimiento responsable de cada asunto encomendado.',
+        ],
     },
     processSteps: {
-      eyebrow: 'Metodologia',
-      title: 'Una forma de trabajo simple, ordenada y profesional.',
+      eyebrow: homePage?.process?.heading?.eyebrow || 'Metodologia',
+      title:
+        homePage?.process?.heading?.title ||
+        'Una forma de trabajo simple, ordenada y profesional.',
       description:
+        homePage?.process?.heading?.description ||
         'Desde la primera consulta, el objetivo es entender el caso, revisar alternativas y definir los pasos a seguir.',
-      steps: [
-        {
-          step: '01',
-          title: 'Escuchamos y entendemos el caso',
-          description:
-            'La primera etapa es comprender el contexto, los antecedentes y el objetivo real de quien consulta.',
-        },
-        {
-          step: '02',
-          title: 'Evaluamos juridicamente el escenario',
-          description:
-            'Se revisan alternativas, riesgos y alcances para proponer un camino serio y bien fundamentado.',
-        },
-        {
-          step: '03',
-          title: 'Acompanamos con claridad durante el proceso',
-          description:
-            'La relacion profesional se sostiene con seguimiento, orden y comunicacion clara en cada etapa.',
-        },
-      ] as ProcessStep[],
+      steps:
+        normalizeProcessSteps(homePage?.process?.steps) || defaultProcessSteps,
     },
     faq: {
-      eyebrow: 'Preguntas frecuentes',
-      title: 'Informacion simple para dar mas claridad desde el primer paso.',
+      eyebrow: homePage?.faq?.heading?.eyebrow || 'Preguntas frecuentes',
+      title:
+        homePage?.faq?.heading?.title ||
+        'Informacion simple para dar mas claridad desde el primer paso.',
       description:
+        homePage?.faq?.heading?.description ||
         'Respuestas claras a dudas habituales antes de tomar contacto con el estudio.',
-      items: [
-        {
-          question:
-            'Puedo realizar una primera consulta antes de iniciar un proceso?',
-          answer:
-            'Si. El objetivo de una primera conversacion es revisar el contexto del asunto, aclarar expectativas y evaluar la forma mas adecuada de abordarlo.',
-        },
-        {
-          question:
-            'La informacion entregada se maneja con confidencialidad?',
-          answer:
-            'Si. El tratamiento de antecedentes y documentacion se realiza con criterio profesional y reserva, desde el primer contacto.',
-        },
-        {
-          question: 'Atienden asuntos de personas y tambien de empresas?',
-          answer:
-            'Si. El estudio puede acompanar tanto necesidades juridicas personales como asuntos corporativos que requieran analisis y representacion profesional.',
-        },
-        {
-          question: 'Es posible coordinar atencion a distancia?',
-          answer:
-            'Si. Dependiendo del caso, se puede coordinar una primera orientacion por medios remotos y luego definir los pasos siguientes.',
-        },
-      ] as FaqItem[],
+      items: normalizeFaqItems(homePage?.faq?.items) || defaultFaqItems,
     },
     finalCta: {
-      eyebrow: 'Contacto',
+      eyebrow: homePage?.finalCta?.eyebrow || 'Contacto',
       title:
+        homePage?.finalCta?.title ||
         'Si necesita orientacion juridica, podemos revisar su caso y proponer el camino adecuado con seriedad y confidencialidad.',
       description:
+        homePage?.finalCta?.description ||
         'Puede escribirnos, llamarnos o solicitar una primera orientacion. La prioridad es entender el asunto y dar una respuesta profesional clara.',
-      primaryLabel: 'Solicitar orientacion',
-      secondaryLabel: 'Llamar ahora',
-    },
-    architecture: {
-      supportedHomeComponents: SUPPORTED_HOME_COMPONENTS.filter((key) =>
-        availableComponents.includes(key)
-      ),
-      ignoredHomeComponents: availableComponents.filter(
-        (key) => !SUPPORTED_HOME_COMPONENTS.includes(key)
-      ),
+      primaryLabel:
+        homePage?.finalCta?.primaryLabel || 'Solicitar orientacion',
+      secondaryLabel:
+        homePage?.finalCta?.secondaryLabel || 'Llamar ahora',
     },
   };
 }

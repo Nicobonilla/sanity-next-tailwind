@@ -3,7 +3,7 @@
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
 import { trackPhoneClick } from '@/components/lib/GTMTrackers';
 import { Button } from '@/components/ui/Button';
-import { siteConfig } from '@/lib/site-config';
+import { SiteIdentity } from '@/lib/site-identity';
 
 export default function FinalCTA({
   eyebrow = 'Contacto',
@@ -11,12 +11,14 @@ export default function FinalCTA({
   description = 'Puede escribirnos, llamarnos o solicitar una primera orientacion. La prioridad es entender el asunto y dar una respuesta profesional clara.',
   primaryLabel = 'Solicitar orientacion',
   secondaryLabel = 'Llamar ahora',
+  siteIdentity,
 }: {
   eyebrow?: string;
   title?: string;
   description?: string;
   primaryLabel?: string;
   secondaryLabel?: string;
+  siteIdentity: SiteIdentity;
 }) {
   return (
     <section className="section-shell" id="contacto">
@@ -47,7 +49,7 @@ export default function FinalCTA({
                   variant="secondary"
                 >
                   <a
-                    href={siteConfig.phoneHref}
+                    href={siteIdentity.phoneHref}
                     onClick={() => trackPhoneClick('final_cta_primary_phone')}
                   >
                     {secondaryLabel}
@@ -64,10 +66,10 @@ export default function FinalCTA({
                   </p>
                   <a
                     className="mt-2 block text-2xl font-semibold text-[color:var(--color-bg)]"
-                    href={siteConfig.phoneHref}
+                    href={siteIdentity.phoneHref}
                     onClick={() => trackPhoneClick('final_cta_contact_panel_phone')}
                   >
-                    {siteConfig.phoneDisplay}
+                    {siteIdentity.phoneDisplay}
                   </a>
                 </div>
                 <div>
@@ -76,9 +78,9 @@ export default function FinalCTA({
                   </p>
                   <a
                     className="mt-2 block text-lg text-[color:var(--color-bg)]"
-                    href={siteConfig.emailHref}
+                    href={siteIdentity.emailHref}
                   >
-                    {siteConfig.email}
+                    {siteIdentity.email}
                   </a>
                 </div>
                 <div>
@@ -86,7 +88,7 @@ export default function FinalCTA({
                     Ubicacion
                   </p>
                   <p className="mt-2 text-lg text-[color:var(--color-bg)]">
-                    {siteConfig.addressLine}
+                    {siteIdentity.addressLine}
                   </p>
                 </div>
               </div>

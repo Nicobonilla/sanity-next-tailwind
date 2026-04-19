@@ -13,6 +13,7 @@ import {
 } from '@/components/types';
 import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import {
@@ -94,6 +95,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { posts, settings, unitBusiness } = data;
+  const siteIdentity = resolveSiteIdentity(settings);
   const components = (unitBusiness.components || []) as ComponentsProps;
 
   components.forEach((component: ComponentProps) => {
@@ -117,6 +119,7 @@ export default async function Page({ params }: PageProps) {
       <div className="site-container pb-16">
         <ContentContactCta
           cta={settings?.defaultContentCta}
+          siteIdentity={siteIdentity}
           source={`practice_area_${slug}`}
         />
       </div>

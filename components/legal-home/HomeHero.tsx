@@ -5,30 +5,40 @@ import Image from 'next/image';
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
 import { trackPhoneClick } from '@/components/lib/GTMTrackers';
 import { Button } from '@/components/ui/Button';
-import { siteConfig } from '@/lib/site-config';
-
-const trustBullets = [
-  'Atencion juridica directa y confidencial',
-  'Asesoria para personas y empresas',
-  'Base de atencion en San Felipe y alrededores',
-];
+import { SiteIdentity } from '@/lib/site-identity';
 
 export default function HomeHero({
   heroImageUrl,
   leaderName,
+  leaderLabel,
   areaCount,
+  areasLabel,
+  areasSuffix,
+  contactLabel,
+  trustBullets,
+  siteIdentity,
   eyebrow = 'Estudio juridico en San Felipe',
   title = 'Asesoria legal clara, seria y responsable para decisiones que requieren respaldo profesional.',
   description = 'Acompanamos a personas y empresas con una practica juridica rigurosa, cercana y enfocada en soluciones concretas. Cada asunto se aborda con estudio, orden y comunicacion clara desde el primer contacto.',
   panelTitle = 'Asesoria legal clara para decisiones que requieren respaldo profesional.',
+  primaryLabel = 'Solicitar orientacion',
+  secondaryLabel = 'Ver areas de practica',
 }: {
   heroImageUrl: string;
   leaderName: string;
+  leaderLabel: string;
   areaCount: number;
+  areasLabel: string;
+  areasSuffix: string;
+  contactLabel: string;
+  trustBullets: string[];
+  siteIdentity: SiteIdentity;
   eyebrow?: string;
   title?: string;
   description?: string;
   panelTitle?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
 }) {
   return (
     <section className="section-shell pt-32 lg:pt-40">
@@ -46,34 +56,34 @@ export default function HomeHero({
                 className="w-full sm:w-auto"
                 source="home_hero"
               >
-                Solicitar orientacion
+                {primaryLabel}
               </ContactDrawerButton>
               <Button asChild className="w-full sm:w-auto" variant="secondary">
-                <a href="#areas">Ver areas de practica</a>
+                <a href="#areas">{secondaryLabel}</a>
               </Button>
             </div>
 
             <div className="surface-card grid gap-4 p-6 sm:grid-cols-3">
               <div>
-                <p className="legal-kicker">Direccion profesional</p>
+                <p className="legal-kicker">{leaderLabel}</p>
                 <p className="mt-2 text-lg font-semibold text-[color:var(--color-text)]">
                   {leaderName}
                 </p>
               </div>
               <div>
-                <p className="legal-kicker">Areas activas</p>
+                <p className="legal-kicker">{areasLabel}</p>
                 <p className="mt-2 text-lg font-semibold text-[color:var(--color-text)]">
-                  {areaCount} especialidades principales
+                  {areaCount} {areasSuffix}
                 </p>
               </div>
               <div>
-                <p className="legal-kicker">Contacto</p>
+                <p className="legal-kicker">{contactLabel}</p>
                 <a
                   className="mt-2 block text-lg font-semibold text-[color:var(--color-text)] transition-colors duration-200 hover:text-[color:var(--color-accent)]"
-                  href={siteConfig.phoneHref}
+                  href={siteIdentity.phoneHref}
                   onClick={() => trackPhoneClick('home_hero_phone')}
                 >
-                  {siteConfig.phoneDisplay}
+                  {siteIdentity.phoneDisplay}
                 </a>
               </div>
             </div>

@@ -6,7 +6,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import {
   getServiceBySlugFetch,
@@ -81,27 +81,28 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { service, settings } = data;
+  const siteIdentity = resolveSiteIdentity(settings);
 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: service.title || 'Abogados San Felipe',
-    description: service.resumen || siteConfig.descriptor,
+    description: service.resumen || siteIdentity.descriptor,
     serviceType: 'Asesoria legal y juridica',
     provider: {
       '@type': 'Organization',
-      name: siteConfig.firmName,
+      name: siteIdentity.firmName,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: siteConfig.city,
-        addressRegion: siteConfig.region,
+        addressLocality: siteIdentity.city,
+        addressRegion: siteIdentity.region,
         addressCountry: 'CL',
       },
-      telephone: siteConfig.phoneDisplay,
-      email: siteConfig.email,
+      telephone: siteIdentity.phoneDisplay,
+      email: siteIdentity.email,
       url: 'https://www.abogadossanfelipe.cl',
     },
-    areaServed: `${siteConfig.city}, Chile`,
+    areaServed: `${siteIdentity.city}, Chile`,
     offers: {
       '@type': 'Offer',
       price: 'Consultar',
@@ -133,6 +134,7 @@ export default async function Page({ params }: PageProps) {
           currentPath={`https://www.abogadossanfelipe.cl/services/${slug}`}
           cta={service.contentCta || settings?.defaultContentCta}
           ctaSource={`service_${slug}`}
+          siteIdentity={siteIdentity}
         />
       </div>
     </section>

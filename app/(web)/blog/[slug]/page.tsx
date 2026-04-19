@@ -7,7 +7,7 @@ import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc'
 import { ComponentsProps } from '@/components/types';
 import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 import {
@@ -79,6 +79,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { post, settings } = data;
+  const siteIdentity = resolveSiteIdentity(settings);
 
   const jsonLd: WithContext<Article> = {
     '@context': 'https://schema.org',
@@ -91,11 +92,11 @@ export default async function Page({ params }: PageProps) {
     mainEntityOfPage: `https://www.abogadossanfelipe.cl/blog/${slug}`,
     author: {
       '@type': 'Person',
-      name: siteConfig.shortName,
+      name: siteIdentity.shortName,
     },
     publisher: {
       '@type': 'Organization',
-      name: siteConfig.firmName,
+      name: siteIdentity.firmName,
       url: 'https://www.abogadossanfelipe.cl',
     },
     image:
@@ -124,6 +125,7 @@ export default async function Page({ params }: PageProps) {
           currentPath={`https://www.abogadossanfelipe.cl/blog/${slug}`}
           cta={post.contentCta || settings?.defaultContentCta}
           ctaSource={`blog_${slug}`}
+          siteIdentity={siteIdentity}
         />
     </section>
   );

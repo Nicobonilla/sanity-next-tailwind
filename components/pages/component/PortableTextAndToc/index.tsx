@@ -4,6 +4,7 @@ import {
   GetPostDetailQueryResult,
   GetServiceDetailQueryResult,
 } from '@/sanity.types';
+import { SiteIdentity } from '@/lib/site-identity';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { TableOfContents } from './TableOfContents';
 import { PTextPost } from '../Posts/PTextPost';
@@ -24,6 +25,7 @@ interface PortableTextAndTOCProps {
     title?: string | null;
   } | null;
   ctaSource?: string;
+  siteIdentity: SiteIdentity;
 }
 
 export default function PortableTextAndTOC({
@@ -32,6 +34,7 @@ export default function PortableTextAndTOC({
   currentPath,
   cta,
   ctaSource = 'content_cta',
+  siteIdentity,
 }: PortableTextAndTOCProps) {
   return (
     <div className="mx-auto max-w-screen-xl">
@@ -57,7 +60,7 @@ export default function PortableTextAndTOC({
                 components={PTextPost}
               />
             </div>
-            <ContentContactCta cta={cta} source={ctaSource} />
+            <ContentContactCta cta={cta} siteIdentity={siteIdentity} source={ctaSource} />
           </div>
 
           <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4">

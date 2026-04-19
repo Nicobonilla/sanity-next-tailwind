@@ -17,12 +17,14 @@ const defaultBullets = [
 
 export default function LeadershipPreview({
   leaderName,
+  leaderCardLabel = 'Responsable del estudio',
   eyebrow = 'Direccion profesional',
   title = 'Respaldo juridico con criterio tecnico y trato claro.',
   description = 'Atencion directa, explicacion clara y seguimiento responsable en cada etapa del caso.',
   bullets = defaultBullets,
 }: {
   leaderName: string;
+  leaderCardLabel?: string;
   eyebrow?: string;
   title?: string;
   description?: string;
@@ -44,7 +46,7 @@ export default function LeadershipPreview({
                 {getInitials(leaderName)}
               </div>
               <div>
-                <p className="legal-kicker">Responsable del estudio</p>
+                <p className="legal-kicker">{leaderCardLabel}</p>
                 <p className="mt-2 text-2xl font-semibold text-[color:var(--color-primary)]">
                   {leaderName}
                 </p>

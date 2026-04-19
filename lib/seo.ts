@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { cleanSanityString, cleanSanityValue } from '@/lib/sanity-clean';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 
 type SeoImage = {
@@ -53,11 +54,13 @@ export function isProductionIndexableEnvironment() {
 }
 
 export function getSiteUrl(hostOrUrl?: string | null) {
-  if (!hostOrUrl) {
+  const cleanedHostOrUrl = cleanSanityString(hostOrUrl);
+
+  if (!cleanedHostOrUrl) {
     return DEFAULT_SITE_URL;
   }
 
-  const normalized = hostOrUrl.trim().replace(/\/+$/, '');
+  const normalized = cleanedHostOrUrl.replace(/\/+$/, '');
 
   if (!normalized) {
     return DEFAULT_SITE_URL;
@@ -83,18 +86,28 @@ export function buildSeoMetadata({
   title,
   type = 'website',
 }: BuildSeoMetadataOptions): Metadata {
-  const siteUrl = getSiteUrl(settings?.metaBaseWebsite);
-  const resolvedTitle = seo?.metaTitle || title || undefined;
+  const cleanSeo = cleanSanityValue(seo);
+  const cleanSettings = cleanSanityValue(settings);
+
+  const siteUrl = getSiteUrl(cleanSettings?.metaBaseWebsite);
+  const resolvedTitle =
+    cleanSanityString(cleanSeo?.metaTitle) || cleanSanityString(title);
   const resolvedDescription =
-    seo?.metaDescription || description || settings?.description || undefined;
-  const keywords = (seo?.keywords || []).filter(Boolean) as string[];
+    cleanSanityString(cleanSeo?.metaDescription) ||
+    cleanSanityString(description) ||
+    cleanSanityString(cleanSettings?.description);
+  const keywords = (cleanSanityValue(cleanSeo?.keywords || []) || []).filter(
+    Boolean
+  ) as string[];
   const canonical =
-    seo?.canonicalUrl || (path ? new URL(path, siteUrl).toString() : undefined);
+    cleanSanityString(cleanSeo?.canonicalUrl) ||
+    (path ? new URL(path, siteUrl).toString() : undefined);
   const openGraphImage =
-    resolveOpenGraphImage(seo?.ogImage || fallbackImage || settings?.ogImage) ||
+    resolveOpenGraphImage(
+      cleanSeo?.ogImage || fallbackImage || cleanSettings?.ogImage
+    ) ||
     undefined;
-  const noIndex =
-    Boolean(seo?.noIndex) || !isProductionIndexableEnvironment();
+  const noIndex = Boolean(cleanSeo?.noIndex) || !isProductionIndexableEnvironment();
 
   return {
     title: resolvedTitle,
@@ -114,16 +127,18 @@ export function buildSeoMetadata({
       },
     },
     openGraph: {
-      title: seo?.ogTitle || resolvedTitle,
-      description: seo?.ogDescription || resolvedDescription,
+      title: cleanSanityString(cleanSeo?.ogTitle) || resolvedTitle,
+      description:
+        cleanSanityString(cleanSeo?.ogDescription) || resolvedDescription,
       url: canonical,
       type,
       images: openGraphImage ? [openGraphImage] : undefined,
     },
     twitter: {
       card: openGraphImage ? 'summary_large_image' : 'summary',
-      title: seo?.ogTitle || resolvedTitle,
-      description: seo?.ogDescription || resolvedDescription,
+      title: cleanSanityString(cleanSeo?.ogTitle) || resolvedTitle,
+      description:
+        cleanSanityString(cleanSeo?.ogDescription) || resolvedDescription,
       images: openGraphImage ? [openGraphImage.url] : undefined,
     },
   };

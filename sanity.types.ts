@@ -13,6 +13,113 @@
  */
 
 // Source: schema.json
+export type HomeFaqSection = {
+  _type: 'homeFaqSection';
+  heading?: SectionHeading;
+  items?: Array<
+    {
+      _key: string;
+    } & FaqItem
+  >;
+};
+
+export type HomeProcessSection = {
+  _type: 'homeProcessSection';
+  heading?: SectionHeading;
+  steps?: Array<
+    {
+      _key: string;
+    } & ProcessStep
+  >;
+};
+
+export type HomeLeadershipSection = {
+  _type: 'homeLeadershipSection';
+  heading?: SectionHeading;
+  leaderNameOverride?: string;
+  leaderCardLabel?: string;
+  bullets?: Array<string>;
+};
+
+export type HomePracticeAreasSection = {
+  _type: 'homePracticeAreasSection';
+  heading?: SectionHeading;
+  maxItems?: number;
+  servicesLabel?: string;
+  detailLabel?: string;
+};
+
+export type HomeFirmIntroSection = {
+  _type: 'homeFirmIntroSection';
+  heading?: SectionHeading;
+  paragraphs?: Array<string>;
+  cards?: Array<
+    {
+      _key: string;
+    } & LabelValueItem
+  >;
+};
+
+export type HomeHeroSection = {
+  _type: 'homeHeroSection';
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  panelTitle?: string;
+  heroImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
+  leaderLabel?: string;
+  areasLabel?: string;
+  areasSuffix?: string;
+  contactLabel?: string;
+  trustBullets?: Array<string>;
+  primaryLabel?: string;
+  secondaryLabel?: string;
+};
+
+export type FaqItem = {
+  _type: 'faqItem';
+  question?: string;
+  answer?: string;
+};
+
+export type ProcessStep = {
+  _type: 'processStep';
+  step?: string;
+  title?: string;
+  description?: string;
+};
+
+export type LabelValueItem = {
+  _type: 'labelValueItem';
+  label?: string;
+  value?: string;
+};
+
+export type TrustItem = {
+  _type: 'trustItem';
+  title?: string;
+  description?: string;
+};
+
+export type SectionHeading = {
+  _type: 'sectionHeading';
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+};
+
 export type ContactCta = {
   _type: 'contactCta';
   isEnabled?: boolean;
@@ -347,6 +454,27 @@ export type Page = {
   seo?: Seo;
 };
 
+export type HomePage = {
+  _id: string;
+  _type: 'homePage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero?: HomeHeroSection;
+  trustItems?: Array<
+    {
+      _key: string;
+    } & TrustItem
+  >;
+  firmIntro?: HomeFirmIntroSection;
+  practiceAreas?: HomePracticeAreasSection;
+  leadership?: HomeLeadershipSection;
+  process?: HomeProcessSection;
+  faq?: HomeFaqSection;
+  finalCta?: ContactCta;
+  seo?: Seo;
+};
+
 export type Item = {
   _id: string;
   _type: 'item';
@@ -632,6 +760,16 @@ export type Settings = {
     _key: string;
   }>;
   defaultContentCta?: ContactCta;
+  firmName?: string;
+  shortName?: string;
+  responsibleLawyerName?: string;
+  descriptor?: string;
+  phoneDisplay?: string;
+  whatsappNumber?: string;
+  email?: string;
+  addressLine?: string;
+  city?: string;
+  region?: string;
   withDarkTheme?: boolean;
   metaBaseWebsite?: string;
   description?: string;
@@ -990,6 +1128,17 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | HomeFaqSection
+  | HomeProcessSection
+  | HomeLeadershipSection
+  | HomePracticeAreasSection
+  | HomeFirmIntroSection
+  | HomeHeroSection
+  | FaqItem
+  | ProcessStep
+  | LabelValueItem
+  | TrustItem
+  | SectionHeading
   | ContactCta
   | Seo
   | ResourceItem
@@ -1001,6 +1150,7 @@ export type AllSanitySchemaTypes =
   | Post
   | UnitBusiness
   | Page
+  | HomePage
   | Item
   | IconsListItem
   | IconsList
@@ -1076,6 +1226,16 @@ export type SettingsQueryResult = {
     _key: string;
   }>;
   defaultContentCta?: ContactCta;
+  firmName?: string;
+  shortName?: string;
+  responsibleLawyerName?: string;
+  descriptor?: string;
+  phoneDisplay?: string;
+  whatsappNumber?: string;
+  email?: string;
+  addressLine?: string;
+  city?: string;
+  region?: string;
   withDarkTheme?: boolean;
   metaBaseWebsite?: string;
   description?: string;
@@ -1232,6 +1392,119 @@ export type GetIconListQueryResult = Array<never>;
 // Variable: getReactIconListQuery
 // Query: *[_type == 'reactIcon']{  iconGroup, iconName}
 export type GetReactIconListQueryResult = Array<never>;
+
+// Source: ./sanity/lib/queries/homePage.query.ts
+// Variable: getHomePageQuery
+// Query: *[_type == "homePage"][0]{    hero{      eyebrow,      title,      description,      panelTitle,      heroImage{        alt,        asset      },      leaderLabel,      areasLabel,      areasSuffix,      contactLabel,      "trustBullets": trustBullets[],      primaryLabel,      secondaryLabel    },    trustItems[]{      title,      description    },    firmIntro{      heading{        eyebrow,        title,        description      },      "paragraphs": paragraphs[],      cards[]{        label,        value      }    },    practiceAreas{      heading{        eyebrow,        title,        description      },      maxItems,      servicesLabel,      detailLabel    },    leadership{      heading{        eyebrow,        title,        description      },      leaderNameOverride,      leaderCardLabel,      "bullets": bullets[]    },    process{      heading{        eyebrow,        title,        description      },      steps[]{        step,        title,        description      }    },    faq{      heading{        eyebrow,        title,        description      },      items[]{        question,        answer      }    },    finalCta{      isEnabled,      eyebrow,      title,      description,      primaryLabel,      secondaryLabel    },      seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  }  }
+export type GetHomePageQueryResult = {
+  hero: {
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    panelTitle: string | null;
+    heroImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+    leaderLabel: string | null;
+    areasLabel: string | null;
+    areasSuffix: string | null;
+    contactLabel: string | null;
+    trustBullets: Array<string> | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  trustItems: Array<{
+    title: string | null;
+    description: string | null;
+  }> | null;
+  firmIntro: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    paragraphs: Array<string> | null;
+    cards: Array<{
+      label: string | null;
+      value: string | null;
+    }> | null;
+  } | null;
+  practiceAreas: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    maxItems: number | null;
+    servicesLabel: string | null;
+    detailLabel: string | null;
+  } | null;
+  leadership: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    leaderNameOverride: string | null;
+    leaderCardLabel: string | null;
+    bullets: Array<string> | null;
+  } | null;
+  process: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    steps: Array<{
+      step: string | null;
+      title: string | null;
+      description: string | null;
+    }> | null;
+  } | null;
+  faq: {
+    heading: {
+      eyebrow: string | null;
+      title: string | null;
+      description: string | null;
+    } | null;
+    items: Array<{
+      question: string | null;
+      answer: string | null;
+    }> | null;
+  } | null;
+  finalCta: {
+    isEnabled: boolean | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
+} | null;
 
 // Source: ./sanity/lib/queries/page.query.ts
 // Variable: getPagesNavQuery
@@ -1772,6 +2045,7 @@ declare module '@sanity/client' {
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
+    '\n  *[_type == "homePage"][0]{\n    hero{\n      eyebrow,\n      title,\n      description,\n      panelTitle,\n      heroImage{\n        alt,\n        asset\n      },\n      leaderLabel,\n      areasLabel,\n      areasSuffix,\n      contactLabel,\n      "trustBullets": trustBullets[],\n      primaryLabel,\n      secondaryLabel\n    },\n    trustItems[]{\n      title,\n      description\n    },\n    firmIntro{\n      heading{\n        eyebrow,\n        title,\n        description\n      },\n      "paragraphs": paragraphs[],\n      cards[]{\n        label,\n        value\n      }\n    },\n    practiceAreas{\n      heading{\n        eyebrow,\n        title,\n        description\n      },\n      maxItems,\n      servicesLabel,\n      detailLabel\n    },\n    leadership{\n      heading{\n        eyebrow,\n        title,\n        description\n      },\n      leaderNameOverride,\n      leaderCardLabel,\n      "bullets": bullets[]\n    },\n    process{\n      heading{\n        eyebrow,\n        title,\n        description\n      },\n      steps[]{\n        step,\n        title,\n        description\n      }\n    },\n    faq{\n      heading{\n        eyebrow,\n        title,\n        description\n      },\n      items[]{\n        question,\n        answer\n      }\n    },\n    finalCta{\n      isEnabled,\n      eyebrow,\n      title,\n      description,\n      primaryLabel,\n      secondaryLabel\n    },\n    \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n\n  }\n': GetHomePageQueryResult;
     '\n  *[_type == \'page\' && isActive] | order(orderRank asc) {\n    "id": coalesce(_id, \'\'),\n    "name": coalesce(name, title),\n    title,\n    "slug": select(\n      isHome == true => \'\',\n      slug.current\n    ),\n    isHome,\n    orderRank,\n    isActive,\n    "showInNavbar": coalesce(showInNavbar, true),\n    "showInFooter": coalesce(showInFooter, true),\n    _updatedAt,\n    seo{\n      noIndex\n    }\n  }\n': GetPagesNavQueryResult;
     '\n  *[_type == \'page\' && isActive && slug.current == $slug][0] {\n    \n  "id": _id,\n  name,\n  "slug": slug.current,\n  isActive,\n  title,\n  resumen,\n  isHome,\n  "showInNavbar": coalesce(showInNavbar, true),\n  "showInFooter": coalesce(showInFooter, true),\n  _updatedAt,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n,\n  content,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n  }\n': GetPageDetailQueryResult;
     '\n  *[_type == \'post\'] | order(orderRank desc) {\n    \n  title,\n  "slug": slug.current,\n  \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  _updatedAt,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date,\n  \n  contentCta{\n    isEnabled,\n    eyebrow,\n    title,\n    description,\n    primaryLabel,\n    secondaryLabel\n  }\n,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n\n\n  }\n': GetPostListQueryResult;

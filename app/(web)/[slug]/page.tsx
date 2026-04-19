@@ -5,7 +5,7 @@ import { WebPage, WithContext } from 'schema-dts';
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import {
   getPageBySlugFetch,
@@ -80,12 +80,13 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { page } = data;
+  const siteIdentity = resolveSiteIdentity(data.settings);
 
   const jsonLd: WithContext<WebPage> = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: page.title || siteConfig.firmName,
-    description: page.resumen || siteConfig.descriptor,
+    name: page.title || siteIdentity.firmName,
+    description: page.resumen || siteIdentity.descriptor,
     url: `https://www.abogadossanfelipe.cl/${slug}`,
   };
 

@@ -16,7 +16,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
   mainDocuments: defineDocuments([
     {
       route: '/',
-      filter: `_type == "page" && isHome == true`,
+      filter: `_type == "homePage"`,
     },
     {
       route: '/:slug',
@@ -32,6 +32,9 @@ export const resolve: PresentationPluginOptions['resolve'] = {
       locations: [homeLocation],
       message: 'This document is used on all pages',
       tone: 'caution',
+    }),
+    homePage: defineLocations({
+      locations: [homeLocation],
     }),
     component: defineLocations({
       select: {

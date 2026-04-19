@@ -1,6 +1,7 @@
 import '../globals.css';
 
 import { Metadata } from 'next';
+import { draftMode } from 'next/headers';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Footer from '@/components/global/Footer';
@@ -9,8 +10,9 @@ import { fonts } from '@/components/global/fonts';
 import Navbar from '@/components/global/Navbar';
 import WhatsappSticky from '@/components/global/WhatsappSticky';
 import Providers from '@/context/Providers';
+import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildMetadataBase, isProductionIndexableEnvironment } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import {
   buildLocalBusinessJsonLd,
   buildOrganizationJsonLd,
@@ -40,6 +42,7 @@ type LayoutData = {
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
   const { settings } = data;
+  const siteIdentity = resolveSiteIdentity(settings);
   const indexable = isProductionIndexableEnvironment();
 
   return {
@@ -54,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     generator: 'Next.js',
     description: settings?.description,
-    publisher: siteConfig.firmName,
+    publisher: siteIdentity.firmName,
     robots: {
       index: indexable,
       follow: indexable,
@@ -103,12 +106,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { isEnabled: isDraftModeEnabled } = await draftMode();
   const { pages, unitBusinessList, settings } = await getData();
+  const siteIdentity = resolveSiteIdentity(settings);
   const metadataBase = buildMetadataBase(
     process.env.NODE_ENV === 'development'
       ? 'localhost:3000'
       : settings?.metaBaseWebsite
   );
+  const SanityLive = (await import('@/sanity/lib/live')).SanityLive;
+  const VisualEditing = isDraftModeEnabled
+    ? (await import('next-sanity/visual-editing')).VisualEditing
+    : null;
   const GoogleTagManager =
     isGtmEnabled
       ? (await import('@next/third-parties/google')).GoogleTagManager
@@ -123,23 +132,23 @@ export default async function RootLayout({
 
   const siteUrl = metadataBase.toString().replace(/\/$/, '');
   const organizationJsonLd = buildOrganizationJsonLd({
-    addressLine: siteConfig.addressLine,
-    city: siteConfig.city,
-    description: settings?.description || siteConfig.descriptor,
-    email: siteConfig.email,
-    firmName: settings?.title || siteConfig.firmName,
-    phoneDisplay: siteConfig.phoneDisplay,
-    region: siteConfig.region,
+    addressLine: siteIdentity.addressLine,
+    city: siteIdentity.city,
+    description: settings?.description || siteIdentity.descriptor,
+    email: siteIdentity.email,
+    firmName: siteIdentity.firmName,
+    phoneDisplay: siteIdentity.phoneDisplay,
+    region: siteIdentity.region,
     url: siteUrl,
   });
   const localBusinessJsonLd = buildLocalBusinessJsonLd({
-    addressLine: siteConfig.addressLine,
-    city: siteConfig.city,
-    description: settings?.description || siteConfig.descriptor,
-    email: siteConfig.email,
-    firmName: settings?.title || siteConfig.firmName,
-    phoneDisplay: siteConfig.phoneDisplay,
-    region: siteConfig.region,
+    addressLine: siteIdentity.addressLine,
+    city: siteIdentity.city,
+    description: settings?.description || siteIdentity.descriptor,
+    email: siteIdentity.email,
+    firmName: siteIdentity.firmName,
+    phoneDisplay: siteIdentity.phoneDisplay,
+    region: siteIdentity.region,
     url: siteUrl,
   });
 
@@ -183,6 +192,8 @@ export default async function RootLayout({
             <main className="flex min-h-screen flex-col">
               {children}
               {SpeedInsights && <SpeedInsights />}
+              <SanityLive />
+              {VisualEditing && <VisualEditing />}
               <FormMount
                 unitBusinessList={unitBusinessList}
                 settings={settings}
@@ -190,8 +201,10 @@ export default async function RootLayout({
               <WhatsappSticky />
             </main>
             <Footer
+              footerText={portableTextToPlainText(settings?.footer, 260)}
               logo={settings?.logo}
               pages={pages}
+              siteIdentity={siteIdentity}
               slogan={settings?.slogan}
             />
           </Providers>

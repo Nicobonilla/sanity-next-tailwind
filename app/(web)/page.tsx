@@ -12,84 +12,84 @@ import PracticeAreas from '@/components/legal-home/PracticeAreas';
 import ProcessSteps from '@/components/legal-home/ProcessSteps';
 import TrustStrip from '@/components/legal-home/TrustStrip';
 import { buildLegalHomeContent } from '@/lib/legal-home-content';
-import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
-import { siteConfig } from '@/lib/site-config';
+import { buildSeoMetadata } from '@/lib/seo';
+import { resolveSiteIdentity } from '@/lib/site-identity';
 import { buildOrganizationJsonLd } from '@/lib/structured-data';
 import {
+  GetHomePageQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
+import { getHomePageFetch } from '@/sanity/lib/fetchs/homePage.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { home, settings } = await getData();
+  const { homePage, settings } = await getData();
 
   return buildSeoMetadata({
     title:
-      home?.seo?.metaTitle ||
+      homePage?.seo?.metaTitle ||
       'Estudio juridico en San Felipe | Asesoria legal y judicial',
     description:
-      home?.seo?.metaDescription ||
-      home?.resumen ||
+      homePage?.seo?.metaDescription ||
       'Asesoria legal clara, seria y responsable en San Felipe y la Region de Valparaiso.',
     path: '/',
-    seo: home?.seo,
+    seo: homePage?.seo,
     settings,
-    fallbackImage: extractFallbackImage(home?.components),
+    fallbackImage: homePage?.hero?.heroImage || null,
     type: 'website',
   });
 }
 
 async function getData() {
-  const [settings, areas, home] = await Promise.all([
+  const [settings, areas, homePage] = await Promise.all([
     getSettingsFetch(),
     getUnitBusinessListFetch(),
-    getPageBySlugFetch('inicio'),
+    getHomePageFetch(),
   ]);
 
   return {
     settings,
     areas: areas || [],
-    home,
+    homePage,
   };
 }
 
 export default async function Page() {
-  const { settings, areas, home } = await getData();
+  const { settings, areas, homePage } = await getData();
   const practiceAreas = (areas || []) as GetUnitBusinessListQueryResult;
+  const siteIdentity = resolveSiteIdentity(settings);
   const homeContent = buildLegalHomeContent({
     areas: practiceAreas,
-    home,
-    settings,
+    homePage: homePage as GetHomePageQueryResult | null,
+    siteIdentity,
   });
 
   const jsonLd: WithContext<LegalService> = {
     '@context': 'https://schema.org',
     '@type': 'LegalService',
-    name: siteConfig.firmName,
+    name: siteIdentity.firmName,
     description:
       'Asesoria legal y judicial para personas y empresas en San Felipe, con un enfoque claro, sobrio y profesional.',
-    areaServed: `${siteConfig.city}, ${siteConfig.region}, Chile`,
-    telephone: siteConfig.phoneDisplay,
-    email: siteConfig.email,
+    areaServed: `${siteIdentity.city}, ${siteIdentity.region}, Chile`,
+    telephone: siteIdentity.phoneDisplay,
+    email: siteIdentity.email,
     url: 'https://www.abogadossanfelipe.cl',
     address: {
       '@type': 'PostalAddress',
-      addressLocality: siteConfig.city,
-      addressRegion: siteConfig.region,
+      addressLocality: siteIdentity.city,
+      addressRegion: siteIdentity.region,
       addressCountry: 'CL',
     },
   };
   const organizationJsonLd = buildOrganizationJsonLd({
-    addressLine: siteConfig.addressLine,
-    city: siteConfig.city,
-    description:
-      home?.seo?.metaDescription || home?.resumen || siteConfig.descriptor,
-    email: siteConfig.email,
-    firmName: settings?.title || siteConfig.firmName,
-    phoneDisplay: siteConfig.phoneDisplay,
-    region: siteConfig.region,
+    addressLine: siteIdentity.addressLine,
+    city: siteIdentity.city,
+    description: homePage?.seo?.metaDescription || siteIdentity.descriptor,
+    email: siteIdentity.email,
+    firmName: siteIdentity.firmName,
+    phoneDisplay: siteIdentity.phoneDisplay,
+    region: siteIdentity.region,
     url: 'https://www.abogadossanfelipe.cl',
   });
 
@@ -106,12 +106,20 @@ export default async function Page() {
 
       <HomeHero
         areaCount={homeContent.hero.areaCount}
+        areasLabel={homeContent.hero.areasLabel}
+        areasSuffix={homeContent.hero.areasSuffix}
+        contactLabel={homeContent.hero.contactLabel}
         description={homeContent.hero.description}
         eyebrow={homeContent.hero.eyebrow}
         heroImageUrl={homeContent.hero.heroImageUrl}
+        leaderLabel={homeContent.hero.leaderLabel}
         leaderName={homeContent.hero.leaderName}
         panelTitle={homeContent.hero.panelTitle}
+        primaryLabel={homeContent.hero.primaryLabel}
+        secondaryLabel={homeContent.hero.secondaryLabel}
+        siteIdentity={siteIdentity}
         title={homeContent.hero.title}
+        trustBullets={homeContent.hero.trustBullets}
       />
       <TrustStrip items={homeContent.trustStrip.items} />
       <FirmIntro
@@ -124,13 +132,16 @@ export default async function Page() {
       <PracticeAreas
         areas={practiceAreas}
         description={homeContent.practiceAreas.description}
+        detailLabel={homeContent.practiceAreas.detailLabel}
         eyebrow={homeContent.practiceAreas.eyebrow}
+        servicesLabel={homeContent.practiceAreas.servicesLabel}
         title={homeContent.practiceAreas.title}
       />
       <LeadershipPreview
         bullets={homeContent.leadership.bullets}
         description={homeContent.leadership.description}
         eyebrow={homeContent.leadership.eyebrow}
+        leaderCardLabel={homeContent.leadership.leaderCardLabel}
         leaderName={homeContent.leadership.leaderName}
         title={homeContent.leadership.title}
       />
@@ -151,6 +162,7 @@ export default async function Page() {
         eyebrow={homeContent.finalCta.eyebrow}
         primaryLabel={homeContent.finalCta.primaryLabel}
         secondaryLabel={homeContent.finalCta.secondaryLabel}
+        siteIdentity={siteIdentity}
         title={homeContent.finalCta.title}
       />
     </>

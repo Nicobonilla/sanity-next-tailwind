@@ -24,14 +24,35 @@ import component from '@/sanity/schemas/documents/component';
 import { IconsList, IconsListItem } from '@/sanity/schemas/documents/IconsList';
 import item from '@/sanity/schemas/documents/item';
 import layer from '@/sanity/schemas/documents/layer';
+import homePage from '@/sanity/schemas/documents/homePage';
 import page from '@/sanity/schemas/documents/page';
 import post from '@/sanity/schemas/documents/post';
 import resourceItem from '@/sanity/schemas/documents/resourceItem';
 import service from '@/sanity/schemas/documents/service';
 import unitBusiness from '@/sanity/schemas/documents/unitBusiness';
 import contactCta from '@/sanity/schemas/objects/contactCta';
+import faqItem from '@/sanity/schemas/objects/faqItem';
+import homeFaqSection from '@/sanity/schemas/objects/homeFaqSection';
+import homeFirmIntroSection from '@/sanity/schemas/objects/homeFirmIntroSection';
+import homeHeroSection from '@/sanity/schemas/objects/homeHeroSection';
+import homeLeadershipSection from '@/sanity/schemas/objects/homeLeadershipSection';
+import homePracticeAreasSection from '@/sanity/schemas/objects/homePracticeAreasSection';
+import homeProcessSection from '@/sanity/schemas/objects/homeProcessSection';
+import labelValueItem from '@/sanity/schemas/objects/labelValueItem';
+import processStep from '@/sanity/schemas/objects/processStep';
 import seo from '@/sanity/schemas/objects/seo';
+import sectionHeading from '@/sanity/schemas/objects/sectionHeading';
+import trustItem from '@/sanity/schemas/objects/trustItem';
 import settings from '@/sanity/schemas/singletons/settings';
+
+const rawPreviewOrigin =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  'http://localhost:3000';
+
+const previewOrigin = rawPreviewOrigin.startsWith('http')
+  ? rawPreviewOrigin
+  : `https://${rawPreviewOrigin}`;
 
 export default defineConfig({
   basePath: studioUrl,
@@ -49,6 +70,7 @@ export default defineConfig({
       IconsListItem,
       item,
       layer,
+      homePage,
       page,
       post,
       service,
@@ -56,6 +78,17 @@ export default defineConfig({
       resourceItem,
       seo,
       contactCta,
+      sectionHeading,
+      trustItem,
+      labelValueItem,
+      processStep,
+      faqItem,
+      homeHeroSection,
+      homeFirmIntroSection,
+      homePracticeAreasSection,
+      homeLeadershipSection,
+      homeProcessSection,
+      homeFaqSection,
     ],
   },
   plugins: [
@@ -71,16 +104,17 @@ export default defineConfig({
     inlineSvgInput(),
     presentationTool({
       resolve,
+      allowOrigins: [previewOrigin, 'http://127.0.0.1:3000'],
       previewUrl: {
-        origin: 'http://localhost:3000',
+        initial: `${previewOrigin.replace(/\/$/, '')}/`,
         previewMode: {
-          enable: '/api/draft',
-          disable: '/api/disable',
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
         },
       },
     }),
-    structureTool({ structure: pageStructure([settings]) }),
-    singletonPlugin([settings.name]),
+    structureTool({ structure: pageStructure([settings, homePage]) }),
+    singletonPlugin([settings.name, homePage.name]),
     unsplashImageAsset(),
     assistWithPresets(),
     process.env.NODE_ENV === 'development' &&

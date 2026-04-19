@@ -48,11 +48,15 @@ export default function PracticeAreas({
   eyebrow = 'Areas de practica',
   title = 'Servicios juridicos enfocados en problemas concretos.',
   description = 'Materias frecuentes para personas, familias y propietarios que necesitan orientacion juridica clara.',
+  servicesLabel = 'Servicios relacionados',
+  detailLabel = 'Ver detalle',
 }: {
   areas: GetUnitBusinessListQueryResult;
   eyebrow?: string;
   title?: string;
   description?: string;
+  servicesLabel?: string;
+  detailLabel?: string;
 }) {
   const featuredAreas = areas.slice(0, 6);
 
@@ -80,7 +84,7 @@ export default function PracticeAreas({
 
               <div className="flex flex-1 flex-col gap-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--color-text-soft)]">
-                  Servicios relacionados
+                  {servicesLabel}
                 </p>
                 <ul className="flex flex-wrap gap-2">
                   {(area.services || []).slice(0, 3).map((service) => (
@@ -105,7 +109,7 @@ export default function PracticeAreas({
                   )
                 }
               >
-                Ver detalle
+                {detailLabel}
                 <span aria-hidden="true">-&gt;</span>
               </Link>
             </article>

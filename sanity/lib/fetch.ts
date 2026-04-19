@@ -1,26 +1,44 @@
-import { client } from '@/sanity/lib/client';
-
 import { SettingsQueryResult } from '@/sanity.types';
+import { draftMode } from 'next/headers';
+
 import { settingsQuery } from './queries';
+import { sanityFetch as liveSanityFetch } from './live';
+
+async function isDraftModeEnabled(): Promise<boolean> {
+  try {
+    const { isEnabled } = await draftMode();
+    return isEnabled;
+  } catch {
+    return false;
+  }
+}
 
 export async function sanityFetch<const QueryString extends string>({
-  revalidate = 3600,
   query,
   params = {},
   tags = [],
+  perspective,
+  stega,
 }: {
   query: QueryString;
   params?: Record<string, unknown>;
-  revalidate?: number | false;
   tags?: string[];
+  perspective?: 'drafts' | 'published';
+  stega?: boolean;
 }) {
-  return client.fetch(query, params, {
-    perspective: 'published',
-    next: {
-      revalidate,
-      tags,
-    },
+  const draftModeEnabled = await isDraftModeEnabled();
+  const resolvedPerspective = perspective ?? (draftModeEnabled ? 'drafts' : 'published');
+  const resolvedStega = stega ?? draftModeEnabled;
+
+  const { data } = await liveSanityFetch({
+    query,
+    params,
+    tags,
+    perspective: resolvedPerspective,
+    stega: resolvedStega,
   });
+
+  return data;
 }
 
 /* SINGLETONS - SETTINGS */
