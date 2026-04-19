@@ -4,7 +4,6 @@ import { PortableText } from '@portabletext/react';
 
 import Background from '../Background';
 import { ComponentProps } from '@/components/types';
-import PTextBanner from './PTextBanner';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 import { PTextBannerServiceCard } from '../PTextComponents';
@@ -52,7 +51,6 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
                   <ItemServiceBanner
                     key={index}
                     service={service}
-                    PTextItem={PTextBanner['PT3']}
                   />
                 )
             )}

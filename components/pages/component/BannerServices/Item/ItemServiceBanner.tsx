@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ComponentProps } from '@/components/types';
 import Iconfy from '../../../../global/Icons/Iconfy';
@@ -16,7 +18,7 @@ export default function ItemServiceBanner({
       href={{ pathname: `/services/${slug}` }}
       passHref
       className="size-full p-2 sm:p-4"
-      onClick={()=> trackButtonClick(slug, 'BannerServices')}
+      onClick={() => trackButtonClick(slug, 'BannerServices')}
     >
       <div className="group flex size-full flex-col items-center justify-center rounded-lg bg-indigo-200/60 px-5 py-10">
         <div className="relative mx-auto mb-5 w-fit group-hover:animate-bounce">

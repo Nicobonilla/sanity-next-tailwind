@@ -144,8 +144,8 @@ export default function Navbar({
                   </button>
 
                   {practiceOpen ? (
-                    <div className="absolute left-0 top-full mt-4 w-[360px] rounded-lg border bg-[color:var(--color-surface)] p-3 shadow-[var(--shadow-soft)]">
-                      <div className="grid gap-1">
+                    <div className="absolute left-0 top-full w-[360px] pt-3">
+                      <div className="grid gap-1 rounded-lg border bg-[color:var(--color-surface)] p-3 shadow-[var(--shadow-soft)]">
                         {unitBusinessList.map((area) => (
                           <Link
                             className="rounded-md px-4 py-3 text-sm text-[color:var(--color-text-soft)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] hover:text-[color:var(--color-primary)]"

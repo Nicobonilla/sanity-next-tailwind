@@ -8,25 +8,31 @@ const componentImporters: Record<string, ComponentImporter> = {
   background: () => import('@/components/pages/component/Background'),
   banner1: () => import('@/components/pages/component/Banner1'),
   banner2: () => import('@/components/pages/component/Banner2'),
-  banner4Images: () => import('@/components/pages/component/Banner4Images'),
-  bannerList: () => import('@/components/pages/component/BannerList'),
-  bannerPosts: () => import('@/components/pages/component/BannerPosts'),
-  bannerServices: () => import('@/components/pages/component/BannerServices'),
-  bannerWithItems: () => import('@/components/pages/component/BannerWithItems'),
+  banner4images: () => import('@/components/pages/component/Banner4Images'),
+  bannerlist: () => import('@/components/pages/component/BannerList'),
+  bannerposts: () => import('@/components/pages/component/BannerPosts'),
+  bannerservices: () => import('@/components/pages/component/BannerServices'),
+  bannerwithitems: () => import('@/components/pages/component/BannerWithItems'),
   carousel: () => import('@/components/pages/component/Carousel'),
   default: () => import('@/components/pages/component/Default'),
   heading: () => import('@/components/pages/component/Heading'),
-  heroForm: () => import('@/components/pages/component/HeroForm'),
-  heroImage: () => import('@/components/pages/component/HeroImage'),
-  heroVideo: () => import('@/components/pages/component/HeroVideo'),
-  highLight: () => import('@/components/pages/component/HighLight'),
+  heroform: () => import('@/components/pages/component/HeroForm'),
+  heroimage: () => import('@/components/pages/component/HeroImage'),
+  herovideo: () => import('@/components/pages/component/HeroVideo'),
+  highlight: () => import('@/components/pages/component/HighLight'),
   posts: () => import('@/components/pages/component/Posts'),
   resources: () => import('@/components/pages/component/Resources'),
 };
 
+function normalizeComponentType(type?: string | null) {
+  return type?.replace(/\s+/g, '').toLowerCase() || 'default';
+}
+
 function getDynamicComponent(type?: string | null) {
+  const normalizedType = normalizeComponentType(type);
+
   return dynamic<{ data: ComponentProps }>(
-    (componentImporters[type || ''] || componentImporters.default) as never
+    (componentImporters[normalizedType] || componentImporters.default) as never
   );
 }
 
