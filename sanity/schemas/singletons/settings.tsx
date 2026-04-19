@@ -1,17 +1,17 @@
 import { CogIcon } from '@sanity/icons';
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import { defineField, defineType } from 'sanity';
 
 import * as demo from '@/sanity/lib/demo';
 
 export default defineType({
   name: 'settings',
-  title: 'Configuración General',
+  title: 'Configuracion general',
   type: 'document',
   icon: CogIcon,
   groups: [
     {
       name: 'structure',
-      title: 'Estructura de la Página',
+      title: 'Estructura',
       default: true,
     },
     {
@@ -24,12 +24,10 @@ export default defineType({
     },
   ],
   fields: [
-    // Structura
     defineField({
       name: 'title',
-      title: 'Título de la página de inicio',
-      description:
-        'Este título se mostrará en la barra de título del navegador.',
+      title: 'Titulo de la pagina de inicio',
+      description: 'Se usa en metadata y referencias institucionales.',
       type: 'string',
       initialValue: demo.title,
       validation: (rule) => rule.required(),
@@ -37,9 +35,8 @@ export default defineType({
     }),
     defineField({
       name: 'templateTitle',
-      title: 'Platilla de título',
-      description:
-        'Este título se mostrará en todas la barra de título del navegador.',
+      title: 'Plantilla de titulo',
+      description: 'Texto base para las demas paginas del sitio.',
       type: 'string',
       group: 'structure',
     }),
@@ -57,19 +54,26 @@ export default defineType({
     }),
     defineField({
       name: 'footer',
-      description: 'Este texto se mostrará al final de la página.',
-      title: 'Pie de página',
+      title: 'Pie de pagina',
+      description: 'Texto institucional mostrado al final del sitio.',
       type: 'array',
       group: 'structure',
       of: [{ type: 'block' }],
     }),
     defineField({
+      name: 'defaultContentCta',
+      title: 'CTA de contenido por defecto',
+      type: 'contactCta',
+      group: 'structure',
+      description:
+        'Se usa como CTA final en articulos y servicios cuando el documento no define uno propio.',
+    }),
+    defineField({
       name: 'withDarkTheme',
-      title: 'La web contempla Dark Theme?',
+      title: 'La web contempla dark theme?',
       type: 'boolean',
       group: 'structure',
     }),
-    // SEO
     defineField({
       name: 'metaBaseWebsite',
       title: 'Base URL de la web',
@@ -78,7 +82,7 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Breve descripción de la página. ',
+      title: 'Descripcion general',
       type: 'string',
       group: 'seo',
     }),
@@ -88,24 +92,24 @@ export default defineType({
       type: 'image',
       group: 'seo',
       description:
-        'Imagen que se mostrará en tarjeta de redes sociales (cuando se comparte la página).',
+        'Imagen que se mostrara al compartir la web en redes sociales.',
       options: {
         hotspot: true,
       },
       fields: [
         defineField({
           name: 'alt',
-          description: 'Importante para accesabilidad y SEO.',
+          description: 'Importante para accesibilidad y SEO.',
           title: 'Texto alternativo',
           type: 'string',
-          validation: (rule) => {
-            return rule.custom((alt, context) => {
-              if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
+          validation: (rule) =>
+            rule.custom((alt, context) => {
+              if ((context.document?.ogImage as { asset?: { _ref?: string } })?.asset?._ref && !alt) {
                 return 'Required';
               }
+
               return true;
-            });
-          },
+            }),
           group: 'seo',
         }),
         defineField({
@@ -123,7 +127,6 @@ export default defineType({
         }),
       ],
     }),
-    // IMAGES
     defineField({
       name: 'imageNotFoundImage',
       title: 'Not Found Image Image',

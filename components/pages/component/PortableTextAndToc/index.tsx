@@ -1,3 +1,4 @@
+import ContentContactCta from '@/components/content/ContentContactCta';
 import { PortableText } from '@portabletext/react';
 import {
   GetPostDetailQueryResult,
@@ -13,11 +14,22 @@ interface PortableTextAndTOCProps {
     label: string;
     slug: string;
   }>;
+  cta?: {
+    description?: string | null;
+    eyebrow?: string | null;
+    isEnabled?: boolean | null;
+    primaryLabel?: string | null;
+    secondaryLabel?: string | null;
+    title?: string | null;
+  } | null;
+  ctaSource?: string;
 }
 
 export default function PortableTextAndTOC({
   article,
   breadcrumbsItems,
+  cta,
+  ctaSource = 'content_cta',
 }: PortableTextAndTOCProps) {
   return (
     <div className="mx-auto max-w-screen-xl">
@@ -39,6 +51,7 @@ export default function PortableTextAndTOC({
                 components={PTextPost}
               />
             </div>
+            <ContentContactCta cta={cta} source={ctaSource} />
           </div>
 
           <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4">

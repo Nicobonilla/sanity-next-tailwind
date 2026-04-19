@@ -7,10 +7,11 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import { trackContactDrawerOpen } from '@/components/lib/GTMTrackers';
 
 interface ContactDrawerContextType {
   isOpen: boolean;
-  openDrawer: () => void;
+  openDrawer: (source?: string) => void;
   closeDrawer: () => void;
   toggleDrawerForm: () => void;
 }
@@ -22,9 +23,10 @@ const ContactDrawerContext = createContext<
 export function ContactDrawerProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openDrawer = useCallback(() => {
+  const openDrawer = useCallback((source = 'contact_drawer_button') => {
     setIsOpen(true);
     document.body.style.overflow = 'hidden';
+    trackContactDrawerOpen(source);
   }, []);
 
   const closeDrawer = useCallback(() => {

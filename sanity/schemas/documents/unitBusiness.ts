@@ -1,13 +1,13 @@
-import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
 import {
   orderRankField,
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'unitBusiness',
-  title: 'Áreas de Práctica',
+  title: 'Areas de practica',
   type: 'document',
   icon: DocumentsIcon,
   orderings: [orderRankOrdering],
@@ -15,7 +15,7 @@ export default defineType({
     orderRankField({ type: 'unitBusiness' }),
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Titulo',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -30,7 +30,7 @@ export default defineType({
     }),
     defineField({
       name: 'icon',
-      title: 'Icon',
+      title: 'Icono',
       type: 'string',
       options: {
         list: [
@@ -57,9 +57,14 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Descripcion',
       type: 'array',
       of: [{ type: 'block' }, { type: 'image' }],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
     }),
     defineField({
       name: 'services',

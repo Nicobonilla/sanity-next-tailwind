@@ -12,6 +12,8 @@ import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch
 import { Metadata } from 'next';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 import dynamic from 'next/dynamic';
+import { buildMetadataBase } from '@/lib/seo';
+import { siteConfig } from '@/lib/site-config';
 
 const FormMount = dynamic(() => import('@/components/global/Form/FormMount'), {
   ssr: false,
@@ -40,13 +42,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
   const { settings } = data;
   return {
-    metadataBase: new URL(
-      `https://${
-        process.env.NODE_ENV == 'development'
-          ? 'localhost:3000'
-          : settings?.metaBaseWebsite
-      }`
-    ), // URL base
+    metadataBase: buildMetadataBase(
+      process.env.NODE_ENV == 'development'
+        ? 'localhost:3000'
+        : settings?.metaBaseWebsite
+    ),
     title: {
       template: '%s ' + settings?.templateTitle,
       default: settings?.templateTitle || '',
@@ -65,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'herencias y testamentos San Felipe',
     ],
     description: settings?.description,
-    publisher: 'Vercel',
+    publisher: siteConfig.firmName,
     robots: {
       index: true,
       follow: true,

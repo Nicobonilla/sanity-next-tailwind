@@ -1,40 +1,55 @@
 import SectionHeading from './SectionHeading';
 
-const faqs = [
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+const defaultFaqs: FaqItem[] = [
   {
-    question: '¿Puedo realizar una primera consulta antes de iniciar un proceso?',
+    question: 'Puedo realizar una primera consulta antes de iniciar un proceso?',
     answer:
-      'Sí. El objetivo de una primera conversación es revisar el contexto del asunto, aclarar expectativas y evaluar la forma más adecuada de abordarlo.',
+      'Si. El objetivo de una primera conversacion es revisar el contexto del asunto, aclarar expectativas y evaluar la forma mas adecuada de abordarlo.',
   },
   {
-    question: '¿La información entregada se maneja con confidencialidad?',
+    question: 'La informacion entregada se maneja con confidencialidad?',
     answer:
-      'Sí. El tratamiento de antecedentes y documentación se realiza con criterio profesional y reserva, desde el primer contacto.',
+      'Si. El tratamiento de antecedentes y documentacion se realiza con criterio profesional y reserva, desde el primer contacto.',
   },
   {
-    question: '¿Atienden asuntos de personas y también de empresas?',
+    question: 'Atienden asuntos de personas y tambien de empresas?',
     answer:
-      'Sí. El estudio puede acompañar tanto necesidades jurídicas personales como asuntos corporativos que requieran análisis y representación profesional.',
+      'Si. El estudio puede acompanar tanto necesidades juridicas personales como asuntos corporativos que requieran analisis y representacion profesional.',
   },
   {
-    question: '¿Es posible coordinar atención a distancia?',
+    question: 'Es posible coordinar atencion a distancia?',
     answer:
-      'Sí. Dependiendo del caso, se puede coordinar una primera orientación por medios remotos y luego definir los pasos siguientes.',
+      'Si. Dependiendo del caso, se puede coordinar una primera orientacion por medios remotos y luego definir los pasos siguientes.',
   },
 ];
 
-export default function FAQSection() {
+export default function FAQSection({
+  eyebrow = 'Preguntas frecuentes',
+  title = 'Informacion simple para dar mas claridad desde el primer paso.',
+  description = 'Respuestas claras a dudas habituales antes de tomar contacto con el estudio.',
+  items = defaultFaqs,
+}: {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  items?: FaqItem[];
+}) {
   return (
     <section className="section-shell bg-[color:rgba(255,255,255,0.55)]">
       <div className="site-container">
         <SectionHeading
-          description="Una buena experiencia jurídica también resuelve dudas básicas antes de que el cliente tome contacto."
-          eyebrow="Preguntas frecuentes"
-          title="Información simple para reducir incertidumbre y facilitar el primer paso."
+          description={description}
+          eyebrow={eyebrow}
+          title={title}
         />
 
         <div className="mt-10 grid gap-4">
-          {faqs.map((faq) => (
+          {items.map((faq) => (
             <details className="surface-card group p-6" key={faq.question}>
               <summary className="cursor-pointer list-none pr-8 text-xl font-semibold text-[color:var(--color-primary)] marker:hidden">
                 {faq.question}

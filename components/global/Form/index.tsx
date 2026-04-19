@@ -8,7 +8,11 @@ import { z } from 'zod';
 
 import Logo from '@/components/global/Logo';
 import Icon, { IconProps } from '@/components/global/Icons/LucideIcon';
-import { trackFormSubmit } from '@/components/lib/GTMTrackers';
+import {
+  trackLeadFormStart,
+  trackLeadFormSubmitError,
+  trackLeadFormSubmitSuccess,
+} from '@/components/lib/GTMTrackers';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
@@ -114,6 +118,7 @@ export default function Form({
   });
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const router = useRouter();
 
   const selectedServiceDisplay = formData.serviceCategory
@@ -164,6 +169,11 @@ export default function Form({
       [fieldName]: value,
     }));
 
+    if (!hasTrackedStart && value.trim()) {
+      trackLeadFormStart(fieldName);
+      setHasTrackedStart(true);
+    }
+
     if (touched[fieldName]) {
       const error = validateField(fieldName, value);
       setErrors((prev) => ({
@@ -201,16 +211,20 @@ export default function Form({
     setTouched(allTouched);
 
     if (!validateForm()) {
+      trackLeadFormSubmitError('validation_error');
       toast.error('Por favor, corrige los errores del formulario');
       return;
     }
 
     setIsLoading(true);
-    trackFormSubmit('submitted');
 
     try {
       const success = await sendEmail(formData);
       if (success) {
+        trackLeadFormSubmitSuccess({
+          areaTitle: formData.serviceCategory || '',
+          serviceTitle: formData.mainCategory || '',
+        });
         setFormData(initialForm);
         setErrors(initialErrors);
         setTouched({
@@ -224,11 +238,15 @@ export default function Form({
           message: false,
         });
         setFormSubmitted(false);
+        setHasTrackedStart(false);
         closeDrawer();
         router.push('/blog');
+      } else {
+        trackLeadFormSubmitError('api_error');
       }
     } catch (error) {
       console.error('Error:', error);
+      trackLeadFormSubmitError('submit_exception');
       toast.error('Ha ocurrido un error al enviar el formulario');
     } finally {
       setIsLoading(false);
@@ -267,6 +285,7 @@ export default function Form({
         message: false,
       });
       setFormSubmitted(false);
+      setHasTrackedStart(false);
     }
   }, [isOpen]);
 
@@ -277,11 +296,14 @@ export default function Form({
         className={`fixed inset-0 z-40 bg-[color:rgba(31,39,51,0.45)] backdrop-blur-[2px] transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
+        onClick={closeDrawer}
       />
 
       <div
-        className={`contact-drawer fixed right-0 top-0 z-50 h-screen overflow-hidden border-l border-[color:rgba(31,39,51,0.08)] bg-[color:var(--color-surface)] shadow-[var(--shadow-soft)] transition-all duration-300 ease-in-out ${
-          isOpen ? 'w-full translate-x-0 sm:w-[520px]' : 'w-0 translate-x-full'
+        className={`contact-drawer fixed right-0 top-0 z-50 h-screen max-w-[520px] overflow-hidden border-l border-[color:rgba(31,39,51,0.08)] bg-[color:var(--color-surface)] shadow-[var(--shadow-soft)] transition-all duration-300 ease-in-out ${
+          isOpen
+            ? 'w-[calc(100vw-1rem)] translate-x-0 sm:w-[520px]'
+            : 'w-0 translate-x-full'
         }`}
       >
         <div className="relative h-full overflow-y-auto p-6 sm:p-8">
@@ -299,10 +321,10 @@ export default function Form({
 
           <div className="text-[color:var(--color-text)]">
             <p className="eyebrow text-center">Contacto</p>
-            <h3 className="mt-3 text-center font-display text-4xl leading-tight text-[color:var(--color-primary)]">
+            <h3 className="font-display mt-3 text-center text-4xl leading-tight text-[color:var(--color-primary)]">
               Solicite una orientacion inicial
             </h3>
-            <p className="mx-auto mb-8 mt-4 max-w-md text-center font-body text-base leading-7 text-[color:var(--color-text-soft)]">
+            <p className="font-body mx-auto mb-8 mt-4 max-w-md text-center text-base leading-7 text-[color:var(--color-text-soft)]">
               Comparta sus antecedentes y el estudio se pondra en contacto para
               revisar su consulta con seriedad y confidencialidad.
             </p>
@@ -335,7 +357,9 @@ export default function Form({
               />
 
               <InputField
-                error={touched.phone || formSubmitted ? errors.phone : undefined}
+                error={
+                  touched.phone || formSubmitted ? errors.phone : undefined
+                }
                 icon="phone"
                 id="phone"
                 name="phone"
@@ -348,7 +372,9 @@ export default function Form({
               />
 
               <InputField
-                error={touched.email || formSubmitted ? errors.email : undefined}
+                error={
+                  touched.email || formSubmitted ? errors.email : undefined
+                }
                 icon="mail"
                 id="email"
                 name="email"
@@ -451,7 +477,6 @@ function InputField({
           name={name}
           onBlur={onBlur}
           onChange={onChange}
-          onClick={() => trackFormSubmit(name)}
           placeholder={placeholder}
           required={required}
           type={type}
@@ -459,7 +484,11 @@ function InputField({
         />
       </div>
       {error && (
-        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
+        <p
+          className="px-1 text-xs text-red-600"
+          id={`${id}-error`}
+          role="alert"
+        >
           {error}
         </p>
       )}
@@ -495,20 +524,23 @@ function TextAreaField({
       <textarea
         aria-describedby={error ? `${id}-error` : undefined}
         aria-invalid={error ? 'true' : 'false'}
-        className={`textarea-shell w-full min-h-[132px] ${
+        className={`textarea-shell min-h-[132px] w-full ${
           error ? 'border-red-500 focus:ring-red-500' : ''
         }`}
         id={id}
         name={name}
         onBlur={onBlur}
         onChange={onChange}
-        onClick={() => trackFormSubmit(name)}
         placeholder={placeholder}
         rows={4}
         value={value}
       />
       {error && (
-        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
+        <p
+          className="px-1 text-xs text-red-600"
+          id={`${id}-error`}
+          role="alert"
+        >
           {error}
         </p>
       )}
@@ -522,7 +554,6 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
       <button
         className="button-primary min-w-[220px] justify-center disabled:cursor-not-allowed disabled:opacity-60"
         disabled={isLoading}
-        onClick={() => trackFormSubmit('submit')}
         type="submit"
       >
         {isLoading ? (

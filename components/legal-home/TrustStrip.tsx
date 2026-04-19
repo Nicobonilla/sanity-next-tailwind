@@ -1,32 +1,41 @@
-const trustItems = [
+type TrustItem = {
+  title: string;
+  description: string;
+};
+
+const defaultTrustItems: TrustItem[] = [
   {
-    title: 'Atención directa',
+    title: 'Atencion directa',
     description:
-      'Cada consulta se aborda con análisis responsable y contacto profesional claro desde el inicio.',
+      'Cada consulta se aborda con analisis responsable y contacto profesional claro desde el inicio.',
   },
   {
     title: 'Confidencialidad',
     description:
-      'El manejo de la información se realiza con criterio jurídico y reserva en cada etapa.',
+      'El manejo de la informacion se realiza con criterio juridico y reserva en cada etapa.',
   },
   {
-    title: 'Criterio estratégico',
+    title: 'Criterio estrategico',
     description:
-      'No se improvisan respuestas: se evalúa el escenario y se propone el camino más adecuado.',
+      'Se revisa el escenario, sus riesgos y el camino mas adecuado antes de avanzar.',
   },
   {
-    title: 'Comunicación clara',
+    title: 'Comunicacion clara',
     description:
-      'Explicamos el proceso, sus alcances y próximos pasos sin tecnicismos innecesarios.',
+      'Explicamos el proceso, sus alcances y proximos pasos sin tecnicismos innecesarios.',
   },
 ];
 
-export default function TrustStrip() {
+export default function TrustStrip({
+  items = defaultTrustItems,
+}: {
+  items?: TrustItem[];
+}) {
   return (
     <section className="section-tight">
       <div className="site-container">
         <div className="grid gap-4 lg:grid-cols-4">
-          {trustItems.map((item) => (
+          {items.map((item) => (
             <article className="trust-item" key={item.title}>
               <p className="legal-kicker">{item.title}</p>
               <p className="text-base leading-7 text-[color:var(--color-text-soft)]">

@@ -8,6 +8,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
 import Logo from '@/components/global/Logo';
+import {
+  trackNavClick,
+  trackPracticeAreaClick,
+} from '@/components/lib/GTMTrackers';
 import { cn } from '@/lib/cn';
 import {
   GetPagesNavQueryResult,
@@ -48,10 +52,18 @@ export default function Navbar({
     () =>
       pages.filter(
         (page) =>
-          !['blog', 'services', 'area-de-practica'].includes(page.slug || '')
+          page.showInNavbar !== false &&
+          !['blog', 'services', 'area-de-practica', 'contacto'].includes(
+            page.slug || ''
+          )
       ),
     [pages]
   );
+
+  const handleMobileContactOpen = () => {
+    setMobileOpen(false);
+    setPracticeOpen(false);
+  };
 
   useEffect(() => {
     const onScroll = () => setHasScrolled(window.scrollY > 24);
@@ -103,6 +115,7 @@ export default function Navbar({
                           isActive && 'text-[color:var(--color-primary)]'
                         )}
                         href={href}
+                        onClick={() => trackNavClick(page.title || '', href)}
                       >
                         {page.title}
                       </Link>
@@ -117,7 +130,7 @@ export default function Navbar({
                 >
                   <button
                     aria-expanded={practiceOpen}
-                    className="inline-flex items-center gap-2 font-body text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]"
+                    className="font-body inline-flex items-center gap-2 text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]"
                     onClick={() => setPracticeOpen((current) => !current)}
                     type="button"
                   >
@@ -138,12 +151,20 @@ export default function Navbar({
                             className="rounded-md px-4 py-3 text-sm text-[color:var(--color-text-soft)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] hover:text-[color:var(--color-primary)]"
                             href={resolvePracticeHref(area.slug)}
                             key={area.slug || area.title}
+                            onClick={() =>
+                              trackPracticeAreaClick(
+                                area.slug || '',
+                                area.title || '',
+                                'navbar_desktop'
+                              )
+                            }
                           >
                             <span className="block font-semibold text-[color:var(--color-text)]">
                               {area.title}
                             </span>
                             <span className="mt-1 block text-xs uppercase tracking-[0.16em] text-[color:var(--color-text-soft)]">
-                              {(area.services || []).length} servicios vinculados
+                              {(area.services || []).length} servicios
+                              vinculados
                             </span>
                           </Link>
                         ))}
@@ -156,9 +177,11 @@ export default function Navbar({
                   <Link
                     className={cn(
                       'font-body text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]',
-                      pathname === '/blog' && 'text-[color:var(--color-primary)]'
+                      pathname === '/blog' &&
+                        'text-[color:var(--color-primary)]'
                     )}
                     href="/blog"
+                    onClick={() => trackNavClick('Informate', '/blog')}
                   >
                     Informate
                   </Link>
@@ -166,11 +189,17 @@ export default function Navbar({
               </ul>
             </nav>
 
-            <ContactDrawerButton>Solicitar orientacion</ContactDrawerButton>
+            <ContactDrawerButton source="navbar_desktop">
+              Solicitar orientacion
+            </ContactDrawerButton>
           </div>
 
           <div className="flex items-center gap-3 lg:hidden">
-            <ContactDrawerButton className="min-h-[44px] px-4 text-sm" variant="secondary">
+            <ContactDrawerButton
+              className="min-h-[44px] px-4 text-sm"
+              source="navbar_mobile_top"
+              variant="secondary"
+            >
               Contacto
             </ContactDrawerButton>
             <button
@@ -180,7 +209,11 @@ export default function Navbar({
               onClick={() => setMobileOpen((current) => !current)}
               type="button"
             >
-              {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              {mobileOpen ? (
+                <X className="size-5" />
+              ) : (
+                <Menu className="size-5" />
+              )}
             </button>
           </div>
         </div>
@@ -189,7 +222,7 @@ export default function Navbar({
       <div
         aria-hidden={!mobileOpen}
         className={cn(
-          'fixed inset-0 top-[86px] bg-[color:rgba(31,39,51,0.36)] transition-opacity duration-200 lg:hidden',
+          'fixed inset-0 bg-[color:rgba(31,39,51,0.36)] transition-opacity duration-200 lg:hidden',
           mobileOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
         onClick={() => setMobileOpen(false)}
@@ -197,7 +230,7 @@ export default function Navbar({
 
       <div
         className={cn(
-          'fixed inset-y-0 right-0 top-[86px] z-50 w-full max-w-[380px] overflow-y-auto border-l bg-[color:var(--color-surface)] p-6 transition-transform duration-300 lg:hidden',
+          'fixed right-0 top-0 z-50 h-[100dvh] w-full max-w-[380px] overflow-y-auto border-l bg-[color:var(--color-surface)] p-6 transition-transform duration-300 lg:hidden',
           mobileOpen ? 'translate-x-0' : 'translate-x-full'
         )}
         id="mobile-navigation"
@@ -219,6 +252,7 @@ export default function Navbar({
                             'bg-[color:rgba(30,42,56,0.06)] text-[color:var(--color-primary)]'
                         )}
                         href={href}
+                        onClick={() => trackNavClick(page.title || '', href)}
                       >
                         {page.title}
                       </Link>
@@ -233,6 +267,7 @@ export default function Navbar({
                         'bg-[color:rgba(30,42,56,0.06)] text-[color:var(--color-primary)]'
                     )}
                     href="/blog"
+                    onClick={() => trackNavClick('Informate', '/blog')}
                   >
                     Informate
                   </Link>
@@ -263,6 +298,13 @@ export default function Navbar({
                     className="block rounded-md px-4 py-3 text-sm text-[color:var(--color-text-soft)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] hover:text-[color:var(--color-primary)]"
                     href={resolvePracticeHref(area.slug)}
                     key={area.slug || area.title}
+                    onClick={() =>
+                      trackPracticeAreaClick(
+                        area.slug || '',
+                        area.title || '',
+                        'navbar_mobile'
+                      )
+                    }
                   >
                     <span className="block font-semibold text-[color:var(--color-text)]">
                       {area.title}
@@ -276,7 +318,11 @@ export default function Navbar({
             ) : null}
           </div>
 
-          <ContactDrawerButton className="w-full justify-center">
+          <ContactDrawerButton
+            className="w-full justify-center"
+            onOpen={handleMobileContactOpen}
+            source="navbar_mobile_drawer"
+          >
             Solicitar orientacion
           </ContactDrawerButton>
         </div>

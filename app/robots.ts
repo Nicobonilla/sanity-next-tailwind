@@ -1,11 +1,20 @@
-import { MetadataRoute } from 'next'
- 
-export default function robots(): MetadataRoute.Robots {
+import type { MetadataRoute } from 'next';
+
+import { getSiteUrl } from '@/lib/seo';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
+
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const settings = await getSettingsFetch();
+  const baseUrl = getSiteUrl(settings?.metaBaseWebsite);
+
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: 'https://www.abogadossanfelipe.cl/sitemap.xml',
-  }
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/studio', '/api/draft', '/api/disable', '/api/revalidate-path'],
+      },
+    ],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }

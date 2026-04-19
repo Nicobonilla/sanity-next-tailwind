@@ -1,71 +1,71 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { WebPage, WithContext } from 'schema-dts';
+
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
-import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+import { buildSeoMetadata } from '@/lib/seo';
+import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
-import type { Metadata } from 'next';
-import { Service, WithContext } from 'schema-dts';
+import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
+
+async function getData(slug: string) {
+  try {
+    const [page, settings]: [GetPageDetailQueryResult, SettingsQueryResult] =
+      await Promise.all([getPageBySlugFetch(slug), getSettingsFetch()]);
+
+    return { page, settings };
+  } catch (error) {
+    console.error('Error fetching page:', error);
+    return null;
+  }
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const currentPage = await getData(params.slug);
-  return {
-    title: currentPage?.page?.title,
-  };
-}
+  const data = await getData(params.slug);
 
-async function getData(slug: string) {
-  try {
-    const [page, settings]: [GetPageDetailQueryResult, SettingsQueryResult] =
-      await Promise.all([getPageBySlugFetch(slug), getSettingsFetch()]);
-    return { page, settings };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
+  if (!data?.page) {
+    return {
+      title: 'Pagina no encontrada',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
+
+  return buildSeoMetadata({
+    title: data.page.title,
+    description: data.page.resumen,
+    path: `/${params.slug}`,
+    seo: data.page.seo,
+    settings: data.settings,
+    fallbackImage: data.page.components?.[0]?.imageBackground,
+    type: 'website',
+  });
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getData(params?.slug);
-  if (!data) {
-    return <div>Página no encontrada.</div>;
+  const data = await getData(params.slug);
+
+  if (!data?.page) {
+    notFound();
   }
+
   const { page } = data;
 
-  const jsonLd: WithContext<Service> = {
+  const jsonLd: WithContext<WebPage> = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: page?.title || 'Abogados San Felipe',
-    description: 'Derecho Familiar e Inmobiliario',
-    serviceType: 'Asesoría Legal y Jurídica',
-    provider: {
-      '@type': 'Organization',
-      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'San Felipe',
-        addressRegion: 'Valparaíso',
-        postalCode: '2170000',
-        addressCountry: 'CL',
-      },
-      telephone: '+56 9 3359 6955',
-      email: 'contacto@abogadossanfelipe.cl',
-      url: 'https://www.abogadossanfelipe.cl',
-    },
-    areaServed: 'San Felipe, Chile',
-    offers: {
-      '@type': 'Offer',
-      price: 'Consultar',
-      priceCurrency: 'CLP',
-    },
+    '@type': 'WebPage',
+    name: page.title || siteConfig.firmName,
+    description: page.resumen || siteConfig.descriptor,
+    url: `https://www.abogadossanfelipe.cl/${params.slug}`,
   };
-
-  if (!page) {
-    return <div>Pagina no encontrado.</div>; // Manejo básico de errores
-  }
 
   return (
     <section>
@@ -73,10 +73,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {page?.components ? (
+      {page.components ? (
         <PageTemplate components={page.components as ComponentsProps} />
       ) : (
-        <div>No se encontraron componentes para esta página.</div>
+        <div>No se encontraron componentes para esta pagina.</div>
       )}
     </section>
   );

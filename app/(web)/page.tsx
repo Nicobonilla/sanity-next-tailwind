@@ -11,22 +11,33 @@ import LeadershipPreview from '@/components/legal-home/LeadershipPreview';
 import PracticeAreas from '@/components/legal-home/PracticeAreas';
 import ProcessSteps from '@/components/legal-home/ProcessSteps';
 import TrustStrip from '@/components/legal-home/TrustStrip';
+import { buildLegalHomeContent } from '@/lib/legal-home-content';
+import { buildSeoMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import {
-  GetPageDetailQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { urlForImage } from '@/sanity/lib/image-utils';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Estudio juridico en San Felipe | Asesoria legal y judicial',
+  const { home, settings } = await getData();
+
+  return buildSeoMetadata({
+    title:
+      home?.seo?.metaTitle ||
+      'Estudio juridico en San Felipe | Asesoria legal y judicial',
     description:
-      'Sitio corporativo del estudio juridico Sebastian Bonilla Marin. Asesoria legal clara, seria y responsable en San Felipe y la Region de Valparaiso.',
-  };
+      home?.seo?.metaDescription ||
+      home?.resumen ||
+      'Asesoria legal clara, seria y responsable en San Felipe y la Region de Valparaiso.',
+    path: '/',
+    seo: home?.seo,
+    settings,
+    fallbackImage: home?.components?.[0]?.imageBackground,
+    type: 'website',
+  });
 }
 
 async function getData() {
@@ -43,31 +54,14 @@ async function getData() {
   };
 }
 
-function resolveHeroImage(home: GetPageDetailQueryResult | null) {
-  const heroComponent = home?.components?.find((component) => {
-    const type = component.typeComponentValue?.toLowerCase();
-    return type === 'carousel' && component.variant === 'hero';
-  });
-
-  const heroImage =
-    heroComponent?.items?.find((item) => item?.image)?.image ||
-    heroComponent?.imageBackground;
-
-  return (
-    urlForImage(heroImage)?.width(960).height(1120).fit('crop').quality(72).url() ||
-    '/meeting.jpeg'
-  );
-}
-
-function resolveLeaderName(settingsTitle?: string | null) {
-  return settingsTitle || siteConfig.shortName;
-}
-
 export default async function Page() {
   const { settings, areas, home } = await getData();
-  const heroImageUrl = resolveHeroImage(home);
-  const leaderName = resolveLeaderName(settings?.title);
   const practiceAreas = (areas || []) as GetUnitBusinessListQueryResult;
+  const homeContent = buildLegalHomeContent({
+    areas: practiceAreas,
+    home,
+    settings,
+  });
 
   const jsonLd: WithContext<LegalService> = {
     '@context': 'https://schema.org',
@@ -95,17 +89,54 @@ export default async function Page() {
       />
 
       <HomeHero
-        areaCount={practiceAreas.length}
-        heroImageUrl={heroImageUrl}
-        leaderName={leaderName}
+        areaCount={homeContent.hero.areaCount}
+        description={homeContent.hero.description}
+        eyebrow={homeContent.hero.eyebrow}
+        heroImageUrl={homeContent.hero.heroImageUrl}
+        leaderName={homeContent.hero.leaderName}
+        panelTitle={homeContent.hero.panelTitle}
+        title={homeContent.hero.title}
       />
-      <TrustStrip />
-      <FirmIntro />
-      <PracticeAreas areas={practiceAreas} />
-      <LeadershipPreview leaderName={leaderName} />
-      <ProcessSteps />
-      <FAQSection />
-      <FinalCTA />
+      <TrustStrip items={homeContent.trustStrip.items} />
+      <FirmIntro
+        cards={homeContent.firmIntro.cards}
+        description={homeContent.firmIntro.description}
+        eyebrow={homeContent.firmIntro.eyebrow}
+        paragraphs={homeContent.firmIntro.paragraphs}
+        title={homeContent.firmIntro.title}
+      />
+      <PracticeAreas
+        areas={practiceAreas}
+        description={homeContent.practiceAreas.description}
+        eyebrow={homeContent.practiceAreas.eyebrow}
+        title={homeContent.practiceAreas.title}
+      />
+      <LeadershipPreview
+        bullets={homeContent.leadership.bullets}
+        description={homeContent.leadership.description}
+        eyebrow={homeContent.leadership.eyebrow}
+        leaderName={homeContent.leadership.leaderName}
+        title={homeContent.leadership.title}
+      />
+      <ProcessSteps
+        description={homeContent.processSteps.description}
+        eyebrow={homeContent.processSteps.eyebrow}
+        steps={homeContent.processSteps.steps}
+        title={homeContent.processSteps.title}
+      />
+      <FAQSection
+        description={homeContent.faq.description}
+        eyebrow={homeContent.faq.eyebrow}
+        items={homeContent.faq.items}
+        title={homeContent.faq.title}
+      />
+      <FinalCTA
+        description={homeContent.finalCta.description}
+        eyebrow={homeContent.finalCta.eyebrow}
+        primaryLabel={homeContent.finalCta.primaryLabel}
+        secondaryLabel={homeContent.finalCta.secondaryLabel}
+        title={homeContent.finalCta.title}
+      />
     </>
   );
 }

@@ -1,18 +1,18 @@
-import { defineType, defineField } from 'sanity';
-import {
-  isUniqueAcrossAllDocuments,
-  isUniqueTrueForField,
-} from '@/sanity/lib/utils';
 import { BinaryDocumentIcon } from '@sanity/icons';
 import {
   orderRankField,
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
-import PageBuilderInput from '@/sanity/PageBuilderInput';
+import { defineField, defineType } from 'sanity';
+
+import {
+  isUniqueAcrossAllDocuments,
+  isUniqueTrueForField,
+} from '@/sanity/lib/utils';
 
 const page = defineType({
   name: 'page',
-  title: 'Páginas Principales',
+  title: 'Paginas principales',
   type: 'document',
   orderings: [orderRankOrdering],
   icon: BinaryDocumentIcon,
@@ -20,7 +20,7 @@ const page = defineType({
     orderRankField({ type: 'page' }),
     defineField({
       name: 'name',
-      title: 'Título de cabecera de la pagina',
+      title: 'Titulo interno',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -42,19 +42,32 @@ const page = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'showInNavbar',
+      title: 'Mostrar en barra principal',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'showInFooter',
+      title: 'Mostrar en footer',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'title',
-      title: 'Nombre de la pagina para el menu de navegacion',
+      title: 'Nombre visible en navegacion',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'resumen',
-      title: 'Breve descripcion de  la pagina',
+      title: 'Resumen',
       type: 'string',
+      validation: (rule) => rule.max(180),
     }),
     defineField({
       name: 'isHome',
-      title: 'Página de inicio',
+      title: 'Pagina de inicio',
       type: 'boolean',
       initialValue: false,
       validation: (rule) =>
@@ -72,6 +85,11 @@ const page = defineType({
       type: 'array',
       of: [{ type: 'banner' }],
     }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    }),
   ],
   preview: {
     select: {
@@ -81,12 +99,13 @@ const page = defineType({
     },
     prepare({ title, isHome, isActive }) {
       const subtitle = [
-        isHome ? '🏠 Home' : '',
+        isHome ? 'Home' : '',
         isActive ? 'Activo' : 'Inactivo',
-      ];
+      ].filter(Boolean);
+
       return {
         title,
-        subtitle: subtitle.join(' '),
+        subtitle: subtitle.join(' | '),
       };
     },
   },

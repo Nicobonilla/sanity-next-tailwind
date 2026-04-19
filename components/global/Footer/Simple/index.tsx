@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 
 import Logo from '@/components/global/Logo';
+import { trackNavClick, trackPhoneClick } from '@/components/lib/GTMTrackers';
 import { siteConfig } from '@/lib/site-config';
 import { GetPagesNavQueryResult } from '@/sanity.types';
 
@@ -14,7 +17,11 @@ export default function Simple({
   pages: GetPagesNavQueryResult;
 }) {
   const footerPages = pages.filter(
-    (page) => page.slug !== 'services' && page.slug !== 'blog'
+    (page) =>
+      page.showInFooter !== false &&
+      !['services', 'blog', 'contacto', 'area-de-practica'].includes(
+        page.slug || ''
+      )
   );
 
   return (
@@ -40,6 +47,9 @@ export default function Simple({
                   <Link
                     className="text-base text-[color:var(--color-bg)] transition-colors duration-200 hover:text-[color:var(--color-surface-muted)]"
                     href={page.isHome ? '/' : `/${page.slug}`}
+                    onClick={() =>
+                      trackNavClick(page.title || '', page.isHome ? '/' : `/${page.slug}`)
+                    }
                   >
                     {page.title}
                   </Link>
@@ -49,6 +59,7 @@ export default function Simple({
                 <Link
                   className="text-base text-[color:var(--color-bg)] transition-colors duration-200 hover:text-[color:var(--color-surface-muted)]"
                   href="/blog"
+                  onClick={() => trackNavClick('Informate', '/blog')}
                 >
                   Informate
                 </Link>
@@ -64,6 +75,7 @@ export default function Simple({
               <a
                 className="block transition-colors duration-200 hover:text-[color:var(--color-bg)]"
                 href={siteConfig.phoneHref}
+                onClick={() => trackPhoneClick('footer_phone')}
               >
                 {siteConfig.phoneDisplay}
               </a>

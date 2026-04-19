@@ -1,5 +1,6 @@
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
+import { trackArticleClick } from '@/components/lib/GTMTrackers';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,7 +23,13 @@ export default function ItemPostList({
   const isPriority = index === 0 && path === '/blog';
 
   return (
-    <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
+    <Link
+      href={{ pathname: `/blog/${post.slug}` }}
+      className="group"
+      onClick={() =>
+        trackArticleClick(post.slug || '', 'post_list' + '-' + path)
+      }
+    >
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
         <div className="grid gap-4 md:grid-cols-[300px_1fr]">
           <div className="h-48 overflow-hidden md:h-full">

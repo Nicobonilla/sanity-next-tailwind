@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { FaWhatsapp } from 'react-icons/fa';
-import { trackButtonClick } from '../lib/GTMTrackers';
+import { trackWhatsappClick } from '../lib/GTMTrackers';
 
 export default function WhatsappSticky() {
   return (
@@ -10,7 +10,7 @@ export default function WhatsappSticky() {
       target="_blank"
       className="fixed bottom-5 right-5 z-50 flex size-14 items-center justify-center rounded-full bg-green-500 p-3 text-white shadow-lg transition-transform hover:scale-110"
       aria-label="Chat en WhatsApp"
-      onClick={() => trackButtonClick('whatsapp_sticky', 'WhatsappSticky')}
+      onClick={() => trackWhatsappClick('whatsapp_sticky')}
     >
       <FaWhatsapp size={32} />
     </Link>

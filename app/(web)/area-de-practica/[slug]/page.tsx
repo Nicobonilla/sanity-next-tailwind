@@ -1,18 +1,44 @@
 'use server';
+
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+import ContentContactCta from '@/components/content/ContentContactCta';
 import PageTemplate from '@/components/pages/PageTemplate';
 import {
-  ComponentsProps,
   ComponentWithBannerPosts,
   ComponentWithServices,
+  ComponentsProps,
 } from '@/components/types';
+import { portableTextToPlainText } from '@/lib/portable-text';
+import { buildSeoMetadata } from '@/lib/seo';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
+import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
+import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import {
   GetPostListByUnitBusinessQueryResult,
   GetUnitBusinessDetailQueryResult,
+  SettingsQueryResult,
 } from '@/sanity.types';
-import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
-import { Metadata } from 'next';
+
+async function getData(slug: string) {
+  try {
+    const [unitBusiness, posts, settings]: [
+      GetUnitBusinessDetailQueryResult,
+      GetPostListByUnitBusinessQueryResult | null,
+      SettingsQueryResult,
+    ] = await Promise.all([
+      getUnitBusinessBySlugFetch(slug),
+      getPostListByUnitBusinessFetch(slug),
+      getSettingsFetch(),
+    ]);
+
+    return { unitBusiness, posts, settings };
+  } catch (error) {
+    console.error('Error fetching practice area:', error);
+    return null;
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -20,68 +46,61 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const data = await getData(params.slug);
-  if (!data) return { title: 'Servicio no encontrado' };
-  const { unitBusiness } = data;
-  return {
-    title: unitBusiness?.title,
-    openGraph: {
-      title: unitBusiness?.title || '',
-      type: 'article',
-      images: resolveOpenGraphImage(
-        unitBusiness?.components?.[0]?.imageBackground
-      ),
-    },
-  };
-}
 
-async function getData(slug: string) {
-  try {
-    const [unitBusiness, posts]: [
-      GetUnitBusinessDetailQueryResult,
-      GetPostListByUnitBusinessQueryResult | null,
-    ] = await Promise.all([
-      getUnitBusinessBySlugFetch(slug),
-      getPostListByUnitBusinessFetch(slug),
-    ]);
-    //console.log('unitBusiness', unitBusiness);
-    //console.log('posts', posts);
-
-    return { unitBusiness, posts };
-  } catch (error) {
-    return null;
+  if (!data?.unitBusiness) {
+    return {
+      title: 'Area no encontrada',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
+
+  return buildSeoMetadata({
+    title: data.unitBusiness.title,
+    description: portableTextToPlainText(data.unitBusiness.description, 160),
+    path: `/area-de-practica/${params.slug}`,
+    seo: data.unitBusiness.seo,
+    settings: data.settings,
+    fallbackImage: data.unitBusiness.components?.[0]?.imageBackground,
+    type: 'website',
+  });
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const unitBusinessPage = await getData(params.slug);
-  // add posts brief to Banner Posts
-  unitBusinessPage?.unitBusiness?.components?.map((component) => {
+  const data = await getData(params.slug);
+
+  if (!data?.unitBusiness) {
+    notFound();
+  }
+
+  const { posts, settings, unitBusiness } = data;
+
+  unitBusiness.components?.forEach((component) => {
     if (
       component.typeComponentValue === 'Carousel' &&
-      component?.variant == 'post'
+      component.variant == 'post'
     ) {
-      (component as ComponentWithBannerPosts).bannerPostsItems =
-        unitBusinessPage?.posts;
+      (component as ComponentWithBannerPosts).bannerPostsItems = posts;
     } else if (component.typeComponentValue === 'BannerServices') {
-      (component as ComponentWithServices).services =
-        unitBusinessPage?.unitBusiness?.services;
+      (component as ComponentWithServices).services = unitBusiness.services;
     }
   });
 
-  if (!unitBusinessPage) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
+  if (!unitBusiness.components) {
+    notFound();
   }
+
   return (
     <section>
-      {unitBusinessPage?.unitBusiness?.components ? (
-        <PageTemplate
-          components={
-            unitBusinessPage.unitBusiness.components as ComponentsProps
-          }
+      <PageTemplate components={unitBusiness.components as ComponentsProps} />
+      <div className="site-container pb-16">
+        <ContentContactCta
+          cta={settings?.defaultContentCta}
+          source={`practice_area_${params.slug}`}
         />
-      ) : (
-        <div>Servicio no encontrado.</div>
-      )}
+      </div>
     </section>
   );
 }

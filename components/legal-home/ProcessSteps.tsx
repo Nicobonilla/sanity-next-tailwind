@@ -1,6 +1,12 @@
 import SectionHeading from './SectionHeading';
 
-const steps = [
+type ProcessStep = {
+  step: string;
+  title: string;
+  description: string;
+};
+
+const defaultSteps: ProcessStep[] = [
   {
     step: '01',
     title: 'Escuchamos y entendemos el caso',
@@ -9,27 +15,37 @@ const steps = [
   },
   {
     step: '02',
-    title: 'Evaluamos jurídicamente el escenario',
+    title: 'Evaluamos juridicamente el escenario',
     description:
       'Se revisan alternativas, riesgos y alcances para proponer un camino serio y bien fundamentado.',
   },
   {
     step: '03',
-    title: 'Acompañamos con claridad durante el proceso',
+    title: 'Acompanamos con claridad durante el proceso',
     description:
-      'La relación profesional se sostiene con seguimiento, orden y comunicación clara en cada etapa.',
+      'La relacion profesional se sostiene con seguimiento, orden y comunicacion clara en cada etapa.',
   },
 ];
 
-export default function ProcessSteps() {
+export default function ProcessSteps({
+  eyebrow = 'Metodologia',
+  title = 'Una forma de trabajo simple, ordenada y profesional.',
+  description = 'Desde la primera consulta, el objetivo es entender el caso, revisar alternativas y definir los pasos a seguir.',
+  steps = defaultSteps,
+}: {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  steps?: ProcessStep[];
+}) {
   return (
     <section className="section-shell">
       <div className="site-container">
         <SectionHeading
           align="center"
-          description="La confianza también depende de saber cómo trabaja el estudio. Un proceso claro reduce incertidumbre y transmite control profesional."
-          eyebrow="Metodología"
-          title="Una atención jurídica ordenada, comprensible y orientada a decisiones responsables."
+          description={description}
+          eyebrow={eyebrow}
+          title={title}
         />
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">

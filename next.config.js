@@ -1,5 +1,29 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/contact',
+        destination: '/#contacto',
+        permanent: true,
+      },
+      {
+        source: '/contact-us',
+        destination: '/#contacto',
+        permanent: true,
+      },
+      {
+        source: '/contacts',
+        destination: '/#contacto',
+        permanent: true,
+      },
+      {
+        source: '/contato',
+        destination: '/#contacto',
+        permanent: true,
+      },
+    ];
+  },
   reactStrictMode: true,
   experimental: {
     // Used to guard against accidentally leaking SANITY_API_READ_TOKEN to the browser

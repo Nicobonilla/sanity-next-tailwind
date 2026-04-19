@@ -1,10 +1,10 @@
-import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
-import { format, parseISO } from 'date-fns';
 import {
   orderRankField,
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
+import { format, parseISO } from 'date-fns';
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'post',
@@ -16,7 +16,7 @@ export default defineType({
     orderRankField({ type: 'post' }),
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Titulo',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -33,6 +33,7 @@ export default defineType({
     }),
     defineField({
       name: 'content',
+      title: 'Contenido',
       type: 'array',
       of: [
         {
@@ -72,28 +73,39 @@ export default defineType({
     }),
     defineField({
       name: 'unitBusiness',
-      title: 'Unidad de Negocio',
+      title: 'Unidad de negocio',
       type: 'reference',
       to: [{ type: 'unitBusiness' }],
     }),
     defineField({
       name: 'resumen',
       title: 'Resumen',
-      description:
-        'Texto para lista de Posts. (Si está vacio se mostrarán los 100 primeros caracteres del primer parrafo: estilo normal")',
       type: 'text',
+      description:
+        'Texto breve para tarjetas y listados. Si se deja vacio, el frontend usara el primer parrafo disponible.',
+      validation: (rule) => rule.max(220),
     }),
     defineField({
       name: 'components',
       title: 'Componentes',
       type: 'array',
-      of: [{ type: 'banner' }], // Para contenido enriquecido
+      of: [{ type: 'banner' }],
     }),
     defineField({
       name: 'date',
       title: 'Fecha',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+    }),
+    defineField({
+      name: 'contentCta',
+      title: 'CTA de contacto del articulo',
+      type: 'contactCta',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
     }),
   ],
   preview: {

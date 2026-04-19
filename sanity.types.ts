@@ -269,6 +269,8 @@ export type Service = {
     _type: 'banner';
     _key: string;
   }>;
+  contentCta?: ContactCta;
+  seo?: Seo;
 };
 
 export type Post = {
@@ -456,6 +458,8 @@ export type Post = {
     _key: string;
   }>;
   date?: string;
+  contentCta?: ContactCta;
+  seo?: Seo;
 };
 
 export type UnitBusiness = {
@@ -516,6 +520,7 @@ export type UnitBusiness = {
         _key: string;
       }
   >;
+  seo?: Seo;
   services?: Array<{
     _ref: string;
     _type: 'reference';
@@ -671,6 +676,8 @@ export type Page = {
   name?: string;
   slug?: Slug;
   isActive?: boolean;
+  showInNavbar?: boolean;
+  showInFooter?: boolean;
   title?: string;
   resumen?: string;
   isHome?: boolean;
@@ -850,6 +857,30 @@ export type Page = {
     _type: 'banner';
     _key: string;
   }>;
+  seo?: Seo;
+};
+
+export type Seo = {
+  _type: 'seo';
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: Array<string>;
+  canonicalUrl?: string;
+  noIndex?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: 'image';
+  };
 };
 
 export type Item = {
@@ -1181,6 +1212,7 @@ export type Settings = {
     _type: 'block';
     _key: string;
   }>;
+  defaultContentCta?: ContactCta;
   withDarkTheme?: boolean;
   metaBaseWebsite?: string;
   description?: string;
@@ -1276,6 +1308,16 @@ export type SanityImageMetadata = {
   blurHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
+};
+
+export type ContactCta = {
+  _type: 'contactCta';
+  isEnabled?: boolean;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
 };
 
 export type SanityAssistInstructionTask = {
@@ -1530,6 +1572,7 @@ export type AllSanitySchemaTypes =
   | Post
   | UnitBusiness
   | Page
+  | Seo
   | Item
   | IconsListItem
   | IconsList
@@ -1545,6 +1588,7 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | SanityAssetSourceData
   | SanityImageMetadata
+  | ContactCta
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations
@@ -1603,6 +1647,7 @@ export type SettingsQueryResult = {
     _type: 'block';
     _key: string;
   }>;
+  defaultContentCta?: ContactCta;
   withDarkTheme?: boolean;
   metaBaseWebsite?: string;
   description?: string;
@@ -1757,7 +1802,7 @@ export type GetReactIconListQueryResult = Array<never>;
 
 // Source: ./sanity/lib/queries/page.query.ts
 // Variable: getPagesNavQuery
-// Query: *[_type == 'page' && isActive] | order(orderRank asc) {      "id": coalesce(_id, ""),       "name": coalesce(name, title),      title,      "slug": select(        isHome == true => "",        slug.current      ),      isHome,      orderRank,      isActive    }
+// Query: *[_type == 'page' && isActive] | order(orderRank asc) {    "id": coalesce(_id, ''),    "name": coalesce(name, title),    title,    "slug": select(      isHome == true => '',      slug.current    ),    isHome,    orderRank,    isActive,    "showInNavbar": coalesce(showInNavbar, true),    "showInFooter": coalesce(showInFooter, true),    _updatedAt,    seo{      noIndex    }  }
 export type GetPagesNavQueryResult = Array<{
   id: string;
   name: string | null;
@@ -1766,15 +1811,44 @@ export type GetPagesNavQueryResult = Array<{
   isHome: boolean | null;
   orderRank: string | null;
   isActive: boolean | null;
+  showInNavbar: boolean | true;
+  showInFooter: boolean | true;
+  _updatedAt: string;
+  seo: {
+    noIndex: boolean | null;
+  } | null;
 }>;
 // Variable: getPageDetailQuery
-// Query: *[_type == 'page' && slug.current == $slug][0] {        "id": _id,    name,    "slug": slug.current,    isActive,    title,    content,    components[isActive]  {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }    }
+// Query: *[_type == 'page' && isActive && slug.current == $slug][0] {      "id": _id,  name,  "slug": slug.current,  isActive,  title,  resumen,  isHome,  "showInNavbar": coalesce(showInNavbar, true),  "showInFooter": coalesce(showInFooter, true),  _updatedAt,    seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  },  content,  components[isActive] {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }  }
 export type GetPageDetailQueryResult = {
   id: string;
   name: string | null;
   slug: string | null;
   isActive: boolean | null;
   title: string | null;
+  resumen: string | null;
+  isHome: boolean | null;
+  showInNavbar: boolean | true;
+  showInFooter: boolean | true;
+  _updatedAt: string;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
   content: Array<
     | {
         children?: Array<{
@@ -1982,12 +2056,12 @@ export type GetPageDetailQueryResult = {
 
 // Source: ./sanity/lib/queries/post.query.ts
 // Variable: getPostListQuery
-// Query: *[_type == 'post'] | order(orderRank desc) {        title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date        }
+// Query: *[_type == 'post'] | order(orderRank desc) {      title,  "slug": slug.current,    "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin titulo"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  _updatedAt,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date,    contentCta{    isEnabled,    eyebrow,    title,    description,    primaryLabel,    secondaryLabel  },    seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  }  }
 export type GetPostListQueryResult = Array<{
   title: string | null;
-  slug: Slug | null;
+  slug: string | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
+    title: string | 'Sin titulo';
     icon: '/default-icon.png' | 'menu' | 'user';
     slug: string | 'default-slug';
     color:
@@ -2001,6 +2075,7 @@ export type GetPostListQueryResult = Array<{
       | 'bg-yellow-100 text-yellow-800';
   };
   orderRank: string | null;
+  _updatedAt: string;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
@@ -2166,14 +2241,40 @@ export type GetPostListQueryResult = Array<{
   }> | null;
   resumen: string | null;
   date: string | null;
+  contentCta: {
+    isEnabled: boolean | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
 }>;
 // Variable: getPostListByUnitBusinessQuery
-// Query: *[_type == 'post' && unitBusiness->slug.current == $slug ] | order(orderRank desc){        title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date        }
+// Query: *[_type == 'post' && unitBusiness->slug.current == $slug] | order(orderRank desc) {      title,  "slug": slug.current,    "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin titulo"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  _updatedAt,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date,    contentCta{    isEnabled,    eyebrow,    title,    description,    primaryLabel,    secondaryLabel  },    seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  }  }
 export type GetPostListByUnitBusinessQueryResult = Array<{
   title: string | null;
-  slug: Slug | null;
+  slug: string | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
+    title: string | 'Sin titulo';
     icon: '/default-icon.png' | 'menu' | 'user';
     slug: string | 'default-slug';
     color:
@@ -2187,6 +2288,7 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
       | 'bg-yellow-100 text-yellow-800';
   };
   orderRank: string | null;
+  _updatedAt: string;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
@@ -2352,14 +2454,40 @@ export type GetPostListByUnitBusinessQueryResult = Array<{
   }> | null;
   resumen: string | null;
   date: string | null;
+  contentCta: {
+    isEnabled: boolean | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
 }>;
 // Variable: getPostDetailQuery
-// Query: *[_type == 'post' && slug.current == $slug][0] {      title,  slug,  "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date  ,    content,    "tableOfContents" : content[style in ['h2', 'h3']] {      _key,      style,      'text':children[0].text     }  }
+// Query: *[_type == 'post' && slug.current == $slug][0] {      title,  "slug": slug.current,    "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin titulo"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },  orderRank,  _updatedAt,  components[isActive] | order(orderRank asc) {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } },  "resumen": coalesce(    resumen,    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")  ),  date,    contentCta{    isEnabled,    eyebrow,    title,    description,    primaryLabel,    secondaryLabel  },    seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  },    content,    "tableOfContents": content[style in ['h2', 'h3']] {      _key,      style,      "text": children[0].text    }  }
 export type GetPostDetailQueryResult = {
   title: string | null;
-  slug: Slug | null;
+  slug: string | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
+    title: string | 'Sin titulo';
     icon: '/default-icon.png' | 'menu' | 'user';
     slug: string | 'default-slug';
     color:
@@ -2373,6 +2501,7 @@ export type GetPostDetailQueryResult = {
       | 'bg-yellow-100 text-yellow-800';
   };
   orderRank: string | null;
+  _updatedAt: string;
   components: Array<{
     isActive: boolean | null;
     typeComponent: {
@@ -2538,6 +2667,32 @@ export type GetPostDetailQueryResult = {
   }> | null;
   resumen: string | null;
   date: string | null;
+  contentCta: {
+    isEnabled: boolean | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
   content: Array<
     | {
         children?: Array<{
@@ -2579,13 +2734,14 @@ export type GetPostDetailQueryResult = {
 
 // Source: ./sanity/lib/queries/service.query.ts
 // Variable: getServicesNavQuery
-// Query: *[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {      "id": coalesce(slug.current, null),      "title": coalesce(title, null),      "slug": coalesce(slug.current, null),      "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  }    }
+// Query: *[_type == 'service' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {    "id": coalesce(slug.current, null),    "title": coalesce(title, null),    "slug": coalesce(slug.current, null),    _updatedAt,      "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin titulo"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },    seo{      noIndex    }  }
 export type GetServicesNavQueryResult = Array<{
   id: string | null;
   title: string | null;
   slug: string | null;
+  _updatedAt: string;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
+    title: string | 'Sin titulo';
     icon: '/default-icon.png' | 'menu' | 'user';
     slug: string | 'default-slug';
     color:
@@ -2598,13 +2754,43 @@ export type GetServicesNavQueryResult = Array<{
       | 'bg-red-100 text-red-800'
       | 'bg-yellow-100 text-yellow-800';
   };
+  seo: {
+    noIndex: boolean | null;
+  } | null;
 }>;
 // Variable: getServiceDetailQuery
-// Query: *[_type == 'service' && slug.current == $slug][0] {    title,  // Fetch the title of the service    iconfyIcon,    resumen,    content,  // Fetch the content of the service    "tableOfContents" : content[style in ['h2']] {      _key,      style,      'text':children[0].text     },    "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin título"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },    components[isActive] {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }  }
+// Query: *[_type == 'service' && isActive && slug.current == $slug][0] {    title,    iconfyIcon,    resumen,    _updatedAt,      contentCta{    isEnabled,    eyebrow,    title,    description,    primaryLabel,    secondaryLabel  },      seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  },    content,    "tableOfContents": content[style in ['h2']] {      _key,      style,      "text": children[0].text    },      "unitBusiness": {    "title": coalesce(unitBusiness->title, "Sin titulo"),    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),    "slug": coalesce(unitBusiness->slug.current, "default-slug"),    "color": coalesce(unitBusiness->color, "bg-gray-100")  },    components[isActive] {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }  }
 export type GetServiceDetailQueryResult = {
   title: string | null;
   iconfyIcon: IconManager | null;
   resumen: string | null;
+  _updatedAt: string;
+  contentCta: {
+    isEnabled: boolean | null;
+    eyebrow: string | null;
+    title: string | null;
+    description: string | null;
+    primaryLabel: string | null;
+    secondaryLabel: string | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
   content: Array<
     | {
         children?: Array<{
@@ -2660,7 +2846,7 @@ export type GetServiceDetailQueryResult = {
     text: string | null;
   }> | null;
   unitBusiness: {
-    title: string | 'Sin t\xEDtulo';
+    title: string | 'Sin titulo';
     icon: '/default-icon.png' | 'menu' | 'user';
     slug: string | 'default-slug';
     color:
@@ -2840,7 +3026,7 @@ export type GetServiceDetailQueryResult = {
 
 // Source: ./sanity/lib/queries/unitBusiness.query.ts
 // Variable: getUnitBusinessListQuery
-// Query: *[_type == 'unitBusiness'] |  order(orderRank asc) {      title,      "slug": slug.current,      color,      "services" : services[] -> {        title,        "slug": slug.current,      },        orderRank,  }
+// Query: *[_type == 'unitBusiness'] | order(orderRank asc) {    title,    "slug": slug.current,    color,    _updatedAt,    seo{      noIndex    },    "services": services[]->{      title,      "slug": slug.current    },    orderRank  }
 export type GetUnitBusinessListQueryResult = Array<{
   title: string | null;
   slug: string | null;
@@ -2853,6 +3039,10 @@ export type GetUnitBusinessListQueryResult = Array<{
     | 'bg-red-100 text-red-800'
     | 'bg-yellow-100 text-yellow-800'
     | null;
+  _updatedAt: string;
+  seo: {
+    noIndex: boolean | null;
+  } | null;
   services: Array<{
     title: string | null;
     slug: string | null;
@@ -2860,7 +3050,7 @@ export type GetUnitBusinessListQueryResult = Array<{
   orderRank: string | null;
 }>;
 // Variable: getUnitBusinessDetailQuery
-// Query: *[_type == 'unitBusiness' && slug.current == $slug][0] {        "id": _id,  title,  "slug": slug.current,  icon,  color,  description,  "services" : services[] -> {    title,    "slug": slug.current,    iconfyIcon,    resumen,    },  components[isActive] {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }    }
+// Query: *[_type == 'unitBusiness' && slug.current == $slug][0] {      "id": _id,  title,  "slug": slug.current,  icon,  color,  _updatedAt,    seo{    metaTitle,    metaDescription,    ogTitle,    ogDescription,    canonicalUrl,    noIndex,    "keywords": keywords[],    ogImage{      alt,      asset    }  },  description,  "services": services[]->{    title,    "slug": slug.current,    iconfyIcon,    resumen  },  components[isActive] {  // used as template for component in sanity  isActive,  typeComponent,  "typeComponentValue": typeComponent->value,  variant,  imageBackground,  'backgroundValue': background-> {  // used as template for background component in sanity  name,  backgroundMode,  imageBackgroundType,  colorWithDarkMode,  colorList,  "colors": colorList[]-> {    "lightColor": lightColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    "darkColor": darkColor{      "rgb": rgb,      "alpha": alpha,      "hex": hex    },    colorBackground1Position  },  directionDeg,  "layer" : backgroundLayer -> value,  responsiveHeight,  invertLayoutMobile,  invertLayoutDesk},  content,  ctaLinkBanner,  PTextBanner,  imageContent,  imagePosition,  videoUrl,  videoType,  layoutItems,  PTextItem,  resources,  items[isActive == true]  | order(orderRank asc) {    isActive,    image,    icon,    svgIcon,    svgIconList,    alt,    content,    ctaLinkItem,  } }  }
 export type GetUnitBusinessDetailQueryResult = {
   id: string;
   title: string | null;
@@ -2875,6 +3065,25 @@ export type GetUnitBusinessDetailQueryResult = {
     | 'bg-red-100 text-red-800'
     | 'bg-yellow-100 text-yellow-800'
     | null;
+  _updatedAt: string;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    ogTitle: string | null;
+    ogDescription: string | null;
+    canonicalUrl: string | null;
+    noIndex: boolean | null;
+    keywords: Array<string> | null;
+    ogImage: {
+      alt: string | null;
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      } | null;
+    } | null;
+  } | null;
   description: Array<
     | {
         children?: Array<{
@@ -3097,14 +3306,14 @@ declare module '@sanity/client' {
     "*[_type == 'component']{\n  value, name\n}": GetComponentListQueryResult;
     "*[_type == 'icon']{\n  value, name\n}": GetIconListQueryResult;
     "*[_type == 'reactIcon']{\n  iconGroup, iconName\n}": GetReactIconListQueryResult;
-    '\n    *[_type == \'page\' && isActive] | order(orderRank asc) {\n      "id": coalesce(_id, ""), \n      "name": coalesce(name, title),\n      title,\n      "slug": select(\n        isHome == true => "",\n        slug.current\n      ),\n      isHome,\n      orderRank,\n      isActive\n    }\n  ': GetPagesNavQueryResult;
-    '\n    *[_type == \'page\' && slug.current == $slug][0] {\n    \n    "id": _id,\n    name,\n    "slug": slug.current,\n    isActive,\n    title,\n    content,\n    components[isActive]  {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }': GetPageDetailQueryResult;
-    '\n    *[_type == \'post\'] | order(orderRank desc) {\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListQueryResult;
-    '\n    *[_type == \'post\' && unitBusiness->slug.current == $slug ] | order(orderRank desc){\n      \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  \n      }': GetPostListByUnitBusinessQueryResult;
-    '\n  *[_type == \'post\' && slug.current == $slug][0] {\n    \n  title,\n  slug,\n  \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date\n  ,\n    content,\n    "tableOfContents" : content[style in [\'h2\', \'h3\']] {\n      _key,\n      style,\n      \'text\':children[0].text \n    }\n  }\n': GetPostDetailQueryResult;
-    '*[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n      "id": coalesce(slug.current, null),\n      "title": coalesce(title, null),\n      "slug": coalesce(slug.current, null),\n      \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n\n    }': GetServicesNavQueryResult;
-    '*[_type == \'service\' && slug.current == $slug][0] {\n    title,  // Fetch the title of the service\n    iconfyIcon,\n    resumen,\n    content,  // Fetch the content of the service\n    "tableOfContents" : content[style in [\'h2\']] {\n      _key,\n      style,\n      \'text\':children[0].text \n    },\n    \n"unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin t\xEDtulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n  }': GetServiceDetailQueryResult;
-    '\n    *[_type == \'unitBusiness\'] |  order(orderRank asc) {\n      title,\n      "slug": slug.current,\n      color,\n      "services" : services[] -> {\n        title,\n        "slug": slug.current,\n      },  \n      orderRank,\n  }': GetUnitBusinessListQueryResult;
-    '\n    *[_type == \'unitBusiness\' && slug.current == $slug][0] {\n      \n  "id": _id,\n  title,\n  "slug": slug.current,\n  icon,\n  color,\n  description,\n  "services" : services[] -> {\n    title,\n    "slug": slug.current,\n    iconfyIcon,\n    resumen,\n    },\n  components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n    }': GetUnitBusinessDetailQueryResult;
+    '\n  *[_type == \'page\' && isActive] | order(orderRank asc) {\n    "id": coalesce(_id, \'\'),\n    "name": coalesce(name, title),\n    title,\n    "slug": select(\n      isHome == true => \'\',\n      slug.current\n    ),\n    isHome,\n    orderRank,\n    isActive,\n    "showInNavbar": coalesce(showInNavbar, true),\n    "showInFooter": coalesce(showInFooter, true),\n    _updatedAt,\n    seo{\n      noIndex\n    }\n  }\n': GetPagesNavQueryResult;
+    '\n  *[_type == \'page\' && isActive && slug.current == $slug][0] {\n    \n  "id": _id,\n  name,\n  "slug": slug.current,\n  isActive,\n  title,\n  resumen,\n  isHome,\n  "showInNavbar": coalesce(showInNavbar, true),\n  "showInFooter": coalesce(showInFooter, true),\n  _updatedAt,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n,\n  content,\n  components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n  }\n': GetPageDetailQueryResult;
+    '\n  *[_type == \'post\'] | order(orderRank desc) {\n    \n  title,\n  "slug": slug.current,\n  \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  _updatedAt,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date,\n  \n  contentCta{\n    isEnabled,\n    eyebrow,\n    title,\n    description,\n    primaryLabel,\n    secondaryLabel\n  }\n,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n\n\n  }\n': GetPostListQueryResult;
+    '\n  *[_type == \'post\' && unitBusiness->slug.current == $slug] | order(orderRank desc) {\n    \n  title,\n  "slug": slug.current,\n  \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  _updatedAt,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date,\n  \n  contentCta{\n    isEnabled,\n    eyebrow,\n    title,\n    description,\n    primaryLabel,\n    secondaryLabel\n  }\n,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n\n\n  }\n': GetPostListByUnitBusinessQueryResult;
+    '\n  *[_type == \'post\' && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n  orderRank,\n  _updatedAt,\n  components[isActive] | order(orderRank asc) {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n },\n  "resumen": coalesce(\n    resumen,\n    array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")\n  ),\n  date,\n  \n  contentCta{\n    isEnabled,\n    eyebrow,\n    title,\n    description,\n    primaryLabel,\n    secondaryLabel\n  }\n,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n\n,\n    content,\n    "tableOfContents": content[style in [\'h2\', \'h3\']] {\n      _key,\n      style,\n      "text": children[0].text\n    }\n  }\n': GetPostDetailQueryResult;
+    '\n  *[_type == \'service\' && isActive] | order(unitBusiness->orderRank asc, orderRank asc) {\n    "id": coalesce(slug.current, null),\n    "title": coalesce(title, null),\n    "slug": coalesce(slug.current, null),\n    _updatedAt,\n    \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    seo{\n      noIndex\n    }\n  }\n': GetServicesNavQueryResult;
+    '\n  *[_type == \'service\' && isActive && slug.current == $slug][0] {\n    title,\n    iconfyIcon,\n    resumen,\n    _updatedAt,\n    \n  contentCta{\n    isEnabled,\n    eyebrow,\n    title,\n    description,\n    primaryLabel,\n    secondaryLabel\n  }\n,\n    \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n,\n    content,\n    "tableOfContents": content[style in [\'h2\']] {\n      _key,\n      style,\n      "text": children[0].text\n    },\n    \n  "unitBusiness": {\n    "title": coalesce(unitBusiness->title, "Sin titulo"),\n    "icon": coalesce(unitBusiness->icon, "/default-icon.png"),\n    "slug": coalesce(unitBusiness->slug.current, "default-slug"),\n    "color": coalesce(unitBusiness->color, "bg-gray-100")\n  }\n,\n    components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n  }\n': GetServiceDetailQueryResult;
+    '\n  *[_type == \'unitBusiness\'] | order(orderRank asc) {\n    title,\n    "slug": slug.current,\n    color,\n    _updatedAt,\n    seo{\n      noIndex\n    },\n    "services": services[]->{\n      title,\n      "slug": slug.current\n    },\n    orderRank\n  }\n': GetUnitBusinessListQueryResult;
+    '\n  *[_type == \'unitBusiness\' && slug.current == $slug][0] {\n    \n  "id": _id,\n  title,\n  "slug": slug.current,\n  icon,\n  color,\n  _updatedAt,\n  \n  seo{\n    metaTitle,\n    metaDescription,\n    ogTitle,\n    ogDescription,\n    canonicalUrl,\n    noIndex,\n    "keywords": keywords[],\n    ogImage{\n      alt,\n      asset\n    }\n  }\n,\n  description,\n  "services": services[]->{\n    title,\n    "slug": slug.current,\n    iconfyIcon,\n    resumen\n  },\n  components[isActive] {  // used as template for component in sanity\n  isActive,\n  typeComponent,\n  "typeComponentValue": typeComponent->value,\n  variant,\n  imageBackground,\n  \'backgroundValue\': background-> {  // used as template for background component in sanity\n  name,\n  backgroundMode,\n  imageBackgroundType,\n  colorWithDarkMode,\n  colorList,\n  "colors": colorList[]-> {\n    "lightColor": lightColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    "darkColor": darkColor{\n      "rgb": rgb,\n      "alpha": alpha,\n      "hex": hex\n    },\n    colorBackground1Position\n  },\n  directionDeg,\n  "layer" : backgroundLayer -> value,\n  responsiveHeight,\n  invertLayoutMobile,\n  invertLayoutDesk\n},\n  content,\n  ctaLinkBanner,\n  PTextBanner,\n  imageContent,\n  imagePosition,\n  videoUrl,\n  videoType,\n  layoutItems,\n  PTextItem,\n  resources,\n  items[isActive == true]  | order(orderRank asc) {\n    isActive,\n    image,\n    icon,\n    svgIcon,\n    svgIconList,\n    alt,\n    content,\n    ctaLinkItem,\n  }\n }\n\n  }\n': GetUnitBusinessDetailQueryResult;
   }
 }

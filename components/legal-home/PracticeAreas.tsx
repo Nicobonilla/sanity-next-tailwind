@@ -1,34 +1,37 @@
+'use client';
+
 import Link from 'next/link';
 
+import { trackPracticeAreaClick } from '@/components/lib/GTMTrackers';
 import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
 import SectionHeading from './SectionHeading';
 
 const summaryByKeyword = [
   {
     match: 'famil',
-    text: 'Orientación y representación en materias familiares, patrimoniales y relaciones personales de alta sensibilidad.',
+    text: 'Orientacion y representacion en materias familiares, patrimoniales y relaciones personales de alta sensibilidad.',
   },
   {
     match: 'inmob',
-    text: 'Asesoría para compraventas, contratos, regularización y decisiones vinculadas a bienes raíces.',
+    text: 'Asesoria para compraventas, contratos, regularizacion y decisiones vinculadas a bienes raices.',
   },
   {
     match: 'civil',
-    text: 'Patrocinio en asuntos civiles, obligaciones, contratos y conflictos que requieren respaldo técnico riguroso.',
+    text: 'Patrocinio en asuntos civiles, obligaciones, contratos y conflictos que requieren respaldo tecnico riguroso.',
   },
   {
     match: 'labor',
-    text: 'Acompañamiento en conflictos laborales y revisión jurídica de relaciones de trabajo.',
+    text: 'Acompanamiento en conflictos laborales y revision juridica de relaciones de trabajo.',
   },
   {
     match: 'suces',
-    text: 'Apoyo jurídico en herencias, posesiones efectivas y resguardo patrimonial familiar.',
+    text: 'Apoyo juridico en herencias, posesiones efectivas y resguardo patrimonial familiar.',
   },
 ];
 
 function getAreaSummary(title: string | null) {
   if (!title) {
-    return 'Asesoría jurídica especializada, ordenada y enfocada en resolver asuntos concretos con respaldo profesional.';
+    return 'Asesoria juridica especializada, ordenada y enfocada en resolver asuntos concretos con respaldo profesional.';
   }
 
   const normalized = title.toLowerCase();
@@ -36,14 +39,20 @@ function getAreaSummary(title: string | null) {
 
   return (
     matched?.text ||
-    `Acompañamiento profesional en ${title.toLowerCase()}, con análisis técnico, comunicación clara y atención responsable.`
+    `Acompanamiento profesional en ${title.toLowerCase()}, con analisis tecnico, comunicacion clara y atencion responsable.`
   );
 }
 
 export default function PracticeAreas({
   areas,
+  eyebrow = 'Areas de practica',
+  title = 'Servicios juridicos enfocados en problemas concretos.',
+  description = 'Materias frecuentes para personas, familias y propietarios que necesitan orientacion juridica clara.',
 }: {
   areas: GetUnitBusinessListQueryResult;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 }) {
   const featuredAreas = areas.slice(0, 6);
 
@@ -51,21 +60,15 @@ export default function PracticeAreas({
     <section className="section-shell" id="areas">
       <div className="site-container">
         <SectionHeading
-          description={
-            <>
-              La especialización debe ayudar a entender rápidamente si el
-              estudio puede acompañar un asunto concreto. Por eso las áreas se
-              presentan de forma clara, ordenada y útil para el usuario.
-            </>
-          }
-          eyebrow="Áreas de práctica"
-          title="Especialidades presentadas con claridad para facilitar la toma de contacto."
+          description={description}
+          eyebrow={eyebrow}
+          title={title}
         />
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {featuredAreas.map((area) => (
             <article className="surface-card flex h-full flex-col p-7" key={area.slug}>
-              <p className="legal-kicker">Área de práctica</p>
+              <p className="legal-kicker">Area de practica</p>
               <h3 className="mt-3 text-3xl font-semibold text-[color:var(--color-primary)]">
                 {area.title}
               </h3>
@@ -94,9 +97,16 @@ export default function PracticeAreas({
               <Link
                 className="mt-8 inline-flex items-center gap-2 text-base font-semibold text-[color:var(--color-primary)] hover:text-[color:var(--color-accent)]"
                 href={area.slug ? `/area-de-practica/${area.slug}` : '#contacto'}
+                onClick={() =>
+                  trackPracticeAreaClick(
+                    area.slug || '',
+                    area.title || '',
+                    'home_practice_areas'
+                  )
+                }
               >
                 Ver detalle
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true">-&gt;</span>
               </Link>
             </article>
           ))}

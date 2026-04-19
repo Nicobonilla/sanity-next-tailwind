@@ -1,10 +1,11 @@
-import { defineField, defineType } from 'sanity';
 import { DocumentsIcon } from '@sanity/icons';
-import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
 import {
   orderRankField,
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
+import { defineField, defineType } from 'sanity';
+
+import { isUniqueAcrossAllDocuments } from '@/sanity/lib/utils';
 
 export default defineType({
   name: 'service',
@@ -16,7 +17,7 @@ export default defineType({
     orderRankField({ type: 'service' }),
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Titulo',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -46,30 +47,36 @@ export default defineType({
       name: 'resumen',
       title: 'Resumen',
       type: 'text',
+      validation: (rule) => rule.max(220),
     }),
     defineField({
       name: 'content',
       title: 'Detalles del servicio',
       type: 'array',
-      of: [
-        { type: 'block' },
-        {
-          type: 'image',
-        },
-      ], // Para contenido enriquecido
+      of: [{ type: 'block' }, { type: 'image' }],
     }),
     defineField({
       name: 'unitBusiness',
-      title: 'Unidad de Negocio',
+      title: 'Area de practica',
       type: 'reference',
       to: [{ type: 'unitBusiness' }],
-      description: 'Select the unit business this service belongs to',
+      description: 'Selecciona el area a la que pertenece este servicio.',
     }),
     defineField({
       name: 'components',
       title: 'Componentes',
       type: 'array',
       of: [{ type: 'banner' }],
+    }),
+    defineField({
+      name: 'contentCta',
+      title: 'CTA de contacto del servicio',
+      type: 'contactCta',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
     }),
   ],
   preview: {

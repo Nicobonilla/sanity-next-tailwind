@@ -15,10 +15,13 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
       <ul className="flex items-center">
         {items.map((item, index) => (
           <li key={index} className="flex items-center">
-            <Link href={`/${item.slug}`} className="hover:underline">
+            <Link
+              href={item.slug === 'home' ? '/' : `/${item.slug}`}
+              className="hover:underline"
+            >
               {item.label}
             </Link>
-            {index < items.length && <span className="mx-2">/</span>}
+            {index < items.length - 1 && <span className="mx-2">/</span>}
           </li>
         ))}
       </ul>

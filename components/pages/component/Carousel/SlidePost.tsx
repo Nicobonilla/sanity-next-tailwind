@@ -1,4 +1,4 @@
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
+import { trackArticleClick } from '@/components/lib/GTMTrackers';
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import clsx from 'clsx';
@@ -25,13 +25,10 @@ export default function SlidePost({
   return (
     <div className="group relative h-fit w-full items-center overflow-hidden px-1">
       <Link
-        href={{ pathname: `/blog/${post.slug?.current}` }}
+        href={{ pathname: `/blog/${post.slug}` }}
         className="group"
         onClick={() =>
-          trackButtonClick(
-            post.slug?.current || '',
-            'CarouselPost' + '-' + path
-          )
+          trackArticleClick(post.slug || '', 'carousel_post' + '-' + path)
         }
       >
         <article className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">

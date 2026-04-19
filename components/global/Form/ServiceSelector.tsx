@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
-import { trackFormSubmit } from '@/components/lib/GTMTrackers';
+import { trackLeadFormServiceSelect } from '@/components/lib/GTMTrackers';
 import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
 interface ServiceSelectorProps {
@@ -118,7 +118,11 @@ export default function ServiceSelector({
                           service?.title || '',
                           unitBusiness?.title || ''
                         );
-                        trackFormSubmit('serv_' + (service?.slug || ''));
+                        trackLeadFormServiceSelect({
+                          areaTitle: unitBusiness?.title || '',
+                          serviceSlug: service?.slug || '',
+                          serviceTitle: service?.title || '',
+                        });
                       }}
                       type="button"
                     >

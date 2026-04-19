@@ -1,65 +1,90 @@
-'use server';
-import PageTemplate from '@/components/pages/PageTemplate';
-import { GetServiceDetailQueryResult } from '@/sanity.types';
-import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
-import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
-import { Metadata } from 'next';
-import { ComponentProps } from '@/components/types';
-import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Service, WithContext } from 'schema-dts';
+
+import PageTemplate from '@/components/pages/PageTemplate';
+import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
+import { ComponentsProps } from '@/components/types';
+import { buildSeoMetadata } from '@/lib/seo';
+import { siteConfig } from '@/lib/site-config';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
+import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
+import {
+  GetServiceDetailQueryResult,
+  SettingsQueryResult,
+} from '@/sanity.types';
+
+async function getData(slug: string) {
+  try {
+    const [service, settings]: [
+      GetServiceDetailQueryResult,
+      SettingsQueryResult,
+    ] = await Promise.all([getServiceBySlugFetch(slug), getSettingsFetch()]);
+
+    return { service, settings };
+  } catch (error) {
+    console.error('Error fetching service detail:', error);
+    return null;
+  }
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const service: GetServiceDetailQueryResult = await getData(params.slug);
-  return {
-    title: service?.title,
-    description: service?.resumen,
-    openGraph: {
-      images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground),
-    },
-  };
-}
+  const data = await getData(params.slug);
 
-async function getData(slug: string): Promise<GetServiceDetailQueryResult> {
-  try {
-    const service = await getServiceBySlugFetch(slug);
-    return service;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
+  if (!data?.service) {
+    return {
+      title: 'Servicio no encontrado',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
+
+  return buildSeoMetadata({
+    title: data.service.title,
+    description: data.service.resumen,
+    path: `/services/${params.slug}`,
+    seo: data.service.seo,
+    settings: data.settings,
+    fallbackImage: data.service.components?.[0]?.imageBackground,
+    type: 'website',
+  });
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const service = await getData(params?.slug);
-  if (!service) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
+  const data = await getData(params.slug);
+
+  if (!data?.service) {
+    notFound();
   }
+
+  const { service, settings } = data;
 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: service?.title || 'Abogados San Felipe',
-    description: service.resumen || 'Derecho Familiar e Inmobiliario',
-    serviceType: 'Asesoría Legal y Jurídica',
+    name: service.title || 'Abogados San Felipe',
+    description: service.resumen || siteConfig.descriptor,
+    serviceType: 'Asesoria legal y juridica',
     provider: {
       '@type': 'Organization',
-      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
+      name: siteConfig.firmName,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'San Felipe',
-        addressRegion: 'Valparaíso',
-        postalCode: '2170000',
+        addressLocality: siteConfig.city,
+        addressRegion: siteConfig.region,
         addressCountry: 'CL',
       },
-      telephone: '+56 9 3359 6955',
-      email: 'contacto@abogadossanfelipe.cl',
+      telephone: siteConfig.phoneDisplay,
+      email: siteConfig.email,
       url: 'https://www.abogadossanfelipe.cl',
     },
-    areaServed: 'San Felipe, Chile',
+    areaServed: `${siteConfig.city}, Chile`,
     offers: {
       '@type': 'Offer',
       price: 'Consultar',
@@ -68,25 +93,28 @@ export default async function Page({ params }: { params: { slug: string } }) {
   };
 
   const breadcrumbsItems = [
-    { label: 'Inicio', href: '/', slug: 'home' }, // Level 1: Root
+    { label: 'Inicio', slug: 'home' },
     {
       label: service.unitBusiness.title,
       slug: `area-de-practica/${service.unitBusiness.slug}`,
     },
   ];
+
   return (
     <section>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className={'mx-auto'}>
-        {service?.components && (
-          <PageTemplate components={service.components as ComponentProps} />
+      <div className="mx-auto">
+        {service.components && (
+          <PageTemplate components={service.components as ComponentsProps} />
         )}
         <PortableTextAndToc
           article={service}
           breadcrumbsItems={breadcrumbsItems}
+          cta={service.contentCta || settings?.defaultContentCta}
+          ctaSource={`service_${params.slug}`}
         />
       </div>
     </section>
