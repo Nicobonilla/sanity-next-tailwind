@@ -1,6 +1,9 @@
 import Image from 'next/image';
-import { PortableText, PortableTextComponents } from 'next-sanity';
-import { urlForImage } from '@/sanity/lib/utils';
+import {
+  PortableText,
+  type PortableTextComponents,
+} from '@portabletext/react';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import clsx from 'clsx';
 
 export const PText: PortableTextComponents = {
@@ -33,6 +36,8 @@ const Slide = ({ slide, isActive, onMouseEnter, onMouseLeave }: SlideProps) => {
           src={urlForImage(slide?.image)?.url() || '/meeting.jpeg'}
           alt={'alt'}
           fill
+          sizes="(max-width: 768px) 76vw, (max-width: 1280px) 36vw, 22vw"
+          quality={30}
           className="object-cover transition duration-300 group-hover:scale-110"
         />
         {/* Hover overlay */}

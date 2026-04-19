@@ -1,11 +1,12 @@
 import React from 'react';
-import { PortableText } from 'next-sanity';
-import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
+import { PortableText } from '@portabletext/react';
 import { ItemProps } from '@/components/types';
+import Image from 'next/image';
 import PTItemBanner, {
   type PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 import { IconsList } from '@/sanity.types';
+import PublicInlineSvg from '@/components/global/PublicInlineSvg';
 
 export default function ItemBanner1({
   item,
@@ -31,7 +32,7 @@ export default function ItemBanner1({
       <div className="relative z-0 mx-auto mb-1 mt-10 size-12 rounded-lg shadow-md drop-shadow-md">
         {/* Mostrar el ícono SVG si está disponible y no hay otros elementos */}
         {hasSvgIcon && !hasSvgIconList && (
-          <InlineSvgPreviewComponent value={item.svgIcon || ''} />
+          <PublicInlineSvg value={item.svgIcon || ''} />
         )}
 
         {/* Mostrar la lista de SVGs, dependiendo de su longitud */}
@@ -41,7 +42,7 @@ export default function ItemBanner1({
               <div key={index}>
                 {index === 0 && (
                   <div className="block text-black dark:hidden">
-                    <InlineSvgPreviewComponent
+                    <PublicInlineSvg
                       value={svgItem.icon}
                       style={{ color: 'currentColor' }}
                     />
@@ -49,7 +50,7 @@ export default function ItemBanner1({
                 )}
                 {index === 1 && (
                   <div className="hidden text-white dark:block">
-                    <InlineSvgPreviewComponent
+                    <PublicInlineSvg
                       value={svgItem.icon}
                       style={{ color: 'currentColor' }}
                     />
@@ -62,9 +63,11 @@ export default function ItemBanner1({
 
         {/* Si no hay SVGs ni lista, mostramos una imagen por defecto */}
         {!hasSvgIcon && !hasSvgIconList && (
-          <img
+          <Image
             src="/intranet.svg"
             alt="Imagen de ejemplo"
+            width={100}
+            height={100}
             className="h-auto w-full"
           />
         )}
@@ -72,10 +75,12 @@ export default function ItemBanner1({
         {/* Mostrar la imagen si está disponible */}
         {hasImage && !hasSvgIconList && !hasSvgIcon && (
           <div className="relative flex h-[100px] w-full max-w-[100px] justify-center text-white">
-            <img
-              src={'/intranet.svg'}
+            <Image
+              src="/intranet.svg"
               alt="Imagen del ítem"
-              className="h-full w-full rounded-lg object-cover"
+              fill
+              sizes="100px"
+              className="rounded-lg object-cover"
             />
           </div>
         )}

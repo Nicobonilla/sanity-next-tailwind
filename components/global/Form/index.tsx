@@ -5,12 +5,14 @@ import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import Logo from '@/components/global/Logo';
 import Icon, { IconProps } from '@/components/global/Icons/LucideIcon';
-import { useSanityContext } from '@/context/SanityContext';
+import { SanityContext } from '@/context/SanityContext';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { useRouter } from 'next/navigation';
 import ServiceSelector from './ServiceSelector';
 import { trackFormSubmit } from '@/components/lib/GTMTrackers';
 import { z } from 'zod';
+import { useContext } from 'react';
+import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -93,9 +95,21 @@ async function sendEmail(formData: TForm) {
   }
 }
 
-export default function Form() {
+export default function Form({
+  unitBusinessList,
+  logo,
+  slogan,
+}: {
+  unitBusinessList?: GetUnitBusinessListQueryResult;
+  logo?: string | null;
+  slogan?: string | null;
+}) {
   const { isOpen, closeDrawer } = useContactDrawerContext();
-  const { unitBusinessList } = useSanityContext();
+  const sanityContext = useContext(SanityContext);
+  const resolvedUnitBusinessList =
+    unitBusinessList || sanityContext?.unitBusinessList;
+  const resolvedLogo = logo || sanityContext?.settings?.logo;
+  const resolvedSlogan = slogan || sanityContext?.settings?.slogan;
   const [formData, setFormData] = useState<TForm>(initialForm);
   const [errors, setErrors] = useState<TFormErrors>(initialErrors);
   const [touched, setTouched] = useState<Record<keyof TForm, boolean>>({
@@ -307,7 +321,7 @@ export default function Form() {
 
           {/* Logo */}
           <div className="mb-8 flex justify-center text-white">
-            <Logo />
+            <Logo logo={resolvedLogo} slogan={resolvedSlogan} />
           </div>
 
           {/* Form content */}
@@ -399,7 +413,7 @@ export default function Form() {
               {/* Service selector */}
               <div className="space-y-1">
                 <ServiceSelector
-                  unitBusinessList={unitBusinessList}
+                  unitBusinessList={resolvedUnitBusinessList || []}
                   selectedService={selectedServiceDisplay}
                   handleFormChange={handleFormChange}
                 />
@@ -476,7 +490,7 @@ function InputField({
           onBlur={onBlur}
           required={required}
           onClick={() => trackFormSubmit(name)}
-          className={`w-full rounded bg-[#1a201f] py-2 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 ${
+          className={`w-full rounded bg-[#1a201f] py-2 pl-10 pr-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 ${
             error
               ? 'border border-red-500 focus:ring-red-500'
               : 'focus:ring-menuColor2'
@@ -525,7 +539,7 @@ function TextAreaField({
         name={name}
         rows={4}
         value={value}
-        className={`w-full rounded bg-[#1a201f] px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 ${
+        className={`w-full rounded bg-[#1a201f] px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 ${
           error
             ? 'border border-red-500 focus:ring-red-500'
             : 'focus:ring-menuColor2'
@@ -558,7 +572,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
       >
         {isLoading ? (
           <span className="flex items-center gap-2">
-            <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+            <svg className="size-4 animate-spin" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"

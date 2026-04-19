@@ -53,3 +53,5 @@ next-env.d.ts
 /components/pages/component/Banner1Factored
 /componentes
 .vscode
+.env*.local
+*.log

@@ -1,13 +1,20 @@
 import { useState } from 'react';
-import { useSanityContext } from '@/context/SanityContext';
 import { usePathname } from 'next/navigation';
-import { GetPagesNavQueryResult } from '@/sanity.types';
+import {
+  GetPagesNavQueryResult,
+  GetUnitBusinessListQueryResult,
+} from '@/sanity.types';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import NavItem from './NavItem';
 
-const MainNav = () => {
+const MainNav = ({
+  pages,
+  unitBusinessList,
+}: {
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
+}) => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  const { pages, unitBusinessList } = useSanityContext();
   const path = usePathname();
   const { toggleDrawerForm } = useContactDrawerContext();
 

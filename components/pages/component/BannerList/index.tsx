@@ -1,5 +1,8 @@
 import React from 'react';
-import { PortableTextComponents, PortableText } from 'next-sanity';
+import {
+  PortableText,
+  type PortableTextComponents,
+} from '@portabletext/react';
 
 import { ComponentProps, ItemProps } from '@/components/types';
 import clsx from 'clsx';
@@ -52,7 +55,7 @@ export default function BannerList({ data }: { data: ComponentProps }) {
         {data?.content && (
           <div
             className={clsx(
-              'grid h-fit w-full grid-cols-1 place-content-center justify-center dark:text-slate-300',
+              'grid h-fit w-full grid-cols-1 place-content-center dark:text-slate-300',
               'xs4:grid-cols-2',
               'xs5:px-4',
               'sm:grid-cols-3',

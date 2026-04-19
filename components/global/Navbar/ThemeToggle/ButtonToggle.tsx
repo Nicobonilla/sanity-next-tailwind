@@ -24,7 +24,7 @@ const ThemeToggle = () => {
 
       {/* Círculo deslizante que cambia según el tema */}
       <div
-        className={`z-10 h-6 w-6 rounded-full border border-gray-500 bg-bodydark transition-transform duration-300 ease-in-out ${
+        className={`z-10 size-6 rounded-full border border-gray-500 bg-bodydark transition-transform duration-300 ease-in-out ${
           isDarkMode ? 'translate-x-8' : ''
         }`}
       ></div>

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 

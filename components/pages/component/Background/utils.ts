@@ -1,4 +1,4 @@
-import { Component, CSSProperties, useMemo } from 'react';
+import { Component, CSSProperties } from 'react';
 import { ComponentProps } from '@/components/types';
 export const defaultColor: Color = {
   rgb: { r: 255, g: 255, b: 255, a: 0 },
@@ -129,38 +129,35 @@ interface ColorListItem2 {
   colorBackground1Position: number;
 }
 
-export function useCurrentStyle(
+export function getCurrentStyle(
   data: ColorList,
   isDarkMode: boolean
 ): CSSProperties {
   const { colorWithDarkMode } = data || false;
-  const themeStyles = useMemo(() => {
-    const createThemeColors = (useLight: boolean) => ({
-      colors: data?.colors?.map((item: ColorListItem) => ({
-        rgb: {
-          ...((useLight ? item.lightColor : item.darkColor)?.rgb ||
-            item.lightColor.rgb),
-          a:
-            (useLight ? item.lightColor : item.darkColor)?.alpha ||
-            item.lightColor.alpha,
-        },
-      })) || [defaultColor],
-    });
+  const createThemeColors = (useLight: boolean) => ({
+    colors: data?.colors?.map((item: ColorListItem) => ({
+      rgb: {
+        ...((useLight ? item.lightColor : item.darkColor)?.rgb ||
+          item.lightColor.rgb),
+        a:
+          (useLight ? item.lightColor : item.darkColor)?.alpha ||
+          item.lightColor.alpha,
+      },
+    })) || [defaultColor],
+  });
 
-    const positions =
-      data?.colors?.map(
-        (item: ColorListItem) => item.colorBackground1Position
-      ) || [];
-    const dir = data?.directionDeg || 0;
+  const positions =
+    data?.colors?.map((item: ColorListItem) => item.colorBackground1Position) ||
+    [];
+  const dir = data?.directionDeg || 0;
 
-    const lightTheme = createThemeColors(true);
-    const darkTheme = createThemeColors(false);
+  const lightTheme = createThemeColors(true);
+  const darkTheme = createThemeColors(false);
 
-    return {
-      light: getThemeStyle('linear', dir, lightTheme, positions),
-      dark: getThemeStyle('linear', dir, darkTheme, positions),
-    };
-  }, [data]);
+  const themeStyles = {
+    light: getThemeStyle('linear', dir, lightTheme, positions),
+    dark: getThemeStyle('linear', dir, darkTheme, positions),
+  };
 
   return themeStyles[colorWithDarkMode && isDarkMode ? 'dark' : 'light'];
 }

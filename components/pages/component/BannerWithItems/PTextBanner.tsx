@@ -1,4 +1,4 @@
-import { PortableTextComponents } from 'next-sanity';
+import type { PortableTextComponents } from '@portabletext/react';
 // Componente de PortableText con estilos personalizados
 
 export const PT5: PortableTextComponents = {

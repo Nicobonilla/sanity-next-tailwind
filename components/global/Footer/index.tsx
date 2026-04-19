@@ -1,16 +1,17 @@
-'use client';
-import { ScrollContextProvider } from '@/context/ScrollContext';
-import FooterWP from './FooterWP/index.jsx';
 import Simple from './Simple';
-export default function Footer() {
+export default function Footer({
+  logo,
+  slogan,
+}: {
+  logo?: string | null;
+  slogan?: string | null;
+}) {
   return (
     <>
-      <ScrollContextProvider>
-        <Simple />
-        {/*<div className="flex items-center justify-center bg-bodydark text-white lg:p-2">
-          Powered
-        </div> */}
-      </ScrollContextProvider>
+      <Simple logo={logo} slogan={slogan} />
+      {/*<div className="flex items-center justify-center bg-bodydark text-white lg:p-2">
+        Powered
+      </div> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import { GetPostListQueryResult } from '@/sanity.types';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import Image from 'next/image';
@@ -10,8 +10,10 @@ import React from 'react';
 
 export default function SlidePost({
   post,
+  index: _index,
 }: {
   post: GetPostListQueryResult[number];
+  index: number;
 }) {
   const path = usePathname();
   if (!post.components) return null;
@@ -39,6 +41,8 @@ export default function SlidePost({
                 src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
                 alt={post.title || ''}
                 fill
+                sizes="(max-width: 768px) 78vw, (max-width: 1280px) 38vw, 280px"
+                quality={34}
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
               />
             </div>

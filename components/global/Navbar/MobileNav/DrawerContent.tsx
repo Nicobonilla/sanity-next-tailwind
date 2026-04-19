@@ -3,13 +3,19 @@ import clsx from 'clsx';
 import Logo from '@/components/global/Logo';
 import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { trackButtonClick } from '@/components/lib/GTMTrackers';
+import {
+  GetPagesNavQueryResult,
+  GetUnitBusinessListQueryResult,
+} from '@/sanity.types';
 
 interface DrawerContentProps {
   isMenuOpen: boolean;
-  pages: any[];
-  unitBusinessList: any[];
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
   path: string;
   closeMenu: () => void;
+  logo?: string | null;
+  slogan?: string | null;
 }
 
 export default function DrawerContent({
@@ -18,6 +24,8 @@ export default function DrawerContent({
   unitBusinessList,
   path,
   closeMenu,
+  logo,
+  slogan,
 }: DrawerContentProps) {
   const { toggleDrawerForm } = useContactDrawerContext();
   return (
@@ -30,7 +38,7 @@ export default function DrawerContent({
     >
       <nav className="max-h-screen overflow-y-auto p-6">
         <div className="z-20 mx-auto mb-10 flex h-24 items-center justify-center text-white">
-          {isMenuOpen && <Logo />}
+          {isMenuOpen && <Logo logo={logo} slogan={slogan} />}
         </div>
         <ul className="min-w-[250px]">
           {pages.map((page) =>
@@ -42,7 +50,7 @@ export default function DrawerContent({
                     onClick={(e) => {
                       e.stopPropagation();
                       closeMenu();
-                      trackButtonClick(business.slug, 'drawer-nav');
+                      trackButtonClick(business.slug || '', 'drawer-nav');
                     }}
                     className={clsx(
                       'flex size-full',
@@ -74,7 +82,7 @@ export default function DrawerContent({
                   href={`/${page.slug}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    trackButtonClick(page.slug, 'drawer-nav');
+                    trackButtonClick(page.slug || '', 'drawer-nav');
                     closeMenu();
                   }}
                   className={clsx(

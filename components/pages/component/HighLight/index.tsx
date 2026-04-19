@@ -1,5 +1,5 @@
 import React from 'react';
-import { PortableText } from 'next-sanity';
+import { PortableText } from '@portabletext/react';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import Background from '../Background';

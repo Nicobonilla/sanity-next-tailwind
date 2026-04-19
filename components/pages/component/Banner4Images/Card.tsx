@@ -1,7 +1,7 @@
 import { trackButtonClick } from '@/components/lib/GTMTrackers';
 import type { ItemProps } from '@/components/types';
-import { urlForImage } from '@/sanity/lib/utils';
-import { PortableText } from 'next-sanity';
+import { urlForImage } from '@/sanity/lib/image-utils';
+import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,6 +12,11 @@ export default function Card({
   service: ItemProps;
   index: number;
 }) {
+  const sizes =
+    index === 2
+      ? '(max-width: 768px) 88vw, (max-width: 1023px) 46vw, 46vw'
+      : '(max-width: 768px) 88vw, (max-width: 1023px) 44vw, 24vw';
+
   return (
     <div
       className={`group relative grid h-full overflow-hidden rounded-lg hover:cursor-pointer ${
@@ -29,7 +34,8 @@ export default function Card({
           src={urlForImage(service.image)?.url() || '/meeting.jpeg'}
           alt={'title'}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33.33vw"
+          sizes={sizes}
+          quality={34}
           className="object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-blue-950/60 transition-opacity duration-300 group-hover:bg-blue-950/80 sm:m-3" />

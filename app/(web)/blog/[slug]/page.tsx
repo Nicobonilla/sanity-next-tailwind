@@ -4,7 +4,7 @@ import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
-import { resolveOpenGraphImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 import { Service, WithContext } from 'schema-dts';
 
 export async function generateMetadata({

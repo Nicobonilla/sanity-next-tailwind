@@ -1,10 +1,10 @@
 import React from 'react';
-import { PortableText } from 'next-sanity';
-import { InlineSvgPreviewComponent } from '@focus-reactive/sanity-plugin-inline-svg-input';
+import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import { ItemProps } from '@/components/types';
 import PTItemBanner, { type PTItemtype } from './PTextItemBanner';
 import Iconfy from '../../../global/Icons/Iconfy';
+import PublicInlineSvg from '@/components/global/PublicInlineSvg';
 
 interface ItemBannerProps {
   item: ItemProps;
@@ -25,7 +25,7 @@ export default function ItemBanner({ item, PTextItem }: ItemBannerProps) {
     <div className="flex h-full flex-row p-2">
       <div className="relative z-0 mr-2 size-20">
         {svg ? (
-          <InlineSvgPreviewComponent
+          <PublicInlineSvg
             value={svg}
             className="inline-svg-preview size-16 object-fill"
           />

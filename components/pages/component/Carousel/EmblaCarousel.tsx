@@ -9,7 +9,7 @@ import { EmblaCarouselType, EmblaEventType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ItemProps, ItemsProps } from '@/components/types';
 import SlideHero from './SlideHero';
-import { ColorList, useCurrentStyle } from '../Background/utils';
+import { ColorList } from '../Background/utils';
 import Fade from 'embla-carousel-fade';
 import SlidePost from './SlidePost'; // Importa el nuevo SlidePost
 import {
@@ -17,7 +17,10 @@ import {
   GetPostListQueryResult,
 } from '@/sanity.types';
 import clsx from 'clsx';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import {
+  PortableText,
+  type PortableTextComponents,
+} from '@portabletext/react';
 
 export default function EmblaCarousel({
   data,
@@ -139,7 +142,7 @@ export default function EmblaCarousel({
                   className="embla__slide"
                   onClick={() => handleClick(index)}
                 >
-                  <SlidePost key={index} post={slide} />
+                  <SlidePost key={index} post={slide} index={index} />
                 </div>
               )
             )}

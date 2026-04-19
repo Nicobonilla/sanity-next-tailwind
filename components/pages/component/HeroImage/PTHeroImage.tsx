@@ -1,10 +1,10 @@
-import { PortableTextComponents } from 'next-sanity';
+import type { PortableTextComponents } from '@portabletext/react';
 
 // Define PT1 and PT2 components
 const PT1: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="pr-10 text-2xl font-extrabold text-white drop-shadow-2xl md:max-w-[600px] md:text-5xl">
+      <h1 className="pr-10 text-2xl font-extrabold text-white drop-shadow-2xl md:max-w-xl md:text-5xl">
         {children}
       </h1>
     ),

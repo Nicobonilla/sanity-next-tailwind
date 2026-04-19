@@ -1,5 +1,5 @@
 import { ComponentProps } from '@/components/types';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import Image from 'next/image';
 
 export default function ImageBg({
@@ -19,7 +19,8 @@ export default function ImageBg({
           src={urlForImage(imgBg)?.url() || '/meeting.jpeg'}
           alt="Hero image for the homepage"
           className="inset-0 z-10 size-full object-cover object-center"
-          quality={70}
+          sizes="100vw"
+          quality={55}
           fill
           priority={priority}
         />

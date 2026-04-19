@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { PortableText } from 'next-sanity';
+import { PortableText } from '@portabletext/react';
 
 import Background from '../Background';
 import { ComponentProps } from '@/components/types';
 import PTextBanner from './PTextBanner';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import ItemServiceBanner from './Item/ItemServiceBanner';
 import { PTextBannerServiceCard } from '../PTextComponents';
 import Image from 'next/image';
@@ -61,7 +61,7 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
       </div>
       {false && (
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 items-start">
-          <div className="relative z-0 h-full w-full">
+          <div className="relative z-0 size-full">
             <Image
               src={urlForImage(data.imageBackground)?.url()}
               alt="vec1"

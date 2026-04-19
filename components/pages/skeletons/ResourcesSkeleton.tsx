@@ -9,7 +9,7 @@ export default function ResourcesSkeleton() {
           className="group flex items-center gap-2 font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
         >
           <svg
-            className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+            className="size-4 transition-transform group-hover:translate-x-0.5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

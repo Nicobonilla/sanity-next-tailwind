@@ -1,4 +1,4 @@
-import { PortableText } from 'next-sanity';
+import { PortableText } from '@portabletext/react';
 import { ComponentWithBannerPosts } from '@/components/types';
 import clsx from 'clsx';
 import {
@@ -30,7 +30,7 @@ export default function InnerBannerWithItems({
           )}
         >
           {/* Columna 1: h2 y h3 */}
-          <div className="flex flex-col md:text-left lg:max-w-[500px]">
+          <div className="flex flex-col md:text-left lg:max-w-lg">
             <PortableText
               value={data.content || []}
               components={PTextBannerDark2}

@@ -4,13 +4,27 @@ import MobileNav from './MobileNav';
 import DeskNav from './DeskNav';
 import Logo from '@/components/global/Logo';
 import {
+  GetPagesNavQueryResult,
+  GetUnitBusinessListQueryResult,
+} from '@/sanity.types';
+import {
   ScrollContextProvider,
   useScrollContext,
 } from '@/context/ScrollContext';
 import Contacto from './Contacto';
 import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-const NavbarContent = () => {
+const NavbarContent = ({
+  pages,
+  unitBusinessList,
+  logo,
+  slogan,
+}: {
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
+  logo?: string | null;
+  slogan?: string | null;
+}) => {
   const { scrolling } = useScrollContext();
 
   return (
@@ -46,29 +60,49 @@ const NavbarContent = () => {
             className="my-auto h-fit"
             onClick={() => trackButtonClick('logo', 'navbar')}
           >
-            <Logo />
+            <Logo logo={logo} slogan={slogan} />
           </div>
         </div>
 
         {/* Mobile contact and nav */}
         <div className="flex items-center gap-2 lg:hidden">
           {false && <Contacto />}
-          <MobileNav />
+          <MobileNav
+            pages={pages}
+            unitBusinessList={unitBusinessList}
+            logo={logo}
+            slogan={slogan}
+          />
         </div>
 
         {/* Desktop nav */}
         <div className="hidden place-content-end lg:block">
-          <DeskNav />
+          <DeskNav pages={pages} unitBusinessList={unitBusinessList} />
         </div>
       </div>
     </div>
   );
 };
 
-export default function Navbar() {
+export default function Navbar({
+  pages,
+  unitBusinessList,
+  logo,
+  slogan,
+}: {
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
+  logo?: string | null;
+  slogan?: string | null;
+}) {
   return (
     <ScrollContextProvider>
-      <NavbarContent />
+      <NavbarContent
+        pages={pages}
+        unitBusinessList={unitBusinessList}
+        logo={logo}
+        slogan={slogan}
+      />
     </ScrollContextProvider>
   );
 }

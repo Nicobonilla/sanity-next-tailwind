@@ -1,3 +1,4 @@
+import React from 'react';
 import { Resend } from 'resend';
 import { type NextRequest, NextResponse } from 'next/server';
 import { render } from '@react-email/render';
@@ -28,38 +29,33 @@ export async function POST(request: NextRequest) {
     message,
   }: Article = await request.json();
 
-  // Esperar a que el HTML del correo sea generado correctamente
   const emailHtml = await render(
-    <Email
-      name={name}
-      rut={rut}
-      phone={phone}
-      comuna={comuna}
-      email={email}
-      mainCategory={mainCategory}
-      serviceCategory={serviceCategory}
-      message={message}
-    />
+    React.createElement(Email, {
+      name,
+      rut,
+      phone,
+      comuna,
+      email,
+      mainCategory,
+      serviceCategory,
+      message,
+    })
   );
 
   try {
-    // Enviar el correo electrónico
     const response = await resend.emails.send({
       from: process.env.SENDER_EMAIL || '',
       to: process.env.CLIENT_EMAIL || '',
       subject: `SBA-cliente: ${name} Servicio: ${mainCategory}`,
-      html: emailHtml, // Ya es un string aquí
+      html: emailHtml,
     });
-
-    // Imprimir la respuesta de la API para obtener más detalles
 
     return NextResponse.json({ status: 200, response });
   } catch (error) {
-    // Comprobación de tipo para asegurarse de que 'error' es un objeto de tipo 'Error'
     if (error instanceof Error) {
       return NextResponse.json({ status: 500, error: error.message });
-    } else {
-      return NextResponse.json({ status: 500, error: 'Error desconocido' });
     }
+
+    return NextResponse.json({ status: 500, error: 'Error desconocido' });
   }
 }

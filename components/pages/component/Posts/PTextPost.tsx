@@ -1,5 +1,5 @@
-import { urlForImage } from '@/sanity/lib/utils';
-import { PortableTextComponents } from 'next-sanity';
+import { urlForImage } from '@/sanity/lib/image-utils';
+import type { PortableTextComponents } from '@portabletext/react';
 import Image from 'next/image';
 
 export const PTextPost: PortableTextComponents = {
@@ -19,7 +19,7 @@ export const PTextPost: PortableTextComponents = {
     ),
     normal: ({ children }) => <span className="p3">{children}</span>,
     blockquote: ({ children }) => (
-      <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 p-4 pl-4 dark:border-red-700 dark:bg-slate-800">
+      <blockquote className="p3 relative flex border-l-4 border-red-500 bg-gray-200 p-4 dark:border-red-700 dark:bg-slate-800">
         <span className="pr-3 text-5xl text-red-500">“</span>
         <div>{children}</div>
       </blockquote>

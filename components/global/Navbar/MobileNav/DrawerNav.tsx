@@ -2,16 +2,28 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { useSanityContext } from '@/context/SanityContext';
 import MenuButton from './MenuButton';
 import Overlay from './Overlay';
 import { useDrawerNavContext } from '@/context/DrawerNavContext';
 import DrawerContent from './DrawerContent';
 import clsx from 'clsx';
+import {
+  GetPagesNavQueryResult,
+  GetUnitBusinessListQueryResult,
+} from '@/sanity.types';
 
-export default function DrawerNav() {
+export default function DrawerNav({
+  pages,
+  unitBusinessList,
+  logo,
+  slogan,
+}: {
+  pages: GetPagesNavQueryResult;
+  unitBusinessList: GetUnitBusinessListQueryResult;
+  logo?: string | null;
+  slogan?: string | null;
+}) {
   const path = usePathname();
-  const { pages, unitBusinessList } = useSanityContext();
   const { isOpen, closeDrawer, toggleDrawerNav } = useDrawerNavContext();
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +61,8 @@ export default function DrawerNav() {
             unitBusinessList={unitBusinessList}
             path={path}
             closeMenu={closeDrawer}
+            logo={logo}
+            slogan={slogan}
           />
         </div>
       </div>

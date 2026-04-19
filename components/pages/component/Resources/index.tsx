@@ -27,7 +27,7 @@ export default function Resources({ data }: ComponentProps) {
                         {resource.title}
                       </span>
                       <ExternalLinkIcon
-                        className="size-4 flex-shrink-0 transition-transform group-hover:translate-x-0.5"
+                        className="size-4 shrink-0 transition-transform group-hover:translate-x-0.5"
                         aria-hidden="true"
                       />
                     </Link>

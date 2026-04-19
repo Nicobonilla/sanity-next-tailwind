@@ -1,5 +1,8 @@
 import { ComponentProps } from '@/components/types';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import {
+  PortableText,
+  type PortableTextComponents,
+} from '@portabletext/react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { trackButtonClick } from '@/components/lib/GTMTrackers';

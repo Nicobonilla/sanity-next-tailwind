@@ -11,7 +11,7 @@ import {
 } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 import { Metadata } from 'next';
 
 export async function generateMetadata({

@@ -1,17 +1,13 @@
-'use client';
-
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeContext';
-import { useState } from 'react';
-import { BackgroundProps, useCurrentStyle } from './utils';
+import { BackgroundProps, getCurrentStyle } from './utils';
 import Layer from './Layer';
 
 export default function Background({ data, children }: BackgroundProps) {
-  const { isDarkMode } = useTheme();
-  const [activeTheme] = useState<'light' | 'dark'>('light');
+  const activeTheme = 'light';
+  const isDarkMode = false;
 
   const { typeComponent, variant, responsiveHeight, layer } = data;
-  const currentStyle = useCurrentStyle(data, isDarkMode);
+  const currentStyle = getCurrentStyle(data, isDarkMode);
 
   return (
     <div
@@ -22,7 +18,7 @@ export default function Background({ data, children }: BackgroundProps) {
         'h-[750px] md:h-[500px]': typeComponent == 'heroForm',
         'h-[350px]': typeComponent == 'heading',
         'h-fit md:h-[400px]': typeComponent == 'highLight',
-        'h-[50svh] items-center justify-center':
+        'h-[50svh] items-center justify-center lg:h-[65svh]':
           typeComponent == 'carousel' && variant == 'hero',
         'flex h-full items-center justify-center':
           data.typeComponent == 'carousel' && variant == 'post',

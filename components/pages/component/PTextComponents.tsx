@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PortableTextComponents } from 'next-sanity';
+import type { PortableTextComponents } from '@portabletext/react';
 
 export const PTextBannerLight: PortableTextComponents = {
   block: {

@@ -1,7 +1,9 @@
-'use client';
 import { ComponentProps } from '@/components/types';
-import { urlForImage } from '@/sanity/lib/utils';
-import { PortableText, PortableTextComponents } from 'next-sanity';
+import { urlForImage } from '@/sanity/lib/image-utils';
+import {
+  PortableText,
+  type PortableTextComponents,
+} from '@portabletext/react';
 import Image from 'next/image';
 import PHeroImage from '@/components/pages/component/HeroImage/PTHeroImage';
 
@@ -33,7 +35,8 @@ export default function HeroImage({ data }: { data: ComponentProps }) {
         src={urlForImage(image)?.url() || '/meeting.jpeg'}
         alt="Hero image for the homepage"
         className="object-cover object-top"
-        quality={100}
+        sizes="100vw"
+        quality={55}
         fill
         priority
       />

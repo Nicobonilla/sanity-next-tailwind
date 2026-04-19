@@ -1,5 +1,5 @@
 import { GetPostListQueryResult } from '@/sanity.types';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,15 +12,15 @@ export default function ItemPostList({
   post: GetPostListQueryResult[number];
   index: number;
 }) {
-  //console.log('post: ', post);
   const path = usePathname();
   if (!post.components) return null;
-  console.log('path: ', path);
+
   const { imageBackground } =
     post.components.find(
       (component) => component.typeComponentValue === 'Heading'
     ) || {};
-  const isPriority = false; // Solo las primeras 5 imágenes son priority
+  const isPriority = index === 0 && path === '/blog';
+
   return (
     <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
@@ -31,7 +31,8 @@ export default function ItemPostList({
                 src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
                 alt={post.title || ''}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1028px) 50vw, 300px"
+                sizes="(max-width: 768px) 88vw, (max-width: 1280px) 42vw, 260px"
+                quality={34}
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                 priority={isPriority}
               />

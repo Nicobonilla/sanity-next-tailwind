@@ -11,6 +11,9 @@ module.exports = {
   },
   productionBrowserSourceMaps: true,
   images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [360, 414, 576, 640, 768, 828, 1080, 1200, 1600, 1920],
+    imageSizes: [96, 160, 240, 320, 360, 480, 640],
     remotePatterns: [
       {
         protocol: 'https',

@@ -1,37 +1,5 @@
-import createImageUrlBuilder from '@sanity/image-url';
 import { SanityClient } from 'sanity';
 import { ValidationContext } from 'sanity';
-
-import { dataset, projectId } from '@/sanity/lib/api';
-
-const imageBuilder = createImageUrlBuilder({
-  projectId: projectId || '',
-  dataset: dataset || '',
-});
-
-export const urlForImage = (
-  source: { asset?: { _ref?: string } } | null | undefined
-) => {
-  // Ensure that source image contains a valid reference
-  if (!source?.asset?._ref) {
-    // If there's no valid reference, create a fallback source
-    source = {
-      asset: {
-        _ref: 'image-aa5cf84793776bbe4a334f44bd118fb6e057d26f-667x658-jpg',
-      },
-    };
-  }
-
-  // Return the URL for the image
-  return imageBuilder?.image(source).auto('format').fit('max');
-};
-
-export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
-  if (!image) return;
-  const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
-  if (!url) return;
-  return { url, alt: image?.alt as string, width, height };
-}
 
 export function resolveHref(
   documentType?: string,

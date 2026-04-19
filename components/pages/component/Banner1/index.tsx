@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import { PortableText } from '@portabletext/react';
 import { ComponentProps } from '@/components/types';
 
@@ -57,6 +57,8 @@ export default function Banner1({ data }: { data: ComponentProps }) {
           src={urlForImage(imageContent)?.url() || '/meeting.jpeg'}
           fill
           alt="Banner Image"
+          sizes="(max-width: 1024px) 92vw, 30vw"
+          quality={45}
           className="absolute inset-0 object-cover"
         />
       </div>

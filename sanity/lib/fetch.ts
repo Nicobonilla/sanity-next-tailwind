@@ -1,8 +1,6 @@
-import { type ClientPerspective, type QueryParams } from 'next-sanity';
 import { draftMode } from 'next/headers';
 
 import { client } from '@/sanity/lib/client';
-import { sanityFetch as liveFetch } from '@/sanity/lib/live';
 
 import { SettingsQueryResult } from '@/sanity.types';
 import { settingsQuery } from './queries';
@@ -20,8 +18,8 @@ export async function sanityFetch<const QueryString extends string>({
   stega,
 }: {
   query: QueryString;
-  params?: QueryParams;
-  perspective?: Omit<ClientPerspective, 'raw'>;
+  params?: Record<string, unknown>;
+  perspective?: 'published' | 'previewDrafts';
   stega?: boolean;
 }) {
   const { isEnabled } = await draftMode();
@@ -38,7 +36,8 @@ export async function sanityFetch<const QueryString extends string>({
   if (actualPerspective === 'previewDrafts') {
     //console.log("Fetching in draft mode with perspective 'previewDrafts'");
 
-    // Reemplazamos client.fetch por liveFetch
+    const { sanityFetch: liveFetch } = await import('@/sanity/lib/live');
+
     const result = await liveFetch({
       query,
       params,

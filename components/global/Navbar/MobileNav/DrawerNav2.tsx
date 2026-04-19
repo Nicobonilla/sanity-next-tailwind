@@ -105,7 +105,7 @@ export default function MobileNavDrawer2() {
                             className="text-gray-200"
                           >
                             <RiArrowDownSLine
-                              className={`transform transition-transform duration-300 ${
+                              className={`transition-transform duration-300 ${
                                 expandedSection === business.title
                                   ? 'rotate-180'
                                   : ''

@@ -1,4 +1,4 @@
-import { PortableTextComponents } from 'next-sanity';
+import type { PortableTextComponents } from '@portabletext/react';
 
 export const PT6: PortableTextComponents = {
   block: {

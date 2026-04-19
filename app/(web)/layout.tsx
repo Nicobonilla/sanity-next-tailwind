@@ -2,14 +2,9 @@ import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import DarkModeScript from '@/components/global/Navbar/ThemeToggle/DarkModeScript';
-import GTMGlobals from '@/components/lib/GTMGlobals';
 import { type SanityContextType } from '@/context/SanityContext';
-import { SanityLive } from '@/sanity/lib/live';
-import { VisualEditing } from 'next-sanity';
-import { draftMode } from 'next/headers';
+import { SanityContextProvider } from '@/context/SanityContext';
 import { fonts } from '@/components/global/fonts';
-import DisableDraftMode from '@/components/global/DisableDraftMode';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { Suspense } from 'react';
 import { Spinner } from '@/components/global/Spinner';
@@ -17,12 +12,26 @@ import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import WhatsappSticky from '@/components/global/WhatsappSticky';
-import Form from '@/components/global/Form';
 import { Metadata } from 'next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleTagManager } from '@next/third-parties/google';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
+import dynamic from 'next/dynamic';
+
+const FormMount = dynamic(() => import('@/components/global/Form/FormMount'), {
+  ssr: false,
+});
+const WhatsappSticky = dynamic(
+  () => import('@/components/global/WhatsappSticky'),
+  {
+    ssr: false,
+  }
+);
+const isGtmEnabled =
+  process.env.NODE_ENV === 'production' &&
+  process.env.NEXT_PUBLIC_ENABLE_GTM === 'true' &&
+  Boolean(process.env.NEXT_PUBLIC_GTM_ID);
+const isSpeedInsightsEnabled =
+  process.env.NODE_ENV === 'production' &&
+  process.env.NEXT_PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
@@ -116,14 +125,17 @@ export default async function RootLayout({
       throw new Error('Essential data is missing');
     }
 
-    const initialData: SanityContextType = {
-      componentsMap,
-      pages,
-      unitBusinessList,
-      settings,
-    };
-
-    const { isEnabled } = draftMode();
+    const GoogleTagManager =
+      isGtmEnabled
+        ? (await import('@next/third-parties/google')).GoogleTagManager
+        : null;
+    const GTMGlobals = isGtmEnabled
+      ? (await import('@/components/lib/GTMGlobals')).default
+      : null;
+    const SpeedInsights =
+      isSpeedInsightsEnabled
+        ? (await import('@vercel/speed-insights/next')).SpeedInsights
+        : null;
 
     return (
       <html
@@ -132,33 +144,39 @@ export default async function RootLayout({
           .map((font) => font.variable)
           .join(' ')} scroll-smooth`}
       >
-        <head>
-          <DarkModeScript />
-        </head>
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-        <GTMGlobals />
-
+        <head />
         <body className="min-h-screen min-w-[320px] flex-col">
+          {isGtmEnabled && (
+            <>
+              {GoogleTagManager && (
+                <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
+              )}
+              {GTMGlobals && <GTMGlobals />}
+            </>
+          )}
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
-              <Providers initialData={initialData} withDarkMode={false}>
-                <Navbar />
+              <Providers withDarkMode={false}>
+                <Navbar
+                  pages={pages}
+                  unitBusinessList={unitBusinessList}
+                  logo={settings?.logo}
+                  slogan={settings?.slogan}
+                />
                 <main className="grow flex-col">
-                  {children}
-                  <SpeedInsights />
-                  <Form />
-
+                  <SanityContextProvider
+                    initialData={{ pages, componentsMap, unitBusinessList, settings }}
+                  >
+                    {children}
+                  </SanityContextProvider>
+                  {SpeedInsights && <SpeedInsights />}
+                  <FormMount
+                    unitBusinessList={unitBusinessList}
+                    settings={settings}
+                  />
                   <WhatsappSticky />
-                  {process.env.NODE_ENV === 'development' && <SanityLive />}
-
-                  {isEnabled && (
-                    <>
-                      <DisableDraftMode />
-                      <VisualEditing />
-                    </>
-                  )}
                 </main>
-                <Footer />
+                <Footer logo={settings?.logo} slogan={settings?.slogan} />
               </Providers>
             </Suspense>
           </ErrorBoundary>

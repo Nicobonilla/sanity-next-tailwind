@@ -11,7 +11,7 @@ import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { ComponentProps, ComponentsProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;

@@ -1,25 +1,15 @@
 'use client';
 
-export const sendGTMEvent = (eventData: Record<string, any>) => {
-  if (process.env.NODE_ENV !== 'production') {
+export const sendGTMEvent = (eventData: Record<string, unknown>) => {
+  if (process.env.NODE_ENV !== 'production' || typeof window === 'undefined') {
     return;
   }
-  if (typeof window === 'undefined' || !window.dataLayer) {
-    console.error(
-      'dataLayer no está definido. Asegúrate de que GTM está correctamente cargado.'
-    );
-    return;
-  }
+
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(eventData);
-
-  // Depuración: ver qué datos se envían
-  console.log('Evento enviado a GTM:', eventData);
 };
 
-// Funciones de eventos
 export const trackButtonClick = (buttonId: string, component: string) => {
-  // DONE
   sendGTMEvent({
     event: 'button_click',
     buttonId,
@@ -80,7 +70,7 @@ export const trackPinch = (scale: number) => {
 
 export const trackPushNotificationClick = (
   notificationTitle: string,
-  notificationData: any
+  notificationData: unknown
 ) => {
   sendGTMEvent({
     event: 'push_notification_click',
@@ -121,7 +111,6 @@ export const trackExitIntent = () => {
   });
 };
 
-// Función para rastrear vistas de página
 export const trackPageView = (pagePath: string) => {
   sendGTMEvent({
     event: 'page_view',
@@ -129,7 +118,6 @@ export const trackPageView = (pagePath: string) => {
   });
 };
 
-// Lista de nombres de eventos
 export const GTMEvents = {
   buttonClick: 'button_click',
   swipe: 'swipe',

@@ -1,28 +1,24 @@
 'use client';
+
 import { useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import {
+  trackExitIntent,
   trackPageView,
   trackScrollDepth,
   trackTimeOnPage,
-  trackExitIntent,
 } from './GTMTrackers';
 import { usePathname } from 'next/navigation';
 
 export default function GTMGlobals() {
   const effectRan = useRef(false);
   const pathname = usePathname();
-  const reachedDepths = useRef(new Set());
+  const reachedDepths = useRef(new Set<number>());
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    console.log('GTMGlobals montado - Inicialización única');
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      'gtm.start': new Date().getTime(),
-      event: 'gtm.js',
-    });
+    if (typeof window === 'undefined' || process.env.NODE_ENV !== 'production') {
+      return;
+    }
 
     const handleScroll = debounce(() => {
       const scrollPosition = window.scrollY;
@@ -31,8 +27,7 @@ export default function GTMGlobals() {
         (scrollPosition / documentHeight) * 100
       );
 
-      const thresholds = [50, 80];
-      thresholds.forEach((threshold) => {
+      [50, 80].forEach((threshold) => {
         if (
           scrollPercentage >= threshold &&
           !reachedDepths.current.has(threshold)
@@ -43,12 +38,9 @@ export default function GTMGlobals() {
       });
     }, 1000);
 
-    const startTime = new Date();
-    const handleBeforeUnload = (event: Event) => {
-      const endTime = new Date();
-      const timeSpent = Math.round(
-        (endTime.getTime() - startTime.getTime()) / 1000
-      );
+    const startTime = Date.now();
+    const handleBeforeUnload = () => {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
       trackTimeOnPage(timeSpent);
     };
 
@@ -70,12 +62,18 @@ export default function GTMGlobals() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !pathname) return;
+    if (
+      typeof window === 'undefined' ||
+      process.env.NODE_ENV !== 'production' ||
+      !pathname
+    ) {
+      return;
+    }
 
     if (!effectRan.current) {
       effectRan.current = true;
     }
-    console.log(`Cambio de ruta detectado: ${pathname}`);
+
     trackPageView(pathname);
   }, [pathname]);
 

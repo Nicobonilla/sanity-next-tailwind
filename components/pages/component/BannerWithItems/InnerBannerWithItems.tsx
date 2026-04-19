@@ -1,8 +1,8 @@
-import { PortableText } from 'next-sanity';
+import { PortableText } from '@portabletext/react';
 import { ComponentProps } from '@/components/types';
 import clsx from 'clsx';
 import PTextBanner, { type PTBannerType } from './PTextBanner';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/sanity/lib/image-utils';
 import Items from './Items';
 import { PTItemtype } from './PTextItemBanner';
 import ImageItem from './Image';
