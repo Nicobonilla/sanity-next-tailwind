@@ -1,108 +1,286 @@
 'use client';
-import React from 'react';
-import MobileNav from './MobileNav';
-import DeskNav from './DeskNav';
+
+import { ChevronDown, Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { Route } from 'next';
+import { usePathname } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+
+import ContactDrawerButton from '@/components/global/ContactDrawerButton';
 import Logo from '@/components/global/Logo';
+import { cn } from '@/lib/cn';
 import {
   GetPagesNavQueryResult,
   GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
-import {
-  ScrollContextProvider,
-  useScrollContext,
-} from '@/context/ScrollContext';
-import Contacto from './Contacto';
-import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-const NavbarContent = ({
-  pages,
-  unitBusinessList,
-  logo,
-  slogan,
-}: {
+type NavbarProps = {
   pages: GetPagesNavQueryResult;
   unitBusinessList: GetUnitBusinessListQueryResult;
   logo?: string | null;
   slogan?: string | null;
-}) => {
-  const { scrolling } = useScrollContext();
-
-  return (
-    <div
-      className={` ${
-        scrolling ? 'fixed h-16 bg-white/90 2xl:h-20' : 'h-20 bg-white 2xl:h-24'
-      } inset-x-0 top-0 z-50 transition-all duration-300 ease-in-out`}
-    >
-      {false && (
-        <div className="z-50 hidden w-full justify-end px-4">
-          <Contacto />
-          <button className="p-2">
-            <h1
-              className={`z-50 bg-gradient-to-r ${
-                scrolling ? 'from-red-500' : 'from-gray-600'
-              } to-gray-700 bg-clip-text px-5 font-light text-transparent`}
-            >
-              Hablemos!
-            </h1>
-          </button>
-        </div>
-      )}
-
-      {/* Main navbar container */}
-      <div
-        className={`mx-auto flex h-full max-w-screen-xl items-center justify-between transition-all duration-300 ease-in-out md:px-4 lg:items-end`}
-      >
-        {/* Logo section */}
-        <div
-          className={`z-20 ml-2 flex h-full items-center justify-center transition-all duration-700 ease-in-out ${scrolling ? 'scale-95' : 'scale-115 translate-y-1'}`}
-        >
-          <div
-            className="my-auto h-fit"
-            onClick={() => trackButtonClick('logo', 'navbar')}
-          >
-            <Logo logo={logo} slogan={slogan} />
-          </div>
-        </div>
-
-        {/* Mobile contact and nav */}
-        <div className="flex items-center gap-2 lg:hidden">
-          {false && <Contacto />}
-          <MobileNav
-            pages={pages}
-            unitBusinessList={unitBusinessList}
-            logo={logo}
-            slogan={slogan}
-          />
-        </div>
-
-        {/* Desktop nav */}
-        <div className="hidden place-content-end lg:block">
-          <DeskNav pages={pages} unitBusinessList={unitBusinessList} />
-        </div>
-      </div>
-    </div>
-  );
 };
+
+function normalizeHref(slug: string | null, isHome?: boolean | null): Route {
+  if (isHome || slug === '' || slug === null) {
+    return '/';
+  }
+
+  return `/${slug}` as Route;
+}
+
+function resolvePracticeHref(slug?: string | null): Route {
+  return slug ? (`/area-de-practica/${slug}` as Route) : ('/#areas' as Route);
+}
 
 export default function Navbar({
   pages,
   unitBusinessList,
   logo,
   slogan,
-}: {
-  pages: GetPagesNavQueryResult;
-  unitBusinessList: GetUnitBusinessListQueryResult;
-  logo?: string | null;
-  slogan?: string | null;
-}) {
+}: NavbarProps) {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [practiceOpen, setPracticeOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  const primaryPages = useMemo(
+    () =>
+      pages.filter(
+        (page) =>
+          !['blog', 'services', 'area-de-practica'].includes(page.slug || '')
+      ),
+    [pages]
+  );
+
+  useEffect(() => {
+    const onScroll = () => setHasScrolled(window.scrollY > 24);
+
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+    setPracticeOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   return (
-    <ScrollContextProvider>
-      <NavbarContent
-        pages={pages}
-        unitBusinessList={unitBusinessList}
-        logo={logo}
-        slogan={slogan}
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-50 border-b bg-[color:rgba(245,242,236,0.92)] backdrop-blur-sm transition-all duration-300',
+        hasScrolled
+          ? 'border-[color:rgba(31,39,51,0.10)] shadow-[var(--shadow-soft)]'
+          : 'border-transparent'
+      )}
+    >
+      <div className="site-container">
+        <div className="flex min-h-[86px] items-center justify-between gap-6 py-4">
+          <Logo logo={logo} slogan={slogan} />
+
+          <div className="hidden items-center gap-8 lg:flex">
+            <nav aria-label="Principal">
+              <ul className="flex items-center gap-7">
+                {primaryPages.map((page) => {
+                  const href = normalizeHref(page.slug, page.isHome);
+                  const isActive = pathname === href;
+
+                  return (
+                    <li key={page.id}>
+                      <Link
+                        className={cn(
+                          'font-body text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]',
+                          isActive && 'text-[color:var(--color-primary)]'
+                        )}
+                        href={href}
+                      >
+                        {page.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+
+                <li
+                  className="relative"
+                  onMouseEnter={() => setPracticeOpen(true)}
+                  onMouseLeave={() => setPracticeOpen(false)}
+                >
+                  <button
+                    aria-expanded={practiceOpen}
+                    className="inline-flex items-center gap-2 font-body text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]"
+                    onClick={() => setPracticeOpen((current) => !current)}
+                    type="button"
+                  >
+                    Areas de practica
+                    <ChevronDown
+                      className={cn(
+                        'size-4 transition-transform',
+                        practiceOpen && 'rotate-180'
+                      )}
+                    />
+                  </button>
+
+                  {practiceOpen ? (
+                    <div className="absolute left-0 top-full mt-4 w-[360px] rounded-lg border bg-[color:var(--color-surface)] p-3 shadow-[var(--shadow-soft)]">
+                      <div className="grid gap-1">
+                        {unitBusinessList.map((area) => (
+                          <Link
+                            className="rounded-md px-4 py-3 text-sm text-[color:var(--color-text-soft)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] hover:text-[color:var(--color-primary)]"
+                            href={resolvePracticeHref(area.slug)}
+                            key={area.slug || area.title}
+                          >
+                            <span className="block font-semibold text-[color:var(--color-text)]">
+                              {area.title}
+                            </span>
+                            <span className="mt-1 block text-xs uppercase tracking-[0.16em] text-[color:var(--color-text-soft)]">
+                              {(area.services || []).length} servicios vinculados
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </li>
+
+                <li>
+                  <Link
+                    className={cn(
+                      'font-body text-sm font-medium text-[color:var(--color-text-soft)] transition-colors duration-200 hover:text-[color:var(--color-primary)]',
+                      pathname === '/blog' && 'text-[color:var(--color-primary)]'
+                    )}
+                    href="/blog"
+                  >
+                    Informate
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+
+            <ContactDrawerButton>Solicitar orientacion</ContactDrawerButton>
+          </div>
+
+          <div className="flex items-center gap-3 lg:hidden">
+            <ContactDrawerButton className="min-h-[44px] px-4 text-sm" variant="secondary">
+              Contacto
+            </ContactDrawerButton>
+            <button
+              aria-controls="mobile-navigation"
+              aria-expanded={mobileOpen}
+              className="inline-flex size-11 items-center justify-center rounded-md border border-[color:var(--color-border)] bg-[color:var(--color-surface)] text-[color:var(--color-primary)]"
+              onClick={() => setMobileOpen((current) => !current)}
+              type="button"
+            >
+              {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        aria-hidden={!mobileOpen}
+        className={cn(
+          'fixed inset-0 top-[86px] bg-[color:rgba(31,39,51,0.36)] transition-opacity duration-200 lg:hidden',
+          mobileOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+        )}
+        onClick={() => setMobileOpen(false)}
       />
-    </ScrollContextProvider>
+
+      <div
+        className={cn(
+          'fixed inset-y-0 right-0 top-[86px] z-50 w-full max-w-[380px] overflow-y-auto border-l bg-[color:var(--color-surface)] p-6 transition-transform duration-300 lg:hidden',
+          mobileOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+        id="mobile-navigation"
+      >
+        <div className="flex flex-col gap-8">
+          <div className="space-y-4">
+            <p className="legal-kicker">Navegacion</p>
+            <nav aria-label="Navegacion movil">
+              <ul className="space-y-2">
+                {primaryPages.map((page) => {
+                  const href = normalizeHref(page.slug, page.isHome);
+
+                  return (
+                    <li key={page.id}>
+                      <Link
+                        className={cn(
+                          'block rounded-md px-4 py-3 text-base font-medium text-[color:var(--color-text)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)]',
+                          pathname === href &&
+                            'bg-[color:rgba(30,42,56,0.06)] text-[color:var(--color-primary)]'
+                        )}
+                        href={href}
+                      >
+                        {page.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+                <li>
+                  <Link
+                    className={cn(
+                      'block rounded-md px-4 py-3 text-base font-medium text-[color:var(--color-text)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)]',
+                      pathname === '/blog' &&
+                        'bg-[color:rgba(30,42,56,0.06)] text-[color:var(--color-primary)]'
+                    )}
+                    href="/blog"
+                  >
+                    Informate
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <div className="space-y-4">
+            <button
+              className="flex w-full items-center justify-between rounded-md border border-[color:var(--color-border)] px-4 py-3 text-left text-base font-semibold text-[color:var(--color-primary)]"
+              onClick={() => setPracticeOpen((current) => !current)}
+              type="button"
+            >
+              <span>Areas de practica</span>
+              <ChevronDown
+                className={cn(
+                  'size-4 transition-transform',
+                  practiceOpen && 'rotate-180'
+                )}
+              />
+            </button>
+
+            {practiceOpen ? (
+              <div className="space-y-2">
+                {unitBusinessList.map((area) => (
+                  <Link
+                    className="block rounded-md px-4 py-3 text-sm text-[color:var(--color-text-soft)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] hover:text-[color:var(--color-primary)]"
+                    href={resolvePracticeHref(area.slug)}
+                    key={area.slug || area.title}
+                  >
+                    <span className="block font-semibold text-[color:var(--color-text)]">
+                      {area.title}
+                    </span>
+                    <span className="mt-1 block text-xs uppercase tracking-[0.16em] text-[color:var(--color-text-soft)]">
+                      {(area.services || []).length} servicios
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <ContactDrawerButton className="w-full justify-center">
+            Solicitar orientacion
+          </ContactDrawerButton>
+        </div>
+      </div>
+    </header>
   );
 }

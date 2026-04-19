@@ -1,4 +1,4 @@
-import { defineQuery, groq } from 'next-sanity';
+import groq from 'groq';
 import { unitBusiness } from './unitBusiness.query';
 import { componentFields } from './component.query';
 
@@ -17,18 +17,18 @@ export const post = /* groq */ `
   `;
 
 /* BLOG - LISTA DE POSTS */
-export const getPostListQuery = defineQuery(groq`
+export const getPostListQuery = groq`
     *[_type == 'post'] | order(orderRank desc) {
       ${post}
-      }`);
+      }`;
 
-export const getPostListByUnitBusinessQuery = defineQuery(groq`
+export const getPostListByUnitBusinessQuery = groq`
     *[_type == 'post' && unitBusiness->slug.current == $slug ] | order(orderRank desc){
       ${post}
-      }`);
+      }`;
 
 /* BLOG - DETALLE DE POST */
-export const getPostDetailQuery = defineQuery(groq`
+export const getPostDetailQuery = groq`
   *[_type == 'post' && slug.current == $slug][0] {
     ${post},
     content,
@@ -38,4 +38,4 @@ export const getPostDetailQuery = defineQuery(groq`
       'text':children[0].text 
     }
   }
-`);
+`;

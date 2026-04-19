@@ -13,11 +13,19 @@ export default function Providers({
   children,
   withDarkMode,
 }: ProvidersProps) {
+  const content = (
+    <ContactDrawerProvider>
+      <DrawerNavProvider>{children}</DrawerNavProvider>
+    </ContactDrawerProvider>
+  );
+
+  if (!withDarkMode) {
+    return content;
+  }
+
   return (
     <ThemeProvider withDarkMode={withDarkMode}>
-      <ContactDrawerProvider>
-        <DrawerNavProvider>{children}</DrawerNavProvider>
-      </ContactDrawerProvider>
+      {content}
     </ThemeProvider>
   );
 }

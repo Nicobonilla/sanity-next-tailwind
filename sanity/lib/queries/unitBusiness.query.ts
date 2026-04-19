@@ -1,4 +1,4 @@
-import { defineQuery, groq } from 'next-sanity';
+import groq from 'groq';
 import { componentFields } from './component.query';
 
 export const unitBusiness = /* groq */ `
@@ -10,7 +10,7 @@ export const unitBusiness = /* groq */ `
   }
 `;
 
-export const getUnitBusinessListQuery = defineQuery(groq`
+export const getUnitBusinessListQuery = groq`
     *[_type == 'unitBusiness'] |  order(orderRank asc) {
       title,
       "slug": slug.current,
@@ -20,7 +20,7 @@ export const getUnitBusinessListQuery = defineQuery(groq`
         "slug": slug.current,
       },  
       orderRank,
-  }`);
+  }`;
 
 const ubFields = /* groq */ `
   "id": _id,
@@ -38,7 +38,7 @@ const ubFields = /* groq */ `
   components[isActive] { ${componentFields} }
 `;
 
-export const getUnitBusinessDetailQuery = defineQuery(groq`
+export const getUnitBusinessDetailQuery = groq`
     *[_type == 'unitBusiness' && slug.current == $slug][0] {
       ${ubFields}
-    }`);
+    }`;

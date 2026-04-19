@@ -1,101 +1,111 @@
 'use server';
-import PageTemplate from '@/components/pages/PageTemplate';
-import { ComponentWithBannerPosts } from '@/components/types';
+
+import { Metadata } from 'next';
+import { LegalService, WithContext } from 'schema-dts';
+
+import FAQSection from '@/components/legal-home/FAQSection';
+import FinalCTA from '@/components/legal-home/FinalCTA';
+import FirmIntro from '@/components/legal-home/FirmIntro';
+import HomeHero from '@/components/legal-home/HomeHero';
+import LeadershipPreview from '@/components/legal-home/LeadershipPreview';
+import PracticeAreas from '@/components/legal-home/PracticeAreas';
+import ProcessSteps from '@/components/legal-home/ProcessSteps';
+import TrustStrip from '@/components/legal-home/TrustStrip';
+import { siteConfig } from '@/lib/site-config';
 import {
   GetPageDetailQueryResult,
-  GetPostListQueryResult,
+  GetUnitBusinessListQueryResult,
 } from '@/sanity.types';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
-import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { Metadata } from 'next';
-import { Service, WithContext } from 'schema-dts';
+import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
+import { urlForImage } from '@/sanity/lib/image-utils';
 
-type PageData = {
-  home: GetPageDetailQueryResult | null;
-  posts: GetPostListQueryResult | null;
-};
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Sebastián Bonilla | Abogados',
+    title: 'Estudio juridico en San Felipe | Asesoria legal y judicial',
+    description:
+      'Sitio corporativo del estudio juridico Sebastian Bonilla Marin. Asesoria legal clara, seria y responsable en San Felipe y la Region de Valparaiso.',
   };
 }
-async function getData(slug: string) {
-  try {
-    const [home, posts]: [
-      GetPageDetailQueryResult | null,
-      GetPostListQueryResult | null,
-    ] = await Promise.all([getPageBySlugFetch(slug), getPostListFetch()]);
-    return { home, posts };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return null;
-  }
+
+async function getData() {
+  const [settings, areas, home] = await Promise.all([
+    getSettingsFetch(),
+    getUnitBusinessListFetch(),
+    getPageBySlugFetch('inicio'),
+  ]);
+
+  return {
+    settings,
+    areas: areas || [],
+    home,
+  };
 }
 
-export type ModifiedComponent = ComponentWithBannerPosts & {
-  bannerPostsItems?: GetPostListQueryResult | null;
-};
+function resolveHeroImage(home: GetPageDetailQueryResult | null) {
+  const heroComponent = home?.components?.find((component) => {
+    const type = component.typeComponentValue?.toLowerCase();
+    return type === 'carousel' && component.variant === 'hero';
+  });
 
-export default async function Page() {
-  const currentPage = await getData('inicio');
-
-  const jsonLd: WithContext<Service> = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Abogados San Felipe - Sebastián Bonilla Marín',
-    description: 'Derecho Familiar e Inmobiliario',
-    serviceType: 'Asesoría Legal y Jurídica',
-    provider: {
-      '@type': 'Organization',
-      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'San Felipe',
-        addressRegion: 'Valparaíso',
-        postalCode: '2170000',
-        addressCountry: 'CL',
-      },
-      telephone: '+56 9 3359 6955',
-      email: 'contacto@abogadossanfelipe.cl',
-      url: 'https://www.abogadossanfelipe.cl',
-    },
-    areaServed: 'San Felipe, Chile',
-    offers: {
-      '@type': 'Offer',
-      price: 'Consultar',
-      priceCurrency: 'CLP',
-    },
-  };
-  if (!currentPage) {
-    return <div>Error al cargar la página.</div>;
-  }
-  // Crear una copia de los componentes para evitar mutaciones directas
-  const { home, posts }: PageData = currentPage;
-
-  const componentsAndPosts: ModifiedComponent = home?.components?.map(
-    (component) => {
-      if (
-        component.typeComponentValue === 'Carousel' &&
-        component.variant === 'post'
-      ) {
-        return {
-          ...component,
-          bannerPostsItems: posts,
-        };
-      }
-      return component;
-    }
-  );
+  const heroImage =
+    heroComponent?.items?.find((item) => item?.image)?.image ||
+    heroComponent?.imageBackground;
 
   return (
-    <section>
+    urlForImage(heroImage)?.width(960).height(1120).fit('crop').quality(72).url() ||
+    '/meeting.jpeg'
+  );
+}
+
+function resolveLeaderName(settingsTitle?: string | null) {
+  return settingsTitle || siteConfig.shortName;
+}
+
+export default async function Page() {
+  const { settings, areas, home } = await getData();
+  const heroImageUrl = resolveHeroImage(home);
+  const leaderName = resolveLeaderName(settings?.title);
+  const practiceAreas = (areas || []) as GetUnitBusinessListQueryResult;
+
+  const jsonLd: WithContext<LegalService> = {
+    '@context': 'https://schema.org',
+    '@type': 'LegalService',
+    name: siteConfig.firmName,
+    description:
+      'Asesoria legal y judicial para personas y empresas en San Felipe, con un enfoque claro, sobrio y profesional.',
+    areaServed: `${siteConfig.city}, ${siteConfig.region}, Chile`,
+    telephone: siteConfig.phoneDisplay,
+    email: siteConfig.email,
+    url: 'https://www.abogadossanfelipe.cl',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: siteConfig.city,
+      addressRegion: siteConfig.region,
+      addressCountry: 'CL',
+    },
+  };
+
+  return (
+    <>
       <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        type="application/ld+json"
       />
-      {componentsAndPosts && (
-        <PageTemplate components={componentsAndPosts as ModifiedComponent} />
-      )}
-    </section>
+
+      <HomeHero
+        areaCount={practiceAreas.length}
+        heroImageUrl={heroImageUrl}
+        leaderName={leaderName}
+      />
+      <TrustStrip />
+      <FirmIntro />
+      <PracticeAreas areas={practiceAreas} />
+      <LeadershipPreview leaderName={leaderName} />
+      <ProcessSteps />
+      <FAQSection />
+      <FinalCTA />
+    </>
   );
 }

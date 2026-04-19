@@ -2,15 +2,12 @@ import '../globals.css';
 import Navbar from '@/components/global/Navbar';
 import Footer from '@/components/global/Footer';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { type SanityContextType } from '@/context/SanityContext';
-import { SanityContextProvider } from '@/context/SanityContext';
 import { fonts } from '@/components/global/fonts';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { Suspense } from 'react';
 import { Spinner } from '@/components/global/Spinner';
 import Providers from '@/context/Providers';
 import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
-import { getComponentListFetch } from '@/sanity/lib/fetchs/component.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { Metadata } from 'next';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
@@ -32,6 +29,12 @@ const isGtmEnabled =
 const isSpeedInsightsEnabled =
   process.env.NODE_ENV === 'production' &&
   process.env.NEXT_PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
+
+type LayoutData = {
+  pages: Awaited<ReturnType<typeof getPagesNavFetch>>;
+  unitBusinessList: Awaited<ReturnType<typeof getUnitBusinessListFetch>>;
+  settings: Awaited<ReturnType<typeof getSettingsFetch>>;
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getData();
@@ -93,20 +96,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Async function to fetch data
-async function getData(): Promise<SanityContextType> {
+async function getData(): Promise<LayoutData> {
   try {
-    const [pages, componentsMap, unitBusinessList, settings] =
-      await Promise.all([
-        getPagesNavFetch(),
-        getComponentListFetch(),
-        getUnitBusinessListFetch(),
-        getSettingsFetch(),
-      ]);
+    const [pages, unitBusinessList, settings] = await Promise.all([
+      getPagesNavFetch(),
+      getUnitBusinessListFetch(),
+      getSettingsFetch(),
+    ]);
     if (!pages) throw new Error('Failed to fetch pages');
-    if (!componentsMap) throw new Error('Failed to fetch components');
     if (!unitBusinessList) throw new Error('Failed to fetch unit business');
     if (!settings) throw new Error('Failed to fetch settings');
-    return { pages, componentsMap, unitBusinessList, settings };
+    return { pages, unitBusinessList, settings };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw new Error('Failed to fetch necessary data for the application');
@@ -119,9 +119,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   try {
-    const { pages, componentsMap, unitBusinessList, settings } =
-      await getData();
-    if (!pages || !componentsMap || !unitBusinessList || !settings) {
+    const { pages, unitBusinessList, settings } = await getData();
+    if (!pages || !unitBusinessList || !settings) {
       throw new Error('Essential data is missing');
     }
 
@@ -145,7 +144,7 @@ export default async function RootLayout({
           .join(' ')} scroll-smooth`}
       >
         <head />
-        <body className="min-h-screen min-w-[320px] flex-col">
+        <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
           {isGtmEnabled && (
             <>
               {GoogleTagManager && (
@@ -163,12 +162,8 @@ export default async function RootLayout({
                   logo={settings?.logo}
                   slogan={settings?.slogan}
                 />
-                <main className="grow flex-col">
-                  <SanityContextProvider
-                    initialData={{ pages, componentsMap, unitBusinessList, settings }}
-                  >
-                    {children}
-                  </SanityContextProvider>
+                <main className="flex min-h-screen flex-col">
+                  {children}
                   {SpeedInsights && <SpeedInsights />}
                   <FormMount
                     unitBusinessList={unitBusinessList}
@@ -176,7 +171,11 @@ export default async function RootLayout({
                   />
                   <WhatsappSticky />
                 </main>
-                <Footer logo={settings?.logo} slogan={settings?.slogan} />
+                <Footer
+                  logo={settings?.logo}
+                  pages={pages}
+                  slogan={settings?.slogan}
+                />
               </Providers>
             </Suspense>
           </ErrorBoundary>

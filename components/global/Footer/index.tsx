@@ -1,17 +1,15 @@
+import { GetPagesNavQueryResult } from '@/sanity.types';
+
 import Simple from './Simple';
+
 export default function Footer({
   logo,
   slogan,
+  pages,
 }: {
   logo?: string | null;
   slogan?: string | null;
+  pages: GetPagesNavQueryResult;
 }) {
-  return (
-    <>
-      <Simple logo={logo} slogan={slogan} />
-      {/*<div className="flex items-center justify-center bg-bodydark text-white lg:p-2">
-        Powered
-      </div> */}
-    </>
-  );
+  return <Simple logo={logo} pages={pages} slogan={slogan} />;
 }

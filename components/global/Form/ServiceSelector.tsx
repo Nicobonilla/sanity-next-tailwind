@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
 import { IoIosArrowDown } from 'react-icons/io';
+
 import { trackFormSubmit } from '@/components/lib/GTMTrackers';
+import type { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
 interface ServiceSelectorProps {
   unitBusinessList: GetUnitBusinessListQueryResult;
@@ -26,21 +27,20 @@ export default function ServiceSelector({
   };
 
   const handleServiceClick = (
-    mainCategory: string,
-    serviceCategory: string
+    mainCategoryValue: string,
+    serviceCategoryValue: string
   ) => {
-    // Create synthetic events to use handleFormChange
     const mainEvent = {
       target: {
         name: 'mainCategory',
-        value: mainCategory,
+        value: mainCategoryValue,
       },
     } as React.ChangeEvent<HTMLInputElement>;
 
     const serviceEvent = {
       target: {
         name: 'serviceCategory',
-        value: serviceCategory,
+        value: serviceCategoryValue,
       },
     } as React.ChangeEvent<HTMLInputElement>;
 
@@ -51,62 +51,78 @@ export default function ServiceSelector({
   };
 
   return (
-    <div className="w-full rounded bg-[#1a201f] p-4 text-white">
-      <label className="mb-2 block text-sm font-bold">
-        ¿Qué Tipo de Asesoría necesitas?
+    <div className="space-y-3 rounded-[8px] border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4">
+      <label
+        className="block text-sm font-semibold uppercase tracking-[0.12em] text-[color:var(--color-text-soft)]"
+        htmlFor="service-selector-trigger"
+      >
+        ¿Qué tipo de asesoría necesita?
       </label>
+
       <button
-        className="w-full cursor-pointer rounded bg-menuColor2 px-4 py-2 text-center hover:bg-menuColor2/90 focus:outline-none focus:ring-2 focus:ring-menuColor2"
-        onClick={() => setMainCategory(mainCategory === 'main' ? null : 'main')}
-        aria-expanded={mainCategory === 'main'}
         aria-controls="service-categories"
+        aria-expanded={mainCategory === 'main'}
+        className="flex min-h-[52px] w-full items-center justify-between rounded-[8px] border border-[color:var(--color-border)] bg-[color:var(--color-bg)] px-4 py-3 text-left text-[color:var(--color-text)] transition-colors duration-200 hover:border-[color:var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[color:rgba(139,106,67,0.28)]"
+        id="service-selector-trigger"
+        onClick={() => setMainCategory(mainCategory === 'main' ? null : 'main')}
         type="button"
       >
-        {selectedService || 'Selecciona una Opción'}
+        <span className="pr-4">
+          {selectedService || 'Seleccione un área y un servicio'}
+        </span>
+        <IoIosArrowDown
+          className={`shrink-0 text-[color:var(--color-text-soft)] transition-transform duration-300 ${mainCategory === 'main' ? 'rotate-180' : 'rotate-0'}`}
+          size={18}
+        />
       </button>
 
       {mainCategory === 'main' && (
         <div
+          className="overflow-hidden rounded-[8px] border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-[var(--shadow-soft)]"
           id="service-categories"
-          className="mt-2 rounded bg-[#1a201f] shadow-lg"
         >
           {unitBusinessList?.map((unitBusiness, index) => (
-            <div key={unitBusiness.slug}>
+            <div
+              className="border-b border-[color:rgba(31,39,51,0.08)] last:border-b-0"
+              key={unitBusiness.slug}
+            >
               <button
-                className="flex w-full items-center justify-between px-4 py-2 hover:bg-menuColor2 focus:outline-none focus:ring-2 focus:ring-menuColor2"
-                onClick={() => toggleCategory(index)}
-                aria-expanded={serviceCategory === index}
                 aria-controls={`services-${index}`}
+                aria-expanded={serviceCategory === index}
+                className="flex w-full items-center justify-between px-4 py-3 text-left text-[color:var(--color-text)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)] focus:outline-none focus:ring-2 focus:ring-[color:rgba(139,106,67,0.28)]"
+                onClick={() => toggleCategory(index)}
                 type="button"
               >
-                <span>{unitBusiness?.title || 'Untitled Category'}</span>
-                <div
-                  className={`inline-block transition-transform duration-300 ${serviceCategory === index ? '-rotate-90' : 'rotate-0'}`}
+                <span className="font-medium">
+                  {unitBusiness?.title || 'Área sin nombre'}
+                </span>
+                <span
+                  className={`inline-flex text-[color:var(--color-text-soft)] transition-transform duration-300 ${serviceCategory === index ? '-rotate-90' : 'rotate-0'}`}
                 >
                   <IoIosArrowDown size={20} />
-                </div>
+                </span>
               </button>
 
               {serviceCategory === index && (
                 <div
+                  className="mx-4 mb-4 border-l border-[color:var(--color-border)] bg-[color:rgba(245,242,236,0.72)]"
                   id={`services-${index}`}
-                  className="ml-4 border-l border-gray-600"
                 >
                   {unitBusiness?.services?.map((service) => (
                     <button
+                      className="w-full px-4 py-3 text-left text-sm text-[color:var(--color-text)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.06)] focus:outline-none focus:ring-2 focus:ring-[color:rgba(139,106,67,0.28)]"
                       key={service.slug}
-                      className="w-full px-4 py-2 text-left hover:bg-menuColor2 focus:outline-none focus:ring-2 focus:ring-menuColor2"
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={(event) => {
+                        event.stopPropagation();
                         handleServiceClick(
                           service?.title || '',
                           unitBusiness?.title || ''
                         );
-                        trackFormSubmit('serv_' + service?.slug || '');
+                        trackFormSubmit('serv_' + (service?.slug || ''));
                       }}
                       type="button"
                     >
-                      {service?.title || 'Untitled Service'}
+                      {service?.title || 'Servicio sin nombre'}
                     </button>
                   ))}
                 </div>

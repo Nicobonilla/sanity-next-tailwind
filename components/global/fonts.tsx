@@ -1,4 +1,5 @@
 import {
+  Cormorant_Garamond,
   Inter,
   Roboto_Flex,
   Roboto_Slab,
@@ -7,12 +8,20 @@ import {
   Montserrat,
   Bitter,
   Fira_Sans,
+  Source_Sans_3,
 } from 'next/font/google';
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
+});
+
+const cormorant_garamond = Cormorant_Garamond({
+  variable: '--font-cormorant-garamond',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
 const roboto_flex = Roboto_Flex({
@@ -58,7 +67,15 @@ const fira_sans = Fira_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
+const source_sans_3 = Source_Sans_3({
+  variable: '--font-source-sans-3',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
 export const fonts = {
+  cormorant_garamond,
   inter,
   roboto_flex,
   roboto_slab,
@@ -67,4 +84,5 @@ export const fonts = {
   montserrat,
   bitter,
   fira_sans,
+  source_sans_3,
 };

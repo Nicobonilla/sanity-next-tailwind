@@ -1,8 +1,8 @@
-import { defineQuery, groq } from 'next-sanity';
+import groq from 'groq';
 import { componentFields } from './component.query';
 
 /* PAGES - NAVIGATION */
-export const getPagesNavQuery = defineQuery(groq`
+export const getPagesNavQuery = groq`
     *[_type == 'page' && isActive] | order(orderRank asc) {
       "id": coalesce(_id, ""), 
       "name": coalesce(name, title),
@@ -15,7 +15,7 @@ export const getPagesNavQuery = defineQuery(groq`
       orderRank,
       isActive
     }
-  `);
+  `;
 
 const pageFields = /* groq */ `
     "id": _id,
@@ -27,7 +27,7 @@ const pageFields = /* groq */ `
     components[isActive]  { ${componentFields} }
 `;
 
-export const getPageDetailQuery = defineQuery(groq`
+export const getPageDetailQuery = groq`
     *[_type == 'page' && slug.current == $slug][0] {
     ${pageFields}
-    }`);
+    }`;

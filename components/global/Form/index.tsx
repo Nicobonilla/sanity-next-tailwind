@@ -2,52 +2,47 @@
 
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { z } from 'zod';
+
 import Logo from '@/components/global/Logo';
 import Icon, { IconProps } from '@/components/global/Icons/LucideIcon';
-import { SanityContext } from '@/context/SanityContext';
-import { useContactDrawerContext } from '@/context/ContactDrawerContext';
-import { useRouter } from 'next/navigation';
-import ServiceSelector from './ServiceSelector';
 import { trackFormSubmit } from '@/components/lib/GTMTrackers';
-import { z } from 'zod';
-import { useContext } from 'react';
+import { useContactDrawerContext } from '@/context/ContactDrawerContext';
 import { GetUnitBusinessListQueryResult } from '@/sanity.types';
 
-// Define Zod schema for form validation
+import ServiceSelector from './ServiceSelector';
+
 const formSchema = z.object({
   name: z
     .string()
-    .min(3, { message: 'El nombre es requerido (mínimo 3 caracteres)' }),
+    .min(3, { message: 'El nombre es requerido (minimo 3 caracteres)' }),
   rut: z.string().refine(
     (value) => {
-      // Basic RUT validation (Chilean ID)
       if (!value) return false;
       const cleanRut = value.replace(/[.-]/g, '');
       const rutRegex = /^(\d{1,8})([0-9K])$/;
       return rutRegex.test(cleanRut);
     },
-    { message: 'RUT inválido' }
+    { message: 'RUT invalido' }
   ),
   phone: z.string().refine(
     (value) => {
-      // Chilean phone number validation
       const phoneRegex = /^(\+?56)?(\s?)(9)(\s?)[98765432]\d{7}$/;
       return phoneRegex.test(value);
     },
-    { message: 'Número de teléfono inválido (debe tener 9 dígitos)' }
+    { message: 'Numero de telefono invalido (debe tener 9 digitos)' }
   ),
   comuna: z.string().min(2, { message: 'Comuna es requerida' }),
-  email: z.string().email({ message: 'Email inválido' }),
+  email: z.string().email({ message: 'Email invalido' }),
   mainCategory: z.string().optional(),
   serviceCategory: z.string().min(1, { message: 'Selecciona un servicio' }),
   message: z.string().optional(),
 });
 
-// Infer the type from the schema
 type TForm = z.infer<typeof formSchema>;
 
-// Type for form errors
 type TFormErrors = {
   [key in keyof TForm]?: string;
 };
@@ -82,12 +77,12 @@ async function sendEmail(formData: TForm) {
 
     const data = await response.json();
     if (data.status === 200) {
-      toast.success('Email enviado correctamente');
+      toast.success('Formulario enviado correctamente');
       return true;
-    } else {
-      toast.error(data.message || 'Error al enviar el email');
-      return false;
     }
+
+    toast.error(data.message || 'Error al enviar el email');
+    return false;
   } catch (error) {
     console.error('Network error:', error);
     toast.error(error instanceof Error ? error.message : 'Error de red');
@@ -105,11 +100,6 @@ export default function Form({
   slogan?: string | null;
 }) {
   const { isOpen, closeDrawer } = useContactDrawerContext();
-  const sanityContext = useContext(SanityContext);
-  const resolvedUnitBusinessList =
-    unitBusinessList || sanityContext?.unitBusinessList;
-  const resolvedLogo = logo || sanityContext?.settings?.logo;
-  const resolvedSlogan = slogan || sanityContext?.settings?.slogan;
   const [formData, setFormData] = useState<TForm>(initialForm);
   const [errors, setErrors] = useState<TFormErrors>(initialErrors);
   const [touched, setTouched] = useState<Record<keyof TForm, boolean>>({
@@ -126,23 +116,18 @@ export default function Form({
   const [formSubmitted, setFormSubmitted] = useState(false);
   const router = useRouter();
 
-  // Display text for the selected service
   const selectedServiceDisplay = formData.serviceCategory
     ? `${formData.serviceCategory}${formData.mainCategory ? ` - ${formData.mainCategory}` : ''}`
     : null;
 
-  // Validate a single field using Zod
   const validateField = (name: keyof TForm, value: string): string => {
-    // Create a partial schema for just this field
     const fieldSchema = z.object({ [name]: formSchema.shape[name] });
 
     try {
-      // Validate just this field
       fieldSchema.parse({ [name]: value });
       return '';
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Extract the error message for this field
         const fieldError = error.errors.find((err) => err.path[0] === name);
         return fieldError?.message || '';
       }
@@ -150,7 +135,6 @@ export default function Form({
     }
   };
 
-  // Validate all fields using Zod
   const validateForm = (): boolean => {
     try {
       formSchema.parse(formData);
@@ -158,7 +142,6 @@ export default function Form({
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Convert Zod errors to our error format
         const newErrors: TFormErrors = {};
         error.errors.forEach((err) => {
           const field = err.path[0] as keyof TForm;
@@ -171,9 +154,9 @@ export default function Form({
   };
 
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     const fieldName = name as keyof TForm;
 
     setFormData((prev) => ({
@@ -181,7 +164,6 @@ export default function Form({
       [fieldName]: value,
     }));
 
-    // Validate on change if the field has been touched
     if (touched[fieldName]) {
       const error = validateField(fieldName, value);
       setErrors((prev) => ({
@@ -197,7 +179,6 @@ export default function Form({
       [name]: true,
     }));
 
-    // Validate on blur
     const error = validateField(name, formData[name] || '');
     setErrors((prev) => ({
       ...prev,
@@ -209,7 +190,6 @@ export default function Form({
     event.preventDefault();
     setFormSubmitted(true);
 
-    // Mark all fields as touched when submitting
     const allTouched = Object.keys(formData).reduce(
       (acc, key) => {
         acc[key as keyof TForm] = true;
@@ -220,14 +200,13 @@ export default function Form({
 
     setTouched(allTouched);
 
-    // Validate all fields before submission
     if (!validateForm()) {
-      toast.error('Por favor, corrige los errores en el formulario');
+      toast.error('Por favor, corrige los errores del formulario');
       return;
     }
 
     setIsLoading(true);
-    trackFormSubmit('submited');
+    trackFormSubmit('submitted');
 
     try {
       const success = await sendEmail(formData);
@@ -256,10 +235,9 @@ export default function Form({
     }
   };
 
-  // Close drawer when clicking outside
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
       if (isOpen && !target.closest('.contact-drawer')) {
         closeDrawer();
       }
@@ -274,7 +252,6 @@ export default function Form({
     };
   }, [isOpen, closeDrawer]);
 
-  // Reset form when drawer closes
   useEffect(() => {
     if (!isOpen) {
       setFormData(initialForm);
@@ -295,150 +272,135 @@ export default function Form({
 
   return (
     <div className="relative z-50">
-      {/* Overlay background */}
       <div
-        className={`fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 ${
+        aria-hidden="true"
+        className={`fixed inset-0 z-40 bg-[color:rgba(31,39,51,0.45)] backdrop-blur-[2px] transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
-        aria-hidden="true"
       />
 
-      {/* Contact drawer */}
       <div
-        className={`contact-drawer fixed right-0 top-0 z-50 h-screen overflow-hidden bg-black shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'w-full translate-x-0 sm:w-[480px]' : 'w-0 translate-x-full'
+        className={`contact-drawer fixed right-0 top-0 z-50 h-screen overflow-hidden border-l border-[color:rgba(31,39,51,0.08)] bg-[color:var(--color-surface)] shadow-[var(--shadow-soft)] transition-all duration-300 ease-in-out ${
+          isOpen ? 'w-full translate-x-0 sm:w-[520px]' : 'w-0 translate-x-full'
         }`}
       >
-        <div className="relative h-full overflow-y-auto p-8">
-          {/* Close button */}
+        <div className="relative h-full overflow-y-auto p-6 sm:p-8">
           <button
-            onClick={closeDrawer}
-            className="absolute right-4 top-4 rounded-full p-1 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-menuColor2"
             aria-label="Cerrar"
+            className="absolute right-4 top-4 rounded-full border border-[color:rgba(31,39,51,0.08)] p-2 text-[color:var(--color-text)] transition-colors duration-200 hover:border-[color:rgba(31,39,51,0.16)] hover:bg-[color:rgba(30,42,56,0.04)] focus:outline-none focus:ring-2 focus:ring-[color:rgba(139,106,67,0.28)]"
+            onClick={closeDrawer}
           >
             <X size={24} />
           </button>
 
-          {/* Logo */}
-          <div className="mb-8 flex justify-center text-white">
-            <Logo logo={resolvedLogo} slogan={resolvedSlogan} />
+          <div className="mb-10 flex justify-center border-b border-[color:rgba(31,39,51,0.08)] pb-8">
+            <Logo logo={logo} slogan={slogan} />
           </div>
 
-          {/* Form content */}
-          <div className="text-white">
-            <h3 className="mb-4 text-center font-montserrat text-xl font-light">
-              ¿Quieres Recibir más Información?
+          <div className="text-[color:var(--color-text)]">
+            <p className="eyebrow text-center">Contacto</p>
+            <h3 className="mt-3 text-center font-display text-4xl leading-tight text-[color:var(--color-primary)]">
+              Solicite una orientacion inicial
             </h3>
-            <p className="mb-8 text-center font-bitter text-gray-300">
-              Nos contactaremos contigo para resolver tus dudas
+            <p className="mx-auto mb-8 mt-4 max-w-md text-center font-body text-base leading-7 text-[color:var(--color-text-soft)]">
+              Comparta sus antecedentes y el estudio se pondra en contacto para
+              revisar su consulta con seriedad y confidencialidad.
             </p>
 
-            <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-              {/* Name field */}
+            <form className="space-y-6" noValidate onSubmit={handleSubmit}>
               <InputField
-                name="name"
-                icon="user"
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                onBlur={() => handleBlur('name')}
-                placeholder="Nombre Completo"
                 error={touched.name || formSubmitted ? errors.name : undefined}
-                required
-              />
-
-              {/* RUT field */}
-              <InputField
-                name="rut"
-                icon="text"
-                type="text"
-                id="rut"
-                value={formData.rut}
-                placeholder="RUT (ej: 12345678-9)"
-                onChange={handleFormChange}
-                onBlur={() => handleBlur('rut')}
-                error={touched.rut || formSubmitted ? errors.rut : undefined}
-                required
-              />
-
-              {/* Phone field */}
-              <InputField
-                name="phone"
-                icon="phone"
-                type="tel"
-                id="phone"
-                value={formData.phone}
-                placeholder="Teléfono (ej: +56 9 12345678)"
-                onChange={handleFormChange}
-                onBlur={() => handleBlur('phone')}
-                error={
-                  touched.phone || formSubmitted ? errors.phone : undefined
-                }
-                required
-              />
-
-              {/* Email field */}
-              <InputField
-                name="email"
-                icon="mail"
-                type="email"
-                id="email"
-                value={formData.email}
-                placeholder="Email"
-                onChange={handleFormChange}
-                onBlur={() => handleBlur('email')}
-                error={
-                  touched.email || formSubmitted ? errors.email : undefined
-                }
-                required
-              />
-
-              {/* Comuna field */}
-              <InputField
-                name="comuna"
                 icon="user"
-                type="text"
-                id="comuna"
-                value={formData.comuna}
-                placeholder="Comuna"
+                id="name"
+                name="name"
+                onBlur={() => handleBlur('name')}
                 onChange={handleFormChange}
-                onBlur={() => handleBlur('comuna')}
+                placeholder="Nombre completo"
+                required
+                type="text"
+                value={formData.name}
+              />
+
+              <InputField
+                error={touched.rut || formSubmitted ? errors.rut : undefined}
+                icon="text"
+                id="rut"
+                name="rut"
+                onBlur={() => handleBlur('rut')}
+                onChange={handleFormChange}
+                placeholder="RUT (ej: 12345678-9)"
+                required
+                type="text"
+                value={formData.rut}
+              />
+
+              <InputField
+                error={touched.phone || formSubmitted ? errors.phone : undefined}
+                icon="phone"
+                id="phone"
+                name="phone"
+                onBlur={() => handleBlur('phone')}
+                onChange={handleFormChange}
+                placeholder="Telefono (ej: +56 9 12345678)"
+                required
+                type="tel"
+                value={formData.phone}
+              />
+
+              <InputField
+                error={touched.email || formSubmitted ? errors.email : undefined}
+                icon="mail"
+                id="email"
+                name="email"
+                onBlur={() => handleBlur('email')}
+                onChange={handleFormChange}
+                placeholder="Correo electronico"
+                required
+                type="email"
+                value={formData.email}
+              />
+
+              <InputField
                 error={
                   touched.comuna || formSubmitted ? errors.comuna : undefined
                 }
+                icon="user"
+                id="comuna"
+                name="comuna"
+                onBlur={() => handleBlur('comuna')}
+                onChange={handleFormChange}
+                placeholder="Comuna"
                 required
+                type="text"
+                value={formData.comuna}
               />
 
-              {/* Service selector */}
               <div className="space-y-1">
                 <ServiceSelector
-                  unitBusinessList={resolvedUnitBusinessList || []}
-                  selectedService={selectedServiceDisplay}
                   handleFormChange={handleFormChange}
+                  selectedService={selectedServiceDisplay}
+                  unitBusinessList={unitBusinessList || []}
                 />
                 {(touched.serviceCategory || formSubmitted) &&
                   errors.serviceCategory && (
-                    <p className="text-xs text-red-500">
+                    <p className="px-1 text-xs text-red-600">
                       {errors.serviceCategory}
                     </p>
                   )}
               </div>
 
-              {/* Message field */}
               <TextAreaField
-                id="message"
-                name="message"
-                value={formData.message || ''}
-                placeholder="Escribe tu mensaje aquí..."
-                onChange={handleFormChange}
-                onBlur={() => handleBlur('message')}
                 error={
                   touched.message || formSubmitted ? errors.message : undefined
                 }
+                id="message"
+                name="message"
+                onBlur={() => handleBlur('message')}
+                onChange={handleFormChange}
+                placeholder="Describa brevemente su consulta"
+                value={formData.message || ''}
               />
 
-              {/* Submit button */}
               <SubmitButton isLoading={isLoading} />
             </form>
           </div>
@@ -448,7 +410,6 @@ export default function Form({
   );
 }
 
-// Reusable input field component
 function InputField({
   name,
   icon,
@@ -476,34 +437,29 @@ function InputField({
     <div className="relative space-y-1">
       <div className="relative">
         <Icon
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--color-text-soft)]"
           name={icon as IconProps['name']}
           size={18}
-          className="absolute left-3 top-3 text-gray-400"
         />
         <input
-          name={name}
-          type={type}
-          id={id}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={onBlur}
-          required={required}
-          onClick={() => trackFormSubmit(name)}
-          className={`w-full rounded bg-[#1a201f] py-2 pl-10 pr-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 ${
-            error
-              ? 'border border-red-500 focus:ring-red-500'
-              : 'focus:ring-menuColor2'
-          }`}
-          aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${id}-error` : undefined}
+          aria-invalid={error ? 'true' : 'false'}
+          className={`input-shell w-full py-3 pl-11 pr-4 ${
+            error ? 'border-red-500 focus:ring-red-500' : ''
+          }`}
+          id={id}
+          name={name}
+          onBlur={onBlur}
+          onChange={onChange}
+          onClick={() => trackFormSubmit(name)}
+          placeholder={placeholder}
+          required={required}
+          type={type}
+          value={value}
         />
-        {required && false && (
-          <span className="absolute right-3 top-3 text-red-500">*</span>
-        )}
       </div>
       {error && (
-        <p id={`${id}-error`} className="text-xs text-red-500" role="alert">
+        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
           {error}
         </p>
       )}
@@ -511,7 +467,6 @@ function InputField({
   );
 }
 
-// Reusable textarea component
 function TextAreaField({
   id,
   name,
@@ -531,28 +486,29 @@ function TextAreaField({
 }) {
   return (
     <div className="space-y-1">
-      <label className="mb-2 block text-sm font-bold" htmlFor={id}>
+      <label
+        className="mb-2 block text-sm font-semibold uppercase tracking-[0.12em] text-[color:var(--color-text-soft)]"
+        htmlFor={id}
+      >
         Mensaje
       </label>
       <textarea
+        aria-describedby={error ? `${id}-error` : undefined}
+        aria-invalid={error ? 'true' : 'false'}
+        className={`textarea-shell w-full min-h-[132px] ${
+          error ? 'border-red-500 focus:ring-red-500' : ''
+        }`}
         id={id}
         name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        onClick={() => trackFormSubmit(name)}
+        placeholder={placeholder}
         rows={4}
         value={value}
-        className={`w-full rounded bg-[#1a201f] px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 ${
-          error
-            ? 'border border-red-500 focus:ring-red-500'
-            : 'focus:ring-menuColor2'
-        }`}
-        placeholder={placeholder}
-        onChange={onChange}
-        onBlur={onBlur}
-        onClick={() => trackFormSubmit(name)}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${id}-error` : undefined}
       />
       {error && (
-        <p id={`${id}-error`} className="text-xs text-red-500" role="alert">
+        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
           {error}
         </p>
       )}
@@ -560,15 +516,14 @@ function TextAreaField({
   );
 }
 
-// Submit button component
 function SubmitButton({ isLoading }: { isLoading: boolean }) {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center pt-2">
       <button
-        type="submit"
+        className="button-primary min-w-[220px] justify-center disabled:cursor-not-allowed disabled:opacity-60"
         disabled={isLoading}
-        className="rounded bg-[#6C5CE7] px-8 py-3 font-medium text-white transition-colors hover:bg-[#5849c4] focus:outline-none focus:ring-2 focus:ring-menuColor2 disabled:opacity-50"
         onClick={() => trackFormSubmit('submit')}
+        type="submit"
       >
         {isLoading ? (
           <span className="flex items-center gap-2">
@@ -580,17 +535,17 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
                 r="10"
                 stroke="currentColor"
                 strokeWidth="4"
-              ></circle>
+              />
               <path
                 className="opacity-75"
-                fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
+                fill="currentColor"
+              />
             </svg>
             Enviando...
           </span>
         ) : (
-          'Enviar'
+          'Enviar consulta'
         )}
       </button>
     </div>

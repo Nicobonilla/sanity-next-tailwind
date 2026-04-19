@@ -1,6 +1,6 @@
-import { defineQuery, groq } from 'next-sanity';
+import groq from 'groq';
 
-export const settingsQuery = defineQuery(`*[_type == "settings"][0]`);
+export const settingsQuery = groq`*[_type == "settings"][0]`;
 
 const postFields = /* groq */ `
   _id,
@@ -13,34 +13,34 @@ const postFields = /* groq */ `
   "author": author->{"name": coalesce(name, "Anonymous"), picture},
 `;
 
-export const heroQuery = defineQuery(`
+export const heroQuery = groq`
   *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {
     content,
     ${postFields}
   }
-`);
+`;
 
-export const moreStoriesQuery = defineQuery(`
+export const moreStoriesQuery = groq`
   *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
   }
-`);
+`;
 
-export const postQuery = defineQuery(`
+export const postQuery = groq`
   *[_type == "post" && slug.current == $slug] [0] {
     content,
     ${postFields}
   }
-`);
+`;
 
-export const getComponentListQuery = defineQuery(groq`*[_type == 'component']{
+export const getComponentListQuery = groq`*[_type == 'component']{
   value, name
-}`);
+}`;
 
-export const getIconListQuery = defineQuery(groq`*[_type == 'icon']{
+export const getIconListQuery = groq`*[_type == 'icon']{
   value, name
-}`);
+}`;
 
-export const getReactIconListQuery = defineQuery(groq`*[_type == 'reactIcon']{
+export const getReactIconListQuery = groq`*[_type == 'reactIcon']{
   iconGroup, iconName
-}`);
+}`;
