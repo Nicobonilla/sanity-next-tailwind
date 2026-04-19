@@ -11,19 +11,10 @@ import { getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { Metadata } from 'next';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
-import dynamic from 'next/dynamic';
 import { buildMetadataBase } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
-
-const FormMount = dynamic(() => import('@/components/global/Form/FormMount'), {
-  ssr: false,
-});
-const WhatsappSticky = dynamic(
-  () => import('@/components/global/WhatsappSticky'),
-  {
-    ssr: false,
-  }
-);
+import FormMount from '@/components/global/Form/FormMount';
+import WhatsappSticky from '@/components/global/WhatsappSticky';
 const isGtmEnabled =
   process.env.NODE_ENV === 'production' &&
   process.env.NEXT_PUBLIC_ENABLE_GTM === 'true' &&
@@ -33,9 +24,11 @@ const isSpeedInsightsEnabled =
   process.env.NEXT_PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
 
 type LayoutData = {
-  pages: Awaited<ReturnType<typeof getPagesNavFetch>>;
-  unitBusinessList: Awaited<ReturnType<typeof getUnitBusinessListFetch>>;
-  settings: Awaited<ReturnType<typeof getSettingsFetch>>;
+  pages: NonNullable<Awaited<ReturnType<typeof getPagesNavFetch>>>;
+  unitBusinessList: NonNullable<
+    Awaited<ReturnType<typeof getUnitBusinessListFetch>>
+  >;
+  settings: NonNullable<Awaited<ReturnType<typeof getSettingsFetch>>>;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -118,81 +111,63 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  try {
-    const { pages, unitBusinessList, settings } = await getData();
-    if (!pages || !unitBusinessList || !settings) {
-      throw new Error('Essential data is missing');
-    }
-
-    const GoogleTagManager =
-      isGtmEnabled
-        ? (await import('@next/third-parties/google')).GoogleTagManager
-        : null;
-    const GTMGlobals = isGtmEnabled
-      ? (await import('@/components/lib/GTMGlobals')).default
+  const { pages, unitBusinessList, settings } = await getData();
+  const GoogleTagManager =
+    isGtmEnabled
+      ? (await import('@next/third-parties/google')).GoogleTagManager
       : null;
-    const SpeedInsights =
-      isSpeedInsightsEnabled
-        ? (await import('@vercel/speed-insights/next')).SpeedInsights
-        : null;
+  const GTMGlobals = isGtmEnabled
+    ? (await import('@/components/lib/GTMGlobals')).default
+    : null;
+  const SpeedInsights =
+    isSpeedInsightsEnabled
+      ? (await import('@vercel/speed-insights/next')).SpeedInsights
+      : null;
 
-    return (
-      <html
-        lang="es"
-        className={`${Object.values(fonts)
-          .map((font) => font.variable)
-          .join(' ')} scroll-smooth`}
-      >
-        <head />
-        <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
-          {isGtmEnabled && (
-            <>
-              {GoogleTagManager && (
-                <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
-              )}
-              {GTMGlobals && <GTMGlobals />}
-            </>
-          )}
-          <ErrorBoundary>
-            <Suspense fallback={<Spinner />}>
-              <Providers withDarkMode={false}>
-                <Navbar
-                  pages={pages}
+  return (
+    <html
+      lang="es"
+      className={`${Object.values(fonts)
+        .map((font) => font.variable)
+        .join(' ')} scroll-smooth`}
+    >
+      <head />
+      <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
+        {isGtmEnabled && (
+          <>
+            {GoogleTagManager && (
+              <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
+            )}
+            {GTMGlobals && <GTMGlobals />}
+          </>
+        )}
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Providers withDarkMode={false}>
+              <Navbar
+                pages={pages}
+                unitBusinessList={unitBusinessList}
+                logo={settings?.logo}
+                slogan={settings?.slogan}
+              />
+              <main className="flex min-h-screen flex-col">
+                {children}
+                {SpeedInsights && <SpeedInsights />}
+                <FormMount
                   unitBusinessList={unitBusinessList}
-                  logo={settings?.logo}
-                  slogan={settings?.slogan}
+                  settings={settings}
                 />
-                <main className="flex min-h-screen flex-col">
-                  {children}
-                  {SpeedInsights && <SpeedInsights />}
-                  <FormMount
-                    unitBusinessList={unitBusinessList}
-                    settings={settings}
-                  />
-                  <WhatsappSticky />
-                </main>
-                <Footer
-                  logo={settings?.logo}
-                  pages={pages}
-                  slogan={settings?.slogan}
-                />
-              </Providers>
-            </Suspense>
-          </ErrorBoundary>
-        </body>
-      </html>
-    );
-  } catch (error) {
-    console.error('Error in RootLayout:', error);
-    return (
-      <html lang="es">
-        <body>
-          <div className="error-message">
-            An error occurred while loading the application. Please try again
-            later.
-          </div>
-        </body>
-      </html>
-    );
-  }
+                <WhatsappSticky />
+              </main>
+              <Footer
+                logo={settings?.logo}
+                pages={pages}
+                slogan={settings?.slogan}
+              />
+            </Providers>
+          </Suspense>
+        </ErrorBoundary>
+      </body>
+    </html>
+  );
 }

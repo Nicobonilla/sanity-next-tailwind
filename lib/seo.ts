@@ -7,6 +7,14 @@ type SeoImage = {
   asset?: { _ref?: string | null } | null;
 } | null;
 
+type ImageBackgroundCarrier = {
+  imageBackground?: SeoImage;
+} | null;
+
+type TypedImageBackgroundCarrier = ImageBackgroundCarrier & {
+  typeComponentValue?: string;
+};
+
 type SeoValue = {
   canonicalUrl?: string | null;
   keywords?: (string | null)[] | null;
@@ -110,4 +118,38 @@ export function buildSeoMetadata({
       images: openGraphImage ? [openGraphImage.url] : undefined,
     },
   };
+}
+
+export function extractFallbackImage(components: unknown): SeoImage {
+  if (!Array.isArray(components)) {
+    return null;
+  }
+
+  for (const component of components as ImageBackgroundCarrier[]) {
+    if (component?.imageBackground?.asset?._ref) {
+      return component.imageBackground;
+    }
+  }
+
+  return null;
+}
+
+export function extractComponentImageBackground(
+  components: unknown,
+  typeComponentValue: string
+): SeoImage {
+  if (!Array.isArray(components)) {
+    return null;
+  }
+
+  for (const component of components as TypedImageBackgroundCarrier[]) {
+    if (
+      component?.typeComponentValue === typeComponentValue &&
+      component.imageBackground?.asset?._ref
+    ) {
+      return component.imageBackground;
+    }
+  }
+
+  return null;
 }

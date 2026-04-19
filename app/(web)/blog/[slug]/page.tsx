@@ -6,7 +6,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
 import { portableTextToPlainText } from '@/lib/portable-text';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { resolveOpenGraphImage } from '@/sanity/lib/image-utils';
@@ -25,12 +25,15 @@ async function getData(slug: string) {
   }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const data = await getData(params.slug);
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.post) {
     return {
@@ -46,16 +49,17 @@ export async function generateMetadata({
     title: data.post.title,
     description:
       data.post.resumen || portableTextToPlainText(data.post.content, 160),
-    path: `/blog/${params.slug}`,
+    path: `/blog/${slug}`,
     seo: data.post.seo,
     settings: data.settings,
-    fallbackImage: data.post.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(data.post.components),
     type: 'article',
   });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.post) {
     notFound();
@@ -71,7 +75,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       post.resumen || portableTextToPlainText(post.content, 180) || '',
     datePublished: post.date || post._updatedAt || undefined,
     dateModified: post._updatedAt || post.date || undefined,
-    mainEntityOfPage: `https://www.abogadossanfelipe.cl/blog/${params.slug}`,
+    mainEntityOfPage: `https://www.abogadossanfelipe.cl/blog/${slug}`,
     author: {
       '@type': 'Person',
       name: siteConfig.shortName,
@@ -83,7 +87,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     },
     image:
       resolveOpenGraphImage(
-        post.seo?.ogImage || post.components?.[0]?.imageBackground
+        post.seo?.ogImage || extractFallbackImage(post.components)
       )?.url || undefined,
   };
 
@@ -105,7 +109,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         article={post}
         breadcrumbsItems={breadcrumbsItems}
         cta={post.contentCta || settings?.defaultContentCta}
-        ctaSource={`blog_${params.slug}`}
+        ctaSource={`blog_${slug}`}
       />
     </section>
   );

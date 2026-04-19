@@ -4,7 +4,7 @@ import { WebPage, WithContext } from 'schema-dts';
 
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
@@ -22,12 +22,15 @@ async function getData(slug: string) {
   }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const data = await getData(params.slug);
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.page) {
     return {
@@ -42,16 +45,17 @@ export async function generateMetadata({
   return buildSeoMetadata({
     title: data.page.title,
     description: data.page.resumen,
-    path: `/${params.slug}`,
+    path: `/${slug}`,
     seo: data.page.seo,
     settings: data.settings,
-    fallbackImage: data.page.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(data.page.components),
     type: 'website',
   });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.page) {
     notFound();
@@ -64,7 +68,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     '@type': 'WebPage',
     name: page.title || siteConfig.firmName,
     description: page.resumen || siteConfig.descriptor,
-    url: `https://www.abogadossanfelipe.cl/${params.slug}`,
+    url: `https://www.abogadossanfelipe.cl/${slug}`,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 // Importar todos los skeletons
 import CarouselSkeleton from '../CarouselSkeleton';

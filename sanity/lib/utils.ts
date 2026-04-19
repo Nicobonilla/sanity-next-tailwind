@@ -1,4 +1,3 @@
-import { SanityClient } from 'sanity';
 import { ValidationContext } from 'sanity';
 
 export function resolveHref(
@@ -24,7 +23,7 @@ export async function isUniqueAcrossAllDocuments(
   context: ValidationContext
 ) {
   const { document, getClient } = context;
-  const client = getClient({ apiVersion: '2022-12-07' }) as SanityClient;
+  const client = getClient({ apiVersion: '2022-12-07' });
   if (typeof document === 'undefined') {
     return;
   }
@@ -47,7 +46,7 @@ export async function isUniqueTrueForField(
   if (value !== true) return true; // Si no es `true`, no hace nada
 
   const { document, getClient } = context;
-  const client = getClient({ apiVersion: '2022-12-07' }) as SanityClient;
+  const client = getClient({ apiVersion: '2022-12-07' });
 
   if (!document) return true;
 

@@ -8,7 +8,10 @@ const imageBuilder = createImageUrlBuilder({
 });
 
 export const urlForImage = (
-  source: { asset?: { _ref?: string } } | null | undefined
+  source:
+    | { asset?: { _ref?: string | null } | null }
+    | null
+    | undefined
 ) => {
   if (!source?.asset?._ref) {
     source = {

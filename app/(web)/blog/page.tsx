@@ -4,7 +4,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
 import Resources from '@/components/pages/component/Resources';
 import { ComponentProps, ComponentsProps } from '@/components/types';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
@@ -62,7 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: '/blog',
     seo: data.page?.seo,
     settings: data.settings,
-    fallbackImage: data.page?.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(data.page?.components),
     type: 'website',
   });
 }

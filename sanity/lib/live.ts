@@ -1,12 +1,15 @@
 'use server';
-import { createClient, defineLive } from 'next-sanity';
+import { createClient } from 'next-sanity';
+import { defineLive } from 'next-sanity/live';
+
+import { apiVersion, dataset, projectId } from './api';
 import { token } from './token';
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  projectId,
+  dataset,
   useCdn: false,
-  apiVersion: 'vX', // Target the experimental API version
+  apiVersion,
   stega: { studioUrl: '/studio' },
 });
 

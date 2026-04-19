@@ -1,6 +1,7 @@
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import { trackArticleClick } from '@/components/lib/GTMTrackers';
+import { extractComponentImageBackground } from '@/lib/seo';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,10 +17,10 @@ export default function ItemPostList({
   const path = usePathname();
   if (!post.components) return null;
 
-  const { imageBackground } =
-    post.components.find(
-      (component) => component.typeComponentValue === 'Heading'
-    ) || {};
+  const imageBackground = extractComponentImageBackground(
+    post.components,
+    'Heading'
+  );
   const isPriority = index === 0 && path === '/blog';
 
   return (

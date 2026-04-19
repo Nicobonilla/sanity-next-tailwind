@@ -5,7 +5,7 @@ import { Service, WithContext } from 'schema-dts';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
@@ -28,12 +28,15 @@ async function getData(slug: string) {
   }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const data = await getData(params.slug);
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.service) {
     return {
@@ -48,16 +51,17 @@ export async function generateMetadata({
   return buildSeoMetadata({
     title: data.service.title,
     description: data.service.resumen,
-    path: `/services/${params.slug}`,
+    path: `/services/${slug}`,
     seo: data.service.seo,
     settings: data.settings,
-    fallbackImage: data.service.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(data.service.components),
     type: 'website',
   });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.service) {
     notFound();
@@ -114,7 +118,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           article={service}
           breadcrumbsItems={breadcrumbsItems}
           cta={service.contentCta || settings?.defaultContentCta}
-          ctaSource={`service_${params.slug}`}
+          ctaSource={`service_${slug}`}
         />
       </div>
     </section>

@@ -12,7 +12,7 @@ import PracticeAreas from '@/components/legal-home/PracticeAreas';
 import ProcessSteps from '@/components/legal-home/ProcessSteps';
 import TrustStrip from '@/components/legal-home/TrustStrip';
 import { buildLegalHomeContent } from '@/lib/legal-home-content';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import {
   GetUnitBusinessListQueryResult,
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: '/',
     seo: home?.seo,
     settings,
-    fallbackImage: home?.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(home?.components),
     type: 'website',
   });
 }

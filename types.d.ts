@@ -1,7 +1,6 @@
-import { Protab } from 'next-sanity';
 import { UrlObject } from 'url';
 
-type Content = ComponentProps['content'];
+type Content = string | null | undefined;
 
 export type UniteBusiness = {
   title?: string; // Puede ser undefined o string

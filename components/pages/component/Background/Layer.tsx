@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 export type LayerProps = {
   layer: string;
   activeTheme: string;

@@ -7,11 +7,12 @@ import ContentContactCta from '@/components/content/ContentContactCta';
 import PageTemplate from '@/components/pages/PageTemplate';
 import {
   ComponentWithBannerPosts,
+  ComponentProps,
   ComponentWithServices,
   ComponentsProps,
 } from '@/components/types';
 import { portableTextToPlainText } from '@/lib/portable-text';
-import { buildSeoMetadata } from '@/lib/seo';
+import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
@@ -40,12 +41,15 @@ async function getData(slug: string) {
   }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const data = await getData(params.slug);
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.unitBusiness) {
     return {
@@ -60,24 +64,26 @@ export async function generateMetadata({
   return buildSeoMetadata({
     title: data.unitBusiness.title,
     description: portableTextToPlainText(data.unitBusiness.description, 160),
-    path: `/area-de-practica/${params.slug}`,
+    path: `/area-de-practica/${slug}`,
     seo: data.unitBusiness.seo,
     settings: data.settings,
-    fallbackImage: data.unitBusiness.components?.[0]?.imageBackground,
+    fallbackImage: extractFallbackImage(data.unitBusiness.components),
     type: 'website',
   });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data?.unitBusiness) {
     notFound();
   }
 
   const { posts, settings, unitBusiness } = data;
+  const components = (unitBusiness.components || []) as ComponentsProps;
 
-  unitBusiness.components?.forEach((component) => {
+  components.forEach((component: ComponentProps) => {
     if (
       component.typeComponentValue === 'Carousel' &&
       component.variant == 'post'
@@ -88,17 +94,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
     }
   });
 
-  if (!unitBusiness.components) {
+  if (!components.length) {
     notFound();
   }
 
   return (
     <section>
-      <PageTemplate components={unitBusiness.components as ComponentsProps} />
+      <PageTemplate components={components} />
       <div className="site-container pb-16">
         <ContentContactCta
           cta={settings?.defaultContentCta}
-          source={`practice_area_${params.slug}`}
+          source={`practice_area_${slug}`}
         />
       </div>
     </section>

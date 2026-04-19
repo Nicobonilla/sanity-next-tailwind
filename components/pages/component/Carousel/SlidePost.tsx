@@ -1,4 +1,5 @@
 import { trackArticleClick } from '@/components/lib/GTMTrackers';
+import { extractComponentImageBackground } from '@/lib/seo';
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import clsx from 'clsx';
@@ -18,10 +19,10 @@ export default function SlidePost({
   const path = usePathname();
   if (!post.components) return null;
 
-  const { imageBackground } =
-    post.components.find(
-      (component) => component.typeComponentValue === 'Heading'
-    ) || {};
+  const imageBackground = extractComponentImageBackground(
+    post.components,
+    'Heading'
+  );
   return (
     <div className="group relative h-fit w-full items-center overflow-hidden px-1">
       <Link
