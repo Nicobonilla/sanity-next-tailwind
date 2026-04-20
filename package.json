@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "postinstall": "patch-package",
     "presetup": "echo 'about to setup env variables, follow the guide here: https://github.com/vercel/next.js/tree/canary/examples/cms-sanity#using-the-sanity-cli'",
     "setup": "npx sanity@latest init --env .env.local",
     "postsetup": "echo 'create the read token by following the rest of the guide: https://github.com/vercel/next.js/tree/canary/examples/cms-sanity#creating-a-read-token'",
@@ -60,7 +61,7 @@
     "sanity-plugin-media": "^3.0.5",
     "schema-dts": "^1.1.5",
     "server-only": "^0.0.1",
-    "styled-components": "^6.1.13",
+    "styled-components": "^6.4.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss": "^3.4.15",
     "typescript": "5.6.3",
@@ -71,6 +72,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "eslint-plugin-tailwindcss": "^3.17.5",
+    "patch-package": "^8.0.0",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8"
   }
