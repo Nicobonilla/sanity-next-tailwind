@@ -19,9 +19,14 @@ const PRIMARY_HEADING_COMPONENTS = new Set([
 ]);
 
 type ArticleValue = GetPostDetailQueryResult | GetServiceDetailQueryResult;
+type ComponentWithTypeValue = {
+  typeComponentValue?: string | null;
+};
 
 export function articleHasPrimaryHeading(article: ArticleValue) {
-  const firstComponent = article?.components?.[0];
+  const firstComponent = article?.components?.[0] as
+    | ComponentWithTypeValue
+    | undefined;
   const typeValue =
     typeof firstComponent?.typeComponentValue === 'string'
       ? firstComponent.typeComponentValue.replace(/\s+/g, '').toLowerCase()
