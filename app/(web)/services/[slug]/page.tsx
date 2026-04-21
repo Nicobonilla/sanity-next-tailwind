@@ -5,6 +5,7 @@ import { Service, WithContext } from 'schema-dts';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
+import { normalizePathSegment } from '@/lib/path-utils';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
@@ -39,9 +40,9 @@ export async function generateStaticParams() {
   const services = await getServicesNavFetch();
 
   return (services || [])
-    .filter((service) => Boolean(service.slug))
+    .filter((service) => Boolean(normalizePathSegment(service.slug)))
     .map((service) => ({
-      slug: service.slug!,
+      slug: normalizePathSegment(service.slug)!,
     }));
 }
 

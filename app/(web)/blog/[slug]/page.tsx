@@ -5,6 +5,7 @@ import { Article, WithContext } from 'schema-dts';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
+import { normalizePathSegment } from '@/lib/path-utils';
 import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
@@ -36,9 +37,9 @@ export async function generateStaticParams() {
   const posts = await getPostListFetch();
 
   return (posts || [])
-    .filter((post) => Boolean(post.slug))
+    .filter((post) => Boolean(normalizePathSegment(post.slug)))
     .map((post) => ({
-      slug: post.slug!,
+      slug: normalizePathSegment(post.slug)!,
     }));
 }
 

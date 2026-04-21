@@ -22,3 +22,14 @@ export type Links = {
 export type NavProps = {
   links: Links[]; // links should always be an array
 };
+
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    __asfAnalyticsConsent?: 'granted' | 'denied' | null;
+    __asfTrackingEnabled?: boolean;
+  }
+}
+
+export {};

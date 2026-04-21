@@ -1,8 +1,9 @@
 import '../globals.css';
 
 import { Metadata } from 'next';
-import { draftMode } from 'next/headers';
+import { cookies, draftMode } from 'next/headers';
 
+import AnalyticsManager from '@/components/analytics/AnalyticsManager';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Footer from '@/components/global/Footer';
 import FormMount from '@/components/global/Form/FormMount';
@@ -10,6 +11,11 @@ import { fonts } from '@/components/global/fonts';
 import Navbar from '@/components/global/Navbar';
 import WhatsappSticky from '@/components/global/WhatsappSticky';
 import Providers from '@/context/Providers';
+import {
+  ANALYTICS_CONSENT_COOKIE,
+  buildGoogleConsentState,
+  parseConsentCookie,
+} from '@/lib/analytics-consent';
 import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildMetadataBase, isProductionIndexableEnvironment } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
@@ -107,6 +113,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const { isEnabled: isDraftModeEnabled } = await draftMode();
+  const cookieStore = await cookies();
+  const initialAnalyticsConsent = parseConsentCookie(
+    cookieStore.get(ANALYTICS_CONSENT_COOKIE)?.value
+  );
   const { pages, unitBusinessList, settings } = await getData();
   const siteIdentity = resolveSiteIdentity(settings);
   const metadataBase = buildMetadataBase(
@@ -117,14 +127,7 @@ export default async function RootLayout({
   const SanityLive = (await import('@/sanity/lib/live')).SanityLive;
   const VisualEditing = isDraftModeEnabled
     ? (await import('next-sanity/visual-editing')).VisualEditing
-    : null;
-  const GoogleTagManager =
-    isGtmEnabled
-      ? (await import('@next/third-parties/google')).GoogleTagManager
       : null;
-  const GTMGlobals = isGtmEnabled
-    ? (await import('@/components/lib/GTMGlobals')).default
-    : null;
   const SpeedInsights =
     isSpeedInsightsEnabled
       ? (await import('@vercel/speed-insights/next')).SpeedInsights
@@ -161,6 +164,23 @@ export default async function RootLayout({
     >
       <head />
       <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
+        {isGtmEnabled ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+                window.__asfTrackingEnabled = true;
+                window.__asfAnalyticsConsent = ${JSON.stringify(initialAnalyticsConsent)};
+                window.gtag('consent', 'default', ${JSON.stringify(
+                  buildGoogleConsentState(
+                    initialAnalyticsConsent === 'granted' ? 'granted' : 'denied'
+                  )
+                )});
+              `,
+            }}
+          />
+        ) : null}
         <script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
@@ -173,16 +193,13 @@ export default async function RootLayout({
           }}
           type="application/ld+json"
         />
-        {isGtmEnabled && (
-          <>
-            {GoogleTagManager && (
-              <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
-            )}
-            {GTMGlobals && <GTMGlobals />}
-          </>
-        )}
         <ErrorBoundary>
-          <Providers withDarkMode={false}>
+          <Providers
+            initialAnalyticsConsent={initialAnalyticsConsent}
+            trackingEnabled={isGtmEnabled}
+            withDarkMode={false}
+          >
+            <AnalyticsManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
             <Navbar
               pages={pages}
               unitBusinessList={unitBusinessList}

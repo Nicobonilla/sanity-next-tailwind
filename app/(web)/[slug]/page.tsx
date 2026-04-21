@@ -4,6 +4,7 @@ import { WebPage, WithContext } from 'schema-dts';
 
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
+import { normalizePathSegment } from '@/lib/path-utils';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
@@ -36,11 +37,11 @@ export async function generateStaticParams() {
     .filter(
       (page) =>
         !page.isHome &&
-        Boolean(page.slug) &&
+        Boolean(normalizePathSegment(page.slug)) &&
         !['blog'].includes(page.slug || '')
     )
     .map((page) => ({
-      slug: page.slug!,
+      slug: normalizePathSegment(page.slug)!,
     }));
 }
 

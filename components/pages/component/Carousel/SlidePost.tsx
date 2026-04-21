@@ -1,6 +1,7 @@
 'use client';
 
 import { trackArticleClick } from '@/components/lib/GTMTrackers';
+import { buildContentPath } from '@/lib/path-utils';
 import { extractComponentImageBackground } from '@/lib/seo';
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
@@ -19,7 +20,9 @@ export default function SlidePost({
   index: number;
 }) {
   const path = usePathname();
-  if (!post.components) return null;
+  const postHref = buildContentPath('/blog', post.slug);
+
+  if (!post.components || !postHref) return null;
 
   const imageBackground = extractComponentImageBackground(
     post.components,
@@ -28,7 +31,7 @@ export default function SlidePost({
   return (
     <div className="group relative h-fit w-full items-center overflow-hidden px-1">
       <Link
-        href={{ pathname: `/blog/${post.slug}` }}
+        href={postHref}
         className="group"
         onClick={() =>
           trackArticleClick(post.slug || '', 'carousel_post' + '-' + path)

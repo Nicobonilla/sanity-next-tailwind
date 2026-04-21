@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import Logo from '@/components/global/Logo';
 import { trackNavClick, trackPhoneClick } from '@/components/lib/GTMTrackers';
+import { useAnalyticsConsent } from '@/context/AnalyticsConsentContext';
 import { SiteIdentity } from '@/lib/site-identity';
 import { GetPagesNavQueryResult } from '@/sanity.types';
 
@@ -22,6 +23,7 @@ export default function Simple({
   pages: GetPagesNavQueryResult;
   siteIdentity: SiteIdentity;
 }) {
+  const { openPreferences, trackingEnabled } = useAnalyticsConsent();
   const footerPages = pages.filter(
     (page) =>
       page.showInFooter !== false &&
@@ -96,8 +98,35 @@ export default function Simple({
         </div>
 
         <div className="mt-10 border-t border-[color:rgba(245,242,236,0.12)] pt-6 text-sm text-[color:rgba(245,242,236,0.6)]">
-          {currentYear} {siteIdentity.firmName}. Todos los derechos
-          reservados.
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <p>
+              {currentYear} {siteIdentity.firmName}. Todos los derechos
+              reservados.
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link
+                className="transition-colors duration-200 hover:text-[color:var(--color-bg)]"
+                href="/politica-de-privacidad"
+              >
+                Politica de privacidad
+              </Link>
+              <Link
+                className="transition-colors duration-200 hover:text-[color:var(--color-bg)]"
+                href="/politica-de-cookies"
+              >
+                Politica de cookies
+              </Link>
+              {trackingEnabled ? (
+                <button
+                  className="text-left transition-colors duration-200 hover:text-[color:var(--color-bg)]"
+                  onClick={openPreferences}
+                  type="button"
+                >
+                  Preferencias de cookies
+                </button>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
     </footer>

@@ -11,6 +11,7 @@ import {
   ComponentWithServices,
   ComponentsProps,
 } from '@/components/types';
+import { normalizePathSegment } from '@/lib/path-utils';
 import { portableTextToPlainText } from '@/lib/portable-text';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
@@ -53,9 +54,9 @@ export async function generateStaticParams() {
   const areas = await getUnitBusinessListFetch();
 
   return (areas || [])
-    .filter((area) => Boolean(area.slug))
+    .filter((area) => Boolean(normalizePathSegment(area.slug)))
     .map((area) => ({
-      slug: area.slug!,
+      slug: normalizePathSegment(area.slug)!,
     }));
 }
 

@@ -8,6 +8,7 @@ import { SiteIdentity } from '@/lib/site-identity';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { TableOfContents } from './TableOfContents';
 import { PTextPost } from '../Posts/PTextPost';
+import { articleHasPrimaryHeading } from './utils';
 
 interface PortableTextAndTOCProps {
   article: GetPostDetailQueryResult | GetServiceDetailQueryResult;
@@ -36,6 +37,9 @@ export default function PortableTextAndTOC({
   ctaSource = 'content_cta',
   siteIdentity,
 }: PortableTextAndTOCProps) {
+  const hasPrimaryHeading = articleHasPrimaryHeading(article);
+  const hasTableOfContents = Boolean(article?.tableOfContents);
+
   return (
     <div className="mx-auto max-w-screen-xl">
       <article>
@@ -44,14 +48,16 @@ export default function PortableTextAndTOC({
           currentPath={currentPath}
           items={breadcrumbsItems}
         />
-        <h1 className="h2 mb-2 ml-2 lg:mb-6">{article?.title}</h1>
+        {!hasPrimaryHeading ? (
+          <h1 className="h2 mb-2 ml-2 lg:mb-6">{article?.title}</h1>
+        ) : null}
 
         <div className="relative mx-2 flex w-full flex-col gap-2 md:flex-row">
-          <div className="sticky left-0 top-16 z-40 w-full md:hidden">
-            {article?.tableOfContents && (
+          {hasTableOfContents ? (
+            <aside className="sticky left-0 top-16 z-40 order-1 w-full md:top-[88px] md:order-2 md:w-1/4">
               <TableOfContents items={article?.tableOfContents || null} />
-            )}
-          </div>
+            </aside>
+          ) : null}
 
           <div className="order-2 mx-2 mb-10 md:order-1 md:w-3/4">
             <div className="prose prose-sm max-w-none">
@@ -62,12 +68,6 @@ export default function PortableTextAndTOC({
             </div>
             <ContentContactCta cta={cta} siteIdentity={siteIdentity} source={ctaSource} />
           </div>
-
-          <aside className="hidden md:sticky md:top-[88px] md:order-2 md:block md:w-1/4">
-            {article?.tableOfContents && (
-              <TableOfContents items={article?.tableOfContents || null} />
-            )}
-          </aside>
         </div>
       </article>
     </div>

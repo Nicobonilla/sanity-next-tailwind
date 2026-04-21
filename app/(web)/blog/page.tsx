@@ -5,6 +5,7 @@ import PageTemplate from '@/components/pages/PageTemplate';
 import Posts from '@/components/pages/component/Posts';
 import Resources from '@/components/pages/component/Resources';
 import { ComponentProps, ComponentsProps } from '@/components/types';
+import { buildContentPath } from '@/lib/path-utils';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
@@ -86,12 +87,12 @@ export default async function Page() {
       'Guias legales y articulos informativos del estudio juridico en San Felipe.',
     url: 'https://www.abogadossanfelipe.cl/blog',
     blogPost: (posts || [])
-      .filter((post) => Boolean(post.slug))
+      .filter((post) => Boolean(buildContentPath('/blog', post.slug)))
       .slice(0, 12)
       .map((post) => ({
         '@type': 'BlogPosting',
         headline: post.title || 'Articulo legal',
-        url: `https://www.abogadossanfelipe.cl/blog/${post.slug}`,
+        url: `https://www.abogadossanfelipe.cl${buildContentPath('/blog', post.slug)}`,
         dateModified: post._updatedAt || undefined,
         datePublished: post.date || undefined,
         description: post.resumen || undefined,

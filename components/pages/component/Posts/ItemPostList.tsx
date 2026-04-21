@@ -3,6 +3,7 @@
 import { GetPostListQueryResult } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image-utils';
 import { trackArticleClick } from '@/components/lib/GTMTrackers';
+import { buildContentPath } from '@/lib/path-utils';
 import { extractComponentImageBackground } from '@/lib/seo';
 import { format } from 'date-fns';
 import Image from 'next/image';
@@ -17,7 +18,9 @@ export default function ItemPostList({
   index: number;
 }) {
   const path = usePathname();
-  if (!post.components) return null;
+  const postHref = buildContentPath('/blog', post.slug);
+
+  if (!post.components || !postHref) return null;
 
   const imageBackground = extractComponentImageBackground(
     post.components,
@@ -27,7 +30,7 @@ export default function ItemPostList({
 
   return (
     <Link
-      href={{ pathname: `/blog/${post.slug}` }}
+      href={postHref}
       className="group"
       onClick={() =>
         trackArticleClick(post.slug || '', 'post_list' + '-' + path)

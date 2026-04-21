@@ -81,7 +81,7 @@ export default function PTextHero({
             )}
             aria-label="Seguir para más información" // Mejora la accesibilidad
           >
-            Ver Más
+            Conocer el servicio
           </button>
         </Link>
       </div>

@@ -11,7 +11,11 @@ export default function GTMGlobals() {
   const reachedDepths = useRef(new Set<number>());
 
   useEffect(() => {
-    if (typeof window === 'undefined' || process.env.NODE_ENV !== 'production') {
+    if (
+      typeof window === 'undefined' ||
+      process.env.NODE_ENV !== 'production' ||
+      window.__asfAnalyticsConsent !== 'granted'
+    ) {
       return;
     }
 
@@ -52,7 +56,8 @@ export default function GTMGlobals() {
     if (
       typeof window === 'undefined' ||
       process.env.NODE_ENV !== 'production' ||
-      !pathname
+      !pathname ||
+      window.__asfAnalyticsConsent !== 'granted'
     ) {
       return;
     }

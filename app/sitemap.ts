@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 
+import { buildContentPath, normalizePathSegment } from '@/lib/path-utils';
 import { getSiteUrl } from '@/lib/seo';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import { getPageBySlugFetch, getPagesNavFetch } from '@/sanity/lib/fetchs/page.fetch';
@@ -42,9 +43,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const staticPages = (pages || [])
-    .filter((page) => !page.seo?.noIndex)
+    .filter(
+      (page) =>
+        !page.seo?.noIndex &&
+        (page.isHome || Boolean(normalizePathSegment(page.slug)))
+    )
     .map((page) => ({
-      url: page.isHome ? baseUrl : `${baseUrl}/${page.slug}`,
+      url: page.isHome
+        ? baseUrl
+        : `${baseUrl}/${normalizePathSegment(page.slug)}`,
       lastModified: toDate(page._updatedAt),
       changeFrequency: page.isHome ? ('weekly' as const) : ('monthly' as const),
       priority: page.isHome ? 1 : 0.8,
@@ -58,27 +65,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   };
 
   const servicesPages = (services || [])
-    .filter((service) => !service.seo?.noIndex && service.slug)
+    .filter(
+      (service) =>
+        !service.seo?.noIndex && Boolean(buildContentPath('/services', service.slug))
+    )
     .map((service) => ({
-      url: `${baseUrl}/services/${service.slug}`,
+      url: `${baseUrl}${buildContentPath('/services', service.slug)}`,
       lastModified: toDate(service._updatedAt),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     }));
 
   const postsPages = (posts || [])
-    .filter((post) => !post.seo?.noIndex && post.slug)
+    .filter(
+      (post) => !post.seo?.noIndex && Boolean(buildContentPath('/blog', post.slug))
+    )
     .map((post) => ({
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}${buildContentPath('/blog', post.slug)}`,
       lastModified: toDate(post._updatedAt || post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }));
 
   const unitBusinessPages = (unitBusiness || [])
-    .filter((area) => !area.seo?.noIndex && area.slug)
+    .filter(
+      (area) =>
+        !area.seo?.noIndex &&
+        Boolean(buildContentPath('/area-de-practica', area.slug))
+    )
     .map((area) => ({
-      url: `${baseUrl}/area-de-practica/${area.slug}`,
+      url: `${baseUrl}${buildContentPath('/area-de-practica', area.slug)}`,
       lastModified: toDate(area._updatedAt),
       changeFrequency: 'monthly' as const,
       priority: 0.75,
