@@ -10,7 +10,9 @@ interface ServiceSelectorProps {
   unitBusinessList: GetUnitBusinessListQueryResult;
   selectedService: string | null;
   handleFormChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => void;
 }
 
@@ -56,7 +58,7 @@ export default function ServiceSelector({
         className="block text-sm font-semibold uppercase tracking-[0.12em] text-[color:var(--color-text-soft)]"
         htmlFor="service-selector-trigger"
       >
-        ¿Qué tipo de asesoría necesita?
+        Que tipo de asesoria necesita
       </label>
 
       <button
@@ -68,7 +70,7 @@ export default function ServiceSelector({
         type="button"
       >
         <span className="pr-4">
-          {selectedService || 'Seleccione un área y un servicio'}
+          {selectedService || 'Seleccione un area y un servicio'}
         </span>
         <IoIosArrowDown
           className={`shrink-0 text-[color:var(--color-text-soft)] transition-transform duration-300 ${mainCategory === 'main' ? 'rotate-180' : 'rotate-0'}`}
@@ -76,7 +78,7 @@ export default function ServiceSelector({
         />
       </button>
 
-      {mainCategory === 'main' && (
+      {mainCategory === 'main' ? (
         <div
           className="overflow-hidden rounded-[8px] border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-[var(--shadow-soft)]"
           id="service-categories"
@@ -94,7 +96,7 @@ export default function ServiceSelector({
                 type="button"
               >
                 <span className="font-medium">
-                  {unitBusiness?.title || 'Área sin nombre'}
+                  {unitBusiness?.title || 'Area sin nombre'}
                 </span>
                 <span
                   className={`inline-flex text-[color:var(--color-text-soft)] transition-transform duration-300 ${serviceCategory === index ? '-rotate-90' : 'rotate-0'}`}
@@ -103,7 +105,7 @@ export default function ServiceSelector({
                 </span>
               </button>
 
-              {serviceCategory === index && (
+              {serviceCategory === index ? (
                 <div
                   className="mx-4 mb-4 border-l border-[color:var(--color-border)] bg-[color:rgba(245,242,236,0.72)]"
                   id={`services-${index}`}
@@ -130,11 +132,11 @@ export default function ServiceSelector({
                     </button>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

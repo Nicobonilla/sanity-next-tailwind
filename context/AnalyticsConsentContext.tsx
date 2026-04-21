@@ -89,6 +89,29 @@ function clearGoogleMeasurementCookies() {
     });
 }
 
+function clearLegacyConsentCookies() {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const hostname = window.location.hostname;
+  const domainCandidates = [undefined, hostname];
+
+  if (hostname.split('.').length > 2) {
+    domainCandidates.push(`.${hostname.split('.').slice(-2).join('.')}`);
+  } else {
+    domainCandidates.push(`.${hostname}`);
+  }
+
+  document.cookie
+    .split(';')
+    .map((part) => part.trim().split('=')[0])
+    .filter((name) => /^(_iub|iubenda)/i.test(name))
+    .forEach((name) => {
+      domainCandidates.forEach((domain) => expireCookie(name, domain));
+    });
+}
+
 export function AnalyticsConsentProvider({
   children,
   initialConsent,
@@ -139,6 +162,7 @@ export function AnalyticsConsentProvider({
     setBannerOpen(false);
     persistConsent('denied');
     clearGoogleMeasurementCookies();
+    clearLegacyConsentCookies();
   };
 
   const value = useMemo(

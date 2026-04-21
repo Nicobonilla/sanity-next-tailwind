@@ -22,6 +22,18 @@ export const visibleLeadFormSchema = z.object({
   ),
   comuna: z.string().trim().min(2, { message: 'Comuna es requerida' }),
   email: z.string().trim().email({ message: 'Email invalido' }),
+  consultationFormat: z.string().trim().min(1, {
+    message: 'Selecciona la modalidad de consulta',
+  }),
+  preferredDate: z
+    .string()
+    .trim()
+    .refine((value) => !value || /^\d{4}-\d{2}-\d{2}$/.test(value), {
+      message: 'Fecha invalida',
+    })
+    .optional()
+    .or(z.literal('')),
+  preferredTimeSlot: z.string().trim().max(80).optional().or(z.literal('')),
   mainCategory: z.string().trim().min(1, {
     message: 'Selecciona un area de practica',
   }),
@@ -42,11 +54,14 @@ export type LeadFormRequestData = z.infer<typeof leadFormRequestSchema>;
 export function createInitialLeadForm(): VisibleLeadFormData {
   return {
     comuna: '',
+    consultationFormat: '',
     email: '',
     mainCategory: '',
     message: '',
     name: '',
     phone: '',
+    preferredDate: '',
+    preferredTimeSlot: '',
     rut: '',
     serviceCategory: '',
   };

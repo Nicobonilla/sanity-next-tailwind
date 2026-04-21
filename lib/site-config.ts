@@ -10,4 +10,23 @@ export const siteConfig = {
   addressLine: 'San Felipe, Region de Valparaiso, Chile',
   city: 'San Felipe',
   region: 'Valparaiso',
+  booking: {
+    isEnabled: true,
+    title: 'Solicitud de consulta virtual',
+    description:
+      'Puede solicitar una fecha y hora preferidas desde el formulario del sitio.',
+    buttonLabel: 'Solicitar hora virtual',
+    bookingUrl: '',
+    availabilityNote: 'Respuesta inicial en horario habil',
+    durationLabel: '20 a 30 minutos',
+    priceLabel: 'Orientacion inicial',
+  },
+  reviewProfiles: [] as Array<{
+    ctaLabel?: string | null;
+    platform?: string | null;
+    rating?: number | null;
+    reviewCount?: number | null;
+    reviewUrl?: string | null;
+    summary?: string | null;
+  }>,
 };

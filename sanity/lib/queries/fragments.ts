@@ -24,3 +24,50 @@ export const contactCtaFields = /* groq */ `
     secondaryLabel
   }
 `;
+
+export const bookingFields = /* groq */ `
+  booking{
+    isEnabled,
+    title,
+    description,
+    buttonLabel,
+    bookingUrl,
+    availabilityNote,
+    durationLabel,
+    priceLabel
+  }
+`;
+
+export const reviewProfileFields = /* groq */ `
+  reviewProfiles[]{
+    platform,
+    rating,
+    reviewCount,
+    summary,
+    reviewUrl,
+    ctaLabel
+  }
+`;
+
+export const serviceLandingFields = /* groq */ `
+  landing{
+    intro,
+    situationsTitle,
+    "situations": situations[],
+    deliverablesTitle,
+    "deliverables": deliverables[],
+    documentsTitle,
+    "documents": documents[],
+    processTitle,
+    processSteps[]{
+      step,
+      title,
+      description
+    },
+    faqTitle,
+    faqItems[]{
+      question,
+      answer
+    }
+  }
+`;

@@ -30,6 +30,7 @@ import post from '@/sanity/schemas/documents/post';
 import resourceItem from '@/sanity/schemas/documents/resourceItem';
 import service from '@/sanity/schemas/documents/service';
 import unitBusiness from '@/sanity/schemas/documents/unitBusiness';
+import bookingSettings from '@/sanity/schemas/objects/bookingSettings';
 import contactCta from '@/sanity/schemas/objects/contactCta';
 import faqItem from '@/sanity/schemas/objects/faqItem';
 import homeFaqSection from '@/sanity/schemas/objects/homeFaqSection';
@@ -40,8 +41,10 @@ import homePracticeAreasSection from '@/sanity/schemas/objects/homePracticeAreas
 import homeProcessSection from '@/sanity/schemas/objects/homeProcessSection';
 import labelValueItem from '@/sanity/schemas/objects/labelValueItem';
 import processStep from '@/sanity/schemas/objects/processStep';
+import reviewProfile from '@/sanity/schemas/objects/reviewProfile';
 import seo from '@/sanity/schemas/objects/seo';
 import sectionHeading from '@/sanity/schemas/objects/sectionHeading';
+import serviceLanding from '@/sanity/schemas/objects/serviceLanding';
 import trustItem from '@/sanity/schemas/objects/trustItem';
 import settings from '@/sanity/schemas/singletons/settings';
 
@@ -77,12 +80,15 @@ export default defineConfig({
       unitBusiness,
       resourceItem,
       seo,
+      bookingSettings,
       contactCta,
       sectionHeading,
       trustItem,
       labelValueItem,
       processStep,
       faqItem,
+      reviewProfile,
+      serviceLanding,
       homeHeroSection,
       homeFirmIntroSection,
       homePracticeAreasSection,

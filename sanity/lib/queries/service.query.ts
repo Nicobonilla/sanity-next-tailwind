@@ -1,7 +1,11 @@
 import groq from 'groq';
 
 import { componentFields } from './component.query';
-import { contactCtaFields, seoFields } from './fragments';
+import {
+  contactCtaFields,
+  seoFields,
+  serviceLandingFields,
+} from './fragments';
 import { unitBusiness } from './unitBusiness.query';
 
 export const getServicesNavQuery = groq`
@@ -25,6 +29,7 @@ export const getServiceDetailQuery = groq`
     _updatedAt,
     ${contactCtaFields},
     ${seoFields},
+    ${serviceLandingFields},
     content,
     "tableOfContents": content[style in ['h2']] {
       _key,

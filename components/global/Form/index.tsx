@@ -69,6 +69,20 @@ async function sendEmail(formData: TForm, submittedAt: number) {
   }
 }
 
+const initialTouched: Record<keyof TForm, boolean> = {
+  name: false,
+  rut: false,
+  phone: false,
+  comuna: false,
+  email: false,
+  consultationFormat: false,
+  preferredDate: false,
+  preferredTimeSlot: false,
+  mainCategory: false,
+  serviceCategory: false,
+  message: false,
+};
+
 export default function Form({
   unitBusinessList,
   logo,
@@ -81,24 +95,17 @@ export default function Form({
   const { isOpen, closeDrawer } = useContactDrawerContext();
   const [formData, setFormData] = useState<TForm>(initialForm);
   const [errors, setErrors] = useState<TFormErrors>(initialErrors);
-  const [touched, setTouched] = useState<Record<keyof TForm, boolean>>({
-    name: false,
-    rut: false,
-    phone: false,
-    comuna: false,
-    email: false,
-    mainCategory: false,
-    serviceCategory: false,
-    message: false,
-  });
+  const [touched, setTouched] =
+    useState<Record<keyof TForm, boolean>>(initialTouched);
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const [submittedAt, setSubmittedAt] = useState(() => Date.now());
 
-  const selectedServiceDisplay = formData.serviceCategory
-    ? `${formData.serviceCategory}${formData.mainCategory ? ` - ${formData.mainCategory}` : ''}`
-    : null;
+  const selectedServiceDisplay =
+    formData.mainCategory && formData.serviceCategory
+      ? `${formData.mainCategory} - ${formData.serviceCategory}`
+      : null;
 
   const validateField = (name: keyof TForm, value: string): string => {
     const fieldSchema = z.object({ [name]: formSchema.shape[name] });
@@ -134,7 +141,9 @@ export default function Form({
   };
 
   const handleFormChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = event.target;
     const fieldName = name as keyof TForm;
@@ -164,7 +173,8 @@ export default function Form({
       [name]: true,
     }));
 
-    const error = validateField(name, formData[name] || '');
+    const value = formData[name] || '';
+    const error = validateField(name, String(value));
     setErrors((prev) => ({
       ...prev,
       [name]: error,
@@ -202,16 +212,7 @@ export default function Form({
         });
         setFormData(createInitialLeadForm());
         setErrors(initialErrors);
-        setTouched({
-          name: false,
-          rut: false,
-          phone: false,
-          comuna: false,
-          email: false,
-          mainCategory: false,
-          serviceCategory: false,
-          message: false,
-        });
+        setTouched(initialTouched);
         setFormSubmitted(false);
         setHasTrackedStart(false);
         setSubmittedAt(Date.now());
@@ -249,16 +250,7 @@ export default function Form({
     if (!isOpen) {
       setFormData(createInitialLeadForm());
       setErrors(initialErrors);
-      setTouched({
-        name: false,
-        rut: false,
-        phone: false,
-        comuna: false,
-        email: false,
-        mainCategory: false,
-        serviceCategory: false,
-        message: false,
-      });
+      setTouched(initialTouched);
       setFormSubmitted(false);
       setHasTrackedStart(false);
       setSubmittedAt(Date.now());
@@ -296,13 +288,13 @@ export default function Form({
           </div>
 
           <div className="text-[color:var(--color-text)]">
-            <p className="eyebrow text-center">Contacto</p>
+            <p className="eyebrow text-center">Consulta inicial</p>
             <h3 className="font-display mt-3 text-center text-4xl leading-tight text-[color:var(--color-primary)]">
-              Solicite una orientacion inicial
+              Solicite una consulta u orientacion inicial
             </h3>
             <p className="font-body mx-auto mb-8 mt-4 max-w-md text-center text-base leading-7 text-[color:var(--color-text-soft)]">
-              Comparta sus antecedentes y el estudio se pondra en contacto para
-              revisar su consulta con seriedad y confidencialidad.
+              Comparta sus antecedentes, modalidad preferida y horario tentativo.
+              El estudio revisara su caso con seriedad y confidencialidad.
             </p>
 
             <form className="space-y-6" noValidate onSubmit={handleSubmit}>
@@ -318,6 +310,7 @@ export default function Form({
                   value=""
                 />
               </div>
+
               <InputField
                 error={touched.name || formSubmitted ? errors.name : undefined}
                 icon="user"
@@ -345,9 +338,7 @@ export default function Form({
               />
 
               <InputField
-                error={
-                  touched.phone || formSubmitted ? errors.phone : undefined
-                }
+                error={touched.phone || formSubmitted ? errors.phone : undefined}
                 icon="phone"
                 id="phone"
                 name="phone"
@@ -360,9 +351,7 @@ export default function Form({
               />
 
               <InputField
-                error={
-                  touched.email || formSubmitted ? errors.email : undefined
-                }
+                error={touched.email || formSubmitted ? errors.email : undefined}
                 icon="mail"
                 id="email"
                 name="email"
@@ -375,9 +364,7 @@ export default function Form({
               />
 
               <InputField
-                error={
-                  touched.comuna || formSubmitted ? errors.comuna : undefined
-                }
+                error={touched.comuna || formSubmitted ? errors.comuna : undefined}
                 icon="user"
                 id="comuna"
                 name="comuna"
@@ -389,24 +376,80 @@ export default function Form({
                 value={formData.comuna}
               />
 
+              <SelectField
+                error={
+                  touched.consultationFormat || formSubmitted
+                    ? errors.consultationFormat
+                    : undefined
+                }
+                id="consultationFormat"
+                label="Modalidad preferida"
+                name="consultationFormat"
+                onBlur={() => handleBlur('consultationFormat')}
+                onChange={handleFormChange}
+                options={[
+                  { label: 'Seleccione una modalidad', value: '' },
+                  { label: 'Videollamada', value: 'Videollamada' },
+                  { label: 'Llamada telefonica', value: 'Llamada telefonica' },
+                  { label: 'WhatsApp', value: 'WhatsApp' },
+                ]}
+                required
+                value={formData.consultationFormat}
+              />
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <InputField
+                  error={
+                    touched.preferredDate || formSubmitted
+                      ? errors.preferredDate
+                      : undefined
+                  }
+                  icon="calendar"
+                  id="preferredDate"
+                  name="preferredDate"
+                  onBlur={() => handleBlur('preferredDate')}
+                  onChange={handleFormChange}
+                  placeholder="Fecha preferida"
+                  type="date"
+                  value={formData.preferredDate || ''}
+                />
+
+                <SelectField
+                  error={
+                    touched.preferredTimeSlot || formSubmitted
+                      ? errors.preferredTimeSlot
+                      : undefined
+                  }
+                  id="preferredTimeSlot"
+                  label="Bloque horario preferido"
+                  name="preferredTimeSlot"
+                  onBlur={() => handleBlur('preferredTimeSlot')}
+                  onChange={handleFormChange}
+                  options={[
+                    { label: 'Sin preferencia horaria', value: '' },
+                    { label: '09:00 a 12:00', value: '09:00 a 12:00' },
+                    { label: '12:00 a 15:00', value: '12:00 a 15:00' },
+                    { label: '15:00 a 18:00', value: '15:00 a 18:00' },
+                  ]}
+                  value={formData.preferredTimeSlot || ''}
+                />
+              </div>
+
               <div className="space-y-1">
                 <ServiceSelector
                   handleFormChange={handleFormChange}
                   selectedService={selectedServiceDisplay}
                   unitBusinessList={unitBusinessList || []}
                 />
-                {(touched.serviceCategory || formSubmitted) &&
-                  errors.serviceCategory && (
-                    <p className="px-1 text-xs text-red-600">
-                      {errors.serviceCategory}
-                    </p>
-                  )}
+                {(touched.serviceCategory || formSubmitted) && errors.serviceCategory ? (
+                  <p className="px-1 text-xs text-red-600">
+                    {errors.serviceCategory}
+                  </p>
+                ) : null}
               </div>
 
               <TextAreaField
-                error={
-                  touched.message || formSubmitted ? errors.message : undefined
-                }
+                error={touched.message || formSubmitted ? errors.message : undefined}
                 id="message"
                 name="message"
                 onBlur={() => handleBlur('message')}
@@ -443,7 +486,9 @@ function InputField({
   id: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void;
   onBlur?: () => void;
   error?: string;
   required?: boolean;
@@ -472,15 +517,68 @@ function InputField({
           value={value}
         />
       </div>
-      {error && (
-        <p
-          className="px-1 text-xs text-red-600"
-          id={`${id}-error`}
-          role="alert"
-        >
+      {error ? (
+        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
           {error}
         </p>
-      )}
+      ) : null}
+    </div>
+  );
+}
+
+function SelectField({
+  error,
+  id,
+  label,
+  name,
+  onBlur,
+  onChange,
+  options,
+  required = false,
+  value,
+}: {
+  error?: string;
+  id: string;
+  label: string;
+  name: string;
+  onBlur?: () => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void;
+  options: Array<{ label: string; value: string }>;
+  required?: boolean;
+  value: string;
+}) {
+  return (
+    <div className="space-y-1">
+      <label
+        className="mb-2 block text-sm font-semibold uppercase tracking-[0.12em] text-[color:var(--color-text-soft)]"
+        htmlFor={id}
+      >
+        {label}
+      </label>
+      <select
+        aria-describedby={error ? `${id}-error` : undefined}
+        aria-invalid={error ? 'true' : 'false'}
+        className={`input-shell w-full ${error ? 'border-red-500 focus:ring-red-500' : ''}`}
+        id={id}
+        name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        required={required}
+        value={value}
+      >
+        {options.map((option) => (
+          <option key={`${id}-${option.value || 'empty'}`} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {error ? (
+        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -498,7 +596,9 @@ function TextAreaField({
   name: string;
   placeholder: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void;
   onBlur?: () => void;
   error?: string;
 }) {
@@ -524,15 +624,11 @@ function TextAreaField({
         rows={4}
         value={value}
       />
-      {error && (
-        <p
-          className="px-1 text-xs text-red-600"
-          id={`${id}-error`}
-          role="alert"
-        >
+      {error ? (
+        <p className="px-1 text-xs text-red-600" id={`${id}-error`} role="alert">
           {error}
         </p>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -565,7 +661,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
             Enviando...
           </span>
         ) : (
-          'Enviar consulta'
+          'Solicitar consulta'
         )}
       </button>
     </div>

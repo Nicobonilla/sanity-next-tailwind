@@ -1,6 +1,20 @@
 'use client';
 
 type AnalyticsPayload = Record<string, unknown>;
+const directGaEvents = new Set([
+  'contact_drawer_open',
+  'lead_form_start',
+  'lead_form_service_select',
+  'lead_form_submit_success',
+  'lead_form_submit_error',
+  'phone_click',
+  'whatsapp_click',
+  'booking_click',
+  'review_click',
+  'practice_area_click',
+  'article_click',
+  'nav_click',
+]);
 
 function canSendAnalyticsEvents() {
   return (
@@ -23,17 +37,38 @@ function buildPageContext() {
   };
 }
 
+function sendDirectGaEvent(event: string, payload: AnalyticsPayload) {
+  if (
+    !directGaEvents.has(event) ||
+    typeof window === 'undefined' ||
+    typeof window.gtag !== 'function'
+  ) {
+    return;
+  }
+
+  const gaMeasurementId = window.__asfGaMeasurementId;
+
+  window.gtag('event', event, {
+    ...buildPageContext(),
+    ...payload,
+    ...(gaMeasurementId ? { send_to: gaMeasurementId } : {}),
+  });
+}
+
 export const sendGTMEvent = (event: string, payload: AnalyticsPayload = {}) => {
   if (!canSendAnalyticsEvents()) {
     return;
   }
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
+  const eventPayload = {
     event,
     ...buildPageContext(),
     ...payload,
-  });
+  };
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(eventPayload);
+  sendDirectGaEvent(event, payload);
 };
 
 export const trackContactDrawerOpen = (source: string) => {
@@ -108,6 +143,20 @@ export const trackWhatsappClick = (source: string) => {
   });
 };
 
+export const trackBookingClick = (source: string, mode: 'external' | 'request') => {
+  sendGTMEvent('booking_click', {
+    source,
+    booking_mode: mode,
+  });
+};
+
+export const trackReviewClick = (platform: string, source: string) => {
+  sendGTMEvent('review_click', {
+    platform,
+    source,
+  });
+};
+
 export const trackPracticeAreaClick = (
   areaSlug: string,
   areaTitle: string,
@@ -149,6 +198,8 @@ export const GTMEvents = {
   leadFormSubmitError: 'lead_form_submit_error',
   phoneClick: 'phone_click',
   whatsappClick: 'whatsapp_click',
+  bookingClick: 'booking_click',
+  reviewClick: 'review_click',
   practiceAreaClick: 'practice_area_click',
   articleClick: 'article_click',
   navClick: 'nav_click',

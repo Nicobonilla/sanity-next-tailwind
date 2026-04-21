@@ -1,6 +1,6 @@
 'use client';
 
-import ContactDrawerButton from '@/components/global/ContactDrawerButton';
+import BookingButton from '@/components/content/BookingButton';
 import {
   trackPhoneClick,
   trackWhatsappClick,
@@ -40,12 +40,13 @@ export default function FinalCTA({
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row">
-                <ContactDrawerButton
+                <BookingButton
                   className="border-[color:var(--color-bg)] bg-[color:var(--color-bg)] text-[color:var(--color-primary)] hover:bg-[color:var(--color-surface-muted)] hover:text-[color:var(--color-primary)]"
+                  siteIdentity={siteIdentity}
                   source="final_cta"
                 >
                   {primaryLabel}
-                </ContactDrawerButton>
+                </BookingButton>
                 <Button
                   asChild
                   className="border-[color:rgba(245,242,236,0.4)] text-[color:var(--color-bg)] hover:bg-[color:rgba(255,255,255,0.08)] hover:text-[color:var(--color-bg)]"
@@ -70,7 +71,8 @@ export default function FinalCTA({
                     Disponibilidad
                   </p>
                   <p className="mt-2 text-lg text-[color:var(--color-bg)]">
-                    Consulta virtual y respuesta inicial por WhatsApp.
+                    {siteIdentity.booking.availabilityNote ||
+                      'Consulta virtual y respuesta inicial por WhatsApp.'}
                   </p>
                 </div>
                 <div>

@@ -73,6 +73,14 @@ export default defineType({
         'Se usa como CTA final en articulos y servicios cuando el documento no define uno propio.',
     }),
     defineField({
+      name: 'booking',
+      title: 'Agenda virtual',
+      description:
+        'Configura la solicitud de consulta virtual. Puede usar una URL externa o el formulario del sitio.',
+      type: 'bookingSettings',
+      group: 'structure',
+    }),
+    defineField({
       name: 'firmName',
       title: 'Nombre institucional',
       description: 'Nombre formal del estudio para schema, footer y metadata.',
@@ -145,6 +153,16 @@ export default defineType({
       type: 'string',
       group: 'business',
       validation: (rule) => rule.max(80),
+    }),
+    defineField({
+      name: 'reviewProfiles',
+      title: 'Reseñas y perfiles externos',
+      description:
+        'Use solo fuentes verificables, por ejemplo Google Business Profile u otros directorios reales.',
+      type: 'array',
+      group: 'business',
+      of: [{ type: 'reviewProfile' }],
+      validation: (rule) => rule.max(4),
     }),
     defineField({
       name: 'withDarkTheme',

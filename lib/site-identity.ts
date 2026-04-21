@@ -15,6 +15,24 @@ export type SiteIdentity = {
   addressLine: string;
   city: string;
   region: string;
+  booking: {
+    isEnabled: boolean;
+    title?: string | null;
+    description?: string | null;
+    buttonLabel?: string | null;
+    bookingUrl?: string | null;
+    availabilityNote?: string | null;
+    durationLabel?: string | null;
+    priceLabel?: string | null;
+  };
+  reviewProfiles: Array<{
+    ctaLabel?: string | null;
+    platform?: string | null;
+    rating?: number | null;
+    reviewCount?: number | null;
+    reviewUrl?: string | null;
+    summary?: string | null;
+  }>;
 };
 
 function sanitizePhoneNumber(value?: string | null) {
@@ -51,5 +69,24 @@ export function resolveSiteIdentity(
     addressLine: settings?.addressLine || siteConfig.addressLine,
     city: settings?.city || siteConfig.city,
     region: settings?.region || siteConfig.region,
+    booking: {
+      isEnabled:
+        settings?.booking?.isEnabled ?? siteConfig.booking.isEnabled ?? true,
+      title: settings?.booking?.title || siteConfig.booking.title,
+      description:
+        settings?.booking?.description || siteConfig.booking.description,
+      buttonLabel:
+        settings?.booking?.buttonLabel || siteConfig.booking.buttonLabel,
+      bookingUrl: settings?.booking?.bookingUrl || siteConfig.booking.bookingUrl,
+      availabilityNote:
+        settings?.booking?.availabilityNote ||
+        siteConfig.booking.availabilityNote,
+      durationLabel:
+        settings?.booking?.durationLabel || siteConfig.booking.durationLabel,
+      priceLabel: settings?.booking?.priceLabel || siteConfig.booking.priceLabel,
+    },
+    reviewProfiles:
+      settings?.reviewProfiles?.filter((profile) => Boolean(profile?.reviewUrl)) ||
+      siteConfig.reviewProfiles,
   };
 }

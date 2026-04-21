@@ -73,11 +73,14 @@ export async function POST(request: NextRequest) {
 
     const {
       comuna,
+      consultationFormat,
       email,
       mainCategory,
       message,
       name,
       phone,
+      preferredDate,
+      preferredTimeSlot,
       rut,
       serviceCategory,
       submittedAt,
@@ -105,11 +108,14 @@ export async function POST(request: NextRequest) {
     const emailHtml = await render(
       React.createElement(Email, {
         comuna,
+        consultationFormat,
         email,
         mainCategory,
         message: message || '',
         name,
         phone,
+        preferredDate: preferredDate || '',
+        preferredTimeSlot: preferredTimeSlot || '',
         rut,
         serviceCategory,
       })
@@ -119,7 +125,7 @@ export async function POST(request: NextRequest) {
     const response = await resend.emails.send({
       from: process.env.SENDER_EMAIL || '',
       to: process.env.CLIENT_EMAIL || '',
-      subject: `SBA-cliente: ${name} | ${mainCategory} | ${serviceCategory}`,
+      subject: `SBA-cliente: ${name} | ${mainCategory} | ${serviceCategory} | ${consultationFormat}`,
       html: emailHtml,
     });
 

@@ -1,6 +1,7 @@
 'use client';
 
-import ContactDrawerButton from '@/components/global/ContactDrawerButton';
+import BookingButton from '@/components/content/BookingButton';
+import ReviewsProof from '@/components/content/ReviewsProof';
 import {
   trackPhoneClick,
   trackWhatsappClick,
@@ -65,9 +66,24 @@ export default function ServiceQuickActions({
             </p>
           </div>
 
-          <ContactDrawerButton className="w-full" source={`${source}_drawer`}>
-            Agendar consulta virtual
-          </ContactDrawerButton>
+          <BookingButton className="w-full" siteIdentity={siteIdentity} source={`${source}_booking`}>
+            {siteIdentity.booking.buttonLabel || 'Solicitar hora virtual'}
+          </BookingButton>
+
+          {siteIdentity.booking.availabilityNote ||
+          siteIdentity.booking.durationLabel ||
+          siteIdentity.booking.priceLabel ? (
+            <div className="rounded-xl border border-[color:rgba(31,39,51,0.08)] bg-[color:rgba(255,255,255,0.6)] p-4 text-sm leading-6 text-[color:var(--color-text-soft)]">
+              <p className="font-semibold text-[color:var(--color-primary)]">
+                {siteIdentity.booking.priceLabel || 'Consulta virtual'}
+              </p>
+              <p className="mt-2">
+                {[siteIdentity.booking.durationLabel, siteIdentity.booking.availabilityNote]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            </div>
+          ) : null}
 
           <Button asChild className="w-full" variant="secondary">
             <a
@@ -92,6 +108,8 @@ export default function ServiceQuickActions({
           <div className="rounded-xl border border-[color:rgba(31,39,51,0.08)] bg-[color:rgba(255,255,255,0.6)] p-4 text-sm leading-6 text-[color:var(--color-text-soft)]">
             Respuesta inicial clara, contacto directo y orientacion confidencial para asuntos familiares, patrimoniales e inmobiliarios.
           </div>
+
+          <ReviewsProof compact siteIdentity={siteIdentity} source={`${source}_reviews`} />
         </div>
       </div>
     </section>

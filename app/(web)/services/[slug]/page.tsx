@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Service, WithContext } from 'schema-dts';
 
+import ServiceLandingSections from '@/components/content/ServiceLandingSections';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
@@ -9,6 +10,7 @@ import ServiceQuickActions from '@/components/content/ServiceQuickActions';
 import { normalizePathSegment } from '@/lib/path-utils';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
+import { buildFaqJsonLd } from '@/lib/structured-data';
 import { getSettingsFetch } from '@/sanity/lib/fetch';
 import {
   getServiceBySlugFetch,
@@ -119,6 +121,17 @@ export default async function Page({ params }: PageProps) {
       slug: `area-de-practica/${service.unitBusiness.slug}`,
     },
   ];
+  const faqJsonLd =
+    service.landing?.faqItems?.length
+      ? buildFaqJsonLd(
+          service.landing.faqItems
+            .filter((item) => item?.question && item?.answer)
+            .map((item) => ({
+              question: item.question!,
+              answer: item.answer!,
+            }))
+        )
+      : null;
 
   return (
     <section>
@@ -126,6 +139,12 @@ export default async function Page({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      ) : null}
       <div className="mx-auto">
         {service.components && (
           <PageTemplate components={service.components as ComponentsProps} />
@@ -136,6 +155,12 @@ export default async function Page({ params }: PageProps) {
           serviceTitle={service.title || 'este servicio'}
           siteIdentity={siteIdentity}
           source={`service_${slug}_quick_actions`}
+        />
+        <ServiceLandingSections
+          landing={service.landing}
+          serviceTitle={service.title || 'Servicio legal'}
+          siteIdentity={siteIdentity}
+          source={`service_${slug}_landing`}
         />
         <PortableTextAndToc
           article={service}

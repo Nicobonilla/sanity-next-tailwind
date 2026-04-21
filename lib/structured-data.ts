@@ -18,10 +18,23 @@ type SiteIdentity = {
   firmName: string;
   phoneDisplay: string;
   region: string;
+  reviewProfiles?: Array<{
+    platform?: string | null;
+    rating?: number | null;
+    reviewCount?: number | null;
+    reviewUrl?: string | null;
+  }>;
   url: string;
 };
 
 export function buildOrganizationJsonLd(site: SiteIdentity) {
+  const primaryReview = site.reviewProfiles?.find(
+    (profile) =>
+      typeof profile.rating === 'number' &&
+      typeof profile.reviewCount === 'number' &&
+      profile.reviewCount > 0
+  );
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -37,12 +50,27 @@ export function buildOrganizationJsonLd(site: SiteIdentity) {
       addressRegion: cleanSanityString(site.region),
       addressCountry: 'CL',
     },
+    ...(primaryReview
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: primaryReview.rating,
+            reviewCount: primaryReview.reviewCount,
+          },
+        }
+      : {}),
   };
 }
 
 export function buildLocalBusinessJsonLd(site: SiteIdentity) {
   const city = cleanSanityString(site.city);
   const region = cleanSanityString(site.region);
+  const primaryReview = site.reviewProfiles?.find(
+    (profile) =>
+      typeof profile.rating === 'number' &&
+      typeof profile.reviewCount === 'number' &&
+      profile.reviewCount > 0
+  );
 
   return {
     '@context': 'https://schema.org',
@@ -60,6 +88,15 @@ export function buildLocalBusinessJsonLd(site: SiteIdentity) {
       addressRegion: region,
       addressCountry: 'CL',
     },
+    ...(primaryReview
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: primaryReview.rating,
+            reviewCount: primaryReview.reviewCount,
+          },
+        }
+      : {}),
   };
 }
 

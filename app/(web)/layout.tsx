@@ -172,6 +172,7 @@ export default async function RootLayout({
                 window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
                 window.__asfTrackingEnabled = true;
                 window.__asfAnalyticsConsent = ${JSON.stringify(initialAnalyticsConsent)};
+                window.__asfGaMeasurementId = ${JSON.stringify(process.env.GA || null)};
                 window.gtag('consent', 'default', ${JSON.stringify(
                   buildGoogleConsentState(
                     initialAnalyticsConsent === 'granted' ? 'granted' : 'denied'

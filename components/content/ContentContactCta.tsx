@@ -1,6 +1,6 @@
 'use client';
 
-import ContactDrawerButton from '@/components/global/ContactDrawerButton';
+import BookingButton from '@/components/content/BookingButton';
 import {
   trackPhoneClick,
   trackWhatsappClick,
@@ -74,9 +74,9 @@ export default function ContentContactCta({
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <ContactDrawerButton source={`${source}_drawer`}>
+          <BookingButton siteIdentity={siteIdentity} source={`${source}_booking`}>
             {resolvePrimaryLabel(cta?.primaryLabel)}
-          </ContactDrawerButton>
+          </BookingButton>
           <a
             className="inline-flex min-h-[52px] items-center justify-center rounded-md border border-[color:var(--color-primary)] px-6 text-sm font-semibold text-[color:var(--color-primary)] transition-colors duration-200 hover:bg-[color:rgba(30,42,56,0.04)]"
             href={siteIdentity.whatsappHref}

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import ContactDrawerButton from '@/components/global/ContactDrawerButton';
+import BookingButton from '@/components/content/BookingButton';
 import {
   trackPhoneClick,
   trackWhatsappClick,
@@ -55,12 +55,13 @@ export default function HomeHero({
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <ContactDrawerButton
+              <BookingButton
                 className="w-full sm:w-auto"
+                siteIdentity={siteIdentity}
                 source="home_hero"
               >
                 {primaryLabel}
-              </ContactDrawerButton>
+              </BookingButton>
               <Button asChild className="w-full sm:w-auto" variant="secondary">
                 <a
                   href={siteIdentity.whatsappHref}
@@ -72,6 +73,14 @@ export default function HomeHero({
                 </a>
               </Button>
             </div>
+            {siteIdentity.booking.availabilityNote ||
+            siteIdentity.booking.durationLabel ? (
+              <p className="text-sm text-[color:var(--color-text-soft)]">
+                {[siteIdentity.booking.durationLabel, siteIdentity.booking.availabilityNote]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            ) : null}
             <a
               className="text-sm font-semibold text-[color:var(--color-primary)] underline-offset-4 transition-colors duration-200 hover:text-[color:var(--color-accent)] hover:underline"
               href="#areas"

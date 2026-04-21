@@ -1,6 +1,6 @@
 'use client';
 
-import ContactDrawerButton from '@/components/global/ContactDrawerButton';
+import BookingButton from '@/components/content/BookingButton';
 import {
   trackPhoneClick,
   trackWhatsappClick,
@@ -101,12 +101,13 @@ export default function ContactRoutes({
 
               <div className="mt-8">
                 {route.type === 'drawer' ? (
-                  <ContactDrawerButton
+                  <BookingButton
                     className="w-full"
+                    siteIdentity={siteIdentity}
                     source="home_contact_routes_drawer"
                   >
                     {route.label}
-                  </ContactDrawerButton>
+                  </BookingButton>
                 ) : null}
 
                 {route.type === 'whatsapp' ? (

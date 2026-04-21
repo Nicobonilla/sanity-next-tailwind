@@ -11,6 +11,7 @@ import LeadershipPreview from '@/components/legal-home/LeadershipPreview';
 import ContactRoutes from '@/components/legal-home/ContactRoutes';
 import PracticeAreas from '@/components/legal-home/PracticeAreas';
 import ProcessSteps from '@/components/legal-home/ProcessSteps';
+import ReviewsSection from '@/components/legal-home/ReviewsSection';
 import TrustStrip from '@/components/legal-home/TrustStrip';
 import { buildLegalHomeContent } from '@/lib/legal-home-content';
 import { buildSeoMetadata } from '@/lib/seo';
@@ -91,6 +92,7 @@ export default async function Page() {
     firmName: siteIdentity.firmName,
     phoneDisplay: siteIdentity.phoneDisplay,
     region: siteIdentity.region,
+    reviewProfiles: siteIdentity.reviewProfiles,
     url: 'https://www.abogadossanfelipe.cl',
   });
 
@@ -123,6 +125,7 @@ export default async function Page() {
         trustBullets={homeContent.hero.trustBullets}
       />
       <TrustStrip items={homeContent.trustStrip.items} />
+      <ReviewsSection siteIdentity={siteIdentity} />
       <ContactRoutes siteIdentity={siteIdentity} />
       <FirmIntro
         cards={homeContent.firmIntro.cards}

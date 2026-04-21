@@ -28,6 +28,7 @@ declare global {
     dataLayer: unknown[];
     gtag?: (...args: unknown[]) => void;
     __asfAnalyticsConsent?: 'granted' | 'denied' | null;
+    __asfGaMeasurementId?: string | null;
     __asfTrackingEnabled?: boolean;
   }
 }
