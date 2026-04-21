@@ -1,3 +1,5 @@
+import { Route } from 'next';
+
 const INVALID_SEGMENT = /^\[object\s*object\]$/i;
 
 export function normalizePathSegment(value: unknown) {
@@ -22,5 +24,5 @@ export function buildContentPath(prefix: string, slug: unknown) {
     return null;
   }
 
-  return `${normalizedPrefix}/${normalizedSlug}`;
+  return `${normalizedPrefix}/${normalizedSlug}` as Route;
 }
