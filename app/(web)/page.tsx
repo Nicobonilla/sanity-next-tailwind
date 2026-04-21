@@ -8,6 +8,7 @@ import FinalCTA from '@/components/legal-home/FinalCTA';
 import FirmIntro from '@/components/legal-home/FirmIntro';
 import HomeHero from '@/components/legal-home/HomeHero';
 import LeadershipPreview from '@/components/legal-home/LeadershipPreview';
+import ContactRoutes from '@/components/legal-home/ContactRoutes';
 import PracticeAreas from '@/components/legal-home/PracticeAreas';
 import ProcessSteps from '@/components/legal-home/ProcessSteps';
 import TrustStrip from '@/components/legal-home/TrustStrip';
@@ -122,6 +123,7 @@ export default async function Page() {
         trustBullets={homeContent.hero.trustBullets}
       />
       <TrustStrip items={homeContent.trustStrip.items} />
+      <ContactRoutes siteIdentity={siteIdentity} />
       <FirmIntro
         cards={homeContent.firmIntro.cards}
         description={homeContent.firmIntro.description}

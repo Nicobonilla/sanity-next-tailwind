@@ -29,6 +29,29 @@ const summaryByKeyword = [
   },
 ];
 
+const actionByKeyword = [
+  {
+    match: 'famil',
+    text: 'Quiero ayuda en familia',
+  },
+  {
+    match: 'inmob',
+    text: 'Revisar un asunto inmobiliario',
+  },
+  {
+    match: 'civil',
+    text: 'Ver asuntos civiles',
+  },
+  {
+    match: 'labor',
+    text: 'Revisar un conflicto laboral',
+  },
+  {
+    match: 'suces',
+    text: 'Revisar herencia o posesion efectiva',
+  },
+];
+
 function getAreaSummary(title: string | null) {
   if (!title) {
     return 'Asesoria juridica especializada, ordenada y enfocada en resolver asuntos concretos con respaldo profesional.';
@@ -43,13 +66,34 @@ function getAreaSummary(title: string | null) {
   );
 }
 
+function getAreaAction(title: string | null, fallback?: string) {
+  const normalizedFallback = fallback?.trim();
+
+  if (
+    normalizedFallback &&
+    normalizedFallback !== 'Ver detalle' &&
+    normalizedFallback !== 'Ver servicios del area'
+  ) {
+    return normalizedFallback;
+  }
+
+  if (!title) {
+    return 'Ver servicios del area';
+  }
+
+  const normalized = title.toLowerCase();
+  const matched = actionByKeyword.find((item) => normalized.includes(item.match));
+
+  return matched?.text || 'Ver servicios del area';
+}
+
 export default function PracticeAreas({
   areas,
   eyebrow = 'Areas de practica',
   title = 'Servicios juridicos enfocados en problemas concretos.',
   description = 'Materias frecuentes para personas, familias y propietarios que necesitan orientacion juridica clara.',
   servicesLabel = 'Servicios relacionados',
-  detailLabel = 'Ver detalle',
+  detailLabel = 'Ver servicios del area',
 }: {
   areas: GetUnitBusinessListQueryResult;
   eyebrow?: string;
@@ -109,7 +153,7 @@ export default function PracticeAreas({
                   )
                 }
               >
-                {detailLabel}
+                {getAreaAction(area.title, detailLabel)}
                 <span aria-hidden="true">-&gt;</span>
               </Link>
             </article>

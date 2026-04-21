@@ -215,7 +215,7 @@ export default async function RootLayout({
                 unitBusinessList={unitBusinessList}
                 settings={settings}
               />
-              <WhatsappSticky />
+              <WhatsappSticky href={siteIdentity.whatsappHref} />
             </main>
             <Footer
               footerText={portableTextToPlainText(settings?.footer, 260)}

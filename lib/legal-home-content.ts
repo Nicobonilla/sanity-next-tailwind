@@ -26,9 +26,9 @@ type FaqItem = {
 
 const defaultTrustItems: TrustItem[] = [
   {
-    title: 'Atencion directa',
+    title: 'Consulta directa',
     description:
-      'Cada consulta se aborda con analisis responsable y contacto profesional claro desde el inicio.',
+      'La primera respuesta busca dar contexto, ordenar antecedentes y proponer el siguiente paso con claridad.',
   },
   {
     title: 'Confidencialidad',
@@ -36,9 +36,9 @@ const defaultTrustItems: TrustItem[] = [
       'El manejo de la informacion se realiza con criterio juridico y reserva en cada etapa.',
   },
   {
-    title: 'Criterio estrategico',
+    title: 'Consulta virtual disponible',
     description:
-      'Se revisa el escenario, sus riesgos y el camino mas adecuado antes de avanzar.',
+      'Puede iniciar por videollamada cuando el caso requiere una revision inicial rapida y ordenada.',
   },
   {
     title: 'Comunicacion clara',
@@ -54,12 +54,12 @@ const defaultFirmIntroParagraphs = [
 
 const defaultFirmIntroCards: IntroCard[] = [
   {
-    label: 'Como trabajamos',
-    value: 'Escucha, analisis y acompanamiento.',
+    label: 'Primer paso',
+    value: 'Consulta virtual, WhatsApp o llamada segun el caso.',
   },
   {
     label: 'Que priorizamos',
-    value: 'Claridad, seriedad y decisiones bien fundamentadas.',
+    value: 'Claridad, seriedad y decisiones bien fundamentadas desde el inicio.',
   },
 ];
 
@@ -109,6 +109,30 @@ const defaultFaqItems: FaqItem[] = [
 
 function compactTextList(values?: (string | null)[] | null) {
   return (values || []).map((value) => value?.trim()).filter(Boolean) as string[];
+}
+
+function normalizePrimaryCtaLabel(value?: string | null) {
+  const normalized = value?.trim();
+
+  if (!normalized || normalized === 'Solicitar orientacion') {
+    return 'Agendar consulta virtual';
+  }
+
+  return normalized;
+}
+
+function normalizeWhatsappCtaLabel(value?: string | null) {
+  const normalized = value?.trim();
+
+  if (
+    !normalized ||
+    normalized === 'Llamar ahora' ||
+    normalized === 'Ver areas de practica'
+  ) {
+    return 'Hablar por WhatsApp';
+  }
+
+  return normalized;
 }
 
 function compactObjects<T>(values?: (T | null)[] | null) {
@@ -182,13 +206,13 @@ export function buildLegalHomeContent({
       eyebrow: homePage?.hero?.eyebrow || 'Estudio juridico en San Felipe',
       title:
         homePage?.hero?.title ||
-        'Asesoria legal clara, seria y responsable para decisiones que requieren respaldo profesional.',
+        'Abogado en San Felipe para consultas familiares e inmobiliarias con orientacion clara desde el primer contacto.',
       description:
         homePage?.hero?.description ||
-        'Acompanamos a personas y empresas con una practica juridica rigurosa, cercana y enfocada en soluciones concretas. Cada asunto se aborda con estudio, orden y comunicacion clara desde el primer contacto.',
+        'Revise su situacion con una consulta virtual o por WhatsApp. La prioridad es entender el caso, ordenar los antecedentes y proponer el siguiente paso con criterio juridico claro.',
       panelTitle:
         homePage?.hero?.panelTitle ||
-        'Asesoria legal clara para decisiones que requieren respaldo profesional.',
+        'Consulta virtual disponible y respuesta inicial clara para asuntos familiares, patrimoniales e inmobiliarios.',
       heroImageUrl: resolveHeroImage(homePage),
       leaderName:
         homePage?.leadership?.leaderNameOverride ||
@@ -201,14 +225,14 @@ export function buildLegalHomeContent({
         homePage?.hero?.areasSuffix || 'especialidades principales',
       contactLabel: homePage?.hero?.contactLabel || 'Contacto',
       primaryLabel:
-        homePage?.hero?.primaryLabel || 'Solicitar orientacion',
+        normalizePrimaryCtaLabel(homePage?.hero?.primaryLabel),
       secondaryLabel:
-        homePage?.hero?.secondaryLabel || 'Ver areas de practica',
+        normalizeWhatsappCtaLabel(homePage?.hero?.secondaryLabel),
       trustBullets:
         compactTextList(homePage?.hero?.trustBullets) || [
-          'Atencion juridica directa y confidencial',
-          'Asesoria para personas y empresas',
-          'Base de atencion en San Felipe y alrededores',
+          'Consulta virtual y atencion por WhatsApp disponibles',
+          'Orientacion juridica directa y confidencial',
+          'Base de atencion en San Felipe y Aconcagua',
         ],
     },
     trustStrip: {
@@ -286,14 +310,14 @@ export function buildLegalHomeContent({
       eyebrow: homePage?.finalCta?.eyebrow || 'Contacto',
       title:
         homePage?.finalCta?.title ||
-        'Si necesita orientacion juridica, podemos revisar su caso y proponer el camino adecuado con seriedad y confidencialidad.',
+        'Agende una consulta virtual o escriba por WhatsApp para revisar su caso con claridad y confidencialidad.',
       description:
         homePage?.finalCta?.description ||
-        'Puede escribirnos, llamarnos o solicitar una primera orientacion. La prioridad es entender el asunto y dar una respuesta profesional clara.',
+        'El estudio puede orientar el siguiente paso, indicar antecedentes utiles y proponer una forma de trabajo concreta segun el problema juridico.',
       primaryLabel:
-        homePage?.finalCta?.primaryLabel || 'Solicitar orientacion',
+        normalizePrimaryCtaLabel(homePage?.finalCta?.primaryLabel),
       secondaryLabel:
-        homePage?.finalCta?.secondaryLabel || 'Llamar ahora',
+        normalizeWhatsappCtaLabel(homePage?.finalCta?.secondaryLabel),
     },
   };
 }

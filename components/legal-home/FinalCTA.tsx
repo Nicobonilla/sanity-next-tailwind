@@ -1,16 +1,19 @@
 'use client';
 
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
-import { trackPhoneClick } from '@/components/lib/GTMTrackers';
+import {
+  trackPhoneClick,
+  trackWhatsappClick,
+} from '@/components/lib/GTMTrackers';
 import { Button } from '@/components/ui/Button';
 import { SiteIdentity } from '@/lib/site-identity';
 
 export default function FinalCTA({
   eyebrow = 'Contacto',
-  title = 'Si necesita orientacion juridica, podemos revisar su caso y proponer el camino adecuado con seriedad y confidencialidad.',
-  description = 'Puede escribirnos, llamarnos o solicitar una primera orientacion. La prioridad es entender el asunto y dar una respuesta profesional clara.',
-  primaryLabel = 'Solicitar orientacion',
-  secondaryLabel = 'Llamar ahora',
+  title = 'Agende una consulta virtual o escriba por WhatsApp para revisar su caso con claridad y confidencialidad.',
+  description = 'El estudio puede orientar el siguiente paso, indicar antecedentes utiles y proponer una forma de trabajo concreta segun el problema juridico.',
+  primaryLabel = 'Agendar consulta virtual',
+  secondaryLabel = 'Hablar por WhatsApp',
   siteIdentity,
 }: {
   eyebrow?: string;
@@ -49,8 +52,10 @@ export default function FinalCTA({
                   variant="secondary"
                 >
                   <a
-                    href={siteIdentity.phoneHref}
-                    onClick={() => trackPhoneClick('final_cta_primary_phone')}
+                    href={siteIdentity.whatsappHref}
+                    onClick={() => trackWhatsappClick('final_cta_whatsapp')}
+                    rel="noreferrer"
+                    target="_blank"
                   >
                     {secondaryLabel}
                   </a>
@@ -62,6 +67,14 @@ export default function FinalCTA({
               <div className="space-y-5">
                 <div>
                   <p className="text-sm uppercase tracking-[0.18em] text-[color:rgba(245,242,236,0.65)]">
+                    Disponibilidad
+                  </p>
+                  <p className="mt-2 text-lg text-[color:var(--color-bg)]">
+                    Consulta virtual y respuesta inicial por WhatsApp.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.18em] text-[color:rgba(245,242,236,0.65)]">
                     Telefono
                   </p>
                   <a
@@ -70,6 +83,20 @@ export default function FinalCTA({
                     onClick={() => trackPhoneClick('final_cta_contact_panel_phone')}
                   >
                     {siteIdentity.phoneDisplay}
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.18em] text-[color:rgba(245,242,236,0.65)]">
+                    WhatsApp
+                  </p>
+                  <a
+                    className="mt-2 block text-lg text-[color:var(--color-bg)]"
+                    href={siteIdentity.whatsappHref}
+                    onClick={() => trackWhatsappClick('final_cta_contact_panel_whatsapp')}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Escribir ahora
                   </a>
                 </div>
                 <div>

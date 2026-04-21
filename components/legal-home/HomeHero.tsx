@@ -3,7 +3,10 @@
 import Image from 'next/image';
 
 import ContactDrawerButton from '@/components/global/ContactDrawerButton';
-import { trackPhoneClick } from '@/components/lib/GTMTrackers';
+import {
+  trackPhoneClick,
+  trackWhatsappClick,
+} from '@/components/lib/GTMTrackers';
 import { Button } from '@/components/ui/Button';
 import { SiteIdentity } from '@/lib/site-identity';
 
@@ -18,11 +21,11 @@ export default function HomeHero({
   trustBullets,
   siteIdentity,
   eyebrow = 'Estudio juridico en San Felipe',
-  title = 'Asesoria legal clara, seria y responsable para decisiones que requieren respaldo profesional.',
-  description = 'Acompanamos a personas y empresas con una practica juridica rigurosa, cercana y enfocada en soluciones concretas. Cada asunto se aborda con estudio, orden y comunicacion clara desde el primer contacto.',
-  panelTitle = 'Asesoria legal clara para decisiones que requieren respaldo profesional.',
-  primaryLabel = 'Solicitar orientacion',
-  secondaryLabel = 'Ver areas de practica',
+  title = 'Abogado en San Felipe para consultas familiares e inmobiliarias con orientacion clara desde el primer contacto.',
+  description = 'Revise su situacion con una consulta virtual o por WhatsApp. La prioridad es entender el caso, ordenar los antecedentes y proponer el siguiente paso con criterio juridico claro.',
+  panelTitle = 'Consulta virtual disponible y respuesta inicial clara para asuntos familiares, patrimoniales e inmobiliarios.',
+  primaryLabel = 'Agendar consulta virtual',
+  secondaryLabel = 'Hablar por WhatsApp',
 }: {
   heroImageUrl: string;
   leaderName: string;
@@ -59,9 +62,22 @@ export default function HomeHero({
                 {primaryLabel}
               </ContactDrawerButton>
               <Button asChild className="w-full sm:w-auto" variant="secondary">
-                <a href="#areas">{secondaryLabel}</a>
+                <a
+                  href={siteIdentity.whatsappHref}
+                  onClick={() => trackWhatsappClick('home_hero_whatsapp')}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {secondaryLabel}
+                </a>
               </Button>
             </div>
+            <a
+              className="text-sm font-semibold text-[color:var(--color-primary)] underline-offset-4 transition-colors duration-200 hover:text-[color:var(--color-accent)] hover:underline"
+              href="#areas"
+            >
+              Ver areas de practica
+            </a>
 
             <div className="surface-card grid gap-4 p-6 sm:grid-cols-3">
               <div>

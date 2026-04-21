@@ -5,6 +5,7 @@ import { Service, WithContext } from 'schema-dts';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
+import ServiceQuickActions from '@/components/content/ServiceQuickActions';
 import { normalizePathSegment } from '@/lib/path-utils';
 import { buildSeoMetadata, extractFallbackImage } from '@/lib/seo';
 import { resolveSiteIdentity } from '@/lib/site-identity';
@@ -129,6 +130,13 @@ export default async function Page({ params }: PageProps) {
         {service.components && (
           <PageTemplate components={service.components as ComponentsProps} />
         )}
+        <ServiceQuickActions
+          practiceAreaTitle={service.unitBusiness?.title}
+          serviceSummary={service.resumen}
+          serviceTitle={service.title || 'este servicio'}
+          siteIdentity={siteIdentity}
+          source={`service_${slug}_quick_actions`}
+        />
         <PortableTextAndToc
           article={service}
           breadcrumbsItems={breadcrumbsItems}
