@@ -57,6 +57,16 @@ function buildPageContext() {
   };
 }
 
+function isGaDebugModeEnabled() {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const searchParams = new URLSearchParams(window.location.search);
+
+  return searchParams.get('ga_debug') === '1';
+}
+
 function buildAnalyticsKeyResetState() {
   return analyticsKeys.reduce<Record<string, undefined>>((accumulator, key) => {
     accumulator[key] = undefined;
@@ -84,6 +94,7 @@ function sendDirectGtagEvent(event: string, payload: AnalyticsPayload = {}) {
 
   gtag('event', event, {
     ...buildPageContext(),
+    ...(isGaDebugModeEnabled() ? { debug_mode: true } : {}),
     ...payload,
   });
 }
