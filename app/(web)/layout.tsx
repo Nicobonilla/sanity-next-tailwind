@@ -200,7 +200,10 @@ export default async function RootLayout({
             trackingEnabled={isGtmEnabled}
             withDarkMode={false}
           >
-            <AnalyticsManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+            <AnalyticsManager
+              gaMeasurementId={process.env.GA}
+              gtmId={process.env.NEXT_PUBLIC_GTM_ID}
+            />
             <Navbar
               pages={pages}
               unitBusinessList={unitBusinessList}
