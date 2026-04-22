@@ -12,14 +12,14 @@ export const siteConfig = {
   region: 'Valparaiso',
   booking: {
     isEnabled: true,
-    title: 'Solicitud de consulta virtual',
+    title: 'Agendamiento de videollamada',
     description:
-      'Puede solicitar una fecha y hora preferidas desde el formulario del sitio.',
-    buttonLabel: 'Solicitar hora virtual',
+      'Puede agendar una videollamada por Google Appointment o, si lo prefiere, solicitar una fecha y horario tentativos desde el formulario del sitio.',
+    buttonLabel: 'Agendar videollamada',
     bookingUrl: '',
-    availabilityNote: 'Respuesta inicial en horario habil',
+    availabilityNote: 'Bloques sujetos a confirmacion del estudio',
     durationLabel: '20 a 30 minutos',
-    priceLabel: 'Orientacion inicial',
+    priceLabel: 'Consulta virtual',
   },
   reviewProfiles: [] as Array<{
     ctaLabel?: string | null;

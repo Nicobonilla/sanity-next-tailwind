@@ -62,12 +62,18 @@ export default function ServiceQuickActions({
           <div>
             <p className="legal-kicker">Que puede hacer ahora</p>
             <p className="mt-3 text-base leading-7 text-[color:var(--color-text-soft)]">
-              Inicie contacto por el canal que le resulte mas simple. La prioridad es revisar si este servicio aplica a su caso y definir el siguiente paso.
+              Inicie contacto por el canal que le resulte mas simple. La
+              prioridad es revisar si este servicio aplica a su caso y definir
+              el siguiente paso.
             </p>
           </div>
 
-          <BookingButton className="w-full" siteIdentity={siteIdentity} source={`${source}_booking`}>
-            {siteIdentity.booking.buttonLabel || 'Solicitar hora virtual'}
+          <BookingButton
+            className="w-full"
+            siteIdentity={siteIdentity}
+            source={`${source}_booking`}
+          >
+            {siteIdentity.booking.buttonLabel || 'Agendar videollamada'}
           </BookingButton>
 
           {siteIdentity.booking.availabilityNote ||
@@ -106,10 +112,15 @@ export default function ServiceQuickActions({
           </Button>
 
           <div className="rounded-xl border border-[color:rgba(31,39,51,0.08)] bg-[color:rgba(255,255,255,0.6)] p-4 text-sm leading-6 text-[color:var(--color-text-soft)]">
-            Respuesta inicial clara, contacto directo y orientacion confidencial para asuntos familiares, patrimoniales e inmobiliarios.
+            Respuesta inicial clara, contacto directo y orientacion confidencial
+            para asuntos familiares, patrimoniales e inmobiliarios.
           </div>
 
-          <ReviewsProof compact siteIdentity={siteIdentity} source={`${source}_reviews`} />
+          <ReviewsProof
+            compact
+            siteIdentity={siteIdentity}
+            source={`${source}_reviews`}
+          />
         </div>
       </div>
     </section>

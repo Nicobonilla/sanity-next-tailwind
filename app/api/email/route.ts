@@ -10,6 +10,10 @@ import { leadFormRequestSchema } from '@/lib/lead-form';
 const MIN_SUBMIT_TIME_MS = 1500;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+const DEFAULT_BOOKING_RECIPIENTS = [
+  'sebastianbonilla.marin@gmail.com',
+  'n.bonillamarin@gmail.com',
+];
 
 const rateLimitStore = new Map<string, { count: number; expiresAt: number }>();
 
@@ -57,6 +61,80 @@ function isRateLimited(key: string) {
   });
 
   return false;
+}
+
+function resolveBookingRecipients() {
+  const configuredRecipients = [
+    process.env.CLIENT_EMAIL,
+    ...(process.env.BOOKING_RECIPIENTS || '').split(','),
+  ]
+    .map((value) => value?.trim())
+    .filter(Boolean) as string[];
+
+  return [...new Set([...DEFAULT_BOOKING_RECIPIENTS, ...configuredRecipients])];
+}
+
+function buildSubject({
+  consultationFormat,
+  mainCategory,
+  name,
+  serviceCategory,
+}: {
+  consultationFormat: string;
+  mainCategory: string;
+  name: string;
+  serviceCategory: string;
+}) {
+  return [
+    'Nueva consulta',
+    name,
+    serviceCategory || mainCategory,
+    consultationFormat,
+  ]
+    .filter(Boolean)
+    .join(' | ');
+}
+
+function buildPlainTextEmail({
+  comuna,
+  consultationFormat,
+  email,
+  mainCategory,
+  message,
+  name,
+  phone,
+  preferredDate,
+  preferredTimeSlot,
+  rut,
+  serviceCategory,
+}: {
+  comuna: string;
+  consultationFormat: string;
+  email: string;
+  mainCategory: string;
+  message: string;
+  name: string;
+  phone: string;
+  preferredDate?: string;
+  preferredTimeSlot?: string;
+  rut: string;
+  serviceCategory: string;
+}) {
+  return [
+    'Nueva solicitud de consulta',
+    '',
+    `Nombre: ${name}`,
+    `RUT: ${rut}`,
+    `Telefono: ${phone}`,
+    `Email: ${email}`,
+    `Comuna: ${comuna}`,
+    `Modalidad preferida: ${consultationFormat}`,
+    `Fecha preferida: ${preferredDate || 'Sin preferencia'}`,
+    `Bloque horario: ${preferredTimeSlot || 'Sin preferencia'}`,
+    `Area: ${mainCategory}`,
+    `Servicio: ${serviceCategory}`,
+    `Mensaje: ${message || 'Sin comentario adicional'}`,
+  ].join('\n');
 }
 
 export async function POST(request: NextRequest) {
@@ -124,9 +202,28 @@ export async function POST(request: NextRequest) {
     const resend = getResend();
     const response = await resend.emails.send({
       from: process.env.SENDER_EMAIL || '',
-      to: process.env.CLIENT_EMAIL || '',
-      subject: `SBA-cliente: ${name} | ${mainCategory} | ${serviceCategory} | ${consultationFormat}`,
       html: emailHtml,
+      replyTo: email,
+      subject: buildSubject({
+        consultationFormat,
+        mainCategory,
+        name,
+        serviceCategory,
+      }),
+      text: buildPlainTextEmail({
+        comuna,
+        consultationFormat,
+        email,
+        mainCategory,
+        message: message || '',
+        name,
+        phone,
+        preferredDate: preferredDate || '',
+        preferredTimeSlot: preferredTimeSlot || '',
+        rut,
+        serviceCategory,
+      }),
+      to: resolveBookingRecipients(),
     });
 
     return NextResponse.json({ status: 200, response });

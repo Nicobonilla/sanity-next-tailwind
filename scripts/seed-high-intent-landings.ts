@@ -92,13 +92,13 @@ const bookingSettings = {
   booking: {
     _type: 'bookingSettings',
     isEnabled: true,
-    title: 'Solicitud de consulta virtual',
+    title: 'Agendamiento de videollamada',
     description:
-      'La agenda funciona por solicitud. Puede indicar modalidad, fecha y bloque horario preferidos desde el formulario.',
-    buttonLabel: 'Solicitar hora virtual',
-    availabilityNote: 'Respuesta inicial en horario habil',
+      'La agenda puede resolverse por Google Appointment o por solicitud. Si no existe enlace externo activo, el formulario permite indicar modalidad, fecha y bloque horario preferidos.',
+    buttonLabel: 'Agendar videollamada',
+    availabilityNote: 'Bloques sujetos a confirmacion del estudio',
     durationLabel: '20 a 30 minutos',
-    priceLabel: 'Consulta inicial',
+    priceLabel: 'Consulta virtual',
   },
   defaultContentCta: {
     _type: 'contactCta',
@@ -108,7 +108,7 @@ const bookingSettings = {
       'Puede solicitar una consulta virtual para revisar su caso y ordenar el siguiente paso.',
     description:
       'Indique modalidad, antecedentes y horario tentativo. El estudio responde con una orientacion inicial clara y confidencial.',
-    primaryLabel: 'Solicitar hora virtual',
+    primaryLabel: 'Agendar videollamada',
     secondaryLabel: 'Hablar por WhatsApp',
   },
 };
@@ -190,7 +190,7 @@ const serviceSeeds: Record<string, ServiceSeed> = {
         'Solicite una consulta virtual para revisar el tipo de divorcio, sus antecedentes y el siguiente paso.',
       description:
         'Puede iniciar por videollamada, llamada o WhatsApp. La consulta permite ordenar hijos, alimentos y bienes antes de presentar el caso.',
-      primaryLabel: 'Solicitar hora virtual',
+      primaryLabel: 'Agendar videollamada',
       secondaryLabel: 'Hablar por WhatsApp',
     },
     seo: {
@@ -287,7 +287,7 @@ const serviceSeeds: Record<string, ServiceSeed> = {
         'Solicite una consulta para revisar montos, deuda o modificacion de pension de alimentos.',
       description:
         'Puede indicar modalidad y horario preferidos. La idea es ordenar documentos y definir la via mas util antes de avanzar.',
-      primaryLabel: 'Solicitar hora virtual',
+      primaryLabel: 'Agendar videollamada',
       secondaryLabel: 'Hablar por WhatsApp',
     },
     seo: {
@@ -384,7 +384,7 @@ const serviceSeeds: Record<string, ServiceSeed> = {
         'Solicite una consulta para revisar cuidado personal, visitas y antecedentes utiles antes de avanzar.',
       description:
         'La consulta inicial permite ordenar el caso, revisar riesgos y decidir si conviene acuerdo, mediacion o tribunal.',
-      primaryLabel: 'Solicitar hora virtual',
+      primaryLabel: 'Agendar videollamada',
       secondaryLabel: 'Hablar por WhatsApp',
     },
     seo: {
@@ -482,7 +482,7 @@ const serviceSeeds: Record<string, ServiceSeed> = {
         'Solicite una consulta para revisar papeles, inscripcion y riesgos de su inmueble antes de avanzar.',
       description:
         'Puede iniciar por consulta virtual o WhatsApp. La prioridad es identificar el problema real y la via juridica adecuada.',
-      primaryLabel: 'Solicitar hora virtual',
+      primaryLabel: 'Agendar videollamada',
       secondaryLabel: 'Hablar por WhatsApp',
     },
     seo: {
@@ -580,7 +580,7 @@ const serviceSeeds: Record<string, ServiceSeed> = {
         'Solicite una consulta para revisar titulos, promesa y escritura antes de firmar una compraventa.',
       description:
         'La consulta inicial permite detectar riesgos registrales y contractuales antes de comprometer dinero o transferir el inmueble.',
-      primaryLabel: 'Solicitar hora virtual',
+      primaryLabel: 'Agendar videollamada',
       secondaryLabel: 'Hablar por WhatsApp',
     },
     seo: {

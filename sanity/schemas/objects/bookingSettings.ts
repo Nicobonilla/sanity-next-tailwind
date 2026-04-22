@@ -28,14 +28,14 @@ export default defineType({
       name: 'buttonLabel',
       title: 'Texto del boton',
       type: 'string',
-      initialValue: 'Solicitar hora virtual',
+      initialValue: 'Agendar videollamada',
       validation: (rule) => rule.max(50),
     }),
     defineField({
       name: 'bookingUrl',
       title: 'URL externa de agenda',
       description:
-        'Opcional. Si se deja vacia, la web usa el formulario para solicitar fecha y hora preferidas.',
+        'Opcional. Pegue aqui la URL publica de Google Appointment Schedule o servicio equivalente. Si se deja vacia, la web usa el formulario para solicitar fecha y horario preferidos.',
       type: 'url',
     }),
     defineField({

@@ -294,7 +294,8 @@ export default function Form({
             </h3>
             <p className="font-body mx-auto mb-8 mt-4 max-w-md text-center text-base leading-7 text-[color:var(--color-text-soft)]">
               Comparta sus antecedentes, modalidad preferida y horario tentativo.
-              El estudio revisara su caso con seriedad y confidencialidad.
+              Si prefiere videollamada, la reunion puede coordinarse por Google
+              Meet con confirmacion posterior del estudio.
             </p>
 
             <form className="space-y-6" noValidate onSubmit={handleSubmit}>
@@ -389,7 +390,10 @@ export default function Form({
                 onChange={handleFormChange}
                 options={[
                   { label: 'Seleccione una modalidad', value: '' },
-                  { label: 'Videollamada', value: 'Videollamada' },
+                  {
+                    label: 'Videollamada por Google Meet',
+                    value: 'Videollamada por Google Meet',
+                  },
                   { label: 'Llamada telefonica', value: 'Llamada telefonica' },
                   { label: 'WhatsApp', value: 'WhatsApp' },
                 ]}

@@ -25,7 +25,7 @@ export default function BookingButton({
   const label =
     typeof children !== 'undefined'
       ? children
-      : siteIdentity.booking.buttonLabel || 'Solicitar hora virtual';
+      : siteIdentity.booking.buttonLabel || 'Agendar videollamada';
 
   if (siteIdentity.booking.isEnabled && siteIdentity.booking.bookingUrl) {
     return (
