@@ -27,8 +27,8 @@ declare global {
   interface Window {
     dataLayer: unknown[];
     gtag?: (...args: unknown[]) => void;
+    google_tag_manager?: Record<string, unknown>;
     __asfAnalyticsConsent?: 'granted' | 'denied' | null;
-    __asfGaMeasurementId?: string | null;
     __asfTrackingEnabled?: boolean;
   }
 }

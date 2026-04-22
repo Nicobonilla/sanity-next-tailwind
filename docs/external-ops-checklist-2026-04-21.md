@@ -2,96 +2,73 @@
 
 ## Estado actual
 
-Lo que ya esta resuelto en la app:
+Ya quedó resuelto:
 
-- GTM y GA4 solo cargan despues del consentimiento
-- Iubenda ya no carga en runtime aunque el contenedor GTM siga contaminado
-- los eventos de negocio ya salen directo a GA4 desde el frontend
-- las landings de alta intencion ya estan publicadas
+- `GTM-NJLP7HKQ` fue limpiado y republicado
+- Iubenda ya no está en el contenedor activo
+- `GA4` recibe los eventos de negocio directamente desde la app
+- `dataLayer` se conserva para observabilidad y futuras integraciones
+- las landings de alta intención siguen publicadas
 
 Lo que sigue pendiente fuera del repo:
 
-1. limpiar el contenedor `GTM-NJLP7HKQ`
+1. validar visualmente los eventos en `Realtime` y `DebugView`
 2. cargar una fuente real de reseñas en Sanity
-3. opcional: habilitar Measurement Protocol en GA4 para eventos server-side futuros
+3. decidir si la agenda seguirá por formulario o por URL externa
+4. opcional: habilitar `Measurement Protocol` para server-side analytics
 
 ## 1. Google Tag Manager
 
-### Pagina a abrir
+### Página a abrir
 
 - `https://tagmanager.google.com/`
 - contenedor: `GTM-NJLP7HKQ`
 
-### Que hacer ahi
+### Qué deberías ver
 
 #### Workspace > Tags
 
-Buscar por:
+No deberían quedar tags legacy de:
 
-- `iub`
-- `iubenda`
-- `cookie`
-- `consent`
+- `Iubenda`
+- `Google Tag Analitics`
+- `GA4 Event - ASF Measured Events`
 
-Acciones:
-
-- pausar o eliminar cualquier tag de `Iubenda`
-- pausar o eliminar cualquier `Custom HTML` que cargue:
-  - `cdn.iubenda.com`
-  - `cs.iubenda.com`
-  - `idb.iubenda.com`
-
-#### Workspace > Triggers
-
-Buscar triggers con nombres que incluyan:
-
-- `iub`
-- `iubenda`
-- `consent initialization`
-- `cookie banner`
-
-Acciones:
-
-- pausar o eliminar triggers usados solo por Iubenda
+Si el contenedor se ve prácticamente vacío, eso es correcto para el estado actual.
 
 #### Workspace > Templates
 
-Buscar templates importados o personalizados relacionados con:
+No debería existir:
 
-- `Iubenda`
-- `Consent`
-
-Acciones:
-
-- eliminar templates de Iubenda si ya no los usa ningun tag
+- `iubenda Privacy Controls and Cookie Solution`
 
 #### Workspace > Variables
 
-Buscar variables con nombres:
+No deberían quedar variables legacy de analytics o cookie consent, salvo alguna variable suelta sin uso operativo. Si ves algo como `DLV - scroll_depth`, no es bloqueante porque el contenedor ya no lo usa.
 
-- `_iub`
-- `iubenda`
-- `cookie_consent`
+#### Workspace > Versions
 
-Acciones:
+La versión viva más reciente debería corresponder a la limpieza aplicada el `2026-04-21`.
 
-- eliminar variables que solo existan para Iubenda
+### Qué validar en Preview
 
-#### Workspace > Preview
+Con `Tag Assistant`:
 
-Validar:
+1. abre `https://www.abogadossanfelipe.cl`
+2. acepta analytics
+3. abre el drawer de contacto
+4. escribe en el formulario
+5. haz clic en WhatsApp
+6. expande una FAQ
 
-- al cargar `https://www.abogadossanfelipe.cl`, no deben aparecer requests a `iubenda`
-- tras aceptar analytics, deben aparecer eventos como:
-  - `contact_drawer_open`
-  - `whatsapp_click`
-  - `booking_click`
-  - `lead_form_submit_success`
+En `dataLayer` deberías ver:
 
-#### Workspace > Submit
-
-- publicar una nueva version del contenedor
-- dejar comentario tipo: `Remove Iubenda and keep direct GA4 events`
+- `page_view`
+- `contact_drawer_open`
+- `lead_form_start`
+- `whatsapp_click`
+- `booking_click`
+- `faq_expand`
 
 ## 2. Google Analytics 4
 
@@ -101,74 +78,82 @@ Validar:
 - stream web: `SB Abogados`
 - measurement id: `G-EZE9DZN5J5`
 
-### Pagina a abrir
+### Página a abrir
 
 - `https://analytics.google.com/`
-- entrar a la propiedad `SB Abogados`
+- propiedad `SB Abogados`
 
-### Que revisar ahi
-
-#### Admin > Data collection and modification > Data streams > SB Abogados
-
-Confirmar:
-
-- stream correcto: `G-EZE9DZN5J5`
-- dominio principal correcto
+### Qué revisar ahí
 
 #### Reports > Realtime
 
 Con el sitio abierto en otra pestaña:
 
-- aceptar analytics
-- abrir/cerrar drawer de contacto
-- hacer clic en WhatsApp
+1. acepta analytics
+2. abre el drawer de contacto
+3. escribe en el formulario
+4. haz clic en WhatsApp
+5. expande una FAQ
 
-Eventos que deberias ver:
+Eventos que deberías ver:
 
+- `page_view`
 - `contact_drawer_open`
+- `lead_form_start`
 - `whatsapp_click`
 - `booking_click`
-- `lead_form_start`
-- `lead_form_submit_success`
+- `faq_expand`
 
 #### Admin > Data display > DebugView
 
-Usar esta vista para validar parametros de evento:
+Parámetros que ya deberían estar llegando:
 
 - `source`
-- `page_path`
-- `page_title`
-- `booking_mode`
-- `service_title`
+- `field_name`
 - `practice_area`
+- `service_slug`
+- `service_title`
+- `error_type`
+- `booking_mode`
+- `platform`
+- `area_slug`
+- `area_title`
+- `article_slug`
+- `link_text`
+- `link_url`
+- `faq_question`
 
-### Measurement Protocol
+#### Admin > Data display > Custom definitions
 
-Hoy no es obligatorio porque la app ya envia eventos de negocio directo a GA4.
+Definiciones activas esperadas:
 
-Si quieres dejarlo listo para eventos server-side en el futuro:
+- `source`
+- `field_name`
+- `practice_area`
+- `service_slug`
+- `service_title`
+- `error_type`
+- `booking_mode`
+- `platform`
+- `area_slug`
+- `area_title`
+- `article_slug`
+- `link_text`
+- `link_url`
+- `faq_question`
 
-#### Paso 1
+#### Admin > Data display > Key events
 
-Debes aceptar el acknowledgement de recopilacion de datos de usuario para la propiedad.
+Key events esperados:
 
-Referencia oficial:
-
-- `https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties/acknowledgeUserDataCollection`
-
-#### Paso 2
-
-Despues de aceptar eso, podras crear el secret en:
-
-- `Admin > Data collection and modification > Data streams > SB Abogados > Measurement Protocol API secrets`
-
-Referencia oficial:
-
-- `https://developers.google.com/analytics/devguides/collection/protocol/ga4/sending-events`
+- `lead_form_submit_success`
+- `booking_click`
+- `whatsapp_click`
+- `phone_click`
 
 ## 3. Sanity Studio: reseñas
 
-### Pagina a abrir
+### Página a abrir
 
 - `https://www.abogadossanfelipe.cl/studio`
 - documento: `Configuracion general`
@@ -178,39 +163,33 @@ Referencia oficial:
 
 - `Reseñas y perfiles externos`
 
-### Que cargar ahi
+### Qué cargar ahí
 
 Por cada fuente real:
 
 - `Plataforma`
-  - ejemplo: `Google`
 - `Puntaje`
-  - ejemplo: `4.9`
 - `Cantidad de reseñas`
-  - ejemplo: `18`
 - `Resumen breve`
-  - ejemplo: `Reseñas verificadas del estudio en Google.`
 - `URL de reseñas`
-  - enlace publico real del perfil
 - `Texto del enlace`
-  - ejemplo: `Ver reseñas en Google`
 
 ### Regla operativa
 
-- no inventar numeros
+- no inventar números
 - no usar testimonios internos como si fueran reseñas verificadas
-- si no existe perfil publico real, dejar este bloque vacio
+- si no existe perfil público real, dejar este bloque vacío
 
 ## 4. Fuente real de agenda
 
-### Pagina a abrir
+### Página a abrir
 
 - `https://www.abogadossanfelipe.cl/studio`
 - documento: `Configuracion general`
 - grupo: `Estructura`
 - campo: `Agenda virtual`
 
-### Que hacer ahi
+### Qué hacer ahí
 
 Si quieres agenda externa real:
 
@@ -219,21 +198,36 @@ Si quieres agenda externa real:
 
 Si quieres mantener solicitud manual:
 
-- dejar `URL externa de agenda` vacia
-- el sitio seguira usando el drawer + formulario con solicitud de fecha/hora
+- dejar `URL externa de agenda` vacía
+- el sitio seguirá usando el drawer y el formulario actual
 
-## 5. Orden recomendado
+## 5. Measurement Protocol
 
-1. limpiar GTM
-2. validar eventos en Realtime y DebugView
-3. cargar reseñas verificadas en Sanity
-4. decidir si la agenda seguira por formulario o si pasara a enlace externo
+No es necesario para la implementación actual.
+
+Solo si quieres eventos server-side más adelante:
+
+1. abre `https://analytics.google.com/`
+2. entra a `Admin > Data collection and modification > Data streams > SB Abogados`
+3. acepta el acknowledgement de `User Data Collection`
+4. luego entra a `Measurement Protocol API secrets`
+
+Referencias oficiales:
+
+- `https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties/acknowledgeUserDataCollection`
+- `https://developers.google.com/analytics/devguides/collection/protocol/ga4/sending-events`
+
+## Orden recomendado
+
+1. validar `Realtime` y `DebugView`
+2. cargar reseñas verificadas en Sanity
+3. decidir si la agenda seguirá por formulario o pasará a enlace externo
 
 ## Resultado esperado
 
-Cuando todo lo anterior este hecho:
+Cuando todo lo anterior esté hecho:
 
-- GTM limpio, sin Iubenda
-- GA4 recibiendo eventos de negocio utiles
+- `GA4` recibiendo eventos de negocio útiles y consistentes
+- `GTM` limpio, sin Iubenda ni tags heredados
 - home y landings mostrando reseñas reales si existen
 - CTA de agenda apuntando al flujo correcto

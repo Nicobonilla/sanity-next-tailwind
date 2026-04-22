@@ -2,36 +2,48 @@
 
 ## Resumen
 
-La medicion de analytics ya no depende de Iubenda y ahora tiene dos capas:
+La implementación final quedó así:
 
-- `GA4` se inicializa directamente desde la app cuando el usuario acepta analytics
-- `GTM` se sigue cargando despues del consentimiento, pero ya no es el unico camino para registrar eventos de negocio
+- la app decide el consentimiento
+- `GA4` se carga directamente desde la app cuando el usuario acepta analytics
+- la app envía los eventos de negocio a `GA4`
+- la app sigue empujando esos eventos al `dataLayer`
+- `GTM` se carga después del consentimiento, pero hoy queda limpio y sin tags activos de analytics
 
-El sitio ahora:
+Motivo:
 
-- no carga GTM ni GA4 hasta que exista consentimiento para analytics
-- persiste la decision del usuario en cookie y `localStorage`
-- permite reabrir preferencias desde el footer
-- bloquea en runtime scripts residuales de Iubenda inyectados por el contenedor GTM
-- expone dos paginas legales:
-  - `/politica-de-privacidad`
-  - `/politica-de-cookies`
+- el relay completo vía GTM introducía inconsistencias en algunos eventos del funnel
+- el envío directo desde la app resultó más confiable para este sitio
+- GTM queda saneado, sin Iubenda y disponible para futuras integraciones si hace falta
 
 ## Variables de entorno
 
-Para activar la medicion:
+Para activar la medición:
 
 - `NEXT_PUBLIC_ENABLE_GTM=true`
-- `NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX`
+- `NEXT_PUBLIC_GTM_ID=GTM-NJLP7HKQ`
+- `GA=G-EZE9DZN5J5`
 
-Si `NEXT_PUBLIC_ENABLE_GTM` es `false`, no se muestra banner ni se carga GTM.
+Si `NEXT_PUBLIC_ENABLE_GTM` es `false`, no se muestra banner ni se carga analytics.
 
-## Eventos de negocio
+## Qué se carga en producción
 
-Eventos que el frontend puede enviar al `dataLayer`:
+Solo después del consentimiento:
+
+- `gtag.js` para `GA4`
+- `GTM-NJLP7HKQ`
+
+Además:
+
+- se bloquean scripts residuales de `Iubenda` en runtime
+- se persiste la decisión del usuario en cookie y `localStorage`
+- se puede reabrir preferencias desde el footer
+
+## Eventos que llegan a GA4
+
+Eventos de negocio enviados por la app:
 
 - `page_view`
-- `scroll_depth`
 - `contact_drawer_open`
 - `lead_form_start`
 - `lead_form_service_select`
@@ -39,22 +51,29 @@ Eventos que el frontend puede enviar al `dataLayer`:
 - `lead_form_submit_error`
 - `phone_click`
 - `whatsapp_click`
+- `booking_click`
+- `review_click`
 - `practice_area_click`
 - `article_click`
 - `nav_click`
+- `faq_expand`
+
+## Señales que quedan solo en dataLayer
+
+Estas señales se conservan para observabilidad o futuras decisiones, pero hoy no son parte de la medición principal en GA4:
+
+- `scroll_depth`
 - `button_click`
 
-Todos se envian con contexto base:
+## Contexto base por evento
+
+Todos los eventos se envían con:
 
 - `page_path`
 - `page_location`
 - `page_title`
 
-## Parametros relevantes
-
-### `page_view`
-
-- `page_path`
+## Parámetros útiles en GA4
 
 ### `contact_drawer_open`
 
@@ -79,6 +98,16 @@ Todos se envian con contexto base:
 
 - `error_type`
 
+### `booking_click`
+
+- `source`
+- `booking_mode`
+
+### `review_click`
+
+- `platform`
+- `source`
+
 ### `phone_click` / `whatsapp_click`
 
 - `source`
@@ -99,59 +128,99 @@ Todos se envian con contexto base:
 - `link_text`
 - `link_url`
 
-### `button_click`
+### `faq_expand`
 
-- `button_name`
 - `source`
+- `faq_question`
 
-## Configuracion recomendada en GTM
+## Estado actual de GTM
 
-### 1. Tag base de GA4
+Contenedor:
 
-Si mantienes GA4 cargado directamente desde la app, el tag base de GA4 en GTM no debe duplicar eventos. La recomendacion es:
+- `GTM-NJLP7HKQ`
 
-- Measurement ID: `G-EZE9DZN5J5`
-- Trigger: solo si realmente usas GTM para otros tags o marketing
-- Si dejas este tag activo, desactiva el envio automatico de `page_view` para evitar duplicados.
+Estado esperado:
 
-### 2. Triggers por evento
+- sin Iubenda
+- sin templates custom de Iubenda
+- sin tags legacy de analytics
 
-Si el contenedor se usara para reenviar eventos al mismo stream GA4, crea un `Custom Event Trigger` por cada evento de negocio. Si no, es mejor quitar esos tags y dejar que la app mande los eventos directamente.
+GTM hoy queda como soporte limpio para:
 
-Eventos disponibles:
+- inspección con `Tag Assistant`
+- futuras integraciones
+- mantener una ruta clara de expansión sin contaminación legacy
+
+## Estado actual de GA4
+
+Propiedad:
+
+- `479618299`
+
+Key events configurados:
+
+- `lead_form_submit_success`
+- `booking_click`
+- `whatsapp_click`
+- `phone_click`
+
+Custom dimensions activas:
+
+- `source`
+- `field_name`
+- `practice_area`
+- `service_slug`
+- `service_title`
+- `error_type`
+- `booking_mode`
+- `platform`
+- `area_slug`
+- `area_title`
+- `article_slug`
+- `link_text`
+- `link_url`
+- `faq_question`
+
+## Script de sincronización
+
+El repo incluye un script para dejar GTM y GA4 en este estado:
+
+- `scripts/analytics/sync_google_measurement.py`
+
+Ejemplo:
+
+```powershell
+& 'C:\Users\nbnla\ga4-codex\.venv\Scripts\python.exe' scripts\analytics\sync_google_measurement.py --credentials 'C:\ruta\service-account.json'
+```
+
+## Validación recomendada
+
+Validar con:
+
+- `Tag Assistant`
+- `GA4 Realtime`
+- `GA4 DebugView`
+
+Flujo mínimo:
+
+1. aceptar analytics
+2. abrir el drawer de contacto
+3. escribir en el formulario
+4. hacer clic en WhatsApp
+5. expandir una FAQ
+
+Eventos que deberías ver:
 
 - `page_view`
 - `contact_drawer_open`
 - `lead_form_start`
-- `lead_form_service_select`
-- `lead_form_submit_success`
-- `lead_form_submit_error`
-- `phone_click`
 - `whatsapp_click`
-- `practice_area_click`
-- `article_click`
-- `nav_click`
-- `button_click`
-- `scroll_depth`
-
-### 3. Tags GA4 Event
-
-Solo si decides mantener GTM como capa de reenvio:
-
-- crear un tag `GA4 Event` por cada trigger anterior
-- mapear parametros relevantes de `dataLayer`
-- evitar tags duplicados para el mismo evento que ya sale por `gtag`
-
-### 4. Debug
-
-Validar con:
-
-- GTM Preview / Tag Assistant
-- GA4 DebugView
+- `booking_click`
+- `faq_expand`
 
 ## Riesgos a evitar
 
-- no mezclar pageviews automaticos con el `page_view` custom sin revisar duplicados
-- no volver a agregar eventos ruidosos que no respondan preguntas de negocio
-- no activar GTM en produccion sin consentimiento
-- no volver a cargar Iubenda desde GTM; el runtime lo bloquea, pero el contenedor igual debe limpiarse
+- no reactivar tags de Iubenda en GTM
+- no convertir `page_view`, `click` o `scroll` en key events
+- no mezclar dos fuentes activas de pageview sin revisar duplicados
+- no agregar eventos genéricos que no respondan preguntas de negocio

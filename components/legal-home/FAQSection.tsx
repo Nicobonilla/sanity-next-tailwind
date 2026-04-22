@@ -1,4 +1,5 @@
 import SectionHeading from './SectionHeading';
+import TrackedFaqDisclosure from '@/components/content/TrackedFaqDisclosure';
 import { buildFaqJsonLd } from '@/lib/structured-data';
 
 type FaqItem = {
@@ -57,14 +58,15 @@ export default function FAQSection({
 
         <div className="mt-10 grid gap-4">
           {items.map((faq) => (
-            <details className="surface-card group p-6" key={faq.question}>
-              <summary className="cursor-pointer list-none pr-8 text-xl font-semibold text-[color:var(--color-primary)] marker:hidden">
-                {faq.question}
-              </summary>
-              <p className="mt-4 max-w-4xl text-base leading-7 text-[color:var(--color-text-soft)]">
-                {faq.answer}
-              </p>
-            </details>
+            <TrackedFaqDisclosure
+              answer={faq.answer}
+              answerClassName="mt-4 max-w-4xl text-base leading-7 text-[color:var(--color-text-soft)]"
+              className="surface-card group p-6"
+              key={faq.question}
+              question={faq.question}
+              source="home_faq"
+              summaryClassName="cursor-pointer list-none pr-8 text-xl font-semibold text-[color:var(--color-primary)] marker:hidden"
+            />
           ))}
         </div>
       </div>

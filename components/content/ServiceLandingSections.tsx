@@ -1,6 +1,7 @@
 import { SiteIdentity } from '@/lib/site-identity';
 
 import ReviewsProof from './ReviewsProof';
+import TrackedFaqDisclosure from './TrackedFaqDisclosure';
 
 type ServiceLandingValue = {
   deliverables?: Array<string | null> | null;
@@ -161,19 +162,19 @@ export default function ServiceLandingSections({
             </div>
 
             <div className="grid gap-4">
-              {landing.faqItems?.map((item, index) => (
-                <details
-                  className="surface-card group p-6"
-                  key={`${item.question || 'faq'}-${index}`}
-                >
-                  <summary className="cursor-pointer list-none text-lg font-semibold text-[color:var(--color-primary)]">
-                    {item.question}
-                  </summary>
-                  <p className="mt-4 text-base leading-7 text-[color:var(--color-text-soft)]">
-                    {item.answer}
-                  </p>
-                </details>
-              ))}
+              {landing.faqItems?.map((item, index) =>
+                item.question ? (
+                  <TrackedFaqDisclosure
+                    answer={item.answer || ''}
+                    answerClassName="mt-4 text-base leading-7 text-[color:var(--color-text-soft)]"
+                    className="surface-card group p-6"
+                    key={`${item.question}-${index}`}
+                    question={item.question}
+                    source={source}
+                    summaryClassName="cursor-pointer list-none text-lg font-semibold text-[color:var(--color-primary)]"
+                  />
+                ) : null
+              )}
             </div>
           </div>
         ) : null}

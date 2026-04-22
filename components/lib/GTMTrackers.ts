@@ -2,6 +2,7 @@
 
 type AnalyticsPayload = Record<string, unknown>;
 const directGaEvents = new Set([
+  'page_view',
   'contact_drawer_open',
   'lead_form_start',
   'lead_form_service_select',
@@ -14,7 +15,26 @@ const directGaEvents = new Set([
   'practice_area_click',
   'article_click',
   'nav_click',
+  'faq_expand',
 ]);
+const analyticsKeys = [
+  'source',
+  'field_name',
+  'practice_area',
+  'service_slug',
+  'service_title',
+  'error_type',
+  'booking_mode',
+  'platform',
+  'area_slug',
+  'area_title',
+  'article_slug',
+  'link_text',
+  'link_url',
+  'scroll_depth',
+  'faq_question',
+  'button_name',
+] as const;
 
 function canSendAnalyticsEvents() {
   return (
@@ -37,21 +57,34 @@ function buildPageContext() {
   };
 }
 
-function sendDirectGaEvent(event: string, payload: AnalyticsPayload) {
-  if (
-    !directGaEvents.has(event) ||
-    typeof window === 'undefined' ||
-    typeof window.gtag !== 'function'
-  ) {
+function buildAnalyticsKeyResetState() {
+  return analyticsKeys.reduce<Record<string, undefined>>((accumulator, key) => {
+    accumulator[key] = undefined;
+    return accumulator;
+  }, {});
+}
+
+function canSendDirectGtagEvent() {
+  return (
+    canSendAnalyticsEvents() &&
+    typeof window.gtag === 'function'
+  );
+}
+
+function sendDirectGtagEvent(event: string, payload: AnalyticsPayload = {}) {
+  if (!directGaEvents.has(event) || !canSendDirectGtagEvent()) {
     return;
   }
 
-  const gaMeasurementId = window.__asfGaMeasurementId;
+  const { gtag } = window;
 
-  window.gtag('event', event, {
+  if (typeof gtag !== 'function') {
+    return;
+  }
+
+  gtag('event', event, {
     ...buildPageContext(),
     ...payload,
-    ...(gaMeasurementId ? { send_to: gaMeasurementId } : {}),
   });
 }
 
@@ -63,12 +96,13 @@ export const sendGTMEvent = (event: string, payload: AnalyticsPayload = {}) => {
   const eventPayload = {
     event,
     ...buildPageContext(),
+    ...buildAnalyticsKeyResetState(),
     ...payload,
   };
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(eventPayload);
-  sendDirectGaEvent(event, payload);
+  sendDirectGtagEvent(event, payload);
 };
 
 export const trackContactDrawerOpen = (source: string) => {
@@ -183,6 +217,13 @@ export const trackNavClick = (navText: string, navHref: string) => {
   });
 };
 
+export const trackFaqExpand = (source: string, question: string) => {
+  sendGTMEvent('faq_expand', {
+    source,
+    faq_question: question,
+  });
+};
+
 export const trackPageView = (pagePath: string) => {
   sendGTMEvent('page_view', {
     page_path: pagePath,
@@ -203,6 +244,7 @@ export const GTMEvents = {
   practiceAreaClick: 'practice_area_click',
   articleClick: 'article_click',
   navClick: 'nav_click',
+  faqExpand: 'faq_expand',
   scrollDepth: 'scroll_depth',
   pageView: 'page_view',
 };
