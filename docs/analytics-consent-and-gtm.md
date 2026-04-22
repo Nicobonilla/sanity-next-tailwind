@@ -2,13 +2,17 @@
 
 ## Resumen
 
-La medicion de analytics quedo desacoplada de terceros como Iubenda.
+La medicion de analytics ya no depende de Iubenda y ahora tiene dos capas:
+
+- `GA4` se inicializa directamente desde la app cuando el usuario acepta analytics
+- `GTM` se sigue cargando despues del consentimiento, pero ya no es el unico camino para registrar eventos de negocio
 
 El sitio ahora:
 
-- no carga GTM hasta que exista consentimiento para analytics
+- no carga GTM ni GA4 hasta que exista consentimiento para analytics
 - persiste la decision del usuario en cookie y `localStorage`
 - permite reabrir preferencias desde el footer
+- bloquea en runtime scripts residuales de Iubenda inyectados por el contenedor GTM
 - expone dos paginas legales:
   - `/politica-de-privacidad`
   - `/politica-de-cookies`
@@ -104,15 +108,17 @@ Todos se envian con contexto base:
 
 ### 1. Tag base de GA4
 
-Crear un tag de configuracion GA4 con:
+Si mantienes GA4 cargado directamente desde la app, el tag base de GA4 en GTM no debe duplicar eventos. La recomendacion es:
 
 - Measurement ID: `G-EZE9DZN5J5`
-- Trigger: `Consent Initialization` o `Initialization` solo si analytics ya fue consentido por la capa del sitio
-- Si vas a usar el evento custom `page_view`, desactiva el envio automatico de pageviews en el tag base para evitar duplicados.
+- Trigger: solo si realmente usas GTM para otros tags o marketing
+- Si dejas este tag activo, desactiva el envio automatico de `page_view` para evitar duplicados.
 
 ### 2. Triggers por evento
 
-Crear un `Custom Event Trigger` por cada evento de negocio:
+Si el contenedor se usara para reenviar eventos al mismo stream GA4, crea un `Custom Event Trigger` por cada evento de negocio. Si no, es mejor quitar esos tags y dejar que la app mande los eventos directamente.
+
+Eventos disponibles:
 
 - `page_view`
 - `contact_drawer_open`
@@ -130,8 +136,11 @@ Crear un `Custom Event Trigger` por cada evento de negocio:
 
 ### 3. Tags GA4 Event
 
-Crear un tag GA4 Event por cada trigger anterior y mapear los parametros
-relevantes de `dataLayer`.
+Solo si decides mantener GTM como capa de reenvio:
+
+- crear un tag `GA4 Event` por cada trigger anterior
+- mapear parametros relevantes de `dataLayer`
+- evitar tags duplicados para el mismo evento que ya sale por `gtag`
 
 ### 4. Debug
 
@@ -145,3 +154,4 @@ Validar con:
 - no mezclar pageviews automaticos con el `page_view` custom sin revisar duplicados
 - no volver a agregar eventos ruidosos que no respondan preguntas de negocio
 - no activar GTM en produccion sin consentimiento
+- no volver a cargar Iubenda desde GTM; el runtime lo bloquea, pero el contenedor igual debe limpiarse
