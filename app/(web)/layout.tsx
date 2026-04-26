@@ -33,6 +33,16 @@ const isGtmEnabled =
   process.env.NEXT_PUBLIC_ENABLE_GTM === 'true' &&
   Boolean(process.env.NEXT_PUBLIC_GTM_ID);
 
+const gaMeasurementId =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.GA;
+
+const isGa4Enabled =
+  process.env.NODE_ENV === 'production' &&
+  process.env.NEXT_PUBLIC_ENABLE_GA4 !== 'false' &&
+  Boolean(gaMeasurementId);
+
+const isAnalyticsEnabled = isGtmEnabled || isGa4Enabled;
+
 const isSpeedInsightsEnabled =
   process.env.NODE_ENV === 'production' &&
   process.env.NEXT_PUBLIC_ENABLE_SPEED_INSIGHTS === 'true';
@@ -164,7 +174,7 @@ export default async function RootLayout({
     >
       <head />
       <body className="min-h-screen min-w-[320px] bg-[color:var(--color-bg)] text-[color:var(--color-text)]">
-        {isGtmEnabled ? (
+        {isAnalyticsEnabled ? (
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -196,12 +206,12 @@ export default async function RootLayout({
         <ErrorBoundary>
           <Providers
             initialAnalyticsConsent={initialAnalyticsConsent}
-            trackingEnabled={isGtmEnabled}
+            trackingEnabled={isAnalyticsEnabled}
             withDarkMode={false}
           >
             <AnalyticsManager
-              gaMeasurementId={process.env.GA}
-              gtmId={process.env.NEXT_PUBLIC_GTM_ID}
+              gaMeasurementId={isGa4Enabled ? gaMeasurementId : undefined}
+              gtmId={isGtmEnabled ? process.env.NEXT_PUBLIC_GTM_ID : undefined}
             />
             <Navbar
               pages={pages}

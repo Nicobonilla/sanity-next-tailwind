@@ -59,24 +59,34 @@ LEGACY_GA4_KEY_EVENTS = {'click', 'form_submit', 'page_view'}
 LEGACY_GA4_DIMENSIONS = {'button_id', 'component'}
 
 KEY_EVENTS = [
-  'lead_form_submit_success',
-  'booking_click',
+  'lead_form_submit',
   'whatsapp_click',
   'phone_click',
+  'email_click',
+  'download_checklist',
+  'view_thank_you',
 ]
 
 CUSTOM_DIMENSIONS = [
   'source',
   'field_name',
+  'page_type',
+  'content_type',
+  'city_intent',
   'practice_area',
   'service_slug',
   'service_title',
+  'article_slug',
+  'article_topic',
   'error_type',
+  'form_id',
+  'lead_type',
   'booking_mode',
+  'contact_method',
+  'cta_location',
   'platform',
   'area_slug',
   'area_title',
-  'article_slug',
   'link_text',
   'link_url',
   'scroll_depth',

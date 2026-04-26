@@ -3,7 +3,11 @@
 import Link from 'next/link';
 
 import Logo from '@/components/global/Logo';
-import { trackNavClick, trackPhoneClick } from '@/components/lib/GTMTrackers';
+import {
+  trackEmailClick,
+  trackNavClick,
+  trackPhoneClick,
+} from '@/components/lib/GTMTrackers';
 import { useAnalyticsConsent } from '@/context/AnalyticsConsentContext';
 import { SiteIdentity } from '@/lib/site-identity';
 import { GetPagesNavQueryResult } from '@/sanity.types';
@@ -89,6 +93,7 @@ export default function Simple({
               <a
                 className="block transition-colors duration-200 hover:text-[color:var(--color-bg)]"
                 href={siteIdentity.emailHref}
+                onClick={() => trackEmailClick('footer_email')}
               >
                 {siteIdentity.email}
               </a>

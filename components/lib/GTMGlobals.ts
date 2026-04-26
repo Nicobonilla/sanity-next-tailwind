@@ -4,7 +4,11 @@ import debounce from 'lodash.debounce';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { trackPageView, trackScrollDepth } from './GTMTrackers';
+import {
+  trackPageView,
+  trackScrollDepth,
+  trackServiceView,
+} from './GTMTrackers';
 
 export default function GTMGlobals() {
   const pathname = usePathname();
@@ -33,7 +37,7 @@ export default function GTMGlobals() {
         (scrollPosition / documentHeight) * 100
       );
 
-      [50, 80].forEach((threshold) => {
+      [50, 80, 90].forEach((threshold) => {
         if (
           scrollPercentage >= threshold &&
           !reachedDepths.current.has(threshold)
@@ -63,6 +67,7 @@ export default function GTMGlobals() {
     }
 
     trackPageView(pathname);
+    trackServiceView(pathname);
   }, [pathname]);
 
   return null;

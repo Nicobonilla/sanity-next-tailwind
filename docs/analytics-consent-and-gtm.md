@@ -1,5 +1,42 @@
 # Analytics, consentimiento y GTM
 
+## Actualizacion 2026-04-26
+
+La capa de medicion quedo alineada con el informe SEO/Semrush:
+
+- `GA4` puede funcionar directo aunque `GTM` este desactivado, siempre con consentimiento.
+- `GTM` sigue disponible para integraciones, pero ya no es obligatorio para emitir pageviews y eventos.
+- Cada evento incluye contexto SEO: `page_type`, `content_type`, `city_intent`, `practice_area`, `service_slug`, `article_slug` y `article_topic` cuando aplica.
+- Se agregaron eventos canonicos de funnel: `view_service`, `cta_click`, `form_start`, `lead_form_submit`, `email_click` y `scroll_90`.
+- Se mantienen eventos legacy como `lead_form_submit_success` y `booking_click` para no romper reportes existentes.
+
+Key events recomendados en GA4:
+
+- `lead_form_submit`
+- `whatsapp_click`
+- `phone_click`
+- `email_click`
+- `download_checklist`
+- `view_thank_you`
+
+Dimensiones personalizadas recomendadas:
+
+- `page_type`
+- `content_type`
+- `city_intent`
+- `practice_area`
+- `service_slug`
+- `service_title`
+- `article_slug`
+- `article_topic`
+- `form_id`
+- `lead_type`
+- `contact_method`
+- `cta_location`
+- `source`
+- `faq_question`
+- `scroll_depth`
+
 ## Resumen
 
 La implementación final quedó así:
@@ -20,18 +57,19 @@ Motivo:
 
 Para activar la medición:
 
+- `NEXT_PUBLIC_ENABLE_GA4=true`
+- `GA=G-EZE9DZN5J5` o `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-EZE9DZN5J5`
 - `NEXT_PUBLIC_ENABLE_GTM=true`
 - `NEXT_PUBLIC_GTM_ID=GTM-NJLP7HKQ`
-- `GA=G-EZE9DZN5J5`
 
-Si `NEXT_PUBLIC_ENABLE_GTM` es `false`, no se muestra banner ni se carga analytics.
+Si `NEXT_PUBLIC_ENABLE_GTM` es `false`, la medicion puede seguir activa por GA4 directo si existe measurement ID y `NEXT_PUBLIC_ENABLE_GA4` no es `false`.
 
 ## Qué se carga en producción
 
 Solo después del consentimiento:
 
-- `gtag.js` para `GA4`
-- `GTM-NJLP7HKQ`
+- `gtag.js` para `GA4` si `GA` o `NEXT_PUBLIC_GA_MEASUREMENT_ID` esta configurado y `NEXT_PUBLIC_ENABLE_GA4` no es `false`
+- `GTM-NJLP7HKQ` si `NEXT_PUBLIC_ENABLE_GTM=true`
 
 Además:
 
@@ -44,6 +82,10 @@ Además:
 Eventos de negocio enviados por la app:
 
 - `page_view`
+- `view_service`
+- `cta_click`
+- `form_start`
+- `lead_form_submit`
 - `contact_drawer_open`
 - `lead_form_start`
 - `lead_form_service_select`
@@ -51,18 +93,19 @@ Eventos de negocio enviados por la app:
 - `lead_form_submit_error`
 - `phone_click`
 - `whatsapp_click`
+- `email_click`
 - `booking_click`
 - `review_click`
 - `practice_area_click`
 - `article_click`
 - `nav_click`
 - `faq_expand`
+- `scroll_90`
 
 ## Señales que quedan solo en dataLayer
 
 Estas señales se conservan para observabilidad o futuras decisiones, pero hoy no son parte de la medición principal en GA4:
 
-- `scroll_depth`
 - `button_click`
 
 ## Contexto base por evento
@@ -72,6 +115,9 @@ Todos los eventos se envían con:
 - `page_path`
 - `page_location`
 - `page_title`
+- `page_type`
+- `content_type`
+- `city_intent`
 
 ## Parámetros útiles en GA4
 
@@ -159,20 +205,32 @@ Propiedad:
 
 Key events configurados:
 
+- `lead_form_submit`
 - `lead_form_submit_success`
 - `booking_click`
 - `whatsapp_click`
 - `phone_click`
+- `email_click`
+- `download_checklist`
+- `view_thank_you`
 
 Custom dimensions activas:
 
 - `source`
 - `field_name`
+- `page_type`
+- `content_type`
+- `city_intent`
 - `practice_area`
 - `service_slug`
 - `service_title`
+- `article_topic`
 - `error_type`
+- `form_id`
+- `lead_type`
 - `booking_mode`
+- `contact_method`
+- `cta_location`
 - `platform`
 - `area_slug`
 - `area_title`
@@ -212,7 +270,9 @@ Flujo mínimo:
 Eventos que deberías ver:
 
 - `page_view`
+- `cta_click`
 - `contact_drawer_open`
+- `form_start`
 - `lead_form_start`
 - `whatsapp_click`
 - `booking_click`

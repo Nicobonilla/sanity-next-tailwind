@@ -2,6 +2,7 @@
 
 import BookingButton from '@/components/content/BookingButton';
 import {
+  trackEmailClick,
   trackPhoneClick,
   trackWhatsappClick,
 } from '@/components/lib/GTMTrackers';
@@ -108,6 +109,7 @@ export default function FinalCTA({
                   <a
                     className="mt-2 block text-lg text-[color:var(--color-bg)]"
                     href={siteIdentity.emailHref}
+                    onClick={() => trackEmailClick('final_cta_contact_panel_email')}
                   >
                     {siteIdentity.email}
                   </a>
