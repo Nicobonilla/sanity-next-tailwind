@@ -56,16 +56,16 @@ export default function FAQSection({
           title={title}
         />
 
-        <div className="mt-10 grid gap-4">
+        <div className="mt-8 grid gap-3 sm:mt-10 sm:gap-4">
           {items.map((faq) => (
             <TrackedFaqDisclosure
               answer={faq.answer}
-              answerClassName="mt-4 max-w-4xl text-base leading-7 text-[color:var(--color-text-soft)]"
-              className="surface-card group p-6"
+              answerClassName="mt-3 max-w-4xl text-sm leading-6 text-[color:var(--color-text-soft)] sm:mt-4 sm:text-base sm:leading-7"
+              className="surface-card group p-5 sm:p-6"
               key={faq.question}
               question={faq.question}
               source="home_faq"
-              summaryClassName="cursor-pointer list-none pr-8 text-xl font-semibold text-[color:var(--color-primary)] marker:hidden"
+              summaryClassName="cursor-pointer list-none pr-10 text-lg font-semibold text-[color:var(--color-primary)] marker:hidden sm:pr-8 sm:text-xl"
             />
           ))}
         </div>

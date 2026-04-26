@@ -44,25 +44,29 @@ export default function HomeHero({
   secondaryLabel?: string;
 }) {
   return (
-    <section className="section-shell pt-32 lg:pt-40">
+    <section className="section-shell pt-24 sm:pt-28 lg:pt-40">
       <div className="site-container">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(420px,0.9fr)] lg:gap-16">
-          <div className="flex flex-col gap-8">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(420px,0.9fr)] lg:gap-16">
+          <div className="flex flex-col gap-6 sm:gap-8">
             <span className="eyebrow">{eyebrow}</span>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5 sm:gap-6">
               <h1 className="section-title text-balance">{title}</h1>
               <p className="section-copy max-w-2xl">{description}</p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <BookingButton
-                className="w-full sm:w-auto"
+                className="w-full justify-center sm:w-auto"
                 siteIdentity={siteIdentity}
                 source="home_hero"
               >
                 {primaryLabel}
               </BookingButton>
-              <Button asChild className="w-full sm:w-auto" variant="secondary">
+              <Button
+                asChild
+                className="w-full justify-center sm:w-auto"
+                variant="secondary"
+              >
                 <a
                   href={siteIdentity.whatsappHref}
                   onClick={() => trackWhatsappClick('home_hero_whatsapp')}
@@ -82,13 +86,13 @@ export default function HomeHero({
               </p>
             ) : null}
             <a
-              className="text-sm font-semibold text-[color:var(--color-primary)] underline-offset-4 transition-colors duration-200 hover:text-[color:var(--color-accent)] hover:underline"
+              className="inline-flex w-full items-center justify-center rounded-full border border-[color:rgba(31,39,51,0.12)] px-5 py-3 text-sm font-semibold text-[color:var(--color-primary)] transition-colors duration-200 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] sm:w-fit"
               href="#areas"
             >
               Ver areas de practica
             </a>
 
-            <div className="surface-card grid gap-4 p-6 sm:grid-cols-3">
+            <div className="surface-card grid gap-4 p-5 sm:grid-cols-3 sm:p-6">
               <div>
                 <p className="legal-kicker">{leaderLabel}</p>
                 <p className="mt-2 text-lg font-semibold text-[color:var(--color-text)]">
@@ -116,7 +120,7 @@ export default function HomeHero({
             <ul className="grid gap-3 text-sm text-[color:var(--color-text-soft)] md:grid-cols-3">
               {trustBullets.map((item) => (
                 <li
-                  className="flex items-start gap-3 rounded-md border border-[color:rgba(31,39,51,0.08)] bg-[color:rgba(255,255,255,0.55)] px-4 py-3"
+                  className="flex items-start gap-3 rounded-md border border-[color:rgba(31,39,51,0.08)] bg-[color:rgba(255,255,255,0.55)] px-3 py-3 sm:px-4"
                   key={item}
                 >
                   <span className="mt-2 size-2 rounded-full bg-[color:var(--color-accent)]" />
@@ -128,7 +132,7 @@ export default function HomeHero({
 
           <div className="relative">
             <div className="surface-card overflow-hidden">
-              <div className="relative aspect-[4/5] max-h-[92svh] min-h-[420px] sm:aspect-[5/4] md:aspect-[16/10] md:max-h-svh lg:aspect-[4/5] lg:max-h-none">
+              <div className="relative aspect-[5/6] min-h-[320px] max-h-[70svh] sm:aspect-[5/4] sm:min-h-[380px] sm:max-h-[78svh] md:aspect-[16/10] md:max-h-svh lg:aspect-[4/5] lg:min-h-[420px] lg:max-h-none">
                 <Image
                   alt="Reunion de asesoria legal del estudio"
                   className="object-cover"
@@ -138,9 +142,9 @@ export default function HomeHero({
                   src={heroImageUrl}
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(30,42,56,0.58),rgba(30,42,56,0.06))]" />
-                <div className="absolute inset-x-6 bottom-6 rounded-lg border border-white/20 bg-[rgba(255,255,255,0.88)] p-6 backdrop-blur-sm">
+                <div className="absolute inset-x-4 bottom-4 rounded-lg border border-white/20 bg-[rgba(255,255,255,0.88)] p-4 backdrop-blur-sm sm:inset-x-6 sm:bottom-6 sm:p-6">
                   <p className="legal-kicker">Confianza institucional</p>
-                  <p className="mt-3 text-2xl font-semibold text-[color:var(--color-primary)]">
+                  <p className="mt-3 text-xl font-semibold text-[color:var(--color-primary)] sm:text-2xl">
                     {panelTitle}
                   </p>
                 </div>

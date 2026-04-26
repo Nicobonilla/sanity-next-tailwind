@@ -44,7 +44,7 @@ export default function ReviewsProof({
     <section className={compact ? '' : 'section-tight'}>
       <div className={compact ? '' : 'site-container'}>
         {!compact ? (
-          <div className="mb-8 max-w-3xl space-y-3">
+          <div className="mb-6 max-w-3xl space-y-2 sm:mb-8 sm:space-y-3">
             <p className="eyebrow">{eyebrow}</p>
             <h2 className="section-subtitle">{title}</h2>
             <p className="section-copy text-base md:text-lg">
@@ -63,7 +63,7 @@ export default function ReviewsProof({
 
             return (
               <article
-                className="surface-card h-full p-6"
+                className="surface-card h-full p-5 sm:p-6"
                 key={`${profile.platform}-${profile.reviewUrl}`}
               >
                 <div className="space-y-3">
@@ -72,7 +72,7 @@ export default function ReviewsProof({
                   </p>
                   <div className="flex flex-wrap items-center gap-3 text-[color:var(--color-primary)]">
                     {rating ? (
-                      <p className="text-3xl font-semibold leading-none">
+                      <p className="text-2xl font-semibold leading-none sm:text-3xl">
                         {rating}
                       </p>
                     ) : null}
@@ -88,7 +88,7 @@ export default function ReviewsProof({
                     ) : null}
                   </div>
                   {profile.summary ? (
-                    <p className="text-base leading-7 text-[color:var(--color-text-soft)]">
+                    <p className="text-sm leading-6 text-[color:var(--color-text-soft)] sm:text-base sm:leading-7">
                       {profile.summary}
                     </p>
                   ) : null}

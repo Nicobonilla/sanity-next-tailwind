@@ -18,14 +18,18 @@ export default function SectionHeading({
   return (
     <div
       className={cn(
-        'flex flex-col gap-5',
+        'flex flex-col gap-4 sm:gap-5',
         align === 'center' && 'items-center text-center',
         className
       )}
     >
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
       <h2 className="section-subtitle text-balance">{title}</h2>
-      {description ? <div className="section-copy">{description}</div> : null}
+      {description ? (
+        <div className={cn('section-copy', align === 'center' && 'max-w-3xl')}>
+          {description}
+        </div>
+      ) : null}
     </div>
   );
 }

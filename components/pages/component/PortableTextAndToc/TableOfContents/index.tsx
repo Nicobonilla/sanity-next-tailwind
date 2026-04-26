@@ -37,7 +37,7 @@ export const TableOfContents = ({
     <nav
       ref={navRef}
       aria-label="Tabla de contenido"
-      className="sticky top-24 z-40 mb-5 w-full border-b-2 border-gray-200 bg-gray-100"
+      className="mb-5 w-full overflow-hidden rounded-2xl border border-[color:rgba(31,39,51,0.10)] bg-[color:rgba(255,255,255,0.92)] shadow-sm md:sticky md:top-24 md:z-40"
     >
       <TocHeader isExpanded={isExpanded} toggleExpanded={toggleExpanded} />
       <TocList

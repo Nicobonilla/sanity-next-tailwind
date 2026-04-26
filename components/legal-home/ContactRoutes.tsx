@@ -80,15 +80,18 @@ export default function ContactRoutes({
           title={title}
         />
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-3">
           {routes.map((route) => (
-            <article className="surface-card flex h-full flex-col p-7" key={route.title}>
-              <p className="legal-kicker">{route.title}</p>
-              <p className="mt-4 text-base leading-7 text-[color:var(--color-text-soft)]">
+            <article className="surface-card flex h-full flex-col p-5 sm:p-7" key={route.title}>
+              <p className="legal-kicker">Canal de contacto</p>
+              <h3 className="mt-3 text-2xl font-semibold text-[color:var(--color-primary)]">
+                {route.title}
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-[color:var(--color-text-soft)] sm:text-base sm:leading-7">
                 {route.description}
               </p>
 
-              <ul className="mt-6 flex flex-wrap gap-2">
+              <ul className="mt-5 flex flex-wrap gap-2">
                 {route.highlights.map((highlight) => (
                   <li
                     className="rounded-full border border-[color:rgba(31,39,51,0.12)] bg-[color:rgba(245,242,236,0.8)] px-3 py-2 text-sm text-[color:var(--color-text)]"
@@ -99,10 +102,10 @@ export default function ContactRoutes({
                 ))}
               </ul>
 
-              <div className="mt-8">
+              <div className="mt-6 sm:mt-8">
                 {route.type === 'drawer' ? (
                   <BookingButton
-                    className="w-full"
+                    className="w-full justify-center"
                     siteIdentity={siteIdentity}
                     source="home_contact_routes_drawer"
                   >
@@ -111,7 +114,7 @@ export default function ContactRoutes({
                 ) : null}
 
                 {route.type === 'whatsapp' ? (
-                  <Button asChild className="w-full" variant="secondary">
+                  <Button asChild className="w-full justify-center" variant="secondary">
                     <a
                       href={siteIdentity.whatsappHref}
                       onClick={() => trackWhatsappClick('home_contact_routes_whatsapp')}
@@ -124,7 +127,7 @@ export default function ContactRoutes({
                 ) : null}
 
                 {route.type === 'phone' ? (
-                  <Button asChild className="w-full" variant="secondary">
+                  <Button asChild className="w-full justify-center" variant="secondary">
                     <a
                       href={siteIdentity.phoneHref}
                       onClick={() => trackPhoneClick('home_contact_routes_phone')}

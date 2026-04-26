@@ -113,11 +113,11 @@ export default function PracticeAreas({
           title={title}
         />
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-3">
           {featuredAreas.map((area) => (
-            <article className="surface-card flex h-full flex-col p-7" key={area.slug}>
+            <article className="surface-card flex h-full flex-col p-5 sm:p-7" key={area.slug}>
               <p className="legal-kicker">Area de practica</p>
-              <h3 className="mt-3 text-3xl font-semibold text-[color:var(--color-primary)]">
+              <h3 className="mt-3 text-2xl font-semibold text-[color:var(--color-primary)] sm:text-3xl">
                 {area.title}
               </h3>
               <p className="mt-4 text-base leading-7 text-[color:var(--color-text-soft)]">
@@ -143,7 +143,7 @@ export default function PracticeAreas({
               </div>
 
               <Link
-                className="mt-8 inline-flex items-center gap-2 text-base font-semibold text-[color:var(--color-primary)] hover:text-[color:var(--color-accent)]"
+                className="mt-8 inline-flex w-full items-center justify-between gap-3 rounded-full border border-[color:rgba(31,39,51,0.12)] px-4 py-3 text-base font-semibold text-[color:var(--color-primary)] transition-colors duration-200 hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
                 href={area.slug ? `/area-de-practica/${area.slug}` : '#contacto'}
                 onClick={() =>
                   trackPracticeAreaClick(
