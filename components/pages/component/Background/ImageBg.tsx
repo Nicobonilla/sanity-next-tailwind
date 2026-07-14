@@ -17,10 +17,11 @@ export default function ImageBg({
       {imgBg && imgBgType === 'dynamic' && (
         <Image
           src={urlForImage(imgBg)?.url() || '/meeting.jpeg'}
-          alt="Hero image for the homepage"
+          alt=""
           className="inset-0 z-10 size-full object-cover object-center"
           quality={70}
           fill
+          sizes="100vw"
           priority={priority}
         />
       )}

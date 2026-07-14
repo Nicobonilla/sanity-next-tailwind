@@ -33,6 +33,10 @@ import background from './sanity/schemas/documents/background';
 import layer from './sanity/schemas/documents/layer';
 import colorItem from './sanity/schemas/documents/colorItem';
 import resourceItem from './sanity/schemas/documents/resourceItem';
+import seo from './sanity/schemas/objects/seo';
+
+const previewOrigin =
+  process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export default defineConfig({
   basePath: studioUrl,
@@ -57,6 +61,7 @@ export default defineConfig({
       service,
       unitBusiness,
       resourceItem,
+      seo,
     ],
   },
   plugins: [
@@ -80,7 +85,7 @@ export default defineConfig({
     presentationTool({
       resolve,
       previewUrl: {
-        origin: 'http://localhost:3000',
+        origin: previewOrigin,
         previewMode: {
           enable: '/api/draft',
           disable: '/api/disable',

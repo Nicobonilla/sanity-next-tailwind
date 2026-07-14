@@ -25,6 +25,7 @@ const background = /* groq */ ` // used as template for background component in 
 `;
 
 export const componentFields = /* groq */ ` // used as template for component in sanity
+  _key,
   isActive,
   typeComponent,
   "typeComponentValue": typeComponent->value,
@@ -42,12 +43,13 @@ export const componentFields = /* groq */ ` // used as template for component in
   PTextItem,
   resources,
   items[isActive == true]  | order(orderRank asc) {
+    _key,
     isActive,
     image,
     icon,
     svgIcon,
     svgIconList,
-    alt,
+    "alt": coalesce(image.alt, alt),
     content,
     ctaLinkItem,
   }

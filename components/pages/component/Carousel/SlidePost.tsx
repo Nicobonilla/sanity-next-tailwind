@@ -14,31 +14,27 @@ export default function SlidePost({
   post: GetPostListQueryResult[number];
 }) {
   const path = usePathname();
-  if (!post.components) return null;
-
-  const { imageBackground } =
-    post.components.find(
-      (component) => component.typeComponentValue === 'Heading'
-    ) || {};
   return (
     <div className="group relative h-fit w-full items-center overflow-hidden px-1">
       <Link
-        href={{ pathname: `/blog/${post.slug?.current}` }}
+        href={{ pathname: `/blog/${post.slug}` }}
         className="group"
         onClick={() =>
-          trackButtonClick(
-            post.slug?.current || '',
-            'CarouselPost' + '-' + path
-          )
+          trackButtonClick(post.slug || '', 'CarouselPost' + '-' + path)
         }
       >
         <article className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
           <div className="grid">
             <div className="relative h-48 overflow-hidden">
               <Image
-                src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
-                alt={post.title || ''}
+                src={urlForImage(post.coverImage)?.url() || '/meeting.jpeg'}
+                alt={
+                  (post.coverImage as { alt?: string } | null)?.alt ||
+                  post.title ||
+                  ''
+                }
                 fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 360px"
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
               />
             </div>

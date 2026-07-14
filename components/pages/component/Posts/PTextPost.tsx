@@ -56,9 +56,11 @@ export const PTextPost: PortableTextComponents = {
       return (
         <div className="relative my-5 max-h-[500px] min-h-[350px] w-full overflow-hidden">
           <Image
-            alt={value.alt || 'Descripción por defecto'}
+            alt={value.alt || ''}
             src={imageUrl.url()}
             fill
+            sizes="(max-width: 768px) 100vw, 75vw"
+            className="object-contain"
           />
         </div>
       );

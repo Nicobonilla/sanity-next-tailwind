@@ -9,15 +9,20 @@ import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { Metadata } from 'next';
 import { Service, WithContext } from 'schema-dts';
+import { buildDocumentMetadata, serializeJsonLd } from '@/sanity/lib/seo';
+import { notFound } from 'next/navigation';
 
 type PageData = {
   home: GetPageDetailQueryResult | null;
   posts: GetPostListQueryResult | null;
 };
 export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Sebastián Bonilla | Abogados',
-  };
+  const home = await getPageBySlugFetch('inicio');
+  return buildDocumentMetadata({
+    document: home,
+    path: '/',
+    fallbackImage: home?.components?.[0]?.imageBackground,
+  });
 }
 async function getData(slug: string) {
   try {
@@ -38,6 +43,7 @@ export type ModifiedComponent = ComponentWithBannerPosts & {
 
 export default async function Page() {
   const currentPage = await getData('inicio');
+  if (!currentPage?.home) notFound();
 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
@@ -66,9 +72,6 @@ export default async function Page() {
       priceCurrency: 'CLP',
     },
   };
-  if (!currentPage) {
-    return <div>Error al cargar la página.</div>;
-  }
   // Crear una copia de los componentes para evitar mutaciones directas
   const { home, posts }: PageData = currentPage;
 
@@ -91,7 +94,7 @@ export default async function Page() {
     <section>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       {componentsAndPosts && (
         <PageTemplate components={componentsAndPosts as ModifiedComponent} />

@@ -7,28 +7,32 @@ import {
   getServicesNavQuery,
 } from '../queries/service.query';
 import { sanityFetch } from '../fetch';
+import { cache } from 'react';
 
 /* SERVICES */
-export async function getServicesNavFetch(): Promise<GetServicesNavQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getServicesNavQuery;
+export const getServicesNavFetch = cache(
+  async function getServicesNavFetch(): Promise<GetServicesNavQueryResult | null> {
+    // Remove extra quotes if any
+    const query = getServicesNavQuery;
 
-  try {
-    const services = (await sanityFetch({
-      query,
-    })) as GetServicesNavQueryResult | null;
-    // Si service es null, retornamos null
-    if (!services || (Array.isArray(services) && services.length === 0)) {
-      return null; // Si no hay datos, retornamos null
+    try {
+      const services = (await sanityFetch({
+        query,
+        tag: 'services-nav',
+      })) as GetServicesNavQueryResult | null;
+      // Si service es null, retornamos null
+      if (!services || (Array.isArray(services) && services.length === 0)) {
+        return null; // Si no hay datos, retornamos null
+      }
+      return services;
+    } catch (error) {
+      console.error('Error fetching service by slug:', error);
+      throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
     }
-    return services;
-  } catch (error) {
-    console.error('Error fetching service by slug:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
-}
+);
 
-export async function getServiceBySlugFetch(
+export const getServiceBySlugFetch = cache(async function getServiceBySlugFetch(
   slug: string
 ): Promise<GetServiceDetailQueryResult | null> {
   // Remove extra quotes if any
@@ -39,6 +43,7 @@ export async function getServiceBySlugFetch(
     const service = (await sanityFetch({
       query,
       params,
+        tag: 'service-detail',
     })) as GetServiceDetailQueryResult | null;
 
     // Si service es null, retornamos null
@@ -51,4 +56,4 @@ export async function getServiceBySlugFetch(
     console.error('Error fetching service by slug:', error);
     throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
-}
+});

@@ -6,6 +6,8 @@ import PTItemBanner, {
   type PTItemtype,
 } from '@/components/pages/component/BannerWithItems/PTextItemBanner';
 import { IconsList } from '@/sanity.types';
+import Image from 'next/image';
+import { urlForImage } from '@/sanity/lib/utils';
 
 export default function ItemBanner1({
   item,
@@ -23,8 +25,8 @@ export default function ItemBanner1({
 
   const hasSvgIconList: IconsList = item.svgIconList;
   const hasSvgIcon: string = item.svgIcon;
-  const hasImage: boolean = item.image;
-  
+  const imageUrl = urlForImage(item.image)?.url();
+
   return (
     <div className="hover:border-1 mb-10 flex h-full flex-col items-start rounded-3xl border-gray-300 text-center hover:cursor-pointer hover:shadow-lg xs4:h-72 md:mb-0">
       {/* Contenedor de íconos o imágenes */}
@@ -61,21 +63,25 @@ export default function ItemBanner1({
         )}
 
         {/* Si no hay SVGs ni lista, mostramos una imagen por defecto */}
-        {!hasSvgIcon && !hasSvgIconList && (
-          <img
+        {!hasSvgIcon && !hasSvgIconList && !imageUrl && (
+          <Image
             src="/intranet.svg"
-            alt="Imagen de ejemplo"
+            alt=""
+            width={48}
+            height={48}
             className="h-auto w-full"
           />
         )}
 
         {/* Mostrar la imagen si está disponible */}
-        {hasImage && !hasSvgIconList && !hasSvgIcon && (
+        {imageUrl && !hasSvgIconList && !hasSvgIcon && (
           <div className="relative flex h-[100px] w-full max-w-[100px] justify-center text-white">
-            <img
-              src={'/intranet.svg'}
-              alt="Imagen del ítem"
-              className="h-full w-full rounded-lg object-cover"
+            <Image
+              src={imageUrl}
+              alt={item.alt || ''}
+              fill
+              sizes="100px"
+              className="rounded-lg object-cover"
             />
           </div>
         )}

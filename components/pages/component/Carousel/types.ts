@@ -12,7 +12,7 @@ export type ItemProps = {
 // Props para el carrusel principal
 export type CarouselProps = {
   data?: ComponentProps;
-  options: EmblaOptionsType;
+  options?: EmblaOptionsType;
   autoplayOptions?: {
     delay?: number;
     stopOnInteraction?: boolean;

@@ -13,15 +13,16 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        inter: ['var(--font-inter)', 'sans-serif'],
-        roboto: ['var(--font-roboto-flex)', 'sans-serif'],
-        robotoslab: ['var(--font-roboto-slab)', 'sans-serif'],
+        sans: ['var(--font-montserrat)', 'sans-serif'],
+        inter: ['var(--font-montserrat)', 'sans-serif'],
+        roboto: ['var(--font-montserrat)', 'sans-serif'],
+        robotoslab: ['var(--font-bitter)', 'serif'],
         robotomono: ['var(--font-roboto-mono)', 'sans-serif'],
-        crimson: ['var(--font-crimson-pro)', 'serif'],
+        crimson: ['var(--font-bitter)', 'serif'],
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
-        bitter: ['var(--font-bitter)', 'sans-serif'],
-        fira: ['var(--font-fira-sans)', 'sans-serif'],
+        monserrat: ['var(--font-montserrat)', 'sans-serif'],
+        bitter: ['var(--font-bitter)', 'serif'],
+        fira: ['var(--font-montserrat)', 'sans-serif'],
       },
       colors: {
         background: 'var(--background)',
@@ -33,7 +34,7 @@ const config: Config = {
         lavanda2: 'rgba(199, 180, 245, 1)',
         second: colors.red, //green-600
         verde: 'rgba(17, 122, 101, 1)',
-        dorado: 'rgba(212, 175, 55, 1)'
+        dorado: 'rgba(212, 175, 55, 1)',
       },
       lineHeight: {
         'extra-tight': '1px',

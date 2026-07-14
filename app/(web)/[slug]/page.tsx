@@ -1,10 +1,12 @@
 import PageTemplate from '@/components/pages/PageTemplate';
 import { ComponentsProps } from '@/components/types';
-import { GetPageDetailQueryResult, SettingsQueryResult } from '@/sanity.types';
-import { getSettingsFetch } from '@/sanity/lib/fetch';
+import { GetPageDetailQueryResult } from '@/sanity.types';
 import { getPageBySlugFetch } from '@/sanity/lib/fetchs/page.fetch';
 import type { Metadata } from 'next';
-import { Service, WithContext } from 'schema-dts';
+import { WebPage, WithContext } from 'schema-dts';
+import { buildDocumentMetadata, serializeJsonLd } from '@/sanity/lib/seo';
+import type { SeoDocument } from '@/sanity/lib/seo';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
   params,
@@ -12,16 +14,18 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const currentPage = await getData(params.slug);
-  return {
-    title: currentPage?.page?.title,
-  };
+  if (!currentPage) notFound();
+
+  return buildDocumentMetadata({
+    document: currentPage,
+    path: `/${params.slug}`,
+    fallbackImage: currentPage?.components?.[0]?.imageBackground,
+  });
 }
 
 async function getData(slug: string) {
   try {
-    const [page, settings]: [GetPageDetailQueryResult, SettingsQueryResult] =
-      await Promise.all([getPageBySlugFetch(slug), getSettingsFetch()]);
-    return { page, settings };
+    return (await getPageBySlugFetch(slug)) as GetPageDetailQueryResult;
   } catch (error) {
     console.error('Error fetching data:', error);
     return null;
@@ -30,48 +34,23 @@ async function getData(slug: string) {
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getData(params?.slug);
-  if (!data) {
-    return <div>Página no encontrada.</div>;
-  }
-  const { page } = data;
+  if (!data) notFound();
+  const page = data;
+  const seoPage = page as unknown as SeoDocument;
 
-  const jsonLd: WithContext<Service> = {
+  const jsonLd: WithContext<WebPage> = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
+    '@type': 'WebPage',
     name: page?.title || 'Abogados San Felipe',
-    description: 'Derecho Familiar e Inmobiliario',
-    serviceType: 'Asesoría Legal y Jurídica',
-    provider: {
-      '@type': 'Organization',
-      name: 'Abogados San Felipe - Sebastián Bonilla Marín',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'San Felipe',
-        addressRegion: 'Valparaíso',
-        postalCode: '2170000',
-        addressCountry: 'CL',
-      },
-      telephone: '+56 9 3359 6955',
-      email: 'contacto@abogadossanfelipe.cl',
-      url: 'https://www.abogadossanfelipe.cl',
-    },
-    areaServed: 'San Felipe, Chile',
-    offers: {
-      '@type': 'Offer',
-      price: 'Consultar',
-      priceCurrency: 'CLP',
-    },
+    description: seoPage.seo?.metaDescription || page?.resumen || undefined,
+    url: `https://www.abogadossanfelipe.cl/${params.slug}`,
   };
-
-  if (!page) {
-    return <div>Pagina no encontrado.</div>; // Manejo básico de errores
-  }
 
   return (
     <section>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       {page?.components ? (
         <PageTemplate components={page.components as ComponentsProps} />

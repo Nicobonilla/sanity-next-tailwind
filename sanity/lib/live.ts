@@ -1,21 +1,21 @@
 'use server';
 import { createClient, defineLive } from 'next-sanity';
 import { token } from './token';
+import { dataset, projectId, studioUrl } from './api';
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  useCdn: false,
+  projectId,
+  dataset,
+  useCdn: true,
   apiVersion: 'vX', // Target the experimental API version
-  stega: { studioUrl: '/studio' },
+  stega: { studioUrl },
 });
-
-if (!token) {
-  throw new Error('Missing SANITY_API_READ_TOKEN');
-}
 
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: token,
   browserToken: token,
+  fetchOptions: {
+    revalidate: 3600,
+  },
 });

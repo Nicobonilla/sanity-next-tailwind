@@ -45,7 +45,7 @@
     "embla-carousel-wheel-gestures": "^8.0.1",
     "framer-motion": "^12.4.0",
     "lucide-react": "^0.460.0",
-    "next": "^14.2.18",
+    "next": "14.2.35",
     "next-sanity": "^9.8.15",
     "postcss": "^8.4.49",
     "react": "^18.3.1",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "@sanity/pkg-utils": "^6.11.11",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.18",
+    "eslint-config-next": "14.2.35",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8"

@@ -48,6 +48,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'seo',
+      title: 'SEO y redes sociales',
+      type: 'seo',
+    }),
+    defineField({
       name: 'content',
       title: 'Detalles del servicio',
       type: 'array',
@@ -55,6 +60,23 @@ export default defineType({
         { type: 'block' },
         {
           type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Texto alternativo',
+              type: 'string',
+              validation: (rule) =>
+                rule.custom((alt, context) => {
+                  const parent = context.parent as
+                    | { asset?: { _ref?: string } }
+                    | undefined;
+                  return parent?.asset?._ref && !alt
+                    ? 'Agrega un texto alternativo para la imagen.'
+                    : true;
+                }),
+            }),
+          ],
         },
       ], // Para contenido enriquecido
     }),

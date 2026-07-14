@@ -1,83 +1,76 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { memo, useEffect, useMemo } from 'react';
-import { useLoadingContext } from '@/context/LoadingContext';
+import { ComponentType } from 'react';
 import getComponentSkeleton from '@/components/pages/skeletons/utils/getComponentSkeleton';
-import { Spinner } from '@/components/global/Spinner';
 import { ComponentProps, ComponentsProps } from '@/components/types';
 
-// Types
-interface LoadedComponent {
-  Component: React.ComponentType<{ data: ComponentProps }>;
-  data: ComponentProps;
+type PageBuilderComponent = ComponentType<{ data: ComponentProps }>;
+
+function loadComponent(
+  type: string,
+  loader: () => Promise<{ default: ComponentType<any> }>,
+  variant?: string
+) {
+  return dynamic(loader, {
+    loading: () => {
+      const Skeleton = getComponentSkeleton(type, variant);
+      return <Skeleton />;
+    },
+  });
 }
 
-// Functions
-const getDynamicComponent = (type: string, variant?: string) =>
-  dynamic<{ data: ComponentProps }>(
-    () =>
-      import(`@/components/pages/component/${type}`).catch(
-        () => import('@/components/pages/component/Default')
-      ),
-    {
-      ssr: false,
-      loading: () => {
-        const Skeleton = getComponentSkeleton(type, variant);
-        return <Skeleton />;
-      },
-    }
-  );
+const componentRegistry: Record<string, PageBuilderComponent> = {
+  Banner1: loadComponent('Banner1', () => import('./component/Banner1')),
+  Banner2: loadComponent('Banner2', () => import('./component/Banner2')),
+  Banner4Images: loadComponent(
+    'Banner4Images',
+    () => import('./component/Banner4Images')
+  ),
+  BannerList: loadComponent(
+    'BannerList',
+    () => import('./component/BannerList')
+  ),
+  BannerPosts: loadComponent(
+    'BannerPosts',
+    () => import('./component/BannerPosts')
+  ),
+  BannerServices: loadComponent(
+    'BannerServices',
+    () => import('./component/BannerServices')
+  ),
+  BannerWithItems: loadComponent(
+    'BannerWithItems',
+    () => import('./component/BannerWithItems')
+  ),
+  Carousel: loadComponent('Carousel', () => import('./component/Carousel')),
+  Heading: loadComponent('Heading', () => import('./component/Heading')),
+  HeroForm: loadComponent('HeroForm', () => import('./component/HeroForm')),
+  HeroImage: loadComponent('HeroImage', () => import('./component/HeroImage')),
+  HeroVideo: loadComponent('HeroVideo', () => import('./component/HeroVideo')),
+  HighLight: loadComponent('HighLight', () => import('./component/HighLight')),
+  Resources: loadComponent('Resources', () => import('./component/Resources')),
+};
 
-// Memoized Component
-const MemoizedComponent = memo(({ Component, data }: LoadedComponent) => (
-  <Component data={data} />
-));
-MemoizedComponent.displayName = 'MemoizedComponent';
+const DefaultComponent = dynamic<{ data: ComponentProps }>(
+  () => import('./component/Default')
+);
 
-// Main Component
+const getDynamicComponent = (type: string) =>
+  componentRegistry[type] || DefaultComponent;
+
 const PageTemplate = ({ components }: { components?: ComponentsProps }) => {
-  const { isLoading, setLoading, setComponents } = useLoadingContext();
-
-  // Effect to handle loading state and components
-  useEffect(() => {
-    if (components) {
-      setComponents(components);
-      setLoading(false);
-    }
-  }, [components, setComponents, setLoading]);
-
-  // Memoized loaded components
-  const loadedComponents = useMemo(
-    () =>
-      components?.map((component: ComponentProps) => ({
-        data: component,
-        Component: getDynamicComponent(
-          component.typeComponentValue,
-          component.variant
-        ),
-      })) || [],
-    [components]
-  );
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-
-  // Main render
   return (
     <div className="opacity-100 transition-opacity duration-300">
-      {loadedComponents.map((props: LoadedComponent, index: number) => (
-        <MemoizedComponent
-          key={`component-${index}-${props.data.typeComponentValue}`}
-          {...props}
-        />
-      ))}
+      {components?.map((data: ComponentProps, index: number) => {
+        const Component = getDynamicComponent(data.typeComponentValue);
+        const key =
+          '_key' in data && data._key
+            ? data._key
+            : `${data.typeComponentValue}-${index}`;
+
+        return <Component key={key} data={data} />;
+      })}
     </div>
   );
 };

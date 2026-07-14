@@ -31,14 +31,14 @@ const PT1: PortableTextComponents = {
 const PT2: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <div className="mb-2 font-bitter text-3xl font-medium text-black md:text-5xl lg:mb-6">
-        <span>{children}</span>
-      </div>
-    ),
-    h2: ({ children }) => (
-      <h1 className="pr-10 font-montserrat text-xl font-medium text-white drop-shadow-2xl md:w-full md:text-2xl lg:text-3xl">
+      <h1 className="mb-2 font-bitter text-3xl font-medium text-black md:text-5xl lg:mb-6">
         {children}
       </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="pr-10 font-montserrat text-xl font-medium text-white drop-shadow-2xl md:w-full md:text-2xl lg:text-3xl">
+        {children}
+      </h2>
     ),
   },
   marks: {

@@ -4,8 +4,13 @@ import { getPostBySlugFetch } from '@/sanity/lib/fetchs/post.fetch';
 import PageTemplate from '@/components/pages/PageTemplate';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { ComponentsProps } from '@/components/types';
-import { resolveOpenGraphImage } from '@/sanity/lib/utils';
-import { Service, WithContext } from 'schema-dts';
+import { BlogPosting, WithContext } from 'schema-dts';
+import {
+  buildDocumentMetadata,
+  serializeJsonLd,
+  type SeoDocument,
+} from '@/sanity/lib/seo';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
   params,
@@ -13,14 +18,14 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const post: GetPostDetailQueryResult = await getData(params.slug);
-  return {
-    title: post?.title,
-    openGraph: {
-      title: post?.title || '',
-      type: 'article',
-      images: resolveOpenGraphImage(post?.components?.[0]?.imageBackground),
-    },
-  };
+  if (!post) notFound();
+
+  return buildDocumentMetadata({
+    document: post,
+    path: `/blog/${params.slug}`,
+    fallbackImage: post?.coverImage || post?.components?.[0]?.imageBackground,
+    type: 'article',
+  });
 }
 
 async function getData(slug: string) {
@@ -37,36 +42,28 @@ async function getData(slug: string) {
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const post = await getData(params.slug);
-  if (!post) {
-    return <div>Servicio no encontrado.</div>;
-  }
+  if (!post) notFound();
+  const seoPost = post as unknown as SeoDocument & {
+    author?: { name?: string | null } | null;
+  };
 
-  const jsonLd: WithContext<Service> = {
+  const jsonLd: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
+    '@type': 'BlogPosting',
     name: post?.title || 'Abogados San Felipe',
-    description: post.resumen || 'Derecho Familiar e Inmobiliario',
-    serviceType: 'Asesoría Legal y Jurídica',
-    provider: {
+    headline: post?.title || undefined,
+    description: seoPost.seo?.metaDescription || post.resumen || undefined,
+    datePublished: post.date || undefined,
+    dateModified: post._updatedAt || post.date || undefined,
+    author: seoPost.author?.name
+      ? { '@type': 'Person', name: seoPost.author.name }
+      : undefined,
+    publisher: {
       '@type': 'Organization',
       name: 'Abogados San Felipe - Sebastián Bonilla Marín',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'San Felipe',
-        addressRegion: 'Valparaíso',
-        postalCode: '2170000',
-        addressCountry: 'CL',
-      },
-      telephone: '+56 9 3359 6955',
-      email: 'contacto@abogadossanfelipe.cl',
       url: 'https://www.abogadossanfelipe.cl',
     },
-    areaServed: 'San Felipe, Chile',
-    offers: {
-      '@type': 'Offer',
-      price: 'Consultar',
-      priceCurrency: 'CLP',
-    },
+    mainEntityOfPage: `https://www.abogadossanfelipe.cl/blog/${params.slug}`,
   };
   const breadcrumbsItems = [
     { label: 'Inicio', slug: 'home' },
@@ -77,7 +74,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <section>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       {post?.components && (
         <PageTemplate components={post.components as ComponentsProps} />

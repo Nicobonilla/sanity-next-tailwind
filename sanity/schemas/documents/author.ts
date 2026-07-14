@@ -1,32 +1,50 @@
-import { UserIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+import { UserIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: "author",
-  title: "Author",
+  name: 'author',
+  title: 'Author',
   icon: UserIcon,
-  type: "document",
+  type: 'document',
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
-      type: "string",
+      name: 'name',
+      title: 'Name',
+      type: 'string',
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "picture",
-      title: "Picture",
-      type: "image",
+      name: 'role',
+      title: 'Cargo o especialidad',
+      type: 'string',
+    }),
+    defineField({
+      name: 'credentials',
+      title: 'Credenciales',
+      description: 'Colegiatura, estudios o experiencia relevante.',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
+    defineField({
+      name: 'bio',
+      title: 'Biografía breve',
+      type: 'text',
+      rows: 4,
+    }),
+    defineField({
+      name: 'picture',
+      title: 'Picture',
+      type: 'image',
       fields: [
         {
-          name: "alt",
-          type: "string",
-          title: "Alternative text",
-          description: "Important for SEO and accessiblity.",
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for SEO and accessiblity.',
           validation: (rule) => {
             return rule.custom((alt, context) => {
               if ((context.document?.picture as any)?.asset?._ref && !alt) {
-                return "Required";
+                return 'Required';
               }
               return true;
             });
@@ -36,7 +54,7 @@ export default defineType({
       options: {
         hotspot: true,
         aiAssist: {
-          imageDescriptionField: "alt",
+          imageDescriptionField: 'alt',
         },
       },
       validation: (rule) => rule.required(),

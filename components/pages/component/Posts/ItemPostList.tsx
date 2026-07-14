@@ -12,24 +12,21 @@ export default function ItemPostList({
   post: GetPostListQueryResult[number];
   index: number;
 }) {
-  //console.log('post: ', post);
   const path = usePathname();
-  if (!post.components) return null;
-  console.log('path: ', path);
-  const { imageBackground } =
-    post.components.find(
-      (component) => component.typeComponentValue === 'Heading'
-    ) || {};
-  const isPriority = false; // Solo las primeras 5 imágenes son priority
+  const isPriority = index === 0;
   return (
-    <Link href={{ pathname: `/blog/${post.slug?.current}` }} className="group">
+    <Link href={{ pathname: `/blog/${post.slug}` }} className="group">
       <article className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-lg">
         <div className="grid gap-4 md:grid-cols-[300px_1fr]">
           <div className="h-48 overflow-hidden md:h-full">
             <div className="relative flex size-full">
               <Image
-                src={urlForImage(imageBackground)?.url() || '/meeting.jpeg'}
-                alt={post.title || ''}
+                src={urlForImage(post.coverImage)?.url() || '/meeting.jpeg'}
+                alt={
+                  (post.coverImage as { alt?: string } | null)?.alt ||
+                  post.title ||
+                  ''
+                }
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1028px) 50vw, 300px"
                 className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"

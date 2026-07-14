@@ -27,7 +27,7 @@ export default function Card({
       >
         <Image
           src={urlForImage(service.image)?.url() || '/meeting.jpeg'}
-          alt={'title'}
+          alt={service.alt || ''}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1023px) 50vw, 33.33vw"
           className="object-cover transition-transform duration-300 group-hover:scale-110"

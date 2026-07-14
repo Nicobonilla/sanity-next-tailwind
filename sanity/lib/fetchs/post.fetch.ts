@@ -9,47 +9,54 @@ import {
   getPostListQuery,
 } from '../queries/post.query';
 import { sanityFetch } from '../fetch';
+import { cache } from 'react';
 
-export async function getPostListFetch(): Promise<GetPostListQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getPostListQuery;
-  try {
-    const posts = (await sanityFetch({
-      query,
-    })) as GetPostListQueryResult | null;
+export const getPostListFetch = cache(
+  async function getPostListFetch(): Promise<GetPostListQueryResult | null> {
+    // Remove extra quotes if any
+    const query = getPostListQuery;
+    try {
+      const posts = (await sanityFetch({
+        query,
+        tag: 'posts-list',
+      })) as GetPostListQueryResult | null;
 
-    // Si service es null, retornamos null
-    if (!posts) return null;
-    return posts;
-  } catch (error) {
-    console.error('Error fetching list of posts:', error);
-    throw error;
+      // Si service es null, retornamos null
+      if (!posts) return null;
+      return posts;
+    } catch (error) {
+      console.error('Error fetching list of posts:', error);
+      throw error;
+    }
   }
-}
+);
 
-export async function getPostListByUnitBusinessFetch(
-  slug: string
-): Promise<GetPostListByUnitBusinessQueryResult | null> {
-  // Remove extra quotes if any
-  const sanitizedSlug = slug.replace(/"/g, '');
-  const query = getPostListByUnitBusinessQuery;
-  const params = { slug: sanitizedSlug };
-  try {
-    const posts = (await sanityFetch({
-      query,
-      params,
-    })) as GetPostListByUnitBusinessQueryResult | null;
+export const getPostListByUnitBusinessFetch = cache(
+  async function getPostListByUnitBusinessFetch(
+    slug: string
+  ): Promise<GetPostListByUnitBusinessQueryResult | null> {
+    // Remove extra quotes if any
+    const sanitizedSlug = slug.replace(/"/g, '');
+    const query = getPostListByUnitBusinessQuery;
+    const params = { slug: sanitizedSlug };
+    try {
+      const posts = (await sanityFetch({
+        query,
+        params,
+        tag: 'posts-unit',
+      })) as GetPostListByUnitBusinessQueryResult | null;
 
-    // Si service es null, retornamos null
-    if (!posts) return null;
-    return posts;
-  } catch (error) {
-    console.error('Error fetching post by slug:', error);
-    throw error;
+      // Si service es null, retornamos null
+      if (!posts) return null;
+      return posts;
+    } catch (error) {
+      console.error('Error fetching post by slug:', error);
+      throw error;
+    }
   }
-}
+);
 
-export async function getPostBySlugFetch({
+export const getPostBySlugFetch = cache(async function getPostBySlugFetch({
   slug,
 }: {
   slug: string;
@@ -63,6 +70,7 @@ export async function getPostBySlugFetch({
     const post = (await sanityFetch({
       query,
       params,
+        tag: 'post-detail',
     })) as GetPostDetailQueryResult | null;
 
     if (!post) return null;
@@ -71,4 +79,4 @@ export async function getPostBySlugFetch({
     console.error('Error fetching post by slug:', error);
     throw error;
   }
-}
+});

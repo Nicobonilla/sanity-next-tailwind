@@ -1,9 +1,10 @@
 import { defineQuery, groq } from 'next-sanity';
 import { componentFields } from './component.query';
+import { seoFields } from './seo.query';
 
 /* PAGES - NAVIGATION */
 export const getPagesNavQuery = defineQuery(groq`
-    *[_type == 'page' && isActive] | order(orderRank asc) {
+    *[_type == 'page' && isActive == true && defined(slug.current)] | order(orderRank asc) {
       "id": coalesce(_id, ""), 
       "name": coalesce(name, title),
       title,
@@ -23,11 +24,13 @@ const pageFields = /* groq */ `
     "slug": slug.current,
     isActive,
     title,
+    resumen,
     content,
-    components[isActive]  { ${componentFields} }
+    ${seoFields},
+    components[isActive == true] | order(orderRank asc) { ${componentFields} }
 `;
 
 export const getPageDetailQuery = defineQuery(groq`
-    *[_type == 'page' && slug.current == $slug][0] {
+    *[_type == 'page' && isActive == true && slug.current == $slug][0] {
     ${pageFields}
     }`);

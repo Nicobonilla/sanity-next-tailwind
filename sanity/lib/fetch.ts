@@ -1,7 +1,5 @@
 import { type ClientPerspective, type QueryParams } from 'next-sanity';
-import { draftMode } from 'next/headers';
-
-import { client } from '@/sanity/lib/client';
+import { cache } from 'react';
 import { sanityFetch as liveFetch } from '@/sanity/lib/live';
 
 import { SettingsQueryResult } from '@/sanity.types';
@@ -18,59 +16,41 @@ export async function sanityFetch<const QueryString extends string>({
   params = {},
   perspective,
   stega,
+  tag,
 }: {
   query: QueryString;
   params?: QueryParams;
-  perspective?: Omit<ClientPerspective, 'raw'>;
+  perspective?: Exclude<ClientPerspective, 'raw'>;
   stega?: boolean;
+  tag?: string;
 }) {
-  const { isEnabled } = await draftMode();
-
-  const actualPerspective =
-    perspective ?? (isEnabled ? 'previewDrafts' : 'published');
-
-  const actualStega =
-    stega ??
-    (actualPerspective === 'previewDrafts' ||
-      process.env.VERCEL_ENV === 'preview');
-
-  //console.log('Actual Stega (Visual Editing):', actualStega);
-  if (actualPerspective === 'previewDrafts') {
-    //console.log("Fetching in draft mode with perspective 'previewDrafts'");
-
-    // Reemplazamos client.fetch por liveFetch
-    const result = await liveFetch({
-      query,
-      params,
-      perspective: 'previewDrafts',
-    });
-
-    return result.data;
-  }
-
-  //console.log("Fetching in production mode with perspective 'published'");
-  return client.fetch(query, params, {
-    stega: actualStega,
-    perspective: 'published',
-    next: {
-      revalidate: 40000,
-    },
+  const result = await liveFetch({
+    query,
+    params,
+    perspective,
+    stega,
+    tag,
   });
+
+  return result.data;
 }
 
 /* SINGLETONS - SETTINGS */
-export async function getSettingsFetch(): Promise<SettingsQueryResult | null> {
-  const query = settingsQuery;
-  try {
-    const data = (await sanityFetch({
-      query,
-    })) as SettingsQueryResult | null;
-    if (!data || (Array.isArray(data) && data.length === 0)) {
-      return null; // Si no hay datos, retornamos null
+export const getSettingsFetch = cache(
+  async function getSettingsFetch(): Promise<SettingsQueryResult | null> {
+    const query = settingsQuery;
+    try {
+      const data = (await sanityFetch({
+        query,
+        tag: 'settings',
+      })) as SettingsQueryResult | null;
+      if (!data || (Array.isArray(data) && data.length === 0)) {
+        return null; // Si no hay datos, retornamos null
+      }
+      return data;
+    } catch (error) {
+      console.error('Error fetching banner:', error);
+      throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
     }
-    return data;
-  } catch (error) {
-    console.error('Error fetching banner:', error);
-    throw error; // Opcionalmente vuelve a lanzar o maneja el error de acuerdo a tu necesidad
   }
-}
+);

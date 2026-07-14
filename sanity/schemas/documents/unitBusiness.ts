@@ -14,6 +14,12 @@ export default defineType({
   fields: [
     orderRankField({ type: 'unitBusiness' }),
     defineField({
+      name: 'isActive',
+      title: 'Publicar en el sitio',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Título',
       type: 'string',
@@ -27,6 +33,7 @@ export default defineType({
         source: 'title',
         maxLength: 96,
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'icon',
@@ -60,6 +67,11 @@ export default defineType({
       title: 'Descripción',
       type: 'array',
       of: [{ type: 'block' }, { type: 'image' }],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO y redes sociales',
+      type: 'seo',
     }),
     defineField({
       name: 'services',

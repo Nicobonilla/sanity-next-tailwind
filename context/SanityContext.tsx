@@ -9,7 +9,6 @@ import {
 // Define the expected structure of the context data
 export type SanityContextType = {
   pages: GetPagesNavQueryResult;
-  componentsMap: Record<string, string | null>[];
   unitBusinessList: GetUnitBusinessListQueryResult;
   settings: SettingsQueryResult;
 };

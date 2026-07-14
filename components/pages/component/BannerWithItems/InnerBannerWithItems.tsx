@@ -50,7 +50,7 @@ export default function InnerBannerWithItems({
           imagePosition={data.imagePosition}
         />
         <ImageItem
-          src={urlForImage(data.image)?.url()}
+          src={urlForImage(data.image)?.url() || '/meeting.jpeg'}
           imagePosition={data.imagePosition}
         />
       </div>

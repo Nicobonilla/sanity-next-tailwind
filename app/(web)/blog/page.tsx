@@ -11,7 +11,8 @@ import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
 import { ComponentProps, ComponentsProps } from '@/components/types';
 import Resources from '@/components/pages/component/Resources';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { buildDocumentMetadata } from '@/sanity/lib/seo';
+import { notFound } from 'next/navigation';
 
 type PageData = {
   page: GetPageDetailQueryResult | null;
@@ -27,14 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
   const { page } = data;
-  return {
-    title: 'Información Sobre Procedimientos Legales',
-    openGraph: {
-      title: page?.title || '',
-      type: 'article',
-      images: resolveOpenGraphImage(page?.components?.[0]?.imageBackground),
-    },
-  };
+  return buildDocumentMetadata({
+    document: page,
+    path: '/blog',
+    fallbackImage: page?.components?.[0]?.imageBackground,
+  });
 }
 
 async function getDataPage() {
@@ -44,9 +42,9 @@ async function getDataPage() {
       GetPostListQueryResult | null,
       GetUnitBusinessListQueryResult | null,
     ] = await Promise.all([
-      await getPageBySlugFetch('blog'),
-      await getPostListFetch(),
-      await getUnitBusinessListFetch(),
+      getPageBySlugFetch('blog'),
+      getPostListFetch(),
+      getUnitBusinessListFetch(),
     ]);
     return { page, posts, unitBusiness };
   } catch (error) {
@@ -57,9 +55,7 @@ async function getDataPage() {
 
 export default async function Page() {
   const data = await getDataPage();
-  if (!data) {
-    return <div>Error fetching data</div>;
-  }
+  if (!data?.page) notFound();
   const { page, posts, unitBusiness }: PageData = data;
   //console.log('page blog', page);
   return (

@@ -63,7 +63,7 @@ export default function BannerServices({ data }: { data: ComponentProps }) {
         <div className="absolute inset-x-0 bottom-0 flex h-1/2 items-start">
           <div className="relative z-0 h-full w-full">
             <Image
-              src={urlForImage(data.imageBackground)?.url()}
+              src={urlForImage(data.imageBackground)?.url() || '/meeting.jpeg'}
               alt="vec1"
               fill
               className="object-cover"

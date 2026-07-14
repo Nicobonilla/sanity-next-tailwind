@@ -24,9 +24,9 @@ export const PTextBannerLight: PortableTextComponents = {
 export const PTextBannerDark: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h2 className="mb-4 font-robotoslab text-2xl font-light uppercase text-white drop-shadow-sm lg:text-3xl">
+      <h1 className="mb-4 font-robotoslab text-2xl font-light uppercase text-white drop-shadow-sm lg:text-3xl">
         {children}
-      </h2>
+      </h1>
     ),
     normal: ({ children }) => (
       <p className="mx-auto text-center text-base font-light text-white/90">

@@ -1,86 +1,65 @@
-import { getSettingsFetch } from '@/sanity/lib/fetch';
-import { getPostListFetch } from '@/sanity/lib/fetchs/post.fetch';
-import { getServicesNavFetch } from '@/sanity/lib/fetchs/service.fetch';
 import { MetadataRoute } from 'next';
-import { getUnitBusinessListFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import {
-  GetPostListQueryResult,
-  GetServicesNavQueryResult,
-  GetUnitBusinessListQueryResult,
-  SettingsQueryResult,
-} from '@/sanity.types';
+import { getSettingsFetch } from '@/sanity/lib/fetch';
+import { getSitemapFetch } from '@/sanity/lib/fetchs/sitemap.fetch';
+import { getSiteUrl } from '@/sanity/lib/seo';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [settings, services, posts, unitBusiness]: [
-    SettingsQueryResult | null,
-    GetServicesNavQueryResult | null,
-    GetPostListQueryResult | null,
-    GetUnitBusinessListQueryResult | null,
-  ] = await Promise.all([
+  const [settings, content] = await Promise.all([
     getSettingsFetch(),
-    getServicesNavFetch(),
-    getPostListFetch(),
-    getUnitBusinessListFetch(),
+    getSitemapFetch(),
   ]);
-  const baseUrl = `https://${
-    process.env.NODE_ENV === 'development'
-      ? 'localhost:3000'
-      : settings?.metaBaseWebsite
-  }`;
-  const servicesPages = services?.map((service) => ({
-    url: `${baseUrl}/services/${service.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+  const baseUrl = getSiteUrl(settings?.metaBaseWebsite);
+
+  const pages: MetadataRoute.Sitemap = (content.pages || []).map((page) => ({
+    url: page.isHome ? baseUrl : `${baseUrl}/${page.slug}`,
+    lastModified: page._updatedAt,
+    changeFrequency: page.isHome ? 'weekly' : 'monthly',
+    priority: page.isHome ? 1 : 0.8,
   }));
 
-  const postsPages = posts?.map((post) => ({
+  const posts: MetadataRoute.Sitemap = (content.posts || []).map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.5,
+    lastModified: post._updatedAt,
+    changeFrequency: 'monthly',
+    priority: 0.6,
   }));
 
-  const unitBusinessPages = unitBusiness?.map((unitBusiness) => ({
-    url: `${baseUrl}/area-de-practica/${unitBusiness.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }));
+  const services: MetadataRoute.Sitemap = (content.services || []).map(
+    (service) => ({
+      url: `${baseUrl}/services/${service.slug}`,
+      lastModified: service._updatedAt,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    })
+  );
 
-  return [
+  const unitBusiness: MetadataRoute.Sitemap = (content.unitBusiness || []).map(
+    (unit) => ({
+      url: `${baseUrl}/area-de-practica/${unit.slug}`,
+      lastModified: unit._updatedAt,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    })
+  );
+
+  const fallbackPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/nosotros`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.5,
+      priority: 0.7,
     },
-    {
-      url: `${baseUrl}/contacto`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    ...(servicesPages || []),
-    ...(postsPages || []),
-    ...(unitBusinessPages || []),
   ];
+
+  return Array.from(
+    new Map(
+      [...fallbackPages, ...pages, ...services, ...unitBusiness, ...posts].map(
+        (entry) => [entry.url, entry]
+      )
+    ).values()
+  );
 }

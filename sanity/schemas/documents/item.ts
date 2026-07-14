@@ -5,7 +5,7 @@ import {
   orderRankOrdering,
 } from '@sanity/orderable-document-list';
 
-export default  defineType({
+export default defineType({
   name: 'item',
   title: 'Item',
   type: 'document', // Tipo de documento
@@ -25,6 +25,13 @@ export default  defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texto alternativo',
+          type: 'string',
+        }),
+      ],
     }),
     defineField({
       name: 'alt',

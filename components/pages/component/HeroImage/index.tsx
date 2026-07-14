@@ -31,10 +31,11 @@ export default function HeroImage({ data }: { data: ComponentProps }) {
     <section className="relative h-[70vh] w-full">
       <Image
         src={urlForImage(image)?.url() || '/meeting.jpeg'}
-        alt="Hero image for the homepage"
+        alt={(image as { alt?: string } | undefined)?.alt || ''}
         className="object-cover object-top"
-        quality={100}
+        quality={80}
         fill
+        sizes="100vw"
         priority
       />
       <div className="absolute inset-0 bg-red-700/60" />

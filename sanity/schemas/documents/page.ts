@@ -53,6 +53,11 @@ const page = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'seo',
+      title: 'SEO y redes sociales',
+      type: 'seo',
+    }),
+    defineField({
       name: 'isHome',
       title: 'Página de inicio',
       type: 'boolean',

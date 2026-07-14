@@ -75,6 +75,13 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texto alternativo',
+          type: 'string',
+        }),
+      ],
       group: 'background',
     }),
     // GROUP VIDEO
@@ -124,6 +131,22 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texto alternativo',
+          type: 'string',
+          validation: (rule) =>
+            rule.custom((alt, context) => {
+              const parent = context.parent as
+                | { asset?: { _ref?: string } }
+                | undefined;
+              return parent?.asset?._ref && !alt
+                ? 'Agrega un texto alternativo para la imagen.'
+                : true;
+            }),
+        }),
+      ],
       group: 'content',
     }),
     defineField({

@@ -1,6 +1,7 @@
 import { defineQuery, groq } from 'next-sanity';
 import { unitBusiness } from './unitBusiness.query';
 import { componentFields } from './component.query';
+import { seoFields } from './seo.query';
 
 /* SERVICES - NAVIGATION */
 export const getServicesNavQuery = defineQuery(
@@ -13,10 +14,12 @@ export const getServicesNavQuery = defineQuery(
 );
 /* SERVICES - DETALLE */
 export const getServiceDetailQuery = defineQuery(
-  groq`*[_type == 'service' && slug.current == $slug][0] {
+  groq`*[_type == 'service' && isActive == true && slug.current == $slug][0] {
     title,  // Fetch the title of the service
+    "slug": slug.current,
     iconfyIcon,
     resumen,
+    ${seoFields},
     content,  // Fetch the content of the service
     "tableOfContents" : content[style in ['h2']] {
       _key,
@@ -24,6 +27,6 @@ export const getServiceDetailQuery = defineQuery(
       'text':children[0].text 
     },
     ${unitBusiness},
-    components[isActive] { ${componentFields} }
+    components[isActive == true] | order(orderRank asc) { ${componentFields} }
   }`
 );

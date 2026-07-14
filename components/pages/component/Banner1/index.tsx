@@ -56,7 +56,8 @@ export default function Banner1({ data }: { data: ComponentProps }) {
         <Image
           src={urlForImage(imageContent)?.url() || '/meeting.jpeg'}
           fill
-          alt="Banner Image"
+          alt={imageContent?.alt || ''}
+          sizes="(max-width: 1023px) 100vw, 33vw"
           className="absolute inset-0 object-cover"
         />
       </div>

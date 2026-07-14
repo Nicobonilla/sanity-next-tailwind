@@ -11,8 +11,9 @@ import {
 } from '@/sanity.types';
 import { getPostListByUnitBusinessFetch } from '@/sanity/lib/fetchs/post.fetch';
 import { getUnitBusinessBySlugFetch } from '@/sanity/lib/fetchs/unitBusiness.fetch';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { buildDocumentMetadata } from '@/sanity/lib/seo';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
   params,
@@ -20,18 +21,14 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const data = await getData(params.slug);
-  if (!data) return { title: 'Servicio no encontrado' };
+  if (!data?.unitBusiness) notFound();
+
   const { unitBusiness } = data;
-  return {
-    title: unitBusiness?.title,
-    openGraph: {
-      title: unitBusiness?.title || '',
-      type: 'article',
-      images: resolveOpenGraphImage(
-        unitBusiness?.components?.[0]?.imageBackground
-      ),
-    },
-  };
+  return buildDocumentMetadata({
+    document: unitBusiness,
+    path: `/area-de-practica/${params.slug}`,
+    fallbackImage: unitBusiness?.components?.[0]?.imageBackground,
+  });
 }
 
 async function getData(slug: string) {
@@ -54,6 +51,7 @@ async function getData(slug: string) {
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const unitBusinessPage = await getData(params.slug);
+  if (!unitBusinessPage?.unitBusiness) notFound();
   // add posts brief to Banner Posts
   unitBusinessPage?.unitBusiness?.components?.map((component) => {
     if (
@@ -68,9 +66,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
     }
   });
 
-  if (!unitBusinessPage) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
-  }
   return (
     <section>
       {unitBusinessPage?.unitBusiness?.components ? (

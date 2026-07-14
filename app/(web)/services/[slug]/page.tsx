@@ -5,8 +5,9 @@ import { getServiceBySlugFetch } from '@/sanity/lib/fetchs/service.fetch';
 import PortableTextAndToc from '@/components/pages/component/PortableTextAndToc';
 import { Metadata } from 'next';
 import { ComponentProps } from '@/components/types';
-import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { Service, WithContext } from 'schema-dts';
+import { buildDocumentMetadata, serializeJsonLd } from '@/sanity/lib/seo';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
   params,
@@ -14,13 +15,13 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const service: GetServiceDetailQueryResult = await getData(params.slug);
-  return {
-    title: service?.title,
-    description: service?.resumen,
-    openGraph: {
-      images: resolveOpenGraphImage(service?.components?.[0]?.imageBackground),
-    },
-  };
+  if (!service) notFound();
+
+  return buildDocumentMetadata({
+    document: service,
+    path: `/services/${params.slug}`,
+    fallbackImage: service?.components?.[0]?.imageBackground,
+  });
 }
 
 async function getData(slug: string): Promise<GetServiceDetailQueryResult> {
@@ -35,9 +36,7 @@ async function getData(slug: string): Promise<GetServiceDetailQueryResult> {
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const service = await getData(params?.slug);
-  if (!service) {
-    return <div>Servicio no encontrado.</div>; // Manejo básico de errores
-  }
+  if (!service) notFound();
 
   const jsonLd: WithContext<Service> = {
     '@context': 'https://schema.org',
@@ -78,7 +77,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <section>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <div className={'mx-auto'}>
         {service?.components && (

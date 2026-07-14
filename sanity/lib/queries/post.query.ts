@@ -1,37 +1,50 @@
 import { defineQuery, groq } from 'next-sanity';
 import { unitBusiness } from './unitBusiness.query';
 import { componentFields } from './component.query';
+import { seoFields } from './seo.query';
 
 /* BLOG - POST */
-export const post = /* groq */ `
+export const postListFields = /* groq */ `
+  _id,
   title,
-  slug,
+  "slug": slug.current,
   ${unitBusiness},
   orderRank,
-  components[isActive] | order(orderRank asc) { ${componentFields} },
+  "coverImage": coalesce(
+    coverImage,
+    components[isActive == true && typeComponent->value == "Heading"][0].imageBackground
+  ),
   "resumen": coalesce(
     resumen,
     array::join(content[_type == "block" && style == "normal"][0].children[].text, " ")
   ),
-  date
+  date,
+  _updatedAt
   `;
+
+export const postDetailFields = /* groq */ `
+  ${postListFields},
+  content,
+  ${seoFields},
+  "author": author->{name, role, credentials, bio, picture},
+  components[isActive == true] | order(orderRank asc) { ${componentFields} }
+`;
 
 /* BLOG - LISTA DE POSTS */
 export const getPostListQuery = defineQuery(groq`
-    *[_type == 'post'] | order(orderRank desc) {
-      ${post}
+    *[_type == 'post' && coalesce(isActive, true) == true && defined(slug.current)] | order(date desc, orderRank desc) {
+      ${postListFields}
       }`);
 
 export const getPostListByUnitBusinessQuery = defineQuery(groq`
-    *[_type == 'post' && unitBusiness->slug.current == $slug ] | order(orderRank desc){
-      ${post}
+    *[_type == 'post' && coalesce(isActive, true) == true && defined(slug.current) && unitBusiness->slug.current == $slug] | order(date desc, orderRank desc) {
+      ${postListFields}
       }`);
 
 /* BLOG - DETALLE DE POST */
 export const getPostDetailQuery = defineQuery(groq`
-  *[_type == 'post' && slug.current == $slug][0] {
-    ${post},
-    content,
+  *[_type == 'post' && coalesce(isActive, true) == true && slug.current == $slug][0] {
+    ${postDetailFields},
     "tableOfContents" : content[style in ['h2', 'h3']] {
       _key,
       style,

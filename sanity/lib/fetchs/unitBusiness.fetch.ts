@@ -7,41 +7,48 @@ import {
   getUnitBusinessListQuery,
 } from '../queries/unitBusiness.query';
 import { sanityFetch } from '../fetch';
+import { cache } from 'react';
 
-export async function getUnitBusinessListFetch(): Promise<GetUnitBusinessListQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getUnitBusinessListQuery;
-  try {
-    const unitsBusiness = (await sanityFetch({
-      query,
-    })) as GetUnitBusinessListQueryResult | null;
+export const getUnitBusinessListFetch = cache(
+  async function getUnitBusinessListFetch(): Promise<GetUnitBusinessListQueryResult | null> {
+    // Remove extra quotes if any
+    const query = getUnitBusinessListQuery;
+    try {
+      const unitsBusiness = (await sanityFetch({
+        query,
+        tag: 'unit-business-list',
+      })) as GetUnitBusinessListQueryResult | null;
 
-    // Si service es null, retornamos null
-    if (!unitsBusiness) return null;
-    return unitsBusiness;
-  } catch (error) {
-    console.error('Error fetching unitsBusiness:', error);
-    throw error;
+      // Si service es null, retornamos null
+      if (!unitsBusiness) return null;
+      return unitsBusiness;
+    } catch (error) {
+      console.error('Error fetching unitsBusiness:', error);
+      throw error;
+    }
   }
-}
+);
 
-export async function getUnitBusinessBySlugFetch(
-  slug: string
-): Promise<GetUnitBusinessDetailQueryResult | null> {
-  // Remove extra quotes if any
-  const query = getUnitBusinessDetailQuery;
-  const params = { slug: slug.replace(/"/g, '') }; // Pass the sanitized slug
-  try {
-    const unitsBusiness = (await sanityFetch({
-      query,
-      params,
-    })) as GetUnitBusinessDetailQueryResult | null;
+export const getUnitBusinessBySlugFetch = cache(
+  async function getUnitBusinessBySlugFetch(
+    slug: string
+  ): Promise<GetUnitBusinessDetailQueryResult | null> {
+    // Remove extra quotes if any
+    const query = getUnitBusinessDetailQuery;
+    const params = { slug: slug.replace(/"/g, '') }; // Pass the sanitized slug
+    try {
+      const unitsBusiness = (await sanityFetch({
+        query,
+        params,
+        tag: 'unit-business-detail',
+      })) as GetUnitBusinessDetailQueryResult | null;
 
-    // Si service es null, retornamos null
-    if (!unitsBusiness) return null;
-    return unitsBusiness;
-  } catch (error) {
-    console.error('Error fetching unitsBusiness:', error);
-    throw error;
+      // Si service es null, retornamos null
+      if (!unitsBusiness) return null;
+      return unitsBusiness;
+    } catch (error) {
+      console.error('Error fetching unitsBusiness:', error);
+      throw error;
+    }
   }
-}
+);

@@ -15,6 +15,12 @@ export default defineType({
   fields: [
     orderRankField({ type: 'post' }),
     defineField({
+      name: 'isActive',
+      title: 'Publicar en el sitio',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Título',
       type: 'string',
@@ -67,6 +73,23 @@ export default defineType({
         },
         {
           type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Texto alternativo',
+              type: 'string',
+              validation: (rule) =>
+                rule.custom((alt, context) => {
+                  const parent = context.parent as
+                    | { asset?: { _ref?: string } }
+                    | undefined;
+                  return parent?.asset?._ref && !alt
+                    ? 'Agrega un texto alternativo para la imagen.'
+                    : true;
+                }),
+            }),
+          ],
         },
       ],
     }),
@@ -77,11 +100,49 @@ export default defineType({
       to: [{ type: 'unitBusiness' }],
     }),
     defineField({
+      name: 'coverImage',
+      title: 'Imagen principal',
+      description:
+        'Se utiliza en listados, Open Graph y tarjetas del artículo.',
+      type: 'image',
+      options: {
+        hotspot: true,
+        aiAssist: { imageDescriptionField: 'alt' },
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Texto alternativo',
+          type: 'string',
+          validation: (rule) =>
+            rule.custom((alt, context) => {
+              const parent = context.parent as
+                | { asset?: { _ref?: string } }
+                | undefined;
+              return parent?.asset?._ref && !alt
+                ? 'Agrega un texto alternativo para la imagen.'
+                : true;
+            }),
+        }),
+      ],
+    }),
+    defineField({
+      name: 'author',
+      title: 'Autor',
+      type: 'reference',
+      to: [{ type: 'author' }],
+    }),
+    defineField({
       name: 'resumen',
       title: 'Resumen',
       description:
         'Texto para lista de Posts. (Si está vacio se mostrarán los 100 primeros caracteres del primer parrafo: estilo normal")',
       type: 'text',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO y redes sociales',
+      type: 'seo',
     }),
     defineField({
       name: 'components',

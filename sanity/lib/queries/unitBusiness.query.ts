@@ -1,5 +1,6 @@
 import { defineQuery, groq } from 'next-sanity';
 import { componentFields } from './component.query';
+import { seoFields } from './seo.query';
 
 export const unitBusiness = /* groq */ `
 "unitBusiness": {
@@ -11,7 +12,7 @@ export const unitBusiness = /* groq */ `
 `;
 
 export const getUnitBusinessListQuery = defineQuery(groq`
-    *[_type == 'unitBusiness'] |  order(orderRank asc) {
+    *[_type == 'unitBusiness' && coalesce(isActive, true) == true && defined(slug.current)] | order(orderRank asc) {
       title,
       "slug": slug.current,
       color,
@@ -29,16 +30,17 @@ const ubFields = /* groq */ `
   icon,
   color,
   description,
+  ${seoFields},
   "services" : services[] -> {
     title,
     "slug": slug.current,
     iconfyIcon,
     resumen,
     },
-  components[isActive] { ${componentFields} }
+  components[isActive == true] | order(orderRank asc) { ${componentFields} }
 `;
 
 export const getUnitBusinessDetailQuery = defineQuery(groq`
-    *[_type == 'unitBusiness' && slug.current == $slug][0] {
+    *[_type == 'unitBusiness' && coalesce(isActive, true) == true && slug.current == $slug][0] {
       ${ubFields}
     }`);

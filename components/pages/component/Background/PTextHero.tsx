@@ -4,51 +4,6 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { trackButtonClick } from '@/components/lib/GTMTrackers';
 
-// Define PT1 and PT2 components
-const PT1: PortableTextComponents = {
-  block: {
-    h1: ({ children }) => (
-      <h1
-        className={clsx(
-          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
-          'lg:text-3xl',
-          '2xl:text-3xl'
-        )}
-      >
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2
-        className={clsx(
-          'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
-          'lg:text-3xl',
-          '2xl:text-3xl'
-        )}
-      >
-        {children}
-      </h2>
-    ),
-    normal: ({ children }) => (
-      <span
-        className={clsx(
-          'mt-3 font-crimson text-lg font-thin leading-5 text-white',
-          'md:mt-5 lg:text-2xl'
-        )}
-      >
-        {children}
-      </span>
-    ),
-  },
-  marks: {
-    strong: ({ children }) => (
-      <span className="p3 drop-shadow-4xl font-extrabold text-red-700">
-        {children}
-      </span>
-    ),
-  },
-};
-
 export default function PTextHero({
   data,
   index,
@@ -56,6 +11,51 @@ export default function PTextHero({
   data: ComponentProps;
   index?: number;
 }) {
+  const PrimaryHeading = index === 0 ? 'h1' : 'h2';
+  const components: PortableTextComponents = {
+    block: {
+      h1: ({ children }) => (
+        <PrimaryHeading
+          className={clsx(
+            'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+            'lg:text-3xl',
+            '2xl:text-3xl'
+          )}
+        >
+          {children}
+        </PrimaryHeading>
+      ),
+      h2: ({ children }) => (
+        <h2
+          className={clsx(
+            'font-bitter text-2xl font-extralight uppercase text-white drop-shadow-2xl',
+            'lg:text-3xl',
+            '2xl:text-3xl'
+          )}
+        >
+          {children}
+        </h2>
+      ),
+      normal: ({ children }) => (
+        <span
+          className={clsx(
+            'mt-3 font-crimson text-lg font-thin leading-5 text-white',
+            'md:mt-5 lg:text-2xl'
+          )}
+        >
+          {children}
+        </span>
+      ),
+    },
+    marks: {
+      strong: ({ children }) => (
+        <span className="p3 drop-shadow-4xl font-extrabold text-red-700">
+          {children}
+        </span>
+      ),
+    },
+  };
+
   return (
     <div className="absolute inset-0 flex items-center justify-center text-center">
       <div
@@ -66,7 +66,7 @@ export default function PTextHero({
       >
         <PortableText
           value={data.content || []} // Renderiza el contenido si está disponible
-          components={PT1} // Usamos el componente adecuado, con valor por defecto
+          components={components} // Usamos el componente adecuado, con valor por defecto
         />
         <Link href={{ pathname: data.ctaLinkItem }} passHref>
           <button

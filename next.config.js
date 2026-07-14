@@ -1,3 +1,21 @@
+const remotePatterns = [
+  {
+    protocol: 'https',
+    hostname: 'cdn.sanity.io',
+    port: '',
+    pathname: '/**',
+  },
+];
+
+if (process.env.VIDEO_HERO_HOST) {
+  remotePatterns.push({
+    protocol: 'https',
+    hostname: process.env.VIDEO_HERO_HOST,
+    port: '',
+    pathname: '/**',
+  });
+}
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
@@ -9,22 +27,10 @@ module.exports = {
   logging: {
     fetches: { fullUrl: true },
   },
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: process.env.VIDEO_HERO_HOST,
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns,
   },
   transpilePackages: ['lucide-react'],
 };
